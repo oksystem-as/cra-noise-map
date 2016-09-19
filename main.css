@@ -1,0 +1,26 @@
+  #slider {
+    width: 80%;
+    margin-bottom: 24px;
+    margin-left: 150px;
+    margin-top: -42px;
+    
+  }
+
+   #rectangle {
+    background-color: white;
+    width: 86%;
+    height: 48px;
+    margin-bottom: 0px;
+    margin-left: 106px;
+    margin-top: -45px;
+    position: absolute;
+
+border-radius: 4px 4px 0px 0px;
+-moz-border-radius: 4px 4px 0px 0px;
+-webkit-border-radius: 4px 4px 0px 0px;
+border: 0px solid #000000;
+
+-webkit-box-shadow: 0px 0px 10px 4px rgba(0,0,0,0.19);
+-moz-box-shadow: 0px 0px 10px 4px rgba(0,0,0,0.19);
+box-shadow: 0px 0px 10px 4px rgba(0,0,0,0.19);
+  }

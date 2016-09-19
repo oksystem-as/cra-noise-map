@@ -1,0 +1,10 @@
+node_modules/
+typings/
+target/
+.settings/
+.classpath
+.project
+app/**/*.js
+app/**/*.map
+npm-debug*
+.vscode/

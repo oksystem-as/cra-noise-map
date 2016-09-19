@@ -1,0 +1,47 @@
+{
+  "name": "angular2-quickstart",
+  "version": "1.0.0",
+  "scripts": {
+    "start": "tsc && concurrently \"npm run tsc:w\" \"npm run lite\" ",
+    "lite": "lite-server -c bs-config.js",
+    "postinstall": "typings install",
+    "tsc": "tsc",
+    "tsc:w": "tsc -w",
+    "typings": "typings",
+    "lite-server-test": "lite-server --config=liteserver-test-config.json",
+    "test": "tsc && concurrently \"npm run tsc:w\" \"npm run lite-server-test\" "
+  },
+  "license": "ISC",
+  "dependencies": {
+    "@angular/common": "2.0.0-rc.5",
+    "@angular/compiler": "2.0.0-rc.5",
+    "@angular/core": "2.0.0-rc.5",
+    "@angular/forms": "0.3.0",
+    "@angular/http": "2.0.0-rc.5",
+    "@angular/platform-browser": "2.0.0-rc.5",
+    "@angular/platform-browser-dynamic": "2.0.0-rc.5",
+    "@angular/router": "3.0.0-rc.1",
+    "@angular/router-deprecated": "2.0.0-rc.2",
+    "@angular/upgrade": "2.0.0-rc.5",
+    "angular2-in-memory-web-api": "0.0.15",
+    "bootstrap": "^3.3.6",
+    "bootstrap-slider": "^9.2.0",
+    "core-js": "^2.4.0",
+    "ng2-bootstrap": "^1.1.2",
+    "primeng": "^1.0.0-beta.15",
+    "reflect-metadata": "^0.1.3",
+    "rxjs": "5.0.0-beta.6",
+    "skeleton-css": "^2.0.4",
+    "systemjs": "0.19.27",
+    "zone.js": "^0.6.12"
+  },
+  "devDependencies": {
+    "concurrently": "^2.0.0",
+    "http-proxy-middleware": "^0.17.1",
+    "jasmine-core": "2.4.1",
+    "lite-server": "^2.2.0",
+    "request": "^2.74.0",
+    "typescript": "^1.8.10",
+    "typings": "^1.0.4"
+  }
+}

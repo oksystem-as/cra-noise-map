@@ -1,0 +1,39 @@
+<html>
+  <head>
+    <base href="/">
+    <title>Demo app</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 1. Load libraries -->
+     <!-- Polyfill(s) for older browsers  -- async defer -->
+    <script src="node_modules/core-js/client/shim.min.js"></script>
+    <script src="node_modules/zone.js/dist/zone.js"></script>
+    <script src="node_modules/reflect-metadata/Reflect.js"></script>
+    <script src="node_modules/systemjs/dist/system.src.js"></script>
+  
+    <!-- 2. Configure boostrap
+    <script src="node_modules/ng2-bootstrap/bundles/ng2-bootstrap.min.js"></script> -->
+    <!--<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">-->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+
+    <!-- Slider -->
+    <script src="node_modules/bootstrap-slider/dist/bootstrap-slider.js"></script>
+    <link href="node_modules/bootstrap-slider/dist/css/bootstrap-slider.css" rel="stylesheet">
+    <link href="main.css" rel="stylesheet">
+
+    <!--<link href="node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">-->
+    <!--<link href="node_modules/skeleton-css/css/skeleton.css" rel="stylesheet">-->
+
+    <!-- 3. Configure SystemJS -->
+    <script src="systemjs.config.js"></script>
+    <script>
+      System.import('app').catch(function(err){ console.error(err); });
+    </script>
+
+  </head>
+  <!-- 4. Display the application -->
+  <body>
+    <app-root>Loading...</app-root>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=visualization"></script>
+  </body>
+</html>
