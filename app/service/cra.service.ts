@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Logger } from "angular2-logger/core"; 
 import { DeviceDetail } from '../entity/device/device-detail';
 import { Devices } from '../entity/device/devices';
 
@@ -62,11 +63,11 @@ export class CRaService {
   private token = "kBPIDfNdSfk8fkATerBa6ct6yshdPbOX";
   private GPSinCars = 'GPSinCars';
 
-  constructor(private http: Http) { }
+  constructor(private log: Logger, private http: Http) { }
 
 
   // getGPS(params: DeviceParams): Observable<Devices> {
-  //   console.log("PersonService.getGPS()");
+  //   this.log.debug("PersonService.getGPS()");
   //   return this.http.get(this.getDeviceUrl(params)).map(response => {
   //     console.debug("PersonService.getGPS() return ", response.json());
   //     return response.json()
@@ -74,21 +75,21 @@ export class CRaService {
   // }
 
   getDevices(params: DeviceParams): Observable<Devices> {
-    console.log("PersonService.getDevices()");
+    this.log.debug("PersonService.getDevices()");
     return this.http.get(this.getDeviceUrl(params)).
       map(response => {
-        console.debug("PersonService.getDevices() return ", response.json());
+         this.log.debug("PersonService.getDevices() return ", response.json());
         return response.json() as Devices
       })
       .catch(this.handleErrorObservable);
   }
 
   getDeviceDetail(params: DeviceDetailParams): Promise<DeviceDetail> {
-    console.log("PersonService.getDeviceDetail()");
+    this.log.debug("PersonService.getDeviceDetail()");
     return this.http.get(this.getDevicDetaileUrl(params))
       .toPromise()
       .then(response => {
-        console.debug("PersonService.getDeviceDetail() return ", response.json());
+         this.log.debug("PersonService.getDeviceDetail() return ", response.json());
         return response.json() as DeviceDetail
       })
       .catch(this.handleErrorPromise);
@@ -116,7 +117,7 @@ export class CRaService {
     if (params.stop) {
       url += '&limit=' + params.stop.toISOString();
     }
-    console.log("URL " + url )
+    this.log.debug("URL " + url )
     return url
   }
 

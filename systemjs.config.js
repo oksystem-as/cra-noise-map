@@ -8,15 +8,15 @@
     'app':                        'app', // 'dist',
     '@angular':                   'node_modules/@angular',
     'rxjs':                       'node_modules/rxjs',
-    'angular2-logger':            'node_modules/angular2-logger',
+    'angular2-logger':            'node_modules/angular2-logger', 
     'angular2-google-maps/core':  'node_modules/angular2-google-maps/core',
   };
   // packages tells the System loader how to load when no filename and/or no extension
   var packages = {
     'app':                        { main: 'main.js',  defaultExtension: 'js' },
     'rxjs':                       { defaultExtension: 'js' },
-    'angular2-logger':            { defaultExtension: 'js' },
-    'angular2-google-maps/core':  { main: 'index.js', defaultExtension: 'js' }
+     'angular2-logger':            { defaultExtension: 'js' }, 
+    'angular2-google-maps/core':  { main: 'index.js', defaultExtension: 'js' },
   };
   // Definice angluar packages - jen definice, pridani do packages bude nize
   var ngPackageNames = [

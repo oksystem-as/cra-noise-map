@@ -36,11 +36,11 @@ export class ARF8084BAPayloadResolver {
                 aRF8084BAPayload.longtitudeHemisphere = Hemisphere.W;
             }
 
-            aRF8084BAPayload.latitudeText = latDeg + "°" + latMin + "'" + latSec + "\"";
+            aRF8084BAPayload.latitudeText = latDeg + "°" + latMin + "'" + latSec + "''";
             let latitude = ((((latMin * 60)) + latSec) / 3600) + latDeg;
             aRF8084BAPayload.latitude = Math.round(latitude * 10000000) / 10000000;
 
-            aRF8084BAPayload.longtitudeText = longDeg + "°" + longMin + "'" + longSec + "\"";
+            aRF8084BAPayload.longtitudeText = longDeg + "°" + longMin + "'" + longSec + "''";
             let longtitude = ((((longMin * 60)) + longSec) / 3600) + longDeg;
             aRF8084BAPayload.longtitude = Math.round(longtitude * 10000000) / 10000000;
         }

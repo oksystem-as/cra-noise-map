@@ -7,7 +7,8 @@ import { MapComponent } from './components/map.component';
 import { MenuComponent } from './components/menu.component';
 import { TestComponent } from './components/test.component';
 import { SliderComponent } from './components/slider.component';
-import { HttpModule }     from '@angular/http';
+import { HttpModule }    from '@angular/http';
+import { Logger, Options, Level  } from "angular2-logger/core"; 
 
 import { CRaService } from './service/cra.service';
 
@@ -18,7 +19,7 @@ import { CRaService } from './service/cra.service';
     FormsModule,
     HttpModule
   ],
-  providers: [CRaService],
+  providers: [CRaService,{ provide: Options, useValue: { store: true, level: Level.ERROR } },  Logger],
   declarations: [
     AppComponent,
     MapComponent,

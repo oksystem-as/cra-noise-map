@@ -61,11 +61,11 @@ export class TestComponent {
           console.log(element)
         }, 2000 * i++);
       });
-
-      //   },
-      //   err => console.log(err),
-      //   () => console.log('done')
-      // );
+      
+        },
+        err => console.log(err),
+        () => console.log('done')
+      );
 
       //  setTimeout(function() {
       //         console.log(10)
