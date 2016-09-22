@@ -23,7 +23,7 @@ class Point {
   styleUrls: ['app/components/map.component.css'],
 })
 export class MapComponent implements AfterViewInit {
-
+  private mapId = "map"
   private map;
   private heatmap;
   private makers: google.maps.Marker[] = [];
@@ -35,7 +35,7 @@ export class MapComponent implements AfterViewInit {
     size: 20,
     strokeColor: '#393',
     fillColor: 'yellow',
-    fillOpacity: 0.0,
+    fillOpacity: 0.8,
     strokeWeight: 0
   };
 
@@ -57,7 +57,7 @@ export class MapComponent implements AfterViewInit {
   }
 
   private initMap() {
-    this.map = new google.maps.Map(document.getElementById('map'), {
+    this.map = new google.maps.Map(document.getElementById(this.mapId), {
       zoom: 8,
       center: { lat: 50.053942, lng: 14.437404 },
       mapTypeId: google.maps.MapTypeId.ROADMAP,
@@ -71,24 +71,24 @@ export class MapComponent implements AfterViewInit {
 
   private addNewDataListener() {
     this.sensorsSharedService.getGps().subscribe((payloads: ARF8084BAPayload[]) => {
-      // odstranim predchozi markery - nemusi byt zadouci
+      // odstranim predchozi markery
       this.removeMarkers();
       this.removeHeatMap();
-      var i = 1;
 
+      var i = 1;
       payloads.forEach(payload => {
 
         if (payload.longtitude != undefined && payload.latitude != undefined) {
           this.log.debug("kreslim ", payload.latitude, payload.longtitude);
 
-          var infowindow = this.createInfoWindow(payload.latitudeText + " " + payload.longtitudeText);
+          var infowindow = this.createInfoWindow(payload.latitudeText + " " + payload.longtitudeText + " hluk: " + payload.temp);
           this.createMarker(payload.latitude, payload.longtitude, infowindow);
           this.createHeatPoint(payload.latitude, payload.longtitude, payload.temp);
         }
       });
-      
+
       this.log.debug("pocet bodu " + this.points.length)
-      this.createHeatMap();
+      //this.createHeatMap();
     });
   }
 
@@ -137,7 +137,7 @@ export class MapComponent implements AfterViewInit {
       map: this.map,
       //animation: google.maps.Animation.DROP,
       icon: this.iconOff,
-      title: 'Hello World!',
+      title: latitude.toString(),
     });
 
     marker.addListener('click', () => {
@@ -147,6 +147,7 @@ export class MapComponent implements AfterViewInit {
     marker.addListener('mouseover', () => {
       // marker.setAnimation(google.maps.Animation.BOUNCE);
       marker.setIcon(this.iconOn)
+      this.log.debug(latitude, longtitude)
     });
 
     marker.addListener('mouseout', () => {

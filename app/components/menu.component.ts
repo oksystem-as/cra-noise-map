@@ -1,19 +1,25 @@
 import { Component, AfterViewInit } from '@angular/core';
-/// <reference path="../../typings/globals/googlemaps/google.maps.d.ts" />
-/// <reference path="../../typings/globals/markerclustererplus/markerclustererplus.d.ts" />
-//import '../../node_modules/google-maps/lib/Google.js';
-// import { CRaService } from '../service/cra.service';
-// import { RHF1S001Payload } from '../payloads/RHF1S001Payload';
-// import { RHF1S001PayloadResolver } from '../payloads/RHF1S001PayloadResolver';
-// import { DeviceDetail } from '../entity/device/detail/device-detail';
+import { Logger } from "angular2-logger/core";
 import { SensorsSharedService } from './sensors-shared.service';
- 
+
+import { ARF8084BAPayload } from '../payloads/ARF8084BAPayload';
+import { RHF1S001Payload } from '../payloads/RHF1S001Payload';
+import { DropdownModule } from "ng2-dropdown";
+
 @Component({
   selector: 'menu',
   templateUrl: 'app/components/menu.component.html',
   styleUrls: ['app/components/menu.component.css'],
+  // directives: [DROPDOWN_DIRECTIVES]
 })
 export class MenuComponent {
-  constructor(private sensorsSharedService: SensorsSharedService){
+  private title = "Noise Map";
+  private gps: ARF8084BAPayload[] = [];
+
+  constructor(private log: Logger, private sensorsSharedService: SensorsSharedService) {
+    sensorsSharedService.getGps().subscribe((gps: ARF8084BAPayload[]) => {
+      this.gps = gps;
+      log.debug("seznam: " + gps)
+    })
   }
 }

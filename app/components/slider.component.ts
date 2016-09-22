@@ -2,11 +2,6 @@ import { Component, AfterViewInit, ViewChild } from '@angular/core';
 import { Logger } from "angular2-logger/core";
 /// <reference path="../../typings/globals/googlemaps/google.maps.d.ts" />
 /// <reference path="../../typings/globals/markerclustererplus/markerclustererplus.d.ts" />
-//import '../../node_modules/google-maps/lib/Google.js';
-// import { CRaService } from '../service/cra.service';
-// import { RHF1S001Payload } from '../payloads/RHF1S001Payload';
-// import { RHF1S001PayloadResolver } from '../payloads/RHF1S001PayloadResolver';
-// import { DeviceDetail } from '../entity/device/detail/device-detail';
 import { SensorsSharedService } from './sensors-shared.service';
 
 import { ARF8084BAPayload } from '../payloads/ARF8084BAPayload';
@@ -23,12 +18,11 @@ import 'rxjs/Rx';
     styleUrls: ['app/components/slider.component.css'],
 })
 export class SliderComponent implements AfterViewInit {
+    private sliderId = "sliderInput"
     private slider: Slider;
     // private selectedDate: number;
 
-
     constructor(private log: Logger, private sensorsSharedService: SensorsSharedService) { }
-
 
     private removeSlider() {
         if (this.slider) {
@@ -70,7 +64,7 @@ export class SliderComponent implements AfterViewInit {
             this.log.debug(ticks);
             this.log.debug(ticks_labels);
 
-            this.slider = new Slider('#sliderInput', {
+            this.slider = new Slider('#' + this.sliderId, {
                 ticks: ticks,
                 ticks_labels: ticks_labels,
                 ticks_snap_bounds: diff / 24,
@@ -90,7 +84,7 @@ export class SliderComponent implements AfterViewInit {
                 if (newDate != undefined) {
                     let devicedetailParams = <DeviceDetailParams>{
                         start: new Date(parseInt(newDate.toString(), 10)),
-                        limit: 50,
+                        limit: 5,
                         order: Order.asc
                     }
                     this.sensorsSharedService.loadGps(devicedetailParams);

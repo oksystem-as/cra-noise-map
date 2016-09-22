@@ -1,10 +1,11 @@
 import { BitUtils } from '../utils/bit-utils'
+import { Payload } from './payload'
 
 export enum Hemisphere {
     N, S, E, W
 }
 
-export class ARF8084BAPayload {
+export class ARF8084BAPayload implements Payload {
     status: Status;
     temp: number;
     latitudeText: String;

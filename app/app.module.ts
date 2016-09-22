@@ -9,6 +9,7 @@ import { TestComponent } from './components/test.component';
 import { SliderComponent } from './components/slider.component';
 import { HttpModule }    from '@angular/http';
 import { Logger, Options, Level  } from "angular2-logger/core"; 
+import { DropdownModule } from "ng2-dropdown";
 
 import { CRaService } from './service/cra.service';
 
@@ -17,7 +18,8 @@ import { CRaService } from './service/cra.service';
     BrowserModule,
     CommonModule,
     FormsModule,
-    HttpModule
+    HttpModule,
+    DropdownModule
   ],
   providers: [CRaService,{ provide: Options, useValue: { store: true, level: Level.ERROR } },  Logger],
   declarations: [

@@ -1,4 +1,6 @@
-export class RHF1S001Payload {
+import { Payload } from './payload'
+
+export class RHF1S001Payload implements Payload {
 	status: Number;
 	teplota: Number;
 	vlhkost: Number;

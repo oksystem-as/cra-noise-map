@@ -13,11 +13,15 @@ import { RHF1S001PayloadResolver } from '../payloads/RHF1S001PayloadResolver';
 import { CRaService, DeviceDetailParams, DeviceParams, Order } from '../service/cra.service';
 import { DeviceDetail } from '../entity/device/device-detail';
 import { Devices } from '../entity/device/devices';
+import { Payload } from '../payloads/payload';
+import { Sensor } from '../entity/sensor';
 
 @Injectable()
 export class SensorsSharedService {
 
     private oldDate = new Date("2014-01-01");
+
+    private sensors: BehaviorSubject<Sensor[]> = new BehaviorSubject([]);
 
     private gps: BehaviorSubject<ARF8084BAPayload[]> = new BehaviorSubject([]);
     private temp: BehaviorSubject<RHF1S001Payload[]> = new BehaviorSubject([]);
@@ -96,8 +100,8 @@ export class SensorsSharedService {
         // e => this.log.debug('SensorsSharedService.onError: %s', e),
         // () => this.log.debug('SensorsSharedService.onCompleted'));
     }
-    
-    // vybere nejniysi datum, od ktereho prisel prvni respone - nutne je na zacatku 
+
+    // vybere nejnizsi datum, od ktereho prisel prvni respone - nutne je na zacatku 
     private setMinDate(response: Devices, devicedetailParams: DeviceDetailParams) {
         var promises = [];
         if (response && response.records && response.records instanceof Array) {
@@ -127,12 +131,14 @@ export class SensorsSharedService {
     }
 
     // nacte payloady zarizeni dle zadanych parametru - momentalne napsane primo na gps cidla
-    private setDeviceDetails(response: Devices, devicedetailParams: DeviceDetailParams) {
-        let aRF8084BAPayloadResolver = new ARF8084BAPayloadResolver();
+    private setDeviceDetails(responseDev: Devices, devicedetailParams: DeviceDetailParams) {
+        // let device  = new Devices(this.log);
+        // device.records = [];
+        // let aRF8084BAPayloadResolver = new ARF8084BAPayloadResolver();
         // this.log.debug("done3", gps);
         var promises = [];
-        if (response && response.records && response.records instanceof Array) {
-            response.records.forEach(device => {
+        if (responseDev && responseDev.records && responseDev.records instanceof Array) {
+            responseDev.records.forEach(device => {
                 devicedetailParams.devEUI = device.devEUI;
                 var promise = this.craService.getDeviceDetail(devicedetailParams);
                 promises.push(promise);
@@ -143,15 +149,40 @@ export class SensorsSharedService {
                 result.forEach(response => {
                     if (response && response.records && response.records instanceof Array) {
                         response.records.forEach(record => {
-                            let payload: ARF8084BAPayload = aRF8084BAPayloadResolver.resolve(record.payloadHex)
-                            payload.temp = Math.floor(Math.random() * 100) + 1  
+                            // let payload: ARF8084BAPayload = aRF8084BAPayloadResolver.resolve(record.payloadHex)
+                            let payload = this.reslovePayload(responseDev, record.devEUI, record.payloadHex);
                             list.push(payload);
                         })
                     }
                 })
                 this.log.debug("done2", list);
                 this.gps.next(list);
+                // this.sensors.next(list);
             })
         }
+    }
+
+    private reslovePayload(devices: Devices, devEUI: string, payload: string): Payload {
+        let aRF8084BAPayloadResolver = new ARF8084BAPayloadResolver();
+        let rHF1S001PayloadResolver = new RHF1S001PayloadResolver();
+
+        for (var index = 0; index < devices.records.length; index++) {
+            var device = devices.records[index];
+            if (device.devEUI === devEUI) {
+                if (device.model == "ARF8084BA") { 
+                    this.log.debug("je to ARF8084BA " + payload)
+                    let payloadint = aRF8084BAPayloadResolver.resolve(payload);
+                    // fake data 
+                    payloadint.temp = Math.floor(Math.random() * 100) + 1
+                    return payloadint;
+                }  
+                if (device.model == "RHF1S001") {
+                    this.log.debug("je to RHF1S001 " + payload)
+                    return rHF1S001PayloadResolver.resolve(payload);
+                }
+            }
+        }
+
+        return null;
     }
 }

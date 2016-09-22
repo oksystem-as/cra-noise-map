@@ -17,6 +17,10 @@ import 'rxjs/Rx';
   `,
 })
 export class TestComponent {
+  testObservable(){
+  }
+
+
   testARF8084BA(): void {
     let payloads = ["de1e500035500142782088400cf0",
       "df1850005270014278604eba0cf37104", "ae2d03010cec", "9e28501306200143477006020cea",
