@@ -1,37 +1,41 @@
+import { Payload, PayloadType } from '../../payloads/payload';
+
 export class DeviceDetail {
     meta: Meta;
     records:Record[];  
+    payloadType: PayloadType;
+    devEUI: string;
 }
 
 export class Lrrs {
-    LrrESP: String
-    LrrRSSI: String
-    LrrSNR: String
-    Lrrid: String
+    LrrESP: string
+    LrrRSSI: string
+    LrrSNR: string
+    Lrrid: string
 }
 
 export class Meta {
-    private status: String;
+    private status: string;
     private count: Number;
 }
 
 export class Record {
-    aDRbit: String
-    channel: String
-    createdAt: String
-    devEUI: String
-    devLrrCnt: String
-    fCntDn: String
-    fCntUp: String
-    fPort: String
-    lrrLAT: String
-    lrrLON: String
-    lrrRSSI: String
-    lrrSNR: String
-    lrrid: String
-    micHex: String
-    payloadHex: String
-    spFact: String
-    subBand: String
+    aDRbit: string
+    channel: string
+    createdAt: string
+    devEUI: string
+    devLrrCnt: string
+    fCntDn: string
+    fCntUp: string
+    fPort: string
+    lrrLAT: string
+    lrrLON: string
+    lrrRSSI: string
+    lrrSNR: string
+    lrrid: string
+    micHex: string
+    payloadHex: string
+    spFact: string
+    subBand: string
     lrrs:Lrrs[];
 }

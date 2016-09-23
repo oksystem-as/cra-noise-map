@@ -1,6 +1,6 @@
 import { Injectable, OnInit } from '@angular/core';
 import { Logger } from "angular2-logger/core";
-import { Subject }    from 'rxjs/Subject';
+import { Subject } from 'rxjs/Subject';
 import { BehaviorSubject } from "rxjs/Rx";
 import { Observable } from "rxjs/Observable";
 
@@ -11,9 +11,9 @@ import { RHF1S001Payload } from '../payloads/RHF1S001Payload';
 import { RHF1S001PayloadResolver } from '../payloads/RHF1S001PayloadResolver';
 
 import { CRaService, DeviceDetailParams, DeviceParams, Order } from '../service/cra.service';
-import { DeviceDetail } from '../entity/device/device-detail';
-import { Devices } from '../entity/device/devices';
-import { Payload } from '../payloads/payload';
+import { DeviceDetail, Record } from '../entity/device/device-detail';
+import { Devices, DeviceRecord } from '../entity/device/devices';
+import { Payload, PayloadType } from '../payloads/payload';
 import { Sensor } from '../entity/sensor';
 
 @Injectable()
@@ -22,11 +22,8 @@ export class SensorsSharedService {
     private oldDate = new Date("2014-01-01");
 
     private sensors: BehaviorSubject<Sensor[]> = new BehaviorSubject([]);
-
-    private gps: BehaviorSubject<ARF8084BAPayload[]> = new BehaviorSubject([]);
-    private temp: BehaviorSubject<RHF1S001Payload[]> = new BehaviorSubject([]);
+    private statisticsData: BehaviorSubject<Sensor> = new BehaviorSubject(null);
     private minDate: BehaviorSubject<Date> = new BehaviorSubject(this.oldDate);
-    // private selectedDate: BehaviorSubject<number> = new BehaviorSubject(null);
 
     private devicedetailParamsDefault = <DeviceDetailParams>{
         start: new Date("2016-09-15"),
@@ -39,49 +36,38 @@ export class SensorsSharedService {
     };
 
     constructor(private log: Logger, private craService: CRaService) {
-        this.loadInitialData(this.devicedetailParamsDefault, this.deviceGpsParams, true);
+        this.loadInitialData(this.devicedetailParamsDefault, this.deviceGpsParams, this.sensors, true);
     }
 
-    getGps(): Observable<ARF8084BAPayload[]> {
+    getStatisticsData(): Observable<Sensor> {
+        this.log.debug("SensorsSharedService.getStatisticsData()");
+        return this.statisticsData.asObservable();
+    }
+
+    loadStatisticsData(devicedetailParams: DeviceDetailParams) {
+        this.log.debug("SensorsSharedService.loadStatisticsData() ", devicedetailParams);
+        this.loadDeviceDetails(devicedetailParams, this.statisticsData);
+    }
+
+    getSensor(): Observable<Sensor[]> {
         this.log.debug("SensorsSharedService.getGps()");
-        return this.gps.asObservable();
+        return this.sensors.asObservable();
     }
 
-    getTemp(): Observable<RHF1S001Payload[]> {
-        this.log.debug("SensorsSharedService.getTemp()");
-        return this.temp.asObservable();
-    }
 
     getMinDate(): Observable<Date> {
         this.log.debug("SensorsSharedService.getMinDate()");
         return this.minDate.asObservable();
     }
 
-    // getSelectedDate(): Observable<number> {
-    //     this.log.debug("SensorsSharedService.getSelectedDate()");
-    //     return this.selectedDate.asObservable();
-    // }
 
-    // setSelectedDate(datenumber: number): void {
-    //     this.log.debug("SensorsSharedService.setSelectedDate() " + datenumber);
-    //     return this.selectedDate.next(datenumber);
-    // }
-
-    loadGps(params: DeviceDetailParams): void {
+    loadSensor(params: DeviceDetailParams): void {
         this.log.debug("SensorsSharedService.loadGps()");
-        this.loadInitialData(params, this.deviceGpsParams, false);
+        this.loadInitialData(params, this.deviceGpsParams, this.sensors, false);
     }
 
-    public loadInitialData(devicedetailParams: DeviceDetailParams, deviceParams: DeviceParams, resolveMinDate: boolean) {
+    public loadInitialData(devicedetailParams: DeviceDetailParams, deviceParams: DeviceParams, behaviorSubject: BehaviorSubject<any>, resolveMinDate: boolean) {
         this.log.debug("SensorsSharedService.loadInitialData(). Params: " + devicedetailParams);
-
-        // Rx.Observable.merge(
-        //       myService.upload('upload1'),
-        //       myService.upload('upload2').subscribe({complete: () => { ... });
-        //    Observable.merge(
-        //   myService.upload('upload2').subscribe({complete: () => { ... });
-        //Promise.all()
-
 
         let devicedetailParamsMinDate = <DeviceDetailParams>{
             start: this.oldDate,
@@ -94,7 +80,7 @@ export class SensorsSharedService {
                 if (resolveMinDate) {
                     this.setMinDate(response, devicedetailParamsMinDate);
                 }
-                this.setDeviceDetails(response, devicedetailParams);
+                this.setDeviceDetails(response, devicedetailParams, behaviorSubject);
             });
         // ,
         // e => this.log.debug('SensorsSharedService.onError: %s', e),
@@ -110,13 +96,13 @@ export class SensorsSharedService {
                 var promise = this.craService.getDeviceDetail(devicedetailParams);
                 promises.push(promise);
             })
-            Promise.all(promises).then(result => {
+            Observable.forkJoin(promises).subscribe(result => {
                 var minDate = new Date();
 
-                result.forEach(response => {
+                result.forEach((response: DeviceDetail) => {
                     if (response && response.records && response.records instanceof Array) {
                         response.records.forEach(record => {
-                            // this.log.debug(record.createdAt + " " + record.devEUI )
+                            this.log.debug(record.createdAt + " " + record.devEUI)
                             let dateInt = new Date(record.createdAt);
                             if (minDate.getTime() > dateInt.getTime()) {
                                 minDate = dateInt;
@@ -131,7 +117,25 @@ export class SensorsSharedService {
     }
 
     // nacte payloady zarizeni dle zadanych parametru - momentalne napsane primo na gps cidla
-    private setDeviceDetails(responseDev: Devices, devicedetailParams: DeviceDetailParams) {
+    private loadDeviceDetails(devicedetailParams: DeviceDetailParams, behaviorSubject: BehaviorSubject<any>) {
+        this.craService.getDeviceDetail(devicedetailParams).subscribe(response => {
+            if (response && response.records && response.records instanceof Array) {
+                var sensor = new Sensor();
+                sensor.devEUI = response.devEUI;
+                sensor.payloadType = response.payloadType;
+                response.records.forEach(record => {
+                    // let payload: ARF8084BAPayload = aRF8084BAPayloadResolver.resolve(record.payloadHex)
+                    sensor.payloads.push(this.reslovePayload(devicedetailParams.payloadType, record.payloadHex));
+                })
+                this.log.debug("behaviorSubject ", sensor)
+                behaviorSubject.next(sensor);
+            }
+        })
+
+    }
+
+    // nacte payloady zarizeni dle zadanych parametru - momentalne napsane primo na gps cidla
+    private setDeviceDetails(responseDev: Devices, devicedetailParams: DeviceDetailParams, behaviorSubject: BehaviorSubject<any>) {
         // let device  = new Devices(this.log);
         // device.records = [];
         // let aRF8084BAPayloadResolver = new ARF8084BAPayloadResolver();
@@ -140,45 +144,70 @@ export class SensorsSharedService {
         if (responseDev && responseDev.records && responseDev.records instanceof Array) {
             responseDev.records.forEach(device => {
                 devicedetailParams.devEUI = device.devEUI;
+                devicedetailParams.payloadType = this.getPayloadType(device)
                 var promise = this.craService.getDeviceDetail(devicedetailParams);
                 promises.push(promise);
             })
-            Promise.all(promises).then(result => {
+            Observable.forkJoin(promises).subscribe(result => {
                 var list = [];
 
-                result.forEach(response => {
+                result.forEach((response: DeviceDetail) => {
                     if (response && response.records && response.records instanceof Array) {
-                        response.records.forEach(record => {
+                        let sensor = new Sensor();
+                        sensor.devEUI = response.devEUI;
+                        sensor.payloadType = response.payloadType;
+                        response.records.forEach((record: Record) => {
                             // let payload: ARF8084BAPayload = aRF8084BAPayloadResolver.resolve(record.payloadHex)
-                            let payload = this.reslovePayload(responseDev, record.devEUI, record.payloadHex);
-                            list.push(payload);
+                           sensor.payloads.push(this.findAndReslovePayload(responseDev, record.devEUI, record.payloadHex));
                         })
+                        list.push(sensor);
                     }
                 })
                 this.log.debug("done2", list);
-                this.gps.next(list);
-                // this.sensors.next(list);
+                // this.gps.next(list);
+                behaviorSubject.next(list);
             })
         }
     }
 
-    private reslovePayload(devices: Devices, devEUI: string, payload: string): Payload {
+    private getPayloadType(deviceRecord: DeviceRecord) {
+        if (deviceRecord.model == "ARF8084BA") {
+            return PayloadType.ARF8084BA;
+        }
+        if (deviceRecord.model == "RHF1S001") {
+            return PayloadType.RHF1S001;
+        }
+    }
+
+    private reslovePayload(payloadType: PayloadType, payload: String): Payload {
         let aRF8084BAPayloadResolver = new ARF8084BAPayloadResolver();
         let rHF1S001PayloadResolver = new RHF1S001PayloadResolver();
 
+        if (payloadType == PayloadType.ARF8084BA) {
+            this.log.debug("je to ARF8084BA " + payload)
+            let payloadint = aRF8084BAPayloadResolver.resolve(payload);
+            // fake data 
+            payloadint.temp = Math.floor(Math.random() * 100) + 1
+            return payloadint;
+        }
+
+        if (payloadType == PayloadType.RHF1S001) {
+            this.log.debug("je to RHF1S001 " + payload)
+            let payloadint = rHF1S001PayloadResolver.resolve(payload);
+            return payloadint
+        }
+        return null;
+    }
+
+    private findAndReslovePayload(devices: Devices, devEUI: string, payload: string): Payload {
         for (var index = 0; index < devices.records.length; index++) {
             var device = devices.records[index];
             if (device.devEUI === devEUI) {
-                if (device.model == "ARF8084BA") { 
-                    this.log.debug("je to ARF8084BA " + payload)
-                    let payloadint = aRF8084BAPayloadResolver.resolve(payload);
-                    // fake data 
-                    payloadint.temp = Math.floor(Math.random() * 100) + 1
-                    return payloadint;
-                }  
+                if (device.model == "ARF8084BA") {
+                    return this.reslovePayload(PayloadType.ARF8084BA, payload);
+                }
                 if (device.model == "RHF1S001") {
-                    this.log.debug("je to RHF1S001 " + payload)
-                    return rHF1S001PayloadResolver.resolve(payload);
+                    return this.reslovePayload(PayloadType.RHF1S001, payload);
                 }
             }
         }

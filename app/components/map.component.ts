@@ -6,7 +6,9 @@ import { Logger } from "angular2-logger/core";
 // import { CRaService } from '../service/cra.service';
 // import { RHF1S001Payload } from '../payloads/RHF1S001Payload';
 // import { RHF1S001PayloadResolver } from '../payloads/RHF1S001PayloadResolver';
-// import { DeviceDetail } from '../entity/device/detail/device-detail';
+// import { DeviceDetail } from '../entity/device/detail/device-detail';.
+import { Sensor } from '../entity/sensor';
+import { Payload, PayloadType } from '../payloads/payload';
 import { SensorsSharedService } from './sensors-shared.service';
 
 import { ARF8084BAPayload } from '../payloads/ARF8084BAPayload';
@@ -67,28 +69,32 @@ export class MapComponent implements AfterViewInit {
         position: google.maps.ControlPosition.LEFT_BOTTOM
       },
     });
+    this.map.controls[google.maps.ControlPosition.RIGHT_CENTER].push(document.getElementById('statistics'));
   }
 
   private addNewDataListener() {
-    this.sensorsSharedService.getGps().subscribe((payloads: ARF8084BAPayload[]) => {
+    this.sensorsSharedService.getSensor().subscribe((sensors: Sensor[]) => {
       // odstranim predchozi markery
       this.removeMarkers();
       this.removeHeatMap();
 
       var i = 1;
-      payloads.forEach(payload => {
+      sensors.forEach(sensor => {
+        if (sensor.payloadType == PayloadType.ARF8084BA) {
+          sensor.payloads.forEach((payload: ARF8084BAPayload) => {
+            if (payload.longtitude != undefined && payload.latitude != undefined) {
+              this.log.debug("kreslim ", payload.latitude, payload.longtitude);
 
-        if (payload.longtitude != undefined && payload.latitude != undefined) {
-          this.log.debug("kreslim ", payload.latitude, payload.longtitude);
-
-          var infowindow = this.createInfoWindow(payload.latitudeText + " " + payload.longtitudeText + " hluk: " + payload.temp);
-          this.createMarker(payload.latitude, payload.longtitude, infowindow);
-          this.createHeatPoint(payload.latitude, payload.longtitude, payload.temp);
+              var infowindow = this.createInfoWindow(payload.latitudeText + " " + payload.longtitudeText + " hluk: " + payload.temp);
+              this.createMarker(payload.latitude, payload.longtitude, infowindow);
+              this.createHeatPoint(payload.latitude, payload.longtitude, payload.temp);
+            }
+          });
         }
       });
 
       this.log.debug("pocet bodu " + this.points.length)
-      //this.createHeatMap();
+      this.createHeatMap();
     });
   }
 

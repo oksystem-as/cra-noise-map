@@ -87,7 +87,7 @@ export class SliderComponent implements AfterViewInit {
                         limit: 5,
                         order: Order.asc
                     }
-                    this.sensorsSharedService.loadGps(devicedetailParams);
+                    this.sensorsSharedService.loadSensor(devicedetailParams);
                 }
             });
             

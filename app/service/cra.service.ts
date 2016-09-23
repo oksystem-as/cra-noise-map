@@ -8,6 +8,7 @@ import 'rxjs/add/operator/toPromise';
 
 import { BehaviorSubject } from "rxjs/Rx";
 import { Observable } from "rxjs/Observable";
+import { Payload, PayloadType } from '../payloads/payload';
 
 @Injectable()
 export class CRaService {
@@ -31,15 +32,19 @@ export class CRaService {
       .catch(this.handleErrorObservable);
   }
 
-  getDeviceDetail(params: DeviceDetailParams): Promise<DeviceDetail> {
-    this.log.debug("PersonService.getDeviceDetail()");
-    return this.http.get(this.getDevicDetailUrl(params))
-      .toPromise()
-      .then(response => {
+  getDeviceDetail(params: DeviceDetailParams): Observable<DeviceDetail> {
+    var devEUI = params.devEUI;
+    var payloadType =  params.payloadType;
+    this.log.debug("PersonService.getDeviceDetail()", params);
+    return this.http.get(this.getDevicDetailUrl(params)).
+       map(response => {
         this.log.debug("PersonService.getDeviceDetail() return ", response.json());
-        return response.json() as DeviceDetail
+        let deviceDetail = response.json() as DeviceDetail
+        deviceDetail.payloadType = payloadType;
+        deviceDetail.devEUI = devEUI;
+        return deviceDetail
       })
-      .catch(this.handleErrorPromise);
+      .catch(this.handleErrorObservable);
   }
 
   private getDevicDetailUrl(params: DeviceDetailParams): string {
@@ -62,9 +67,9 @@ export class CRaService {
     }
 
     if (params.stop) {
-      url += '&limit=' + this.dateToString(params.stop);
+      url += '&stop=' + this.dateToString(params.stop);
     }
-    this.log.debug("detail url " + url)
+    this.log.debug("detail url " + url, params)
     return url
   }
 
@@ -104,7 +109,7 @@ export class CRaService {
   }
 }
 
-export interface DeviceParams {
+export class DeviceParams {
   //Slouží k autorizaci requestu a je unikátní pro každý soutěžní team. Pro jeho vygenerování kontaktujte ČRa.
   //token: string;
   projectName: string;
@@ -121,9 +126,9 @@ export enum Order {
   asc = <any>"asc",
 }
 
-export interface DeviceDetailParams {
-  //Slouží k autorizaci requestu a je unikátní pro každý soutěžní team. Pro jeho vygenerování kontaktujte ČRa.
-  //token: string;
+export class DeviceDetailParams {
+  
+  payloadType: PayloadType;
 
   devEUI: string;
 

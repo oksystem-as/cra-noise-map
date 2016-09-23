@@ -3,7 +3,7 @@ import {DeviceDetail} from "./device-detail"
 
 export class Devices {
     private _meta: Meta;
-    private _records: Record[]; 
+    private _records: DeviceRecord[]; 
 
 	constructor(private log: Logger) {
         // this.log.error("constructor "  );
@@ -17,20 +17,20 @@ export class Devices {
         this._meta = value;
     }
 
-    public get records(): Record[] {
+    public get records(): DeviceRecord[] {
         // this.log.error("get "  );
         console.log("get "  );
         return this._records;
     }
 
-    public set records(value: Record[]) {
+    public set records(value: DeviceRecord[]) {
         // this.log.error("set " + value );
         console.log("set " + value );
         this._records = value;
     }
 }
 
-export class Record {
+export class DeviceRecord {
     private _devEUI: string;
     private _projectId: string;
     private _description: string;

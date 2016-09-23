@@ -5,8 +5,10 @@ import { FormsModule } from '@angular/forms';
 import { AppComponent } from './components/app.component';
 import { MapComponent } from './components/map.component';
 import { MenuComponent } from './components/menu.component';
+import { SideMenuComponent } from './components/side.menu.component';
 import { TestComponent } from './components/test.component';
 import { SliderComponent } from './components/slider.component';
+import { StatisticsComponent } from './components/statistics.component';
 import { HttpModule }    from '@angular/http';
 import { Logger, Options, Level  } from "angular2-logger/core"; 
 import { DropdownModule } from "ng2-dropdown";
@@ -28,6 +30,8 @@ import { CRaService } from './service/cra.service';
     MenuComponent,
     TestComponent,
     SliderComponent,
+    StatisticsComponent,
+    SideMenuComponent
     ],
   bootstrap: [AppComponent]
 })
