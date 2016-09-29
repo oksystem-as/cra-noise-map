@@ -8,7 +8,8 @@ import { MenuComponent } from './components/menu.component';
 import { SideMenuComponent } from './components/side.menu.component';
 import { TestComponent } from './components/test.component';
 import { SliderComponent } from './components/slider.component';
-import { StatisticsComponent } from './components/statistics.component';
+import { StatisticsComponent } from './components/statistics/statistics.component';
+import { StatisComponent } from './components/statistics/statis.component';
 import { HttpModule }    from '@angular/http';
 import { Logger, Options, Level  } from "angular2-logger/core"; 
 import { DropdownModule } from "ng2-dropdown";
@@ -34,6 +35,7 @@ import { ChartsModule } from 'ng2-charts/ng2-charts';
     SliderComponent,
     StatisticsComponent,
     SideMenuComponent,
+    StatisComponent,
     ],
   bootstrap: [AppComponent]
 })

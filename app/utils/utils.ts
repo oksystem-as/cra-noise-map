@@ -108,6 +108,53 @@ export class DateUtils {
     }
 }
 
+export class ObjectUtils {
+
+    public static deepCopyArr(array: any[]): any[] {
+        var out = [];
+        for (var i = 0, len = array.length; i < len; i++) {
+            var item = array[i];
+            var obj = {};
+            for (var k in item) {
+                obj[k] = ObjectUtils.deepCopy(item[k], null);
+            }
+            out.push(obj);
+        }
+        return out;
+    }
+
+    public static deepCopy(from, to) {
+        // console.log(from, to);
+        if (from == null || typeof from != "object") {
+            // console.log("prvni");
+            return from;
+        }
+        if (!(from instanceof Object) || !(from instanceof Array)) {
+            // console.log("druhy");
+            return from;
+        }
+        if (from instanceof Date) {
+            return new Date(from);
+        }
+        // TODO i ostani objekty
+        if (from instanceof Date || from instanceof RegExp || from instanceof Function ||
+            from instanceof String || from instanceof Number || from instanceof Boolean) {
+            throw "Ne vsechny objekty momentalne umim klonovat ... :( ) objekt: " + from;
+            // return this.newInstance(from, from);
+        }
+
+        // console.log("ctvrty - ", from);
+
+        to = to || Object.create(from);
+
+        for (var name in from) {
+            to[name] = typeof to[name] == "undefined" ? ObjectUtils.deepCopy(from[name], null) : to[name];
+        }
+
+        return to;
+    }
+}
+
 export class RxUtils {
     public static groupByHours(data: Payload[]): Observable<GroupedObservable<number, Payload>> {
         var source = Observable.from(data).groupBy(

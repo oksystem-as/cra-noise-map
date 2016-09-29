@@ -1,0 +1,12 @@
+<div id="statis">
+    <!--<base-chart *ngIf="barChartData && barChartData.length != 0" #myChart class="chart"-->
+    <base-chart #myChart class="chart"
+            [data]="barChartData"
+            [labels]="barChartLabels"
+            [options]="barChartOptions"
+            [legend]="barChartLegend"
+            [chartType]="barChartType"
+            (chartHover)="chartHovered($event)"
+            (chartClick)="chartClicked($event)">
+    </base-chart>
+</div>

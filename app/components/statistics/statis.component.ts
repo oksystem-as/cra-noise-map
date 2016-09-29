@@ -1,28 +1,37 @@
-import { Component, AfterViewInit, ViewChild, SimpleChange } from '@angular/core';
+import { Component, AfterViewInit, ViewChild, SimpleChange, Input } from '@angular/core';
 import { Logger } from "angular2-logger/core";
 /// <reference path="../../typings/globals/googlemaps/google.maps.d.ts" />
 /// <reference path="../../typings/globals/markerclustererplus/markerclustererplus.d.ts" />
-import { SensorsSharedService } from './sensors-shared.service';
-import { Sensor } from '../entity/sensor';
-import { Payload, PayloadType } from '../payloads/payload';
-import { RxUtils } from '../utils/utils';
+import { SensorsSharedService } from '../sensors-shared.service';
+import { Sensor } from '../../entity/sensor';
+import { Payload, PayloadType } from '../../payloads/payload';
+import { RxUtils, ObjectUtils } from '../../utils/utils';
 
-import { ARF8084BAPayload } from '../payloads/ARF8084BAPayload';
-import { RHF1S001Payload } from '../payloads/RHF1S001Payload';
-import { CRaService, DeviceDetailParams, DeviceParams, Order } from '../service/cra.service';
+import { ARF8084BAPayload } from '../../payloads/ARF8084BAPayload';
+import { RHF1S001Payload } from '../../payloads/RHF1S001Payload';
+import { CRaService, DeviceDetailParams, DeviceParams, Order } from '../../service/cra.service';
 import { Observable } from 'rxjs/Observable';
 import { GroupedObservable } from 'rxjs/operator/groupBy';
 import { BehaviorSubject } from "rxjs/Rx";
 import 'rxjs/Rx';
 import { ChartsModule, BaseChartComponent } from 'ng2-charts/ng2-charts';
 
+export enum StatisType {
+    HOUR,
+    DAY6_22,
+    DAY18_22,
+    NIGHT22_6,
+    DAY24,
+    WEEK,
+    MONTH,
+}
 
 @Component({
-    selector: 'statistics',
-    templateUrl: 'app/components/statistics.component.html',
-    styleUrls: ['app/components/statistics.component.css'],
+    selector: 'statis',
+    templateUrl: 'app/components/statistics/statis.component.html',
+    styleUrls: ['app/components/statistics/statis.component.css'],
 })
-export class StatisticsComponent implements AfterViewInit {
+export class StatisComponent implements AfterViewInit {
     @ViewChild('myChart') 
     private _chart;
 
@@ -31,10 +40,19 @@ export class StatisticsComponent implements AfterViewInit {
         responsive: true
     };
     public barChartLabels: string[] = [];
-    public barChartType: string = 'bar';
+
+    
+    public barChartType: string = 'line';
+
+    // @Input() //addItemStream:Observable<any>;
+    // public barChartType2;
+
     public barChartLegend: boolean = false;
 
     public barChartData: any[] = [];
+
+    @Input()
+    public statisType: StatisType = StatisType.MONTH;
 
     // events
     public chartClicked(e: any): void {
@@ -46,6 +64,7 @@ export class StatisticsComponent implements AfterViewInit {
     }
 
     private updateChart(data: number, label: string){
+        console.log(' [updateChart]: ', data, label); 
         this.barChartData.push(data);
         this.barChartLabels.push(label);
         let sch = new SimpleChange(this.barChartData, this.barChartData);
@@ -123,65 +142,45 @@ export class StatisticsComponent implements AfterViewInit {
                 // 1. vytvarim novy stream jelikoz stream getStatisticsData() se neuzavira a nektere volani 
                 // (reduce(), last() atp.) cekaji na completed resp uzavreni streamu, ktereho se nedockaji ...
                 // 2. musim provest deep copy listu a v nem obs. objektu jinak dochayi k modifikaci objektu napric streamy 
-                // log.debug('hodinovy prumer: ');
-                // this.resolveLogAvaerange(RxUtils.groupByHours(this.deepCopyArr(data.payloads)));
-                // log.debug('denni 6-22 prumer: ');
-                // this.resolveLogAvaerange(RxUtils.groupByDay(this.deepCopyArr(data.payloads)));
-                // log.debug('denni 18-22 prumer:: ');
-                // this.resolveLogAvaerange(RxUtils.groupBy18_22(this.deepCopyArr(data.payloads)));
-                // log.debug('nocni 22-6 prumer: ');
-                // this.resolveLogAvaerange(RxUtils.groupByNight(this.deepCopyArr(data.payloads)));
-                // log.debug('denni 24h prumer: ');
-                // this.resolveLogAvaerange(RxUtils.groupByDays(this.deepCopyArr(data.payloads)));
-                // log.debug('tydeni prumer: ');
-                // this.resolveLogAvaerange(RxUtils.groupByWeek(this.deepCopyArr(data.payloads)));
-                log.debug('mesicni prumer: ');
-                this.resolveLogAvaerange(RxUtils.groupByMonth(this.deepCopyArr(data.payloads)));
+                switch (this.statisType) {
+                    case StatisType.HOUR: {
+                        log.debug('hodinovy prumer: ');
+                        this.resolveLogAvaerange(RxUtils.groupByHours(ObjectUtils.deepCopyArr(data.payloads)));
+                        break;
+                    }
+                    case StatisType.DAY6_22: {
+                        log.debug('denni 6-22 prumer: ');
+                        this.resolveLogAvaerange(RxUtils.groupByDay(ObjectUtils.deepCopyArr(data.payloads)));
+                        break;
+                    }
+                    case StatisType.DAY18_22: {
+                        log.debug('denni 18-22 prumer: ');
+                        this.resolveLogAvaerange(RxUtils.groupBy18_22(ObjectUtils.deepCopyArr(data.payloads)));
+                        break;
+                    }
+                    case StatisType.NIGHT22_6: {
+                        log.debug('nocni 22-6 prumer: ');
+                        this.resolveLogAvaerange(RxUtils.groupByNight(ObjectUtils.deepCopyArr(data.payloads)));
+                        break;
+                    }
+                    case StatisType.DAY24: {
+                        log.debug('denni 24h prumer: ');
+                        this.resolveLogAvaerange(RxUtils.groupByDays(ObjectUtils.deepCopyArr(data.payloads)));
+                        break;
+                    }
+                    case StatisType.WEEK: {
+                        log.debug('tydeni prumer: ');
+                        this.resolveLogAvaerange(RxUtils.groupByWeek(ObjectUtils.deepCopyArr(data.payloads)));
+                        break;
+                    }
+                    case StatisType.MONTH: {
+                        log.debug('mesicni prumer: ');
+                        this.resolveLogAvaerange(RxUtils.groupByMonth(ObjectUtils.deepCopyArr(data.payloads)));
+                        break;
+                    }
+                    default: throw "nepodporovany graf " + this.statisType;
+                }
             });
-    }
-
-    private deepCopyArr(array: any[]): any[] {
-        var out = [];
-        for (var i = 0, len = array.length; i < len; i++) {
-            var item = array[i];
-            var obj = {};
-            for (var k in item) {
-                obj[k] = this.deepCopy(item[k], null);
-            }
-            out.push(obj);
-        }
-        return out;
-    }
-
-    private deepCopy(from, to) {
-        // console.log(from, to);
-        if (from == null || typeof from != "object") {
-            // console.log("prvni");
-            return from;
-        }
-        if (from ! instanceof Object && from ! instanceof Array) {
-            // console.log("druhy");
-            return from;
-        }
-        if (from instanceof Date) {
-            return new Date(from);
-        }
-        // TODO i ostani objekty
-        if (from instanceof Date || from instanceof RegExp || from instanceof Function ||
-            from instanceof String || from instanceof Number || from instanceof Boolean) {
-            throw "Ne vsechny objekty momentalne umim klonovat ... :( ) objekt: " + from;
-            // return this.newInstance(from, from);
-        }
-
-        // console.log("ctvrty - ", from);
-
-        to = to || Object.create(from);
-
-        for (var name in from) {
-            to[name] = typeof to[name] == "undefined" ? this.deepCopy(from[name], null) : to[name];
-        }
-
-        return to;
     }
 
     private resolveLogAvaerange(group: Observable<GroupedObservable<number, Payload>>) {
@@ -225,31 +224,29 @@ export class StatisticsComponent implements AfterViewInit {
             // // zobrazeni a spusteni straemu
             logAvgDataStream.subscribe(
                 data => {
-                //     let clone = JSON.parse(JSON.stringify(this.barChartData));
-                //     clone.push(Math.round(data.logAverange));
-                //     this.barChartData = clone;
-                //       console.log(' [data0]: ', this.barChartData);
-
-                //     let clone2 = JSON.parse(JSON.stringify(this.barChartLabels));
-                //    clone2.push( data.time.toLocaleDateString());
-                //     this.barChartLabels = clone2;
-                //      console.log(' [data1]: ', this.barChartLabels);
-                //     console.log(' [data]: ', data);
-                //     this.barChartData.push(Math.round(data.logAverange));
-                //     this.barChartData = this.barChartData.slice();
-
-                //     this.barChartLabels.push( data.time.toLocaleDateString());
-                //    this.barChartLabels = this.barChartLabels.slice();
-
-                   this.updateChart(Math.round(data.logAverange), data.time.toLocaleDateString());
-
-                //    this._chart.labels.push( data.time.toLocaleDateString());
-                //    this._chart.data.push(Math.round(data.logAverange));
-
-                    // console.log(' [data1]: ', this.barChartData);
-                    //setTimeout(())
-                     console.log(' [data]: ', data.time.toLocaleString(), ' logAverange: ' + data.logAverange); 
-                    // this._chart.addData(Math.round(data.logAverange), data.time.toLocaleDateString())
+                let dateFormat;
+                switch (this.statisType) {
+                    case StatisType.HOUR: {
+                        dateFormat =  data.time.toLocaleString();
+                        break;
+                    }
+                    case StatisType.DAY6_22: 
+                    case StatisType.DAY18_22: 
+                    case StatisType.NIGHT22_6: 
+                    case StatisType.DAY24: 
+                    case StatisType.WEEK: {
+                        dateFormat =  data.time.toLocaleDateString();
+                        break;
+                    }
+                    case StatisType.MONTH: {
+                        // TODO jen mesice 
+                        dateFormat =  data.time.toLocaleDateString();
+                        break;
+                    }
+                    default: throw "nepodporovany graf " + this.statisType;
+                }
+                   this.updateChart(Math.round(data.logAverange), dateFormat);
+                //    console.log(' [data]: ', data.time.toLocaleString(), ' logAverange: ' + data.logAverange); 
                 },
                
                 (err) => { console.log('Error: ' + err); },
@@ -267,6 +264,22 @@ export class StatisticsComponent implements AfterViewInit {
 
     }
 
+    // @Input() addItemStream:Observable<any>;
+    // counter = 0;
+
+    // ngOnInit() {
+    //     this.barChartType ="line"
+    //     // if(this.barChartType2 != undefined){
+    //     //     console.log(this.barChartType2)
+    //     // this.barChartType = this.barChartType2
+    //     // } 
+    // }
+
     ngAfterViewInit(): void {
+        //  this.barChartType ="line"
+        // if(this.barChartType2 != undefined){
+        //     console.log(this.barChartType2)
+        // this.barChartType = this.barChartType2
+        // } 
     }
 }

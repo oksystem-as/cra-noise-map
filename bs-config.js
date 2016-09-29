@@ -1,8 +1,8 @@
 var proxy = require('http-proxy-middleware');
 
 var options = {
-        // target: 'https://api.pripoj.me',  // new target host
-        target: 'http://hndocker.oksystem.local:58080',  // new target host
+         target: 'https://api.pripoj.me',  // new target host
+        // target: 'http://hndocker.oksystem.local:58080',  // new target host
         changeOrigin: true,               // needed for virtual hosted sites
         ws: true,                         // proxy websockets
         pathRewrite: {
