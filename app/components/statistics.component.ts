@@ -45,13 +45,22 @@ export class StatisticsComponent implements AfterViewInit {
         // console.log(e);
     }
 
+    private updateChart(data: number, label: string){
+        this.barChartData.push(data);
+        this.barChartLabels.push(label);
+        let sch = new SimpleChange(this.barChartData, this.barChartData);
+        let obj = {data: sch};
+        this._chart.ngOnChanges(obj);
+    }
+
     public randomize(): void {
         
-
+        this.barChartLabels =  ["a","b","c"]
         let sch = new SimpleChange(this.barChartData, [12,13,15]);
-        
+        let lab = new SimpleChange(this.barChartLabels, ["a1","b2","c3"]);
+        let obj = {data: sch, labels: lab}
         // this._chart.update();
-        this._chart.ngOnChanges(sch)
+        this._chart.ngOnChanges(obj)
         // Only Change 3 values
         // let data = [
         //     Math.round(Math.random() * 100),
@@ -226,16 +235,19 @@ export class StatisticsComponent implements AfterViewInit {
                 //     this.barChartLabels = clone2;
                 //      console.log(' [data1]: ', this.barChartLabels);
                 //     console.log(' [data]: ', data);
-                    this.barChartData.push(Math.round(data.logAverange));
-                    this.barChartData = this.barChartData.slice();
+                //     this.barChartData.push(Math.round(data.logAverange));
+                //     this.barChartData = this.barChartData.slice();
 
-                    this.barChartLabels.push( data.time.toLocaleDateString());
-                   this.barChartLabels = this.barChartLabels.slice();
+                //     this.barChartLabels.push( data.time.toLocaleDateString());
+                //    this.barChartLabels = this.barChartLabels.slice();
+
+                   this.updateChart(Math.round(data.logAverange), data.time.toLocaleDateString());
 
                 //    this._chart.labels.push( data.time.toLocaleDateString());
                 //    this._chart.data.push(Math.round(data.logAverange));
 
-                    console.log(' [data1]: ', this.barChartData);
+                    // console.log(' [data1]: ', this.barChartData);
+                    //setTimeout(())
                      console.log(' [data]: ', data.time.toLocaleString(), ' logAverange: ' + data.logAverange); 
                     // this._chart.addData(Math.round(data.logAverange), data.time.toLocaleDateString())
                 },
