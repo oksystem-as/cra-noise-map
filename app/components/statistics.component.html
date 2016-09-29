@@ -1,3 +1,21 @@
 <div id="statistics">
-   {{dayStatis}}
+    {{dayStatis}} <br>
+    prumerZaHodinu: {{prumerZaHodinu}} <br>
+    prumerZaDen: {{prumerZaDen}} <br>
+    prumerZaTyden: {{prumerZaTyden}}<br>
+    prumerZaMesic: {{prumerZaMesic}}
+
+    <!--<canvas id="myChart" width="100" height="100"></canvas>-->
+
+ <base-chart #myChart class="chart"
+            [data]="barChartData"
+            [labels]="barChartLabels"
+            [options]="barChartOptions"
+            [legend]="barChartLegend"
+            [chartType]="barChartType"
+            (chartHover)="chartHovered($event)"
+            (chartClick)="chartClicked($event)"></base-chart>
+
+       <button (click)="randomize()">Update</button>
+
 </div>

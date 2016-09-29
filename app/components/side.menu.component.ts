@@ -39,6 +39,6 @@ export class SideMenuComponent {
 
   onClick(devEUI: string) {
     this.devicedetailParamsDefault.devEUI = devEUI;
-    this.sensorsSharedService.loadStatisticsData(this.devicedetailParamsDefault, this.deviceGpsParams);
+    //this.sensorsSharedService.loadStatisticsData(this.devicedetailParamsDefault, this.deviceGpsParams);
   }
 }

@@ -12,6 +12,8 @@
     'angular2-logger':            'node_modules/angular2-logger', 
     'angular2-google-maps/core':  'node_modules/angular2-google-maps/core',
     'ng2-dropdown':               'node_modules/ng2-dropdown',
+    'ng2-charts':                 'node_modules/ng2-charts',
+
   };
   // packages tells the System loader how to load when no filename and/or no extension
   var packages = {
@@ -20,6 +22,7 @@
     'angular2-logger':            { defaultExtension: 'js' }, 
     'angular2-google-maps/core':  { main: 'index.js', defaultExtension: 'js' },
     'ng2-dropdown':               { main: 'index.js', defaultExtension: 'js' },
+    'ng2-charts':         { main: '/bundles/ng2-charts.js', defaultExtension: 'js' },
   };
   // Definice angluar packages - jen definice, pridani do packages bude nize
   var ngPackageNames = [

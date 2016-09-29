@@ -14,6 +14,7 @@ import { Logger, Options, Level  } from "angular2-logger/core";
 import { DropdownModule } from "ng2-dropdown";
 
 import { CRaService } from './service/cra.service';
+import { ChartsModule } from 'ng2-charts/ng2-charts';
 
 @NgModule({
   imports: [
@@ -21,7 +22,8 @@ import { CRaService } from './service/cra.service';
     CommonModule,
     FormsModule,
     HttpModule,
-    DropdownModule
+    DropdownModule,
+    ChartsModule,
   ],
   providers: [CRaService,{ provide: Options, useValue: { store: true, level: Level.ERROR } },  Logger],
   declarations: [
@@ -31,7 +33,7 @@ import { CRaService } from './service/cra.service';
     TestComponent,
     SliderComponent,
     StatisticsComponent,
-    SideMenuComponent
+    SideMenuComponent,
     ],
   bootstrap: [AppComponent]
 })

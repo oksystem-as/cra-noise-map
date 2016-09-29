@@ -20,10 +20,10 @@ export class MenuComponent {
   private sensors: Sensor[] = [];
 
   private devicedetailParamsDefault = <DeviceDetailParams>{
-    start: new Date("2016-09-15"),
-    stop: new Date("2016-09-22"),
+    start: new Date("2014-01-11"),
+    //stop: new Date("2016-09-22"),
     order: Order.asc,
-    limit:10000
+    //limit:1000
   }
 
   constructor(private log: Logger, private sensorsSharedService: SensorsSharedService) {

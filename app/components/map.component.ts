@@ -37,7 +37,7 @@ export class MapComponent implements AfterViewInit {
     size: 20,
     strokeColor: '#393',
     fillColor: 'yellow',
-    fillOpacity: 0.8,
+    fillOpacity: 0.0,
     strokeWeight: 0
   };
 
@@ -83,9 +83,9 @@ export class MapComponent implements AfterViewInit {
         if (sensor.payloadType == PayloadType.ARF8084BA) {
           sensor.payloads.forEach((payload: ARF8084BAPayload) => {
             if (payload.longtitude != undefined && payload.latitude != undefined) {
-              this.log.debug("kreslim ", payload.latitude, payload.longtitude);
+              //this.log.debug("kreslim ", payload.latitude, payload.longtitude);
 
-              var infowindow = this.createInfoWindow(payload.latitudeText + " " + payload.longtitudeText + " hluk: " + payload.temp);
+              var infowindow = this.createInfoWindow(payload.latitudeText + " " + payload.longtitudeText + " hluk: " + payload.temp+ " ID: " + sensor.devEUI);
               this.createMarker(payload.latitude, payload.longtitude, infowindow);
               this.createHeatPoint(payload.latitude, payload.longtitude, payload.temp);
             }

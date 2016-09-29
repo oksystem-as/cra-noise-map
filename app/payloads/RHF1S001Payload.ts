@@ -1,13 +1,15 @@
-import { Payload } from './payload'
+import { Payload, PayloadType } from './payload'
 
 export class RHF1S001Payload implements Payload {
-	status: Number;
-	teplota: Number;
-	vlhkost: Number;
-	period: Number;
-	rssi: Number;
-	snr: Number;
-	battery: Number;
+	status: number;
+	teplota: number;
+	vlhkost: number;
+	period: number;
+	rssi: number;
+	snr: number;
+	battery: number;
+	createdAt: Date;
+	payloadType: PayloadType;
 
 	public toConsole() {
 		console.log("status " + this.status)

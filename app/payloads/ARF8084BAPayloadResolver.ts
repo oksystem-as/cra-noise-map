@@ -1,5 +1,5 @@
 import { ARF8084BAPayload, Status, Hemisphere } from './ARF8084BAPayload'
-import { BitUtils } from '../utils/bit-utils'
+import { BitUtils } from '../utils/utils'
 
 export class ARF8084BAPayloadResolver {
     public resolve(payload: String): ARF8084BAPayload {

@@ -19,24 +19,23 @@ import { Sensor } from '../entity/sensor';
 @Injectable()
 export class SensorsSharedService {
 
-    private oldDate = new Date("2014-01-01");
-
+    private minDateLimit = new Date("2016-7-18");
     private sensors: BehaviorSubject<Sensor[]> = new BehaviorSubject([]);
     private statisticsData: BehaviorSubject<Sensor> = new BehaviorSubject(null);
-    private minDate: BehaviorSubject<Date> = new BehaviorSubject(this.oldDate);
+    private minDate: BehaviorSubject<Date> = new BehaviorSubject(this.minDateLimit);
+
+    // private deviceList = ["0018B20000000165", "0018B20000000336", "0018B2000000016E", "0018B20000000337", "0018B2000000033C", "0018B2000000033A", "0018B20000000339", "0018B20000000335",]
+    private deviceList = ["0018B20000000165"];
+    private deviceType = PayloadType.ARF8084BA;
 
     private devicedetailParamsDefault = <DeviceDetailParams>{
-        start: new Date("2016-09-15"),
+        start: this.minDateLimit,
         limit: 10,
         order: Order.asc
     }
 
-    private deviceGpsParams = <DeviceParams>{
-        projectName: 'GPSinCars'
-    };
-
     constructor(private log: Logger, private craService: CRaService) {
-        this.loadInitialData(this.devicedetailParamsDefault, this.deviceGpsParams, this.sensors, true);
+        this.loadInitialData(this.devicedetailParamsDefault, this.sensors, true);
     }
 
     getStatisticsData(): Observable<Sensor> {
@@ -63,111 +62,67 @@ export class SensorsSharedService {
 
     loadSensor(params: DeviceDetailParams): void {
         this.log.debug("SensorsSharedService.loadGps()");
-        this.loadInitialData(params, this.deviceGpsParams, this.sensors, false);
+        this.loadInitialData(params, this.sensors, false);
     }
 
-    public loadInitialData(devicedetailParams: DeviceDetailParams, deviceParams: DeviceParams, behaviorSubject: BehaviorSubject<any>, resolveMinDate: boolean) {
-        this.log.debug("SensorsSharedService.loadInitialData(). Params: " + devicedetailParams);
-
-        let devicedetailParamsMinDate = <DeviceDetailParams>{
-            start: this.oldDate,
-            limit: 1,
-            order: Order.asc
-        }
-
-        this.craService.getDevices(deviceParams).subscribe(
-            response => {
-                if (resolveMinDate) {
-                    this.setMinDate(response, devicedetailParamsMinDate);
-                }
-                this.setDeviceDetails(response, devicedetailParams, behaviorSubject);
-            });
-        // ,
-        // e => this.log.debug('SensorsSharedService.onError: %s', e),
-        // () => this.log.debug('SensorsSharedService.onCompleted'));
-    }
-
-    // vybere nejnizsi datum, od ktereho prisel prvni respone - nutne je na zacatku 
-    private setMinDate(response: Devices, devicedetailParams: DeviceDetailParams) {
-        var promises = [];
-        if (response && response.records && response.records instanceof Array) {
-            response.records.forEach(device => {
-                devicedetailParams.devEUI = device.devEUI;
-                var promise = this.craService.getDeviceDetail(devicedetailParams);
-                promises.push(promise);
-            })
-            Observable.forkJoin(promises).subscribe(result => {
-                var minDate = new Date();
-
-                result.forEach((response: DeviceDetail) => {
-                    if (response && response.records && response.records instanceof Array) {
-                        response.records.forEach(record => {
-                            this.log.debug(record.createdAt + " " + record.devEUI)
-                            let dateInt = new Date(record.createdAt);
-                            if (minDate.getTime() > dateInt.getTime()) {
-                                minDate = dateInt;
-                            }
-                        })
-                    }
-                })
-                this.log.debug("min " + minDate.toLocaleString())
-                this.minDate.next(minDate);
-            })
-        }
+    public loadInitialData(devicedetailParams: DeviceDetailParams, behaviorSubject: BehaviorSubject<any>, resolveMinDate: boolean) {
+        this.log.debug("SensorsSharedService.loadInitialData(). Params: ", devicedetailParams);
+        this.setDeviceDetails(devicedetailParams, behaviorSubject);
     }
 
     // nacte payloady zarizeni dle zadanych parametru - momentalne napsane primo na gps cidla
     private loadDeviceDetails(devicedetailParams: DeviceDetailParams, behaviorSubject: BehaviorSubject<any>) {
+
         this.craService.getDeviceDetail(devicedetailParams).subscribe(response => {
+
             if (response && response.records && response.records instanceof Array) {
                 var sensor = new Sensor();
                 sensor.devEUI = response.devEUI;
                 sensor.payloadType = response.payloadType;
                 response.records.forEach(record => {
                     // let payload: ARF8084BAPayload = aRF8084BAPayloadResolver.resolve(record.payloadHex)
-                    sensor.payloads.push(this.reslovePayload(devicedetailParams.payloadType, record.payloadHex));
+                    let payload = this.reslovePayload(devicedetailParams.payloadType, record.payloadHex)
+                    payload.createdAt = new Date(record.createdAt);
+                    payload.payloadType = response.payloadType;
+                    sensor.payloads.push(payload);
                 })
                 this.log.debug("behaviorSubject ", sensor)
                 behaviorSubject.next(sensor);
+                // behaviorSubject.complete();
             }
         })
 
     }
 
     // nacte payloady zarizeni dle zadanych parametru - momentalne napsane primo na gps cidla
-    private setDeviceDetails(responseDev: Devices, devicedetailParams: DeviceDetailParams, behaviorSubject: BehaviorSubject<any>) {
-        // let device  = new Devices(this.log);
-        // device.records = [];
-        // let aRF8084BAPayloadResolver = new ARF8084BAPayloadResolver();
-        // this.log.debug("done3", gps);
+    private setDeviceDetails(devicedetailParams: DeviceDetailParams, behaviorSubject: BehaviorSubject<any>) {
         var promises = [];
-        if (responseDev && responseDev.records && responseDev.records instanceof Array) {
-            responseDev.records.forEach(device => {
-                devicedetailParams.devEUI = device.devEUI;
-                devicedetailParams.payloadType = this.getPayloadType(device)
-                var promise = this.craService.getDeviceDetail(devicedetailParams);
-                promises.push(promise);
-            })
-            Observable.forkJoin(promises).subscribe(result => {
-                var list = [];
+        this.deviceList.forEach(device => {
+            devicedetailParams.devEUI = device;
+            devicedetailParams.payloadType = this.deviceType;
+            var promise = this.craService.getDeviceDetail(devicedetailParams);
+            promises.push(promise);
+        })
+        Observable.forkJoin(promises).subscribe(result => {
+            var list = [];
 
-                result.forEach((response: DeviceDetail) => {
-                    if (response && response.records && response.records instanceof Array) {
-                        let sensor = new Sensor();
-                        sensor.devEUI = response.devEUI;
-                        sensor.payloadType = response.payloadType;
-                        response.records.forEach((record: Record) => {
-                            // let payload: ARF8084BAPayload = aRF8084BAPayloadResolver.resolve(record.payloadHex)
-                           sensor.payloads.push(this.findAndReslovePayload(responseDev, record.devEUI, record.payloadHex));
-                        })
-                        list.push(sensor);
-                    }
-                })
-                this.log.debug("done2", list);
-                // this.gps.next(list);
-                behaviorSubject.next(list);
+            result.forEach((response: DeviceDetail) => {
+                if (response && response.records && response.records instanceof Array) {
+                    let sensor = new Sensor();
+                    sensor.devEUI = response.devEUI;
+                    sensor.payloadType = response.payloadType;
+                    response.records.forEach((record: Record) => {
+                        let payload = this.reslovePayload(this.deviceType, record.payloadHex);
+                        payload.createdAt = new Date(record.createdAt);
+                        payload.payloadType = response.payloadType;
+                        sensor.payloads.push(payload);
+                    })
+                    list.push(sensor);
+                }
             })
-        }
+            this.log.debug("done2", list);
+            behaviorSubject.next(list);
+        })
     }
 
     private getPayloadType(deviceRecord: DeviceRecord) {
@@ -184,7 +139,7 @@ export class SensorsSharedService {
         let rHF1S001PayloadResolver = new RHF1S001PayloadResolver();
 
         if (payloadType == PayloadType.ARF8084BA) {
-            this.log.debug("je to ARF8084BA " + payload)
+            // this.log.debug("je to ARF8084BA " + payload)
             let payloadint = aRF8084BAPayloadResolver.resolve(payload);
             // fake data 
             payloadint.temp = Math.floor(Math.random() * 100) + 1
@@ -192,26 +147,10 @@ export class SensorsSharedService {
         }
 
         if (payloadType == PayloadType.RHF1S001) {
-            this.log.debug("je to RHF1S001 " + payload)
+            // this.log.debug("je to RHF1S001 " + payload)
             let payloadint = rHF1S001PayloadResolver.resolve(payload);
             return payloadint
         }
-        return null;
-    }
-
-    private findAndReslovePayload(devices: Devices, devEUI: string, payload: string): Payload {
-        for (var index = 0; index < devices.records.length; index++) {
-            var device = devices.records[index];
-            if (device.devEUI === devEUI) {
-                if (device.model == "ARF8084BA") {
-                    return this.reslovePayload(PayloadType.ARF8084BA, payload);
-                }
-                if (device.model == "RHF1S001") {
-                    return this.reslovePayload(PayloadType.RHF1S001, payload);
-                }
-            }
-        }
-
         return null;
     }
 }

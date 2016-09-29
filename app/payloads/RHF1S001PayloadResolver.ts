@@ -1,5 +1,5 @@
 import  { RHF1S001Payload } from './RHF1S001Payload'
-import  { BitUtils } from '../utils/bit-utils'
+import  { BitUtils } from '../utils/utils'
 
 export class RHF1S001PayloadResolver{
     public resolve(payload: String): RHF1S001Payload {

@@ -1,5 +1,5 @@
-import { BitUtils } from '../utils/bit-utils'
-import { Payload } from './payload'
+import { BitUtils } from '../utils/utils'
+import { Payload, PayloadType } from './payload'
 
 export enum Hemisphere {
     N, S, E, W
@@ -20,6 +20,8 @@ export class ARF8084BAPayload implements Payload {
     batteryLSB: number;
     rssi: number;
     snr: number;
+    createdAt: Date;
+    payloadType: PayloadType;
 }
 
 export class Status {
