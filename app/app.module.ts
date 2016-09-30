@@ -10,6 +10,7 @@ import { SliderComponent } from './components/slider.component';
 import { HttpModule }    from '@angular/http';
 import { Logger, Options, Level  } from "angular2-logger/core"; 
 import { DropdownModule } from "ng2-dropdown";
+import { MapLegendComponent } from './components/map.legend.component';
 
 import { CRaService } from './service/cra.service';
 
@@ -28,6 +29,7 @@ import { CRaService } from './service/cra.service';
     MenuComponent,
     TestComponent,
     SliderComponent,
+    MapLegendComponent,
     ],
   bootstrap: [AppComponent]
 })
