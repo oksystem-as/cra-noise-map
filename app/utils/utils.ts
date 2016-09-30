@@ -4,6 +4,20 @@ import { GroupedObservable } from 'rxjs/operator/groupBy';
 import { Payload, PayloadType } from '../payloads/payload';
 import 'rxjs/Rx';
 
+export class RandomUtils {
+    private static rdmNum = [];
+
+    public static getRandom(): number {
+        let rdm = Math.floor((Math.random() * 1000000) + 1);
+        if (this.rdmNum.indexOf(rdm) != -1) {
+            return RandomUtils.getRandom();
+        } else {
+            this.rdmNum.push(rdm);
+            return rdm;
+        }
+    }
+}
+
 export class BitUtils {
     static flagbit1: number = 1;    // 2^^0    000...00000001
     static flagbit2: number = 2;    // 2^^1    000...00000010

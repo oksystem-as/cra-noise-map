@@ -24,13 +24,13 @@ export class SensorsSharedService {
     private statisticsData: BehaviorSubject<Sensor> = new BehaviorSubject(null);
     private minDate: BehaviorSubject<Date> = new BehaviorSubject(this.minDateLimit);
 
-    // private deviceList = ["0018B20000000165", "0018B20000000336", "0018B2000000016E", "0018B20000000337", "0018B2000000033C", "0018B2000000033A", "0018B20000000339", "0018B20000000335",]
-    private deviceList = ["0018B20000000165"];
+    private deviceList = ["0018B20000000165", "0018B20000000336", "0018B2000000016E", "0018B20000000337", "0018B2000000033C", "0018B2000000033A", "0018B20000000339", "0018B20000000335",]
+    // private deviceList = ["0018B20000000165"];
     private deviceType = PayloadType.ARF8084BA;
 
     private devicedetailParamsDefault = <DeviceDetailParams>{
         start: this.minDateLimit,
-        limit: 10,
+        limit: 20,
         order: Order.asc
     }
 

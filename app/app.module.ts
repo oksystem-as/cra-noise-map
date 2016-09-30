@@ -10,10 +10,12 @@ import { TestComponent } from './components/test.component';
 import { SliderComponent } from './components/slider.component';
 import { StatisticsComponent } from './components/statistics/statistics.component';
 import { StatisComponent } from './components/statistics/statis.component';
+import { TabsStatisComponent } from './components/statistics/tabs.statis.component';
 import { HttpModule }    from '@angular/http';
 import { Logger, Options, Level  } from "angular2-logger/core"; 
 import { DropdownModule } from "ng2-dropdown";
 import { MapLegendComponent } from './components/map.legend.component';
+import { Ng2BootstrapModule } from 'ng2-bootstrap/ng2-bootstrap';
 
 import { CRaService } from './service/cra.service';
 import { ChartsModule } from 'ng2-charts/ng2-charts';
@@ -26,6 +28,7 @@ import { ChartsModule } from 'ng2-charts/ng2-charts';
     HttpModule,
     DropdownModule,
     ChartsModule,
+    Ng2BootstrapModule,
   ],
   providers: [CRaService,{ provide: Options, useValue: { store: true, level: Level.ERROR } },  Logger],
   declarations: [
@@ -38,6 +41,7 @@ import { ChartsModule } from 'ng2-charts/ng2-charts';
     StatisticsComponent,
     SideMenuComponent,
     StatisComponent,
+    TabsStatisComponent,
     ],
   bootstrap: [AppComponent]
 })

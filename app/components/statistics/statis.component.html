@@ -5,8 +5,11 @@
             [labels]="barChartLabels"
             [options]="barChartOptions"
             [legend]="barChartLegend"
-            [chartType]="barChartType"
-            (chartHover)="chartHovered($event)"
-            (chartClick)="chartClicked($event)">
+            [chartType]="barChartType">
+            <!--(chartHover)="chartHovered($event)"
+            (chartClick)="chartClicked($event)">-->
     </base-chart>
+
+    <button  class="btn btn-default" (click)="clearChart()">clear</button>
+    <input id="{{statisId}}" style="display: none"/>
 </div>

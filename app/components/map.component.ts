@@ -73,22 +73,22 @@ export class MapComponent implements AfterViewInit {
 
   private iconOff = {
     path: google.maps.SymbolPath.CIRCLE,
-    scale: 10,
-    size: 20,
+    scale: 12,
+    size: 30,
     strokeColor: '#393',
     fillColor: 'yellow',
-    fillOpacity: 0.0,
-    strokeWeight: 0
+    fillOpacity: 0.8,
+    strokeWeight: 2
   };
 
   private iconOn = {
     path: google.maps.SymbolPath.CIRCLE,
-    scale: 10,
-    size: 20,
-    strokeColor: '#393',
+    scale: 12,
+    size: 30,
+    strokeColor: '#444',
     fillColor: 'red',
-    fillOpacity: 0.2,
-    strokeWeight: 0,
+    fillOpacity: 0.8,
+    strokeWeight: 2,
   };
 
   constructor(private log: Logger, private sensorsSharedService: SensorsSharedService) {
@@ -101,7 +101,7 @@ export class MapComponent implements AfterViewInit {
 
   private initMap() {
     this.map = new google.maps.Map(document.getElementById(this.mapId), {
-      zoom: 16,
+      zoom: 12,
       center: { lat: 50.053942, lng: 14.437404 },
       mapTypeId: google.maps.MapTypeId.ROADMAP,
       mapTypeControl: true,
@@ -153,8 +153,8 @@ export class MapComponent implements AfterViewInit {
         url += "&STYLES=";            //WMS style
         url += "&CRS=CRS:84";         //set WGS84 
         url += "&BBOX=" + bbox;       //set bounding box
-        url += "&WIDTH=256";
-        url += "&HEIGHT=256";
+        url += "&WIDTH=512";
+        url += "&HEIGHT=512";
         this.log.debug(url);
         return url;                 // return URL for the tile
       },
@@ -213,7 +213,7 @@ export class MapComponent implements AfterViewInit {
 
               var infowindow = this.createInfoWindow(payload.latitudeText + " " + payload.longtitudeText + " hluk: " + payload.temp+ " ID: " + sensor.devEUI);
               this.createMarker(payload.latitude, payload.longtitude, infowindow);
-              this.createHeatPoint(payload.latitude, payload.longtitude, payload.temp);
+              // this.createHeatPoint(payload.latitude, payload.longtitude, payload.temp);
             }
           });
         }
