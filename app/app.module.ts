@@ -5,14 +5,18 @@ import { FormsModule } from '@angular/forms';
 import { AppComponent } from './components/app.component';
 import { MapComponent } from './components/map.component';
 import { MenuComponent } from './components/menu.component';
+import { SideMenuComponent } from './components/side.menu.component';
 import { TestComponent } from './components/test.component';
 import { SliderComponent } from './components/slider.component';
+import { StatisticsComponent } from './components/statistics/statistics.component';
+import { StatisComponent } from './components/statistics/statis.component';
 import { HttpModule }    from '@angular/http';
 import { Logger, Options, Level  } from "angular2-logger/core"; 
 import { DropdownModule } from "ng2-dropdown";
 import { MapLegendComponent } from './components/map.legend.component';
 
 import { CRaService } from './service/cra.service';
+import { ChartsModule } from 'ng2-charts/ng2-charts';
 
 @NgModule({
   imports: [
@@ -20,7 +24,8 @@ import { CRaService } from './service/cra.service';
     CommonModule,
     FormsModule,
     HttpModule,
-    DropdownModule
+    DropdownModule,
+    ChartsModule,
   ],
   providers: [CRaService,{ provide: Options, useValue: { store: true, level: Level.ERROR } },  Logger],
   declarations: [
@@ -30,6 +35,9 @@ import { CRaService } from './service/cra.service';
     TestComponent,
     SliderComponent,
     MapLegendComponent,
+    StatisticsComponent,
+    SideMenuComponent,
+    StatisComponent,
     ],
   bootstrap: [AppComponent]
 })
