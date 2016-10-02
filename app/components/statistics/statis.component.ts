@@ -69,16 +69,20 @@ export class StatisComponent implements AfterViewInit {
         this.barChartLabels.push(label);
         let sch = new SimpleChange(this.barChartData, this.barChartData);
         let obj = { data: sch };
-        this._chart.ngOnChanges(obj);
+        if(this._chart != undefined && this._chart.chart != undefined){
+            this._chart.ngOnChanges(obj);
+        }
     }
 
     private clearChart() {
-        console.log(' [clearChart]: ');
+        console.log(' [clearChart]: ', this.statisType);
         this.barChartData.length = 0;
         this.barChartLabels.length = 0;
         let sch = new SimpleChange(this.barChartData, this.barChartData);
         let obj = { data: sch };
-        this._chart.ngOnChanges(obj);
+        if(this._chart != undefined && this._chart.chart != undefined){
+            this._chart.ngOnChanges(obj);
+        }
     }
 
     constructor(private log: Logger, private sensorsSharedService: SensorsSharedService, elementRef: ElementRef) {
@@ -178,7 +182,7 @@ export class StatisComponent implements AfterViewInit {
         this.log.debug(ticks);
         this.log.debug(ticks_labels);
         
-
+        this.log.debug("init slider - ", this.statisType )
         // let elem = this.elementRef.nativeElement.shadowRoot.querySelector('#' + this.statisId);
         let slider = new Slider('#' + this.statisId, {
             ticks: ticks,
@@ -308,24 +312,11 @@ export class StatisComponent implements AfterViewInit {
     // counter = 0;
 
     ngOnInit() {
-
-
+        console.log(' [ngOnInit]: ', this.statisType);
     }
 
     ngAfterViewInit(): void {
-        // let elem = this.elementRef.nativeElement.shadowRoot.querySelector('#' + this.statisId);
-        // let slider = new Slider(elem, {
-        //     ticks: [1,2],
-        //     ticks_labels: ["ss","aa"],
-        //     ticks_snap_bounds: 2,
-
-        //     id: "slider3"
-        // });
-        //  this.barChartType ="line"
-        // if(this.barChartType2 != undefined){
-        //     console.log(this.barChartType2)
-        // this.barChartType = this.barChartType2
-        // } 
+        console.log(' [ngAfterViewInit]: ', this.statisType);
     }
 }
 
