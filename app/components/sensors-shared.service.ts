@@ -24,6 +24,8 @@ export class SensorsSharedService {
     private statisticsData: BehaviorSubject<Sensor> = new BehaviorSubject(null);
     private minDate: BehaviorSubject<Date> = new BehaviorSubject(this.minDateLimit);
 
+    private selectedSensor: BehaviorSubject<Sensor> = new BehaviorSubject(null);
+
     private deviceList = ["0018B20000000165", "0018B20000000336", "0018B2000000016E", "0018B20000000337", "0018B2000000033C", "0018B2000000033A", "0018B20000000339", "0018B20000000335",]
     // private deviceList = ["0018B20000000165"];
     private deviceType = PayloadType.ARF8084BA;
@@ -37,6 +39,16 @@ export class SensorsSharedService {
     constructor(private log: Logger, private craService: CRaService) {
         this.loadInitialData(this.devicedetailParamsDefault, this.sensors, true);
     }
+    
+    getSelectedSensor(): Observable<Sensor> {
+        this.log.debug("SensorsSharedService.getSelectedSensor()");
+        return this.selectedSensor.asObservable();
+    }
+
+    setSelectedSensor(sensor: Sensor) {
+        this.log.debug("SensorsSharedService.setSelectedSensor()", sensor);
+        this.selectedSensor.next(sensor);
+    }
 
     getStatisticsData(): Observable<Sensor> {
         this.log.debug("SensorsSharedService.getStatisticsData()");
@@ -48,7 +60,7 @@ export class SensorsSharedService {
         this.loadDeviceDetails(devicedetailParams, this.statisticsData);
     }
 
-    getSensor(): Observable<Sensor[]> {
+    getSensors(): Observable<Sensor[]> {
         this.log.debug("SensorsSharedService.getGps()");
         return this.sensors.asObservable();
     }

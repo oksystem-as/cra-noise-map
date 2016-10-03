@@ -30,7 +30,7 @@ export class SideMenuComponent {
   };
 
   constructor(private log: Logger, private sensorsSharedService: SensorsSharedService) {
-    sensorsSharedService.getSensor().subscribe((sensors: Sensor[]) => {
+    sensorsSharedService.getSensors().subscribe((sensors: Sensor[]) => {
       this.sensors = sensors;
       log.debug("seznam: " + sensors)
     })

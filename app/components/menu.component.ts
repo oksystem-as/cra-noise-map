@@ -26,8 +26,24 @@ export class MenuComponent {
     //limit:10000
   }
 
+  isSensorOnMap(sensor: Sensor): boolean{
+    let containsGPS = false;
+    
+    if(sensor.payloads != undefined && sensor.payloads.length > 0){
+      sensor.payloads.forEach(payload => {
+        if(payload.payloadType === PayloadType.ARF8084BA){
+          let pay = payload as ARF8084BAPayload;
+          if (pay.status.GPSInfoIsPresent){
+            containsGPS = true;
+          }
+        }
+      })
+    }
+    return containsGPS;
+  }
+
   constructor(private log: Logger, private sensorsSharedService: SensorsSharedService) {
-    sensorsSharedService.getSensor().subscribe((sensors: Sensor[]) => {
+    sensorsSharedService.getSensors().subscribe((sensors: Sensor[]) => {
       this.sensors = sensors;
       this.log.debug("seznam: " + sensors)
     })
@@ -35,8 +51,10 @@ export class MenuComponent {
   }
 
   onClick(sensor: Sensor) {
+    this.sensorsSharedService.setSelectedSensor(sensor);
     this.devicedetailParamsDefault.devEUI =sensor.devEUI;
     this.devicedetailParamsDefault.payloadType = sensor.payloadType;
+    this.devicedetailParamsDefault.publisher = "menuItem"
     this.sensorsSharedService.loadStatisticsData(this.devicedetailParamsDefault);
   }
 }

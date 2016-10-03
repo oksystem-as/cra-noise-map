@@ -75,6 +75,7 @@ export class StatisComponent {//implements AfterViewInit {
     private removeSlider() {
         if (this.slider) {
             this.slider.destroy();
+            this.sliderEvent.complete();
         }
     }
 
@@ -83,7 +84,7 @@ export class StatisComponent {//implements AfterViewInit {
     // }
 
     private updateChart(data: number, label: string) {
-        console.log(' [updateChart]: ', data, label);
+        // console.log(' [updateChart]: ', data, label);
         this.barChartData.push(data);
         this.barChartLabels.push(label);
         let sch = new SimpleChange(this.barChartData, this.barChartData);
@@ -98,16 +99,16 @@ export class StatisComponent {//implements AfterViewInit {
     }
 
     private clearChart() {
-        console.log(' [clearChart]: ', this.statisType);
+        // console.log(' [clearChart]: ', this.statisType);
         this.barChartData.length = 0;
         this.barChartLabels.length = 0;
         let sch = new SimpleChange(this.barChartData, this.barChartData);
         let obj = { data: sch };
         if (this._chart != undefined && this._chart.chart != undefined) {
             this._chart.ngOnChanges(obj);
-        
+
         }
-         if (this._table != undefined) {
+        if (this._table != undefined) {
             this._table.refresh();
         }
     }
@@ -117,11 +118,22 @@ export class StatisComponent {//implements AfterViewInit {
         var source = sensorsSharedService.getStatisticsData()
             .filter(data => {
                 return data != undefined && data.payloads != undefined && data.payloadType == PayloadType.ARF8084BA &&
-                    (data.publisher == undefined || data.publisher == this.sliderId)
+                    (data.publisher == undefined || data.publisher == this.sliderId || data.publisher == "menuItem")
+            }).filter(data => {
+                if (data.payloads.length == 0) {
+                    alert("Zadanému intervalu nevyhovují žádná data.")
+                    this.clearChart();
+                }
+                return data.payloads.length > 0
             }).subscribe(data => {
                 this.clearChart();
 
                 if (this.firstInitSlider) {
+                    this.initSlider(data.payloads[0].createdAt);
+                    this.firstInitSlider = false;
+                } else if (data.publisher == "menuItem") {
+                    // pokud je vyber z menu je potreba provest reset 
+                    this.removeSlider();
                     this.initSlider(data.payloads[0].createdAt);
                     this.firstInitSlider = false;
                 }
@@ -289,7 +301,7 @@ export class StatisComponent {//implements AfterViewInit {
                 },
 
                 (err) => { console.log('Error: ' + err); },
-                () => { console.log('Completed') });
+                () => { /*console.log('Completed') */ });
         });
     }
 

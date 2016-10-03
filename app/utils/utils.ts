@@ -4,6 +4,36 @@ import { GroupedObservable } from 'rxjs/operator/groupBy';
 import { Payload, PayloadType } from '../payloads/payload';
 import 'rxjs/Rx';
 
+
+
+export class ColorUtils {
+    //private static colorValueMap: Map<string, boolean> = new Map<string, boolean>(){} ;
+    private static colorValueMap: [{ value: number, color: string }] =
+    [
+        { value: 0, color: "#1f8545", },
+        { value: 40, color: "#79c67a", },
+        { value: 45, color: "#d3ffbe", },
+        { value: 50, color: "#ffffbe", },
+        { value: 55, color: "#ffff74", },
+        { value: 60, color: "#ffc200", },
+        { value: 65, color: "#e60000", },
+        { value: 70, color: "#b50000", },
+        { value: 75, color: "#630a6c", },
+        { value: 80, color: "#001f9d", },
+    ];
+
+    public static getColor(value: number): string {
+        let color;
+        for (var index = 0; index < ColorUtils.colorValueMap.length; index++) {
+            let valMin = ColorUtils.colorValueMap[index].value;
+            if (valMin < value) {
+                color = ColorUtils.colorValueMap[index].color;
+            } else {
+                return color
+            }
+        }
+    }
+}
 export class RandomUtils {
     private static rdmNum = [];
 

@@ -23,7 +23,6 @@ export class TabsStatisComponent implements AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    console.log(' [TableStatisComponent.ngAfterViewInit]: ', this.timerComponent); 
-    
-    }
+    // console.log(' [TableStatisComponent.ngAfterViewInit]: ', this.timerComponent); 
+  }
 }

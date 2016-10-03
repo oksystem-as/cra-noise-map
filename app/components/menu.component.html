@@ -15,7 +15,14 @@
         <li class="dropdown" dropdown>
           <a class=" dropdown dropdown-toggle" dropdown-open data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Čidla <span class="caret"></span></a>
           <ul class="dropdown-menu" dropdown-not-closable-zone>
-            <li *ngFor="let sensor of sensors, let ndx = index" ><a (click)="onClick(sensor)">{{sensor.devEUI}}</a></li>
+            <li *ngFor="let sensor of sensors, let ndx = index">
+              <a *ngIf="isSensorOnMap(sensor)" (click)="onClick(sensor)">
+                <strong>{{sensor.devEUI}}</strong>
+              </a>
+               <a *ngIf="!isSensorOnMap(sensor)" (click)="onClick(sensor)">
+                {{sensor.devEUI}}
+              </a>
+            </li>
           </ul>
         </li>
       </ul>
