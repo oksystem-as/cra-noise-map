@@ -38,7 +38,8 @@
   <hr />-->
  
   <!--<p><i>Bootstrap 4 doesn't have justified classes</i></p>-->
-  <tabset [justified]="true">
+  <!--<tabset [justified]="true">-->
+      <tabset [justified]="false">
 <!--
     <tab *ngFor="let tabz of tabs"
          [heading]="tabz.title"
@@ -51,23 +52,15 @@
       {{tabz?.content}}
     </tab>-->
 
- 
-    <tab heading="Hodinový"><statis  [statisType]="1"></statis></tab>
-    <tab heading="Denní 6-22" (select)="onClick($event)"><statis  [statisType]="1"></statis></tab>
-    <tab heading="Denní 18-22"><statis  [statisType]="2"></statis></tab>
-    <tab heading="Noční 22-6"><statis  [statisType]="3"></statis></tab>
-    <tab heading="Denní 24h"><statis  [statisType]="4"></statis></tab>
-    <tab heading="Týdenní"><statis  [statisType]="5"></statis></tab>
-    <tab heading="Měsiční"><statis  [statisType]="6"></statis></tab>
+    <tab heading="Hodinový" (select)="statis1.refreshSlider($event)">
+      <statis #statis1 [statisType]="0"></statis>
+    </tab>
+    <tab heading="Denní 6-22" (select)="statis2.refreshSlider($event)"><statis #statis2 [statisType]="1"></statis></tab>
+    <tab heading="Denní 18-22" (select)="statis3.refreshSlider($event)"><statis #statis3 [statisType]="2"></statis></tab>
+    <tab heading="Noční 22-6" (select)="statis4.refreshSlider($event)"><statis #statis4 [statisType]="3"></statis></tab>
+    <tab heading="Denní 24h" (select)="statis5.refreshSlider($event)"><statis #statis5 [statisType]="4"></statis></tab>
+    <tab heading="Týdenní" (select)="statis6.refreshSlider($event)"><statis #statis6 [statisType]="5"></statis></tab>
+    <tab heading="Měsiční" (select)="statis7.refreshSlider($event)"><statis #statis7 [statisType]="6"></statis></tab>
   </tabset>
-
-
-<!--<statis  [statisType]="0"></statis>
-<statis  [statisType]="1"></statis>
-<statis  [statisType]="2"></statis>
-<statis  [statisType]="3"></statis>
-<statis  [statisType]="4"></statis>
-<statis  [statisType]="5"></statis>
-<statis  [statisType]="6"></statis>-->
 
 </div>

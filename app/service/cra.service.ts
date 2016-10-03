@@ -37,6 +37,7 @@ export class CRaService {
   getDeviceDetail(params: DeviceDetailParams): Observable<DeviceDetail> {
     var devEUI = params.devEUI;
     var payloadType =  params.payloadType;
+    var publisher = params.publisher;
     this.log.debug("PersonService.getDeviceDetail()", params);
     return this.http.get(this.getDevicDetailUrl(params)).
        map(response => {
@@ -44,14 +45,15 @@ export class CRaService {
         let deviceDetail = response.json() as DeviceDetail
         deviceDetail.payloadType = payloadType;
         deviceDetail.devEUI = devEUI;
+        deviceDetail.publisher = publisher;
         return deviceDetail
       })
       .catch(this.handleErrorObservable);
   }
 
   private getDevicDetailUrl(params: DeviceDetailParams): string {
-    let url = window.location.href + this.devApiPrefix + this.deviceDetailBaseUrl + params.devEUI + '?token=' + this.token;
-    // let url = this.restProxy + this.deviceDetailBaseUrl + params.devEUI + '?token=' + this.token;
+    // let url = window.location.href + this.devApiPrefix + this.deviceDetailBaseUrl + params.devEUI + '?token=' + this.token;
+    let url = this.restProxy + this.deviceDetailBaseUrl + params.devEUI + '?token=' + this.token;
 
     if (params.limit) {
       url += '&limit=' + params.limit;
@@ -130,6 +132,8 @@ export enum Order {
 }
 
 export class DeviceDetailParams {
+  // kdo zapricinil nacteni - napr pro reload jen pro konkretni graf
+  publisher: string;
   
   payloadType: PayloadType;
 

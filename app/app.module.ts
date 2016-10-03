@@ -11,6 +11,7 @@ import { SliderComponent } from './components/slider.component';
 import { StatisticsComponent } from './components/statistics/statistics.component';
 import { StatisComponent } from './components/statistics/statis.component';
 import { TabsStatisComponent } from './components/statistics/tabs.statis.component';
+import { TableStatisComponent } from './components/statistics/table.statis.component';
 import { HttpModule }    from '@angular/http';
 import { Logger, Options, Level  } from "angular2-logger/core"; 
 import { DropdownModule } from "ng2-dropdown";
@@ -42,6 +43,7 @@ import { ChartsModule } from 'ng2-charts/ng2-charts';
     SideMenuComponent,
     StatisComponent,
     TabsStatisComponent,
+    TableStatisComponent,
     ],
   bootstrap: [AppComponent]
 })

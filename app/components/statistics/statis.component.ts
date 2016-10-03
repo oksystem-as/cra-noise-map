@@ -32,11 +32,14 @@ export enum StatisType {
     styleUrls: ['app/components/statistics/statis.component.css'],
     // encapsulation: ViewEncapsulation.Native
 })
-export class StatisComponent implements AfterViewInit {
+export class StatisComponent {//implements AfterViewInit {
     @ViewChild('myChart')
     private _chart;
+    @ViewChild('myTable')
+    private _table;
 
     public statisId = "statis" + RandomUtils.getRandom();
+    public sliderId = "slider" + RandomUtils.getRandom();
 
     private devEUI;
     private slider;
@@ -45,7 +48,8 @@ export class StatisComponent implements AfterViewInit {
 
     public barChartOptions: any = {
         scaleShowVerticalLines: false,
-        responsive: true
+        responsive: true,
+        maintainAspectRatio: false,
     };
 
     public barChartLabels: string[] = [];
@@ -57,11 +61,26 @@ export class StatisComponent implements AfterViewInit {
     @Input()
     public statisType: StatisType = StatisType.MONTH;
 
+
+    public refreshSlider(data) {
+        console.log(' [refreshSlider]: ', this.slider, data);
+        // hotfix - nevim uplne proc, ale funguje to ...
+        setTimeout(() => {
+            if (this.slider) {
+                this.slider.relayout();
+            }
+        }, 1)
+    }
+
     private removeSlider() {
         if (this.slider) {
             this.slider.destroy();
         }
     }
+
+    // ngOnChanges(data) {
+    //     console.log("StatisComponent.ngOnChanges", data);
+    // }
 
     private updateChart(data: number, label: string) {
         console.log(' [updateChart]: ', data, label);
@@ -69,8 +88,12 @@ export class StatisComponent implements AfterViewInit {
         this.barChartLabels.push(label);
         let sch = new SimpleChange(this.barChartData, this.barChartData);
         let obj = { data: sch };
-        if(this._chart != undefined && this._chart.chart != undefined){
+        if (this._chart != undefined && this._chart.chart != undefined) {
             this._chart.ngOnChanges(obj);
+        }
+
+        if (this._table != undefined) {
+            this._table.refresh();
         }
     }
 
@@ -80,20 +103,24 @@ export class StatisComponent implements AfterViewInit {
         this.barChartLabels.length = 0;
         let sch = new SimpleChange(this.barChartData, this.barChartData);
         let obj = { data: sch };
-        if(this._chart != undefined && this._chart.chart != undefined){
+        if (this._chart != undefined && this._chart.chart != undefined) {
             this._chart.ngOnChanges(obj);
+        
+        }
+         if (this._table != undefined) {
+            this._table.refresh();
         }
     }
 
     constructor(private log: Logger, private sensorsSharedService: SensorsSharedService, elementRef: ElementRef) {
-            // this.elementRef = elementRef;
-    
+        // this.elementRef = elementRef;
         var source = sensorsSharedService.getStatisticsData()
             .filter(data => {
-                return data != undefined && data.payloads != undefined && data.payloadType == PayloadType.ARF8084BA
+                return data != undefined && data.payloads != undefined && data.payloadType == PayloadType.ARF8084BA &&
+                    (data.publisher == undefined || data.publisher == this.sliderId)
             }).subscribe(data => {
                 this.clearChart();
-                
+
                 if (this.firstInitSlider) {
                     this.initSlider(data.payloads[0].createdAt);
                     this.firstInitSlider = false;
@@ -160,7 +187,7 @@ export class StatisComponent implements AfterViewInit {
 
         this.log.debug(diff);
 
-        let ticks_labels = []; 
+        let ticks_labels = [];
         let ticks = [];
 
         // definice prvniho bodu
@@ -181,10 +208,10 @@ export class StatisComponent implements AfterViewInit {
 
         this.log.debug(ticks);
         this.log.debug(ticks_labels);
-        
-        this.log.debug("init slider - ", this.statisType )
+
+        this.log.debug("init slider - ", this.statisType)
         // let elem = this.elementRef.nativeElement.shadowRoot.querySelector('#' + this.statisId);
-        let slider = new Slider('#' + this.statisId, {
+        this.slider = new Slider('#' + this.statisId, {
             ticks: ticks,
             ticks_labels: ticks_labels,
             ticks_snap_bounds: diff / 24,
@@ -194,7 +221,7 @@ export class StatisComponent implements AfterViewInit {
                 // console.log(value)
                 return new Date(value[0]).toLocaleString() + " : " + new Date(value[1]).toLocaleString();
             },
-            id: "slider3"
+            id: this.sliderId,
         });
 
         this.sliderEvent.asObservable()
@@ -214,14 +241,16 @@ export class StatisComponent implements AfterViewInit {
                         devEUI: this.devEUI,
                         //limit: 5,
                         payloadType: PayloadType.ARF8084BA,
-                        order: Order.asc
+                        order: Order.asc,
+                        publisher: this.sliderId,
                     }
 
                     this.sensorsSharedService.loadStatisticsData(devicedetailParams);
-            }});
+                }
+            });
 
         // pokud se vybere nove datum provede se prenacteni dat s novym vychozim datem
-        slider.on("slideStop", newDate => {
+        this.slider.on("slideStop", newDate => {
             // z duvoudu moznosti pouziti debounceTime
             this.sliderEvent.next(newDate);
         });
@@ -251,51 +280,42 @@ export class StatisComponent implements AfterViewInit {
                 return avgObj;
             })
 
-            // (data, idx) => {
-            //     console.log("flatMap", data.payloads);
-            //     return data.payloads;
-            // })
-
-
-            // let concatDataStream = logAvgDataStream.concatMap((data, idx) => {
-            //     console.log(data);
-            //     let all = []
-            // 	return Observable
-            // .interval(100)
-            // .take(x).map(function() { return i; });
-            // });
-
             // // zobrazeni a spusteni straemu
             logAvgDataStream.subscribe(
                 data => {
-                    let dateFormat;
-                    switch (this.statisType) {
-                        case StatisType.HOUR: {
-                            dateFormat = data.time.toLocaleString();
-                            break;
-                        }
-                        case StatisType.DAY6_22:
-                        case StatisType.DAY18_22:
-                        case StatisType.NIGHT22_6:
-                        case StatisType.DAY24:
-                        case StatisType.WEEK: {
-                            dateFormat = data.time.toLocaleDateString();
-                            break;
-                        }
-                        case StatisType.MONTH: {
-                            // TODO jen mesice 
-                            dateFormat = data.time.toLocaleDateString();
-                            break;
-                        }
-                        default: throw "nepodporovany graf " + this.statisType;
-                    }
+                    let dateFormat = this.getDateFormat(data.time);
                     this.updateChart(Math.round(data.logAverange), dateFormat);
                     //    console.log(' [data]: ', data.time.toLocaleString(), ' logAverange: ' + data.logAverange); 
                 },
 
                 (err) => { console.log('Error: ' + err); },
-                () => { /*console.log('Completed')*/ });
+                () => { console.log('Completed') });
         });
+    }
+
+    private getDateFormat(date): string {
+        let dateFormat;
+        switch (this.statisType) {
+            case StatisType.HOUR: {
+                dateFormat = date.toLocaleString();
+                break;
+            }
+            case StatisType.DAY6_22:
+            case StatisType.DAY18_22:
+            case StatisType.NIGHT22_6:
+            case StatisType.DAY24:
+            case StatisType.WEEK: {
+                dateFormat = date.toLocaleDateString();
+                break;
+            }
+            case StatisType.MONTH: {
+                // TODO jen mesice 
+                dateFormat = date.toLocaleDateString();
+                break;
+            }
+            default: throw "nepodporovany graf " + this.statisType;
+        }
+        return dateFormat
     }
 
     private getValue(payload: Payload): number {
@@ -308,38 +328,11 @@ export class StatisComponent implements AfterViewInit {
 
     }
 
-    // @Input() addItemStream:Observable<any>;
-    // counter = 0;
+    // ngOnInit() {
+    //     console.log(' [ngOnInit]: ', this.statisType);
+    // }
 
-    ngOnInit() {
-        console.log(' [ngOnInit]: ', this.statisType);
-    }
-
-    ngAfterViewInit(): void {
-        console.log(' [ngAfterViewInit]: ', this.statisType);
-    }
+    // ngAfterViewInit(): void {
+    //     console.log(' [ngAfterViewInit]: ', this.statisType);
+    // }
 }
-
-
-  //     var ctx = document.getElementById("myChart").getContext("2d");
-        // var data = {
-        //     labels: ["IBM", "Microsoft"],
-        //     datasets: [{
-        //         label: "Product A",
-        //         fillColor: "rgba(220,220,220,0.5)",
-        //         strokeColor: "rgba(220,220,220,0.8)",
-
-        //         data: [25, 75]
-        //     }, {
-        //         label: "Product B",
-        //         fillColor: "rgba(151,187,205,0.5)",
-        //         strokeColor: "rgba(151,187,205,0.8)",
-
-        //         data: [75, 25]
-        //     }]
-
-        // }
-        // var myBarChart = new Chart(ctx).Bar(data);
-        // setTimeout(function(){
-        //   myBarChart.addData([40, 60], "Google");
-        // },1000);

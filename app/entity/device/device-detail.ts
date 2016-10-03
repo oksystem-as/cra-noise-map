@@ -5,6 +5,7 @@ export class DeviceDetail {
     records:Record[];  
     payloadType: PayloadType;
     devEUI: string;
+    publisher: string;
 }
 
 export class Lrrs {

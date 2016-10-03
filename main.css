@@ -41,12 +41,12 @@
 
 
 #statis {
-    font-family: Roboto,Arial,sans-serif; 
+    /*font-family: Roboto,Arial,sans-serif; */
     /*background-color: white;*/
-    width: 280px;
-    height: 150px;
-     padding: 10px; 
-     margin-top: 10px;
+    /*width: 580px;*/
+    height: 180px;
+     /*padding: 10px; */
+     /*margin-top: 10px;*/
     /*margin-right: 10px;*/
     /*margin-top: -23%;
     position: absolute;*/
@@ -64,8 +64,8 @@
   #statistics {
     font-family: Roboto,Arial,sans-serif; 
     background-color: white;
-    width:  680px;;
-    height: 300px;
+    width:  590px;;
+    height: 400px;
      margin-bottom: 10px; 
     margin-right: 10px;
     /*margin-top: -23%;

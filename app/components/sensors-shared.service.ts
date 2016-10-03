@@ -72,13 +72,14 @@ export class SensorsSharedService {
 
     // nacte payloady zarizeni dle zadanych parametru - momentalne napsane primo na gps cidla
     private loadDeviceDetails(devicedetailParams: DeviceDetailParams, behaviorSubject: BehaviorSubject<any>) {
-
+        
         this.craService.getDeviceDetail(devicedetailParams).subscribe(response => {
 
             if (response && response.records && response.records instanceof Array) {
                 var sensor = new Sensor();
                 sensor.devEUI = response.devEUI;
                 sensor.payloadType = response.payloadType;
+                sensor.publisher = response.publisher;
                 response.records.forEach(record => {
                     // let payload: ARF8084BAPayload = aRF8084BAPayloadResolver.resolve(record.payloadHex)
                     let payload = this.reslovePayload(devicedetailParams.payloadType, record.payloadHex)
@@ -111,6 +112,7 @@ export class SensorsSharedService {
                     let sensor = new Sensor();
                     sensor.devEUI = response.devEUI;
                     sensor.payloadType = response.payloadType;
+                    sensor.publisher = response.publisher;
                     response.records.forEach((record: Record) => {
                         let payload = this.reslovePayload(this.deviceType, record.payloadHex);
                         payload.createdAt = new Date(record.createdAt);
