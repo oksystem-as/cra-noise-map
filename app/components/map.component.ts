@@ -10,10 +10,11 @@ import { Observable } from "rxjs/Observable";
 // import { DeviceDetail } from '../entity/device/detail/device-detail';.
 import { Sensor } from '../entity/sensor';
 import { Payload, PayloadType } from '../payloads/payload';
-import { SensorsSharedService } from './sensors-shared.service';
+import { SensorsSharedService, Overlay } from './sensors-shared.service';
 
 import { ARF8084BAPayload } from '../payloads/ARF8084BAPayload';
 import { RHF1S001Payload } from '../payloads/RHF1S001Payload';
+import { ObjectUtils } from '../utils/utils';
 import { ColorUtils } from '../utils/utils';
 
 class Point {
@@ -34,35 +35,10 @@ export class MapComponent implements AfterViewInit {
   private makers: any[] = [];
   private points: Point[] = [];
   private chkbox = false;
-  private overlays: { checked: boolean, value: number, text: string }[] = [
-    // ŽELEZNICE
-    { checked: false, value: 1, text: "Železnice-Ln" },
-    { checked: false, value: 2, text: "Železnice-Ldvn" },
-    { checked: false, value: 3, text: "Železnice-Ln-generalizováno" },
-    { checked: false, value: 4, text: "Železnice-Ldvn-generalizováno" },
-    { checked: false, value: 5, text: "Oblast výpočtu hlukových hladin železnic" },
-    { checked: false, value: 6, text: "Železniční trať zahrnutá do výpočtu hlukových hladin" },
-    // SILNICE
-    { checked: false, value: 8, text: "Silnice-Ln" },
-    { checked: false, value: 9, text: "Silnice-Ldvn" },
-    { checked: false, value: 10, text: "Oblast výpočtu hlukových hladin silnic" },
-    { checked: false, value: 11, text: "Silnice zahrnuté do výpočtu hlukových hladin" },
-    // HLUK - Praha, Brno, Ostrava
-    { checked: false, value: 12, text: "Oblast výpočtu hlukových hladin - Praha - Brno - Ostrava" },
-    // HLUK - Ostrava
-    { checked: false, value: 14, text: "Ostrava-Ln" },
-    { checked: false, value: 15, text: "Ostrava-Ldvn" },
-    // HLUK - Brno
-    { checked: false, value: 17, text: "Brno-Ln" },
-    { checked: false, value: 18, text: "Brno-Ldvn" },
-    // HLUK - Praha
-    { checked: false, value: 20, text: "Praha-Ln" },
-    { checked: false, value: 21, text: "Praha-Ldvn" },
-    // HLUK - Letiště Ruzyně
-    { checked: false, value: 23, text: "Letiště Ruzyně-Ln" },
-    { checked: false, value: 24, text: "Letiště Ruzyně-Ldvn" }
-  ]
+  private overlays: { checked: boolean, value: number, text: string, position: number }[];
   private noiseMapType;
+
+
 
   private isLayerSelected() {
     var returnValue = false;
@@ -140,12 +116,21 @@ export class MapComponent implements AfterViewInit {
 
         // determinate which layers should be shown
         var layers = "";
-        this.overlays.forEach(element => {
-          if (element.checked) {
-            layers += element.value + ',';
+        var unsortedLayers: Overlay[] = ObjectUtils.deepCopyArr(this.overlays);
+        this.log.debug("Nesetridene pole", unsortedLayers);
+        var sortedLayers: Overlay[] = unsortedLayers.sort((n1, n2) => n1.position - n2.position);
+        this.log.debug("Setridene pole", sortedLayers);
+
+        for (let index = 0; index < sortedLayers.length; index++) {
+          if (sortedLayers[index].position > 0) {
+            layers += sortedLayers[index].value + ',';
           }
-        });
-        layers = layers.substring(0, layers.length - 1);
+        }
+        // remove comma (last char)
+        if (layers.length > 0) {
+          layers = layers.substring(0, layers.length - 1);
+          this.log.debug("Vrstvy k vykresleni: ", layers);
+        }
 
         //base WMS URL
         var url = "http://geoportal.gov.cz/ArcGIS/services/CENIA/cenia_hluk/MapServer/WMSServer?";
@@ -168,8 +153,10 @@ export class MapComponent implements AfterViewInit {
       minZoom: 0,
       name: 'noise'
     });
-    this.map.controls[google.maps.ControlPosition.RIGHT_TOP].push(document.getElementById('statistics'));
 
+    this.map.controls[google.maps.ControlPosition.RIGHT_CENTER].push(document.getElementById('statistics'));
+    this.map.controls[google.maps.ControlPosition.LEFT_CENTER].push(document.getElementById('tabs-map-legend'));
+    this.map.controls[google.maps.ControlPosition.RIGHT_TOP].push(document.getElementById('statistics'));
     this.map.controls[google.maps.ControlPosition.BOTTOM_CENTER].push(document.getElementById('baseMapLegend'));
     
   }
@@ -207,11 +194,34 @@ export class MapComponent implements AfterViewInit {
   }
 
   private addNewDataListener() {
+
     // this.sensorsSharedService.getAnimationSensor().subscribe((sensor: Sensor) => { 
     //   this.removeMarkers()
     //   Observable.from(sensor.payloads).timeInterval(200, 100);
     // });
 
+    this.sensorsSharedService.getOverlays().debounceTime(1500).filter((overlays: Overlay[]) => {
+      return overlays != undefined && overlays.length > 0
+    }).subscribe((overlays: Overlay[]) => {
+      this.overlays = overlays;
+
+      let checked = false;
+      for (var index = 0; index < this.overlays.length; index++) {
+        let overlay = this.overlays[index];
+        if (overlay.checked) {
+          checked = true;
+          break;
+        }
+      }
+      if (this.map.overlayMapTypes.length > 0) {
+        this.map.overlayMapTypes.pop();
+      }
+
+      if (checked) {
+        this.map.overlayMapTypes.push(this.noiseMapType);
+      }
+    })
+    
     // zvyrazneni vybraneho
     this.sensorsSharedService.getSelectedSensor().subscribe((sensor: Sensor) => {
       this.makers.forEach(marker => {
@@ -236,6 +246,7 @@ export class MapComponent implements AfterViewInit {
     });
 
     this.sensorsSharedService.getSensors().subscribe((sensors: Sensor[]) => {
+
       // odstranim predchozi markery
       this.removeMarkers();
       this.removeHeatMap();

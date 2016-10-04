@@ -17,6 +17,13 @@ import { Payload, PayloadType } from '../payloads/payload';
 import { Sensor } from '../entity/sensor';
 import { DateUtils } from '../utils/utils';
 
+export class Overlay {
+    checked: boolean;
+    value: number;
+    text: string;
+    position: number;
+}
+
 @Injectable()
 export class SensorsSharedService {
 
@@ -25,6 +32,7 @@ export class SensorsSharedService {
     private animationSensor: BehaviorSubject<Sensor> = new BehaviorSubject(null);
     private statisticsData: BehaviorSubject<Sensor> = new BehaviorSubject(null);
     private minDate: BehaviorSubject<Date> = new BehaviorSubject(this.minDateLimit);
+    private overlays: BehaviorSubject<Overlay[]> = new BehaviorSubject(null);
 
     private selectedSensor: BehaviorSubject<Sensor> = new BehaviorSubject(null);
 
@@ -62,6 +70,16 @@ export class SensorsSharedService {
         this.selectedSensor.next(sensor);
     }
 
+    getOverlays(): Observable<Overlay[]> {
+        this.log.debug("SensorsSharedService.getOverlays()");
+        return this.overlays.asObservable();
+    }
+
+    setOverlays(overlays: Overlay[]) {
+        this.log.debug("SensorsSharedService.setOverlays()", overlays);
+        this.overlays.next(overlays);
+    }
+
     getStatisticsData(): Observable<Sensor> {
         this.log.debug("SensorsSharedService.getStatisticsData()");
         return this.statisticsData.asObservable();
@@ -96,7 +114,7 @@ export class SensorsSharedService {
 
     // nacte payloady zarizeni dle zadanych parametru - momentalne napsane primo na gps cidla
     private loadDeviceDetails(devicedetailParams: DeviceDetailParams, behaviorSubject: BehaviorSubject<any>) {
-        
+
         this.craService.getDeviceDetail(devicedetailParams).subscribe(response => {
 
             if (response && response.records && response.records instanceof Array) {
