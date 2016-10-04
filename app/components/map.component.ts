@@ -142,11 +142,10 @@ export class MapComponent implements AfterViewInit {
       name: 'noise'
     });
 
-    this.map.controls[google.maps.ControlPosition.RIGHT_CENTER].push(document.getElementById('statistics'));
-    this.map.controls[google.maps.ControlPosition.LEFT_CENTER].push(document.getElementById('tabs-map-legend'));
     this.map.controls[google.maps.ControlPosition.RIGHT_TOP].push(document.getElementById('statistics'));
+    this.map.controls[google.maps.ControlPosition.RIGHT_TOP].push(document.getElementById('tabs-map-legend'));
     this.map.controls[google.maps.ControlPosition.BOTTOM_CENTER].push(document.getElementById('baseMapLegend'));
-    
+
   }
 
   private onChkboxClick(payload) {
@@ -183,10 +182,19 @@ export class MapComponent implements AfterViewInit {
 
   private addNewDataListener() {
 
-    // this.sensorsSharedService.getAnimationSensor().subscribe((sensor: Sensor) => { 
-    //   this.removeMarkers()
-    //   Observable.from(sensor.payloads).timeInterval(200, 100);
-    // });
+    this.sensorsSharedService.getAnimationSensor().filter((sensor: Sensor) => {
+      return sensor != undefined && sensor.payloads != undefined
+    }).subscribe((sensor: Sensor) => {
+      this.removeMarkers();
+      let obs = Observable.from(sensor.payloads)
+      // .flatMap((data, idx) => {
+      //   console.log("flatMap", data);
+      //   return data;
+      // })
+      obs.subscribe(payload => {
+        console.log("AnimationSensor ", payload);
+      })
+    });
 
     this.sensorsSharedService.getOverlays().debounceTime(1500).filter((overlays: Overlay[]) => {
       return overlays != undefined && overlays.length > 0
@@ -209,7 +217,7 @@ export class MapComponent implements AfterViewInit {
         this.map.overlayMapTypes.push(this.noiseMapType);
       }
     })
-    
+
     // zvyrazneni vybraneho
     this.sensorsSharedService.getSelectedSensor().subscribe((sensor: Sensor) => {
       this.makers.forEach(marker => {
@@ -324,7 +332,7 @@ export class MapComponent implements AfterViewInit {
 
     marker.sensor = sensor;
     marker.isSelected = false;
-    
+
     // defaultni hodnota pro notSelIcon
     marker.pomIconNotSelected = this.getColorIcon(value);
     // defaultni hodnota pro SelIcon

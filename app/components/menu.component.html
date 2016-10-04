@@ -27,5 +27,22 @@
         </li>
       </ul>
     </div>
+     <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li class="dropdown" dropdown>
+          <a class=" dropdown dropdown-toggle" dropdown-open data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Čidla Animace<span class="caret"></span></a>
+          <ul class="dropdown-menu" dropdown-not-closable-zone>
+            <li *ngFor="let sensor of sensors, let ndx = index">
+              <a *ngIf="isSensorOnMap(sensor)" (click)="onClickAnim(sensor)">
+                <strong>{{sensor.devEUI}}</strong>
+              </a>
+               <a *ngIf="!isSensorOnMap(sensor)" (click)="onClickAnim(sensor)">
+                {{sensor.devEUI}}
+              </a>
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </div>
   </div>
 </nav>

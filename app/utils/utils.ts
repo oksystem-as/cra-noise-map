@@ -34,9 +34,10 @@ export class ColorUtils {
             if (valMin < value) {
                 color = ColorUtils.colorValueMap[index].color;
             } else {
-                return color
+                return color;
             }
         }
+        return color;
     }
 }
 export class RandomUtils {

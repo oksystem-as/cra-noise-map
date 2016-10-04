@@ -50,6 +50,10 @@ export class MenuComponent {
 
   }
 
+  onClickAnim(sensor: Sensor) {
+    this.sensorsSharedService.setAnimationSensor(sensor);
+  }
+
   onClick(sensor: Sensor) {
     this.sensorsSharedService.setSelectedSensor(sensor);
     this.devicedetailParamsDefault.devEUI =sensor.devEUI;

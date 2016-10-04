@@ -30,6 +30,9 @@ export class BaseMapLegendComponent {
 
     constructor() {
         console.log("BaseMapLegendComponent", this.legends)
+        console.log("BaseMapLegendComponent", ColorUtils.getColor(50));
+        console.log("BaseMapLegendComponent", ColorUtils.getColor(80));
+        console.log("BaseMapLegendComponent", ColorUtils.getColor(100));
         //this.legends.push({ value: 0, color: "#FFFFFF", valueText: "do 400 dB"},)
     }
 
