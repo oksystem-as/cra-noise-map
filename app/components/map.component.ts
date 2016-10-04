@@ -38,18 +38,6 @@ export class MapComponent implements AfterViewInit {
   private overlays: { checked: boolean, value: number, text: string, position: number }[];
   private noiseMapType;
 
-
-
-  private isLayerSelected() {
-    var returnValue = false;
-    this.overlays.forEach(element => {
-      if (element.checked) {
-        returnValue = true;
-      }
-    });
-    return returnValue;
-  }
-
   private iconOn = {
     path: google.maps.SymbolPath.CIRCLE,
     scale: 12,
