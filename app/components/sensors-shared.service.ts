@@ -114,7 +114,7 @@ export class SensorsSharedService {
 
     // nacte payloady zarizeni dle zadanych parametru - momentalne napsane primo na gps cidla
     private loadDeviceDetails(devicedetailParams: DeviceDetailParams, behaviorSubject: BehaviorSubject<any>) {
-
+        
         this.craService.getDeviceDetail(devicedetailParams).subscribe(response => {
 
             if (response && response.records && response.records instanceof Array) {
