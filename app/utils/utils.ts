@@ -4,6 +4,41 @@ import { GroupedObservable } from 'rxjs/operator/groupBy';
 import { Payload, PayloadType } from '../payloads/payload';
 import 'rxjs/Rx';
 
+
+export class ColorLegend {
+    value: number;
+    color: string;
+    valueText: string;
+}
+
+export class ColorUtils {
+    //private static colorValueMap: Map<string, boolean> = new Map<string, boolean>(){} ;
+    public static colorValueMap: ColorLegend[] =
+    [
+        { value: 0, color: "#1f8545", valueText: "do 40 dB"},
+        { value: 40, color: "#79c67a", valueText: "40 - 45 dB"},
+        { value: 45, color: "#d3ffbe", valueText: "45 - 50 dB"},
+        { value: 50, color: "#ffffbe", valueText: "50 - 45 dB"},
+        { value: 55, color: "#ffff74", valueText: "55 - 60 dB"},
+        { value: 60, color: "#ffc200", valueText: "60 - 65 dB"},
+        { value: 65, color: "#e60000", valueText: "65 - 70 dB"},
+        { value: 70, color: "#b50000", valueText: "70 - 75 dB"},
+        { value: 75, color: "#630a6c", valueText: "75 - 80 dB"},
+        { value: 80, color: "#001f9d", valueText: "80 dB a více"},
+    ];
+
+    public static getColor(value: number): string {
+        let color;
+        for (var index = 0; index < ColorUtils.colorValueMap.length; index++) {
+            let valMin = ColorUtils.colorValueMap[index].value;
+            if (valMin < value) {
+                color = ColorUtils.colorValueMap[index].color;
+            } else {
+                return color
+            }
+        }
+    }
+}
 export class RandomUtils {
     private static rdmNum = [];
 

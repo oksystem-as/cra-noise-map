@@ -13,7 +13,11 @@ import { SensorsSharedService, Overlay } from './sensors-shared.service';
 
 import { ARF8084BAPayload } from '../payloads/ARF8084BAPayload';
 import { RHF1S001Payload } from '../payloads/RHF1S001Payload';
+<<<<<<< HEAD
 import { ObjectUtils } from '../utils/utils';
+=======
+import { ColorUtils } from '../utils/utils';
+>>>>>>> 972a0088b95f294e0a44cf966a7a281cde4eb1cd
 
 class Point {
   location: google.maps.LatLng;
@@ -29,31 +33,48 @@ export class MapComponent implements AfterViewInit {
   private mapId = "map"
   private map;
   private heatmap;
-  private makers: google.maps.Marker[] = [];
+  // private makers: google.maps.Marker[] = [];
+  private makers: any[] = [];
   private points: Point[] = [];
   private chkbox = false;
   private overlays: { checked: boolean, value: number, text: string, position: number }[];
   private noiseMapType;
 
+<<<<<<< HEAD
   private iconOff = {
+=======
+  private isLayerSelected() {
+    var returnValue = false;
+    this.overlays.forEach(element => {
+      if (element.checked) {
+        returnValue = true;
+      }
+    });
+    return returnValue;
+  }
+
+  private iconOn = {
+>>>>>>> 972a0088b95f294e0a44cf966a7a281cde4eb1cd
     path: google.maps.SymbolPath.CIRCLE,
     scale: 12,
     size: 30,
-    strokeColor: '#393',
-    fillColor: 'yellow',
-    fillOpacity: 0.8,
-    strokeWeight: 2
+    // strokeColor: '#444',
+    // fillColor: 'red',
+    // fillOpacity: 0.8,
+    strokeWeight: 4,
+    strokeColor: 'red',
   };
 
-  private iconOn = {
+  private iconSelected = {
     path: google.maps.SymbolPath.CIRCLE,
     scale: 12,
     size: 30,
     strokeColor: '#444',
-    fillColor: 'red',
+    fillColor: 'orange',
     fillOpacity: 0.8,
     strokeWeight: 2,
   };
+
 
   constructor(private log: Logger, private sensorsSharedService: SensorsSharedService) {
   }
@@ -136,8 +157,24 @@ export class MapComponent implements AfterViewInit {
       minZoom: 0,
       name: 'noise'
     });
+<<<<<<< HEAD
     this.map.controls[google.maps.ControlPosition.RIGHT_CENTER].push(document.getElementById('statistics'));
     this.map.controls[google.maps.ControlPosition.LEFT_CENTER].push(document.getElementById('tabs-map-legend'));
+=======
+    this.map.controls[google.maps.ControlPosition.RIGHT_TOP].push(document.getElementById('statistics'));
+
+    this.map.controls[google.maps.ControlPosition.BOTTOM_CENTER].push(document.getElementById('baseMapLegend'));
+    
+  }
+
+  private onChkboxClick(payload) {
+    // on/off selected map layer
+    if (payload.checked == true) {
+      this.map.overlayMapTypes.push(this.noiseMapType);
+    } else {
+      this.map.overlayMapTypes.pop();
+    }
+>>>>>>> 972a0088b95f294e0a44cf966a7a281cde4eb1cd
   }
 
   // Normalizes the coords that tiles repeat across the x axis (horizontally)
@@ -164,6 +201,7 @@ export class MapComponent implements AfterViewInit {
   }
 
   private addNewDataListener() {
+<<<<<<< HEAD
     this.sensorsSharedService.getOverlays().debounceTime(1500).filter((overlays: Overlay[]) => {
       return overlays != undefined && overlays.length > 0
     }).subscribe((overlays: Overlay[]) => {
@@ -186,6 +224,33 @@ export class MapComponent implements AfterViewInit {
       }
     })
     this.sensorsSharedService.getSensor().subscribe((sensors: Sensor[]) => {
+=======
+
+    // zvyrazneni vybraneho
+    this.sensorsSharedService.getSelectedSensor().subscribe((sensor: Sensor) => {
+      this.makers.forEach(marker => {
+
+        if (marker.sensor.devEUI === sensor.devEUI) {
+          marker.setAnimation(google.maps.Animation.BOUNCE);
+          marker.setIcon(this.iconSelected)
+          marker.isSelected = true;
+          setTimeout(() => {
+            marker.setAnimation(null);
+          }, 500);
+          setTimeout(() => {
+            marker.setIcon(marker.pomIconNotSelected);
+            marker.isSelected = false;
+          }, 2000);
+          console.log("getSelectedSensor found ", marker);
+        } else {
+          marker.setIcon(marker.pomIconNotSelected);
+          marker.isSelected = false;
+        }
+      });
+    });
+
+    this.sensorsSharedService.getSensors().subscribe((sensors: Sensor[]) => {
+>>>>>>> 972a0088b95f294e0a44cf966a7a281cde4eb1cd
       // odstranim predchozi markery
       this.removeMarkers();
       this.removeHeatMap();
@@ -197,8 +262,13 @@ export class MapComponent implements AfterViewInit {
             if (payload.longtitude != undefined && payload.latitude != undefined) {
               //this.log.debug("kreslim ", payload.latitude, payload.longtitude);
 
+<<<<<<< HEAD
               var infowindow = this.createInfoWindow(payload.latitudeText + " " + payload.longtitudeText + " hluk: " + payload.temp + " ID: " + sensor.devEUI);
               this.createMarker(payload.latitude, payload.longtitude, infowindow);
+=======
+              var infowindow = this.createInfoWindow(payload, sensor);
+              this.createMarker(payload.latitude, payload.longtitude, infowindow, payload.temp, sensor);
+>>>>>>> 972a0088b95f294e0a44cf966a7a281cde4eb1cd
               // this.createHeatPoint(payload.latitude, payload.longtitude, payload.temp);
             }
           });
@@ -208,6 +278,18 @@ export class MapComponent implements AfterViewInit {
       this.log.debug("pocet bodu " + this.points.length)
       this.createHeatMap();
     });
+  }
+
+  private getColorIcon(value: number) {
+    return {
+      path: google.maps.SymbolPath.CIRCLE,
+      scale: 12,
+      size: 30,
+      strokeColor: '#444',
+      fillColor: ColorUtils.getColor(value),
+      fillOpacity: 0.8,
+      strokeWeight: 2,
+    };
   }
 
   private removeHeatMap(): void {
@@ -242,21 +324,36 @@ export class MapComponent implements AfterViewInit {
     this.makers.length = 0;
   }
 
-  private createInfoWindow(text: string): google.maps.InfoWindow {
+  private createInfoWindow(payload: ARF8084BAPayload, sensor: Sensor): google.maps.InfoWindow {
+    let text = "<strong>pozice:</strong> " + payload.latitudeText + "N " + payload.longtitudeText + "E<br> " +
+      "<strong>hluk:</strong> " + payload.temp + "dB<br> " +
+      "<strong>ID:</strong> " + sensor.devEUI;
+
     return new google.maps.InfoWindow({
-      content: "<div>" + text + "</div>",
-      //content: JSON.stringify(payload, null, ' '),
+      content: "<div class='info-window'>" + text + "</div>",
     });
   }
 
-  private createMarker(latitude: number, longtitude: number, infoWin: google.maps.InfoWindow): google.maps.Marker {
-    var marker = new google.maps.Marker({
+  private createMarker(latitude: number, longtitude: number, infoWin: google.maps.InfoWindow, value: number, sensor: Sensor): google.maps.Marker {
+    var marker: any = new google.maps.Marker({
       position: new google.maps.LatLng(latitude, longtitude),
       map: this.map,
       //animation: google.maps.Animation.DROP,
-      icon: this.iconOff,
-      title: latitude.toString(),
+      icon: this.getColorIcon(value),
+      title: value + "dB",
     });
+
+    marker.sensor = sensor;
+    marker.isSelected = false;
+    
+    // defaultni hodnota pro notSelIcon
+    marker.pomIconNotSelected = this.getColorIcon(value);
+    // defaultni hodnota pro SelIcon
+    marker.pomIconSelected = this.getColorIcon(value)
+    marker.pomIconSelected.strokeColor = "green";
+    marker.pomIconSelected.strokeWeight = 6;
+    marker.pomIconSelected.size = 20;
+    marker.pomIconSelected.scale = 16;
 
     marker.addListener('click', () => {
       infoWin.open(this.map, marker);
@@ -264,12 +361,15 @@ export class MapComponent implements AfterViewInit {
 
     marker.addListener('mouseover', () => {
       // marker.setAnimation(google.maps.Animation.BOUNCE);
-      marker.setIcon(this.iconOn)
+
+      marker.setIcon(marker.pomIconSelected)
       this.log.debug(latitude, longtitude)
     });
 
     marker.addListener('mouseout', () => {
-      marker.setIcon(this.iconOff)
+      if (!marker.isSelected) {
+        marker.setIcon(marker.pomIconNotSelected)
+      }
     });
 
     this.makers.push(marker);

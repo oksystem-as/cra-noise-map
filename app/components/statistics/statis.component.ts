@@ -55,7 +55,33 @@ export class StatisComponent {//implements AfterViewInit {
     public barChartLabels: string[] = [];
     public barChartType: string = 'line';
     public barChartLegend: boolean = false;
-    public barChartData: any[] = [];
+    public barChartData = [
+        {
+            label: "hluk(dB)", 
+            borderWidth: 1, 
+            data: [],
+
+            // fill: false,
+            // lineTension: 0.1,
+            // backgroundColor: "rgba(75,192,192,0.4)",
+            // borderColor: "rgba(75,192,192,1)",
+            // borderCapStyle: 'butt',
+            // borderDash: [],
+            // borderDashOffset: 0.0,
+            // borderJoinStyle: 'miter',
+            // pointBorderColor: "rgba(75,192,192,1)",
+            // pointBackgroundColor: "#fff",
+            // pointBorderWidth: 1,
+            // pointHoverRadius: 5,
+            // pointHoverBackgroundColor: "rgba(75,192,192,1)",
+            // pointHoverBorderColor: "rgba(220,220,220,1)",
+            // pointHoverBorderWidth: 2,
+            // pointRadius: 1,
+            // pointHitRadius: 10,
+            // spanGaps: false,
+
+        }];
+
     // private elementRef;
 
     @Input()
@@ -75,6 +101,8 @@ export class StatisComponent {//implements AfterViewInit {
     private removeSlider() {
         if (this.slider) {
             this.slider.destroy();
+            this.sliderEvent.complete();
+            this.sliderEvent =  new BehaviorSubject(null);
         }
     }
 
@@ -83,8 +111,8 @@ export class StatisComponent {//implements AfterViewInit {
     // }
 
     private updateChart(data: number, label: string) {
-        console.log(' [updateChart]: ', data, label);
-        this.barChartData.push(data);
+        // console.log(' [updateChart]: ', data, label);
+        this.barChartData[0].data.push(data);
         this.barChartLabels.push(label);
         let sch = new SimpleChange(this.barChartData, this.barChartData);
         let obj = { data: sch };
@@ -98,16 +126,16 @@ export class StatisComponent {//implements AfterViewInit {
     }
 
     private clearChart() {
-        console.log(' [clearChart]: ', this.statisType);
-        this.barChartData.length = 0;
+        // console.log(' [clearChart]: ', this.statisType);
+        this.barChartData[0].data.length = 0;
         this.barChartLabels.length = 0;
         let sch = new SimpleChange(this.barChartData, this.barChartData);
         let obj = { data: sch };
         if (this._chart != undefined && this._chart.chart != undefined) {
             this._chart.ngOnChanges(obj);
-        
+
         }
-         if (this._table != undefined) {
+        if (this._table != undefined) {
             this._table.refresh();
         }
     }
@@ -117,11 +145,22 @@ export class StatisComponent {//implements AfterViewInit {
         var source = sensorsSharedService.getStatisticsData()
             .filter(data => {
                 return data != undefined && data.payloads != undefined && data.payloadType == PayloadType.ARF8084BA &&
-                    (data.publisher == undefined || data.publisher == this.sliderId)
+                    (data.publisher == undefined || data.publisher == this.sliderId || data.publisher == "menuItem")
+            }).filter(data => {
+                if (data.payloads.length == 0) {
+                    alert("Zadanému intervalu nevyhovují žádná data.")
+                    this.clearChart();
+                }
+                return data.payloads.length > 0
             }).subscribe(data => {
                 this.clearChart();
 
                 if (this.firstInitSlider) {
+                    this.initSlider(data.payloads[0].createdAt);
+                    this.firstInitSlider = false;
+                } else if (data.publisher == "menuItem") {
+                    // pokud je vyber z menu je potreba provest reset 
+                    this.removeSlider();
                     this.initSlider(data.payloads[0].createdAt);
                     this.firstInitSlider = false;
                 }
@@ -289,7 +328,7 @@ export class StatisComponent {//implements AfterViewInit {
                 },
 
                 (err) => { console.log('Error: ' + err); },
-                () => { console.log('Completed') });
+                () => { /*console.log('Completed') */ });
         });
     }
 

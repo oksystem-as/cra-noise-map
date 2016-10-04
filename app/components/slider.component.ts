@@ -84,7 +84,7 @@ export class SliderComponent implements AfterViewInit {
                 if (newDate != undefined) {
                     let devicedetailParams = <DeviceDetailParams>{
                         start: new Date(parseInt(newDate.toString(), 10)),
-                        limit: 5,
+                        limit: 20,
                         order: Order.asc
                     }
                     this.sensorsSharedService.loadSensor(devicedetailParams);

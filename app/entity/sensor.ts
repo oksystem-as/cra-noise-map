@@ -6,4 +6,6 @@ export class Sensor {
     public payloads: Payload[] = [];
     // kdo zapricinil nacteni - napr pro reload jen pro konkretni graf
     public publisher: string;
+    // vybran v menu
+    public isSelected: boolean;
 }

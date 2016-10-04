@@ -24,7 +24,7 @@ export class TableStatisComponent { // implements OnChanges {
   }
 
   refresh() {
-    console.log("TableStatisComponent.refresh");
+    // console.log("TableStatisComponent.refresh");
     this.ref.detectChanges();
   }
   

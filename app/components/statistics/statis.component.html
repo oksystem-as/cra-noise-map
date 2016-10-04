@@ -1,8 +1,8 @@
 <div id="statis">
-    <table-statis #myTable [data]="barChartData" [labels]="barChartLabels"></table-statis>
+    <table-statis #myTable [data]="barChartData[0].data" [labels]="barChartLabels"></table-statis>
     <!--<base-chart *ngIf="barChartData && barChartData.length != 0" #myChart class="chart"-->
     <base-chart #myChart class="chart"
-            [data]="barChartData"
+            [datasets]="barChartData"
             [labels]="barChartLabels"
             [options]="barChartOptions"
             [legend]="barChartLegend"
