@@ -77,10 +77,11 @@ export class MapComponent implements AfterViewInit {
     path: google.maps.SymbolPath.CIRCLE,
     scale: 12,
     size: 30,
-    strokeColor: '#444',
-    fillColor: 'red',
-    fillOpacity: 0.8,
-    strokeWeight: 2,
+    // strokeColor: '#444',
+    // fillColor: 'red',
+    // fillOpacity: 0.8,
+    strokeWeight: 4,
+    strokeColor: 'red',
   };
 
   private iconSelected = {
@@ -166,7 +167,10 @@ export class MapComponent implements AfterViewInit {
       minZoom: 0,
       name: 'noise'
     });
-    this.map.controls[google.maps.ControlPosition.RIGHT_CENTER].push(document.getElementById('statistics'));
+    this.map.controls[google.maps.ControlPosition.RIGHT_TOP].push(document.getElementById('statistics'));
+
+    this.map.controls[google.maps.ControlPosition.BOTTOM_CENTER].push(document.getElementById('baseMapLegend'));
+    
   }
 
   private onChkboxClick(payload) {
@@ -238,7 +242,7 @@ export class MapComponent implements AfterViewInit {
             if (payload.longtitude != undefined && payload.latitude != undefined) {
               //this.log.debug("kreslim ", payload.latitude, payload.longtitude);
 
-              var infowindow = this.createInfoWindow(payload.latitudeText + " " + payload.longtitudeText + " hluk: " + payload.temp + " ID: " + sensor.devEUI);
+              var infowindow = this.createInfoWindow(payload, sensor);
               this.createMarker(payload.latitude, payload.longtitude, infowindow, payload.temp, sensor);
               // this.createHeatPoint(payload.latitude, payload.longtitude, payload.temp);
             }
@@ -295,10 +299,13 @@ export class MapComponent implements AfterViewInit {
     this.makers.length = 0;
   }
 
-  private createInfoWindow(text: string): google.maps.InfoWindow {
+  private createInfoWindow(payload: ARF8084BAPayload, sensor: Sensor): google.maps.InfoWindow {
+    let text = "<strong>pozice:</strong> " + payload.latitudeText + "N " + payload.longtitudeText + "E<br> " +
+      "<strong>hluk:</strong> " + payload.temp + "dB<br> " +
+      "<strong>ID:</strong> " + sensor.devEUI;
+
     return new google.maps.InfoWindow({
-      content: "<div>" + text + "</div>",
-      //content: JSON.stringify(payload, null, ' '),
+      content: "<div class='info-window'>" + text + "</div>",
     });
   }
 
@@ -308,12 +315,20 @@ export class MapComponent implements AfterViewInit {
       map: this.map,
       //animation: google.maps.Animation.DROP,
       icon: this.getColorIcon(value),
-      title: latitude.toString(),
+      title: value + "dB",
     });
 
     marker.sensor = sensor;
     marker.isSelected = false;
+    
+    // defaultni hodnota pro notSelIcon
     marker.pomIconNotSelected = this.getColorIcon(value);
+    // defaultni hodnota pro SelIcon
+    marker.pomIconSelected = this.getColorIcon(value)
+    marker.pomIconSelected.strokeColor = "green";
+    marker.pomIconSelected.strokeWeight = 6;
+    marker.pomIconSelected.size = 20;
+    marker.pomIconSelected.scale = 16;
 
     marker.addListener('click', () => {
       infoWin.open(this.map, marker);
@@ -321,7 +336,8 @@ export class MapComponent implements AfterViewInit {
 
     marker.addListener('mouseover', () => {
       // marker.setAnimation(google.maps.Animation.BOUNCE);
-      marker.setIcon(this.iconOn)
+
+      marker.setIcon(marker.pomIconSelected)
       this.log.debug(latitude, longtitude)
     });
 

@@ -12,6 +12,8 @@ import { StatisticsComponent } from './components/statistics/statistics.componen
 import { StatisComponent } from './components/statistics/statis.component';
 import { TabsStatisComponent } from './components/statistics/tabs.statis.component';
 import { TableStatisComponent } from './components/statistics/table.statis.component';
+import { BaseMapLegendComponent } from './components/map/base.map.legend.component';
+
 import { HttpModule }    from '@angular/http';
 import { Logger, Options, Level  } from "angular2-logger/core"; 
 import { DropdownModule } from "ng2-dropdown";
@@ -44,6 +46,7 @@ import { ChartsModule } from 'ng2-charts/ng2-charts';
     StatisComponent,
     TabsStatisComponent,
     TableStatisComponent,
+    BaseMapLegendComponent,
     ],
   bootstrap: [AppComponent]
 })
