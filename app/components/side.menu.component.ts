@@ -20,8 +20,8 @@ export class SideMenuComponent {
   private sensors: Sensor[] = [];
 
   private devicedetailParamsDefault = <DeviceDetailParams>{
-    start: new Date("2016-09-15"),
-    stop: new Date("2016-09-22"),
+    start: new Date(2016,9,15),
+    stop: new Date(2016,09,22),
     order: Order.asc
   }
 

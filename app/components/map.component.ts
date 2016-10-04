@@ -1,5 +1,6 @@
 import { Component, AfterViewInit, ViewChild } from '@angular/core';
 import { Logger } from "angular2-logger/core";
+import { Observable } from "rxjs/Observable";
 /// <reference path="../../typings/globals/googlemaps/google.maps.d.ts" />
 /// <reference path="../../typings/globals/markerclustererplus/markerclustererplus.d.ts" />
 //import '../../node_modules/google-maps/lib/Google.js';
@@ -206,6 +207,10 @@ export class MapComponent implements AfterViewInit {
   }
 
   private addNewDataListener() {
+    // this.sensorsSharedService.getAnimationSensor().subscribe((sensor: Sensor) => { 
+    //   this.removeMarkers()
+    //   Observable.from(sensor.payloads).timeInterval(200, 100);
+    // });
 
     // zvyrazneni vybraneho
     this.sensorsSharedService.getSelectedSensor().subscribe((sensor: Sensor) => {

@@ -15,16 +15,16 @@ export class ColorUtils {
     //private static colorValueMap: Map<string, boolean> = new Map<string, boolean>(){} ;
     public static colorValueMap: ColorLegend[] =
     [
-        { value: 0, color: "#1f8545", valueText: "do 40 dB"},
-        { value: 40, color: "#79c67a", valueText: "40 - 45 dB"},
-        { value: 45, color: "#d3ffbe", valueText: "45 - 50 dB"},
-        { value: 50, color: "#ffffbe", valueText: "50 - 45 dB"},
-        { value: 55, color: "#ffff74", valueText: "55 - 60 dB"},
-        { value: 60, color: "#ffc200", valueText: "60 - 65 dB"},
-        { value: 65, color: "#e60000", valueText: "65 - 70 dB"},
-        { value: 70, color: "#b50000", valueText: "70 - 75 dB"},
-        { value: 75, color: "#630a6c", valueText: "75 - 80 dB"},
-        { value: 80, color: "#001f9d", valueText: "80 dB a více"},
+        { value: 0, color: "#1f8545", valueText: "do 40 dB" },
+        { value: 40, color: "#79c67a", valueText: "40 - 45 dB" },
+        { value: 45, color: "#d3ffbe", valueText: "45 - 50 dB" },
+        { value: 50, color: "#ffffbe", valueText: "50 - 45 dB" },
+        { value: 55, color: "#ffff74", valueText: "55 - 60 dB" },
+        { value: 60, color: "#ffc200", valueText: "60 - 65 dB" },
+        { value: 65, color: "#e60000", valueText: "65 - 70 dB" },
+        { value: 70, color: "#b50000", valueText: "70 - 75 dB" },
+        { value: 75, color: "#630a6c", valueText: "75 - 80 dB" },
+        { value: 80, color: "#001f9d", valueText: "80 dB a více" },
     ];
 
     public static getColor(value: number): string {
@@ -79,6 +79,32 @@ export class BitUtils {
 }
 
 export class DateUtils {
+    /**
+     * ocekavanzy format je 2016-10-04T07:55:32+0000
+     */
+    public static parseDate(dateStr): Date {
+        // dateStr = "2016-10-04T07:55:32+0000"
+        
+        // 2016-10-04 , 07:55:32+0000
+        var a=dateStr.split("T");
+        
+        // 2016, 10, 04 
+        var d: string[]=a[0].split("-");
+        
+        // 07:55:32 , 0000
+        var time: string[]=a[1].split("+");
+       
+        // 07, 55, 32 
+        var t: string[]=time[0].split(":");
+        
+        // 0000
+        var tMilis: string=time[1];
+        
+        // "+"" znamena prevod na cislo
+        var date = new Date(+d[0],+d[1],+d[2],+t[0],+t[1],+t[2], +tMilis);;
+        return date;
+    }
+    
     public static getWeek(date: Date) {
         var onejan = new Date(date.getFullYear(), 0, 1);
         return Math.ceil((((date.getTime() - onejan.getTime()) / 86400000) + onejan.getDay() + 1) / 7);

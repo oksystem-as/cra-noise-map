@@ -15,12 +15,14 @@ import { DeviceDetail, Record } from '../entity/device/device-detail';
 import { Devices, DeviceRecord } from '../entity/device/devices';
 import { Payload, PayloadType } from '../payloads/payload';
 import { Sensor } from '../entity/sensor';
+import { DateUtils } from '../utils/utils';
 
 @Injectable()
 export class SensorsSharedService {
 
-    private minDateLimit = new Date("2016-7-18");
+    private minDateLimit = new Date(2016, 7, 18);
     private sensors: BehaviorSubject<Sensor[]> = new BehaviorSubject([]);
+    private animationSensor: BehaviorSubject<Sensor> = new BehaviorSubject(null);
     private statisticsData: BehaviorSubject<Sensor> = new BehaviorSubject(null);
     private minDate: BehaviorSubject<Date> = new BehaviorSubject(this.minDateLimit);
 
@@ -38,6 +40,16 @@ export class SensorsSharedService {
 
     constructor(private log: Logger, private craService: CRaService) {
         this.loadInitialData(this.devicedetailParamsDefault, this.sensors, true);
+    }
+
+    getAnimationSensor(): Observable<Sensor> {
+        this.log.debug("SensorsSharedService.getAnimationSensor()");
+        return this.animationSensor.asObservable();
+    }
+
+    setAnimationSensor(sensor: Sensor) {
+        this.log.debug("SensorsSharedService.setAnimationSensor()", sensor);
+        this.animationSensor.next(sensor);
     }
     
     getSelectedSensor(): Observable<Sensor> {
@@ -95,7 +107,8 @@ export class SensorsSharedService {
                 response.records.forEach(record => {
                     // let payload: ARF8084BAPayload = aRF8084BAPayloadResolver.resolve(record.payloadHex)
                     let payload = this.reslovePayload(devicedetailParams.payloadType, record.payloadHex)
-                    payload.createdAt = new Date(record.createdAt);
+                    payload.createdAt = DateUtils.parseDate(record.createdAt);
+                    console.log(record.createdAt, payload.createdAt)
                     payload.payloadType = response.payloadType;
                     sensor.payloads.push(payload);
                 })
@@ -127,7 +140,7 @@ export class SensorsSharedService {
                     sensor.publisher = response.publisher;
                     response.records.forEach((record: Record) => {
                         let payload = this.reslovePayload(this.deviceType, record.payloadHex);
-                        payload.createdAt = new Date(record.createdAt);
+                        payload.createdAt = DateUtils.parseDate(record.createdAt);
                         payload.payloadType = response.payloadType;
                         sensor.payloads.push(payload);
                     })

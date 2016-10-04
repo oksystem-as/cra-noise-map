@@ -19,14 +19,14 @@ import { Sensor } from '../entity/sensor';
 @Injectable()
 export class SensorsSharedService {
 
-    private oldDate = new Date("2014-01-01");
+    private oldDate = new Date(2014,1,1);
 
     private sensors: BehaviorSubject<Sensor[]> = new BehaviorSubject([]);
     private statisticsData: BehaviorSubject<Sensor> = new BehaviorSubject(null);
     private minDate: BehaviorSubject<Date> = new BehaviorSubject(this.oldDate);
 
     private devicedetailParamsDefault = <DeviceDetailParams>{
-        start: new Date("2016-09-15"),
+        start: new Date(2016,9,15),
         limit: 10,
         order: Order.asc
     }

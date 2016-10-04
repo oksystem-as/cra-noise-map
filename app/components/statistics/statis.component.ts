@@ -154,8 +154,9 @@ export class StatisComponent {//implements AfterViewInit {
                 return data.payloads.length > 0
             }).subscribe(data => {
                 this.clearChart();
-
+                console.log("start ", data.payloads[0].createdAt);
                 if (this.firstInitSlider) {
+
                     this.initSlider(data.payloads[0].createdAt);
                     this.firstInitSlider = false;
                 } else if (data.publisher == "menuItem") {
@@ -216,6 +217,8 @@ export class StatisComponent {//implements AfterViewInit {
     private initSlider(firstDate: Date) {
         // this.removeSlider();
         let oldDate = firstDate;
+        
+        console.log("start ", firstDate);
 
         // pocet bodu na slideru    
         let countOfpoint = 3;
@@ -223,8 +226,7 @@ export class StatisComponent {//implements AfterViewInit {
 
         // rozdil mezi kazdym bodem
         let diff = (aktualDate.getTime() - oldDate.getTime()) / countOfpoint;
-
-        this.log.debug(diff);
+        console.log(diff);
 
         let ticks_labels = [];
         let ticks = [];
@@ -235,7 +237,9 @@ export class StatisComponent {//implements AfterViewInit {
 
         let pom;
         for (var index = 1; index < countOfpoint; index++) {
-            pom = new Date(oldDate.getTime() + index * diff);
+            let time = oldDate.getTime() + index * diff;
+            pom = new Date(time);
+            console.log(time, pom);
             // dalsi body
             ticks.push(pom.getTime());
             ticks_labels.push(pom.toLocaleDateString());
@@ -245,8 +249,8 @@ export class StatisComponent {//implements AfterViewInit {
         ticks.push(aktualDate.getTime());
         ticks_labels.push(aktualDate.toLocaleDateString());
 
-        this.log.debug(ticks);
-        this.log.debug(ticks_labels);
+        console.log(ticks);
+        console.log(ticks_labels);
 
         this.log.debug("init slider - ", this.statisType)
         // let elem = this.elementRef.nativeElement.shadowRoot.querySelector('#' + this.statisId);

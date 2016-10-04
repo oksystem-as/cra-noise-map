@@ -20,7 +20,7 @@ export class MenuComponent {
   private sensors: Sensor[] = [];
 
   private devicedetailParamsDefault = <DeviceDetailParams>{
-    start: new Date("2014-01-11"),
+    start: new Date(2014,1,11),
     //stop: new Date("2016-09-22"),
     order: Order.asc,
     //limit:10000
@@ -28,7 +28,7 @@ export class MenuComponent {
 
   isSensorOnMap(sensor: Sensor): boolean{
     let containsGPS = false;
-    
+
     if(sensor.payloads != undefined && sensor.payloads.length > 0){
       sensor.payloads.forEach(payload => {
         if(payload.payloadType === PayloadType.ARF8084BA){
