@@ -15,8 +15,8 @@ export class CRaService {
   // sklada se: kde jsem + /api pro proxy middleware a pote url na CRa
   // private gpsSensorsUrl = window.location.href + 'api' + '/device/get/GPSinCars?token=kBPIDfNdSfk8fkATerBa6ct6yshdPbOX&limit=10'
   // private personsUrl = window.location.href + 'api' + '/message/get/4786E6ED00350042?token=kBPIDfNdSfk8fkATerBa6ct6yshdPbOX&limit=10'
-  private restProxy = "http://hndocker.oksystem.local:58080/"
-  // private restProxy = "http://d:58080/"
+  // private restProxy = "http://hndocker.oksystem.local:58080/"
+  private restProxy = "http://d:58080/"
   private devApiPrefix = 'api/'
   private deviceBaseUrl = 'device/get/'
   private deviceDetailBaseUrl = 'message/get/'
