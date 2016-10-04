@@ -1,0 +1,46 @@
+<div  id="tabs-map-legend">
+  <!-- http://valor-software.com/ng2-bootstrap/#/tabs -->
+  <tabset [justified]="false">
+
+   <tab heading="Ruzyně"> <!-- [disabled]="!showRuzyneLegend" [active]="showRuzyneLegend" -->
+      <input type="checkbox" [(ngModel)]="overlays[17].checked" value={{overlays[17].value}} (ngModelChange)="onChkboxClick(overlays[17])">{{overlays[17].text}}<br>
+      <input type="checkbox" [(ngModel)]="overlays[18].checked" value={{overlays[18].value}} (ngModelChange)="onChkboxClick(overlays[18])">{{overlays[18].text}}<br>
+      <map-legend [showRuzyneLegend]="true"></map-legend>
+    </tab>
+    <tab heading="Praha">
+      <input type="checkbox" [(ngModel)]="overlays[15].checked" value={{overlays[15].value}} (ngModelChange)="onChkboxClick(overlays[15])">{{overlays[15].text}}<br>
+      <input type="checkbox" [(ngModel)]="overlays[16].checked" value={{overlays[16].value}} (ngModelChange)="onChkboxClick(overlays[16])">{{overlays[16].text}}<br>
+      <map-legend [showPrahaLegend]="true"></map-legend>
+    </tab>
+    <tab heading="Brno"> 
+      <input type="checkbox" [(ngModel)]="overlays[13].checked" value={{overlays[13].value}} (ngModelChange)="onChkboxClick(overlays[13])">{{overlays[13].text}}<br>
+      <input type="checkbox" [(ngModel)]="overlays[14].checked" value={{overlays[14].value}} (ngModelChange)="onChkboxClick(overlays[14])">{{overlays[14].text}}<br>
+      <map-legend [showBrnoLegend]="true"></map-legend>
+    </tab>
+    <tab heading="Ostrava"> 
+      <input type="checkbox" [(ngModel)]="overlays[11].checked" value={{overlays[11].value}} (ngModelChange)="onChkboxClick(overlays[11])">{{overlays[11].text}}<br>
+      <input type="checkbox" [(ngModel)]="overlays[12].checked" value={{overlays[12].value}} (ngModelChange)="onChkboxClick(overlays[12])">{{overlays[12].text}}<br>
+      <map-legend [showOstravaLegend]="true"></map-legend>
+    </tab>
+    <tab heading="Praha-Brno-Ostrava">
+      <input type="checkbox" [(ngModel)]="overlays[10].checked" value={{overlays[10].value}} (ngModelChange)="onChkboxClick(overlays[10])">{{overlays[10].text}}<br>
+      <map-legend [showPrahaBrnoOstravaLegend]="true"></map-legend>
+    </tab>
+    <tab heading="Železnice">
+      <input type="checkbox" [(ngModel)]="overlays[0].checked" value={{overlays[0].value}} (ngModelChange)="onChkboxClick(overlays[0])">{{overlays[0].text}}<br>
+      <input type="checkbox" [(ngModel)]="overlays[1].checked" value={{overlays[1].value}} (ngModelChange)="onChkboxClick(overlays[1])">{{overlays[1].text}}<br>
+      <input type="checkbox" [(ngModel)]="overlays[2].checked" value={{overlays[2].value}} (ngModelChange)="onChkboxClick(overlays[2])">{{overlays[2].text}}<br>
+      <input type="checkbox" [(ngModel)]="overlays[3].checked" value={{overlays[3].value}} (ngModelChange)="onChkboxClick(overlays[3])">{{overlays[3].text}}<br>
+      <input type="checkbox" [(ngModel)]="overlays[4].checked" value={{overlays[4].value}} (ngModelChange)="onChkboxClick(overlays[4])">{{overlays[4].text}}<br>
+      <input type="checkbox" [(ngModel)]="overlays[5].checked" value={{overlays[5].value}} (ngModelChange)="onChkboxClick(overlays[5])">{{overlays[5].text}}<br>
+      <map-legend [showZelezniceLegend]="true"></map-legend>
+    </tab>
+    <tab heading="Silnice">
+      <input type="checkbox" [(ngModel)]="overlays[6].checked" value={{overlays[6].value}} (ngModelChange)="onChkboxClick(overlays[6])">{{overlays[6].text}}<br>
+      <input type="checkbox" [(ngModel)]="overlays[7].checked" value={{overlays[7].value}} (ngModelChange)="onChkboxClick(overlays[7])">{{overlays[7].text}}<br>
+      <input type="checkbox" [(ngModel)]="overlays[8].checked" value={{overlays[8].value}} (ngModelChange)="onChkboxClick(overlays[8])">{{overlays[8].text}}<br>
+      <input type="checkbox" [(ngModel)]="overlays[9].checked" value={{overlays[9].value}} (ngModelChange)="onChkboxClick(overlays[9])">{{overlays[9].text}}<br>
+      <map-legend [showSilniceLegend]="true"></map-legend>
+    </tab>
+  </tabset>
+</div>

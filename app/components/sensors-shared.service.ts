@@ -16,6 +16,13 @@ import { Devices, DeviceRecord } from '../entity/device/devices';
 import { Payload, PayloadType } from '../payloads/payload';
 import { Sensor } from '../entity/sensor';
 
+export class Overlay {
+    checked: boolean;
+    value: number;
+    text: string;
+    position: number;
+}
+
 @Injectable()
 export class SensorsSharedService {
 
@@ -23,6 +30,7 @@ export class SensorsSharedService {
     private sensors: BehaviorSubject<Sensor[]> = new BehaviorSubject([]);
     private statisticsData: BehaviorSubject<Sensor> = new BehaviorSubject(null);
     private minDate: BehaviorSubject<Date> = new BehaviorSubject(this.minDateLimit);
+    private overlays: BehaviorSubject<Overlay[]> = new BehaviorSubject(null);
 
     private deviceList = ["0018B20000000165", "0018B20000000336", "0018B2000000016E", "0018B20000000337", "0018B2000000033C", "0018B2000000033A", "0018B20000000339", "0018B20000000335",]
     // private deviceList = ["0018B20000000165"];
@@ -36,6 +44,16 @@ export class SensorsSharedService {
 
     constructor(private log: Logger, private craService: CRaService) {
         this.loadInitialData(this.devicedetailParamsDefault, this.sensors, true);
+    }
+
+    getOverlays(): Observable<Overlay[]> {
+        this.log.debug("SensorsSharedService.getOverlays()");
+        return this.overlays.asObservable();
+    }
+
+    setOverlays(overlays: Overlay[]) {
+        this.log.debug("SensorsSharedService.setOverlays()", overlays);
+        this.overlays.next(overlays);
     }
 
     getStatisticsData(): Observable<Sensor> {
@@ -72,7 +90,7 @@ export class SensorsSharedService {
 
     // nacte payloady zarizeni dle zadanych parametru - momentalne napsane primo na gps cidla
     private loadDeviceDetails(devicedetailParams: DeviceDetailParams, behaviorSubject: BehaviorSubject<any>) {
-        
+
         this.craService.getDeviceDetail(devicedetailParams).subscribe(response => {
 
             if (response && response.records && response.records instanceof Array) {

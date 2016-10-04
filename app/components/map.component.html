@@ -1,9 +1,2 @@
 <div id="{{mapId}}"></div>
-<div id="chkboxs" style="background-color:white">
-    <div *ngFor="let payload of overlays">
-        <input type="checkbox" [(ngModel)]="payload.checked" value={{payload.value}} (ngModelChange)="onChkboxClick(payload)">{{payload.text}}<br>
-    </div>
-</div>
-<div *ngIf="isLayerSelected()">
-    <map-legend></map-legend>
-</div>
+<tabs-map-legend></tabs-map-legend>

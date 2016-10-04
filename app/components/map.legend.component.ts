@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 
 @Component({
@@ -7,5 +7,18 @@ import { Component } from '@angular/core';
   styleUrls: ['app/components/map.legend.component.css'],
 })
 export class MapLegendComponent {
-
+  @Input()
+  showRuzyneLegend : boolean = false;
+  @Input()
+  showPrahaLegend : boolean = false;
+  @Input()
+  showBrnoLegend : boolean = false;
+  @Input()
+  showOstravaLegend : boolean = false;
+  @Input()
+  showPrahaBrnoOstravaLegend : boolean = false;
+  @Input()
+  showZelezniceLegend : boolean = false;
+  @Input()
+  showSilniceLegend : boolean = false;
 }
