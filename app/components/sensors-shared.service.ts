@@ -24,6 +24,16 @@ export class Overlay {
     position: number;
 }
 
+export enum Events {
+    runAnimation = <any>"runAnimation",
+}
+
+export class Event {
+    type: Events;
+    data: any;
+    publisher: any;
+}
+
 @Injectable()
 export class SensorsSharedService {
 
@@ -35,6 +45,8 @@ export class SensorsSharedService {
     private overlays: BehaviorSubject<Overlay[]> = new BehaviorSubject(null);
 
     private selectedSensor: BehaviorSubject<Sensor> = new BehaviorSubject(null);
+
+    private eventAggregator: Subject<Event> = new Subject<Event>();
 
     private deviceList = ["0018B20000000165", "0018B20000000336", "0018B2000000016E", "0018B20000000337", "0018B2000000033C", "0018B2000000033A", "0018B20000000339", "0018B20000000335",]
     // private deviceList = ["0018B20000000165"];
@@ -50,6 +62,23 @@ export class SensorsSharedService {
         this.loadInitialData(this.devicedetailParamsDefault, this.sensors, true);
     }
 
+    publishEvent(type: Events, data: any, publisher: any = "[not defined]") {
+        this.eventAggregator.next({ type: type, data: data, publisher: publisher });
+    }
+
+    listenEventData(type: Events): Observable<any> {
+        return this.eventAggregator.filter((data) => { return data.type === type }).pluck('data');
+    }
+
+    listenEvent(type: Events): Observable<any> {
+        return this.eventAggregator.filter((data) => { return data.type === type });
+    }
+
+    disposeEvents() {
+        this.eventAggregator.complete();
+    }
+
+
     getAnimationSensor(): Observable<Sensor> {
         this.log.debug("SensorsSharedService.getAnimationSensor()");
         return this.animationSensor.asObservable();
@@ -59,7 +88,7 @@ export class SensorsSharedService {
         this.log.debug("SensorsSharedService.setAnimationSensor()", sensor);
         this.animationSensor.next(sensor);
     }
-    
+
     getSelectedSensor(): Observable<Sensor> {
         this.log.debug("SensorsSharedService.getSelectedSensor()");
         return this.selectedSensor.asObservable();
@@ -114,7 +143,7 @@ export class SensorsSharedService {
 
     // nacte payloady zarizeni dle zadanych parametru - momentalne napsane primo na gps cidla
     private loadDeviceDetails(devicedetailParams: DeviceDetailParams, behaviorSubject: BehaviorSubject<any>) {
-        
+
         this.craService.getDeviceDetail(devicedetailParams).subscribe(response => {
 
             if (response && response.records && response.records instanceof Array) {
