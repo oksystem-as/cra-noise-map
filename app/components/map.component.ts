@@ -1,6 +1,7 @@
 import { Component, AfterViewInit, ViewChild } from '@angular/core';
 import { Logger } from "angular2-logger/core";
 import { Observable } from "rxjs/Observable";
+import { Scheduler } from "rxjs/scheduler";
 /// <reference path="../../typings/globals/googlemaps/google.maps.d.ts" />
 /// <reference path="../../typings/globals/markerclustererplus/markerclustererplus.d.ts" />
 //import '../../node_modules/google-maps/lib/Google.js';
@@ -10,12 +11,12 @@ import { Observable } from "rxjs/Observable";
 // import { DeviceDetail } from '../entity/device/detail/device-detail';.
 import { Sensor } from '../entity/sensor';
 import { Payload, PayloadType } from '../payloads/payload';
-import { SensorsSharedService, Overlay } from './sensors-shared.service';
+import { SensorsSharedService, Overlay, Events } from './sensors-shared.service';
+import { CRaService, DeviceDetailParams, DeviceParams, Order } from '../service/cra.service';
 
 import { ARF8084BAPayload } from '../payloads/ARF8084BAPayload';
 import { RHF1S001Payload } from '../payloads/RHF1S001Payload';
-import { ObjectUtils } from '../utils/utils';
-import { ColorUtils } from '../utils/utils';
+import { ObjectUtils, ColorUtils } from '../utils/utils';
 
 class Point {
   location: google.maps.LatLng;
@@ -29,7 +30,7 @@ class Point {
 })
 export class MapComponent implements AfterViewInit {
   private mapId = "map"
-  private map;
+  private map: google.maps.Map;
   private heatmap;
   // private makers: google.maps.Marker[] = [];
   private makers: any[] = [];
@@ -38,26 +39,26 @@ export class MapComponent implements AfterViewInit {
   private overlays: { checked: boolean, value: number, text: string, position: number }[];
   private noiseMapType;
 
-  private iconOn = {
-    path: google.maps.SymbolPath.CIRCLE,
-    scale: 12,
-    size: 30,
-    // strokeColor: '#444',
-    // fillColor: 'red',
-    // fillOpacity: 0.8,
-    strokeWeight: 4,
-    strokeColor: 'red',
-  };
+  // private iconOn = {
+  //   path: google.maps.SymbolPath.CIRCLE,
+  //   scale: 12,
+  //   size: 30,
+  //   // strokeColor: '#444',
+  //   // fillColor: 'red',
+  //   // fillOpacity: 0.8,
+  //   strokeWeight: 4,
+  //   strokeColor: 'red',
+  // };
 
-  private iconSelected = {
-    path: google.maps.SymbolPath.CIRCLE,
-    scale: 12,
-    size: 30,
-    strokeColor: '#444',
-    fillColor: 'orange',
-    fillOpacity: 0.8,
-    strokeWeight: 2,
-  };
+  // private iconSelected = {
+  //   path: google.maps.SymbolPath.CIRCLE,
+  //   scale: 12,
+  //   size: 30,
+  //   strokeColor: '#444',
+  //   fillColor: 'orange',
+  //   fillOpacity: 0.8,
+  //   strokeWeight: 2,
+  // };
 
 
   constructor(private log: Logger, private sensorsSharedService: SensorsSharedService) {
@@ -70,7 +71,7 @@ export class MapComponent implements AfterViewInit {
 
   private initMap() {
     this.map = new google.maps.Map(document.getElementById(this.mapId), {
-      zoom: 12,
+      zoom: 10,
       center: { lat: 50.053942, lng: 14.437404 },
       mapTypeId: google.maps.MapTypeId.ROADMAP,
       mapTypeControl: true,
@@ -181,16 +182,23 @@ export class MapComponent implements AfterViewInit {
   }
 
   private addNewDataListener() {
-
-    this.sensorsSharedService.getAnimationSensor().filter((sensor: Sensor) => {
+    this.sensorsSharedService.listenEventData(Events.runAnimation).filter((sensor: Sensor) => {
       return sensor != undefined && sensor.payloads != undefined
     }).subscribe((sensor: Sensor) => {
+      console.log("listenEventData ", sensor);
       this.removeMarkers();
       let obs = Observable.from(sensor.payloads)
       // .flatMap((data, idx) => {
       //   console.log("flatMap", data);
       //   return data;
       // })
+      // let sch = new  Scheduler('world',
+      //     function (scheduler, x) {
+      //       console.log('hello ' + x + ' after 5 seconds');
+      //     }
+      //   );
+
+
       obs.subscribe(payload => {
         console.log("AnimationSensor ", payload);
       })
@@ -209,7 +217,7 @@ export class MapComponent implements AfterViewInit {
           break;
         }
       }
-      if (this.map.overlayMapTypes.length > 0) {
+      if (this.map.overlayMapTypes.getLength() > 0) {
         this.map.overlayMapTypes.pop();
       }
 
@@ -219,24 +227,24 @@ export class MapComponent implements AfterViewInit {
     })
 
     // zvyrazneni vybraneho
-    this.sensorsSharedService.getSelectedSensor().subscribe((sensor: Sensor) => {
+    this.sensorsSharedService.listenEventData(Events.selectSensor).subscribe((sensor: Sensor) => {
       this.makers.forEach(marker => {
 
         if (marker.sensor.devEUI === sensor.devEUI) {
           marker.setAnimation(google.maps.Animation.BOUNCE);
-          marker.setIcon(this.iconSelected)
-          marker.isSelected = true;
+          marker.setIcon(this.decorateAsPermSelected(marker.getIcon()));
+          marker.isPermSelected = true;
+
           setTimeout(() => {
             marker.setAnimation(null);
           }, 500);
-          setTimeout(() => {
-            marker.setIcon(marker.pomIconNotSelected);
-            marker.isSelected = false;
-          }, 2000);
+
+          var latLng = marker.getPosition(); // returns LatLng object
+          this.map.panTo(latLng); // setCenter takes a LatLng object
           console.log("getSelectedSensor found ", marker);
         } else {
-          marker.setIcon(marker.pomIconNotSelected);
-          marker.isSelected = false;
+          marker.isPermSelected = false;
+          marker.setIcon(this.decorateAsNotSelected(marker.getIcon()));
         }
       });
     });
@@ -267,17 +275,7 @@ export class MapComponent implements AfterViewInit {
     });
   }
 
-  private getColorIcon(value: number) {
-    return {
-      path: google.maps.SymbolPath.CIRCLE,
-      scale: 12,
-      size: 30,
-      strokeColor: '#444',
-      fillColor: ColorUtils.getColor(value),
-      fillOpacity: 0.8,
-      strokeWeight: 2,
-    };
-  }
+
 
   private removeHeatMap(): void {
     if (this.heatmap != undefined) {
@@ -327,39 +325,85 @@ export class MapComponent implements AfterViewInit {
       map: this.map,
       //animation: google.maps.Animation.DROP,
       icon: this.getColorIcon(value),
-      title: value + "dB",
+      // title: value + "dB",
     });
 
     marker.sensor = sensor;
-    marker.isSelected = false;
-
-    // defaultni hodnota pro notSelIcon
-    marker.pomIconNotSelected = this.getColorIcon(value);
-    // defaultni hodnota pro SelIcon
-    marker.pomIconSelected = this.getColorIcon(value)
-    marker.pomIconSelected.strokeColor = "green";
-    marker.pomIconSelected.strokeWeight = 6;
-    marker.pomIconSelected.size = 20;
-    marker.pomIconSelected.scale = 16;
+    marker.isPermSelected = false;
 
     marker.addListener('click', () => {
-      infoWin.open(this.map, marker);
+      this.sensorsSharedService.publishEvent(Events.selectSensor, marker.sensor, "MapComponent.markerClick");
+      this.devicedetailParamsDefault.devEUI = marker.sensor.devEUI;
+      this.devicedetailParamsDefault.payloadType = marker.sensor.payloadType;
+      this.devicedetailParamsDefault.publisher = "markerItem"
+      this.sensorsSharedService.loadStatisticsData(this.devicedetailParamsDefault);
     });
 
     marker.addListener('mouseover', () => {
-      // marker.setAnimation(google.maps.Animation.BOUNCE);
+      marker.setIcon(this.decorateAsSelected(marker.getIcon()));
+      // setTimeout(() => {
+        infoWin.open(this.map, marker);
+      // }, 50);
 
-      marker.setIcon(marker.pomIconSelected)
-      this.log.debug(latitude, longtitude)
     });
 
     marker.addListener('mouseout', () => {
-      if (!marker.isSelected) {
-        marker.setIcon(marker.pomIconNotSelected)
-      }
+      marker.setIcon(this.decorateAsNotSelectedPerm(marker.getIcon(), marker.isPermSelected));
+      infoWin.close();
     });
 
     this.makers.push(marker);
     return marker;
+  }
+
+  // ICON ---------------------------
+  private decorateAsPermSelected(icon: google.maps.Symbol): google.maps.Symbol {
+    icon.strokeColor = "red";
+    icon.strokeWeight = 4;
+    icon.scale = 20;
+    return icon;
+  }
+
+  private decorateAsNotSelectedPerm(icon: google.maps.Symbol, isPermSelected: boolean): google.maps.Symbol {
+    if (isPermSelected) {
+      return this.decorateAsPermSelected(icon);
+    }
+    return this.decorateAsNotSelected(icon);
+
+  }
+
+  private decorateAsNotSelected(icon: google.maps.Symbol): google.maps.Symbol {
+    icon.path = google.maps.SymbolPath.CIRCLE;
+    icon.strokeColor = "#444";
+    icon.strokeWeight = 2;
+    icon.scale = 12;
+    icon.fillOpacity = 0.8;
+    return icon;
+  }
+
+  private decorateAsSelected(icon: google.maps.Symbol): google.maps.Symbol {
+    icon.strokeColor = "black";
+    icon.strokeWeight = 4;
+    icon.scale = 20;
+    return icon;
+  }
+
+  private getColorIcon(value: number) {
+    return {
+      path: google.maps.SymbolPath.CIRCLE,
+      scale: 12,
+      strokeColor: '#444',
+      fillColor: ColorUtils.getColor(value),
+      fillOpacity: 0.8,
+      strokeWeight: 2,
+    };
+  }
+
+
+   private devicedetailParamsDefault = <DeviceDetailParams>{
+    start: new Date(2014, 1, 11),
+    //stop: new Date("2016-09-22"),
+    order: Order.asc,
+    //limit:10000
   }
 }

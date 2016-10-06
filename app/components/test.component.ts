@@ -7,6 +7,8 @@ import { RHF1S001PayloadResolver } from '../payloads/RHF1S001PayloadResolver';
 
 import { Data } from './test.data';
 import { Observable, } from 'rxjs/Observable';
+import { IntervalObservable } from 'rxjs/Observable/IntervalObservable';
+
 import 'rxjs/Rx';
 
 
@@ -73,53 +75,118 @@ class RxUtils {
 export class TestComponent {
 
   constructor() {
-    this.testCloningAdv();
+    this.extendedArray();
   }
   
+  // porad nefunguje :( - test pri transpilaci do ES5
+  private extendedArray(){
+    class ExtendedArray<T> extends Array<T> {}
 
-    private deepCopyArr(array: any[]): any[] {
-        var out = [];
-        for (var i = 0, len = array.length; i < len; i++) {
-            var item = array[i];
-            var obj = {};
-            for (var k in item) {
-                obj[k] = this.deepCopy(item[k], undefined);
-            }
-            out.push(obj);
-        }
-        return out;
+    var buildinArray = new Array<string>();
+    var extendedArray = new ExtendedArray<string>();
+    
+    buildinArray.push("A");
+    console.log(buildinArray.length); // 1 - OK
+    buildinArray[2] = "B";
+    console.log(buildinArray.length); // 3 - OK
+    
+    extendedArray.push("A");
+    console.log(extendedArray.length); // 1 - OK
+    extendedArray[2] = "B";
+    console.log(extendedArray.length); // 1 - FAIL
+    console.dir(extendedArray); // both values, but wrong length
+  }
+
+  private timeRxJS() {
+    // var idealBatchSize = 15;
+    // var maxTimeDelay = TimeSpan.FromSeconds(3);
+    // var source = Observable.interval(TimeSpan.FromSeconds(1)).Take(10)
+    // .Concat(Observable.Interval(TimeSpan.FromSeconds(0.01)).Take(100));
+    // source.Buffer(maxTimeDelay, idealBatchSize)
+    // .Subscribe(
+    // buffer => Console.WriteLine("Buffer of {1} @ {0}", DateTime.Now, buffer.Count), 
+    // () => Console.WriteLine("Completed"));
+
+    var list = [100, 101, 102, 103]
+
+    var source3 = Observable.from(list)
+      .concatMap(function (event) {
+        return Observable.timer(1000).map(((data, idx) => {
+          console.log(" data filtered ", data);
+          return { hour: event };
+        }))
+     });
+
+     var source4 = Observable.from(list)
+    .map( (x) => {
+        return Observable.timer(1000);
+    });
+
+
+    var source2 = IntervalObservable.from(list).timeInterval();
+    var source = Observable.interval(1000 /* ms */).take(list.length);
+
+    // .
+
+    // .timeInterval()
+    // .take(4);
+
+    var subscription = source4.subscribe(
+      function (x) {
+        console.log('Next: ', x);
+      },
+      function (err) {
+        console.log('Error: ', err);
+      },
+      function () {
+        console.log('Completed');
+      });
+  }
+
+
+  private deepCopyArr(array: any[]): any[] {
+    var out = [];
+    for (var i = 0, len = array.length; i < len; i++) {
+      var item = array[i];
+      var obj = {};
+      for (var k in item) {
+        obj[k] = this.deepCopy(item[k], undefined);
+      }
+      out.push(obj);
     }
+    return out;
+  }
 
   private deepCopy(from, to) {
-        if (from == null || typeof from != "object") return from;
-        if (from.constructor != Object && from.constructor != Array) return from;
-        if (from.constructor == Date || from.constructor == RegExp || from.constructor == Function ||
-            from.constructor == String || from.constructor == Number || from.constructor == Boolean)
-            return new from.constructor(from);
+    if (from == null || typeof from != "object") return from;
+    if (from.constructor != Object && from.constructor != Array) return from;
+    if (from.constructor == Date || from.constructor == RegExp || from.constructor == Function ||
+      from.constructor == String || from.constructor == Number || from.constructor == Boolean)
+      return new from.constructor(from);
 
-        to = to || new from.constructor();
+    to = to || new from.constructor();
 
-        for (var name in from) {
-            to[name] = typeof to[name] == "undefined" ? this.deepCopy(from[name], null) : to[name];
-        }
-
-        return to;
+    for (var name in from) {
+      to[name] = typeof to[name] == "undefined" ? this.deepCopy(from[name], null) : to[name];
     }
 
-  testCloningAdv(){
+    return to;
+  }
+
+  testCloningAdv() {
     let payload1 = new RHF1S001Payload();
-    payload1.createdAt = new Date (2015,1,1);
+    payload1.createdAt = new Date(2015, 1, 1);
 
     let payload2 = new RHF1S001Payload();
-    payload2.createdAt = new Date (2016,1,1);
-  
+    payload2.createdAt = new Date(2016, 1, 1);
+
     let arr = [payload1, payload2];
 
     var clone = this.deepCopyArr(arr);
-    clone[1].createdAt = new Date (2017,1,1);
+    clone[1].createdAt = new Date(2017, 1, 1);
 
     console.log(arr);
-     console.log(clone);
+    console.log(clone);
 
   }
 
@@ -140,7 +207,7 @@ export class TestComponent {
       }
 
     var clone = this.deepCopy(obj, undefined);
-    clone.date = new Date (2015,1,1);
+    clone.date = new Date(2015, 1, 1);
     console.log(obj, clone);
   }
 

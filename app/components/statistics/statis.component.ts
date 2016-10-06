@@ -145,7 +145,7 @@ export class StatisComponent {//implements AfterViewInit {
         var source = sensorsSharedService.getStatisticsData()
             .filter(data => {
                 return data != undefined && data.payloads != undefined && data.payloadType == PayloadType.ARF8084BA &&
-                    (data.publisher == undefined || data.publisher == this.sliderId || data.publisher == "menuItem")
+                    (data.publisher == undefined || data.publisher == this.sliderId || data.publisher == "menuItem" || data.publisher == "markerItem")
             }).filter(data => {
                 if (data.payloads.length == 0) {
                     alert("Zadanému intervalu nevyhovují žádná data.")
@@ -154,7 +154,11 @@ export class StatisComponent {//implements AfterViewInit {
                 return data.payloads.length > 0
             }).subscribe(data => {
                 this.clearChart();
-                console.log("start ", data.payloads[0].createdAt);
+                //  console.log("startDate ", data.payloads[0].createdAt.toLocaleString());
+                // data.payloads.forEach((data) => {
+                //     console.log(data.createdAt.toLocaleString());
+                // })
+               
                 if (this.firstInitSlider) {
 
                     this.initSlider(data.payloads[0].createdAt);
@@ -167,15 +171,16 @@ export class StatisComponent {//implements AfterViewInit {
                 }
 
                 this.devEUI = data.devEUI;
+                
                 // 1. vytvarim novy stream jelikoz stream getStatisticsData() se neuzavira a nektere volani 
                 // (reduce(), last() atp.) cekaji na completed resp uzavreni streamu, ktereho se nedockaji ...
                 // 2. musim provest deep copy listu a v nem obs. objektu jinak dochayi k modifikaci objektu napric streamy 
                 switch (this.statisType) {
                     case StatisType.HOUR: {
                         log.debug('hodinovy prumer: ');
-                        Observable.from(ObjectUtils.deepCopyArr(data.payloads)).first().subscribe((data) => {
-                            console.log("first", data);
-                        });
+                        // Observable.from(ObjectUtils.deepCopyArr(data.payloads)).first().subscribe((data) => {
+                        //     console.log("first", data);
+                        // });
                         this.resolveLogAvaerange(RxUtils.groupByHours(ObjectUtils.deepCopyArr(data.payloads)));
                         break;
                     }

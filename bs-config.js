@@ -19,6 +19,7 @@ module.exports = {
         }
     },
     injectChanges: false,
+    notify:true,
     files: [ './**/*.{html,htm,css,js}' ],
     watchOptions: { ignored: 'node_modules' },
 };

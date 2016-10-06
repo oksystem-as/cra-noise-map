@@ -4,6 +4,28 @@ import { GroupedObservable } from 'rxjs/operator/groupBy';
 import { Payload, PayloadType } from '../payloads/payload';
 import 'rxjs/Rx';
 
+export class ArrayUtils {
+    /**
+     * nahrazeni objektu v listu dle zadaneho predikatu
+     */
+    public static replaceObject<T>(array: T[], obj: T, predicate: (value: T) => boolean) {
+        var ind;
+        array.find
+        for (var index = 0; index < array.length; index++) {
+            var sensorInt = array[index];
+            if (predicate(sensorInt)) {
+                ind = index
+                break;
+            }
+        }
+
+        if (ind != undefined) {
+            array[ind] = obj;
+        }
+    }
+
+}
+
 
 export class ColorLegend {
     value: number;
@@ -85,27 +107,27 @@ export class DateUtils {
      */
     public static parseDate(dateStr): Date {
         // dateStr = "2016-10-04T07:55:32+0000"
-        
+
         // 2016-10-04 , 07:55:32+0000
-        var a=dateStr.split("T");
-        
+        var a = dateStr.split("T");
+
         // 2016, 10, 04 
-        var d: string[]=a[0].split("-");
-        
+        var d: string[] = a[0].split("-");
+
         // 07:55:32 , 0000
-        var time: string[]=a[1].split("+");
-       
+        var time: string[] = a[1].split("+");
+
         // 07, 55, 32 
-        var t: string[]=time[0].split(":");
-        
+        var t: string[] = time[0].split(":");
+
         // 0000
-        var tMilis: string=time[1];
-        
+        var tMilis: string = time[1];
+
         // "+"" znamena prevod na cislo
-        var date = new Date(+d[0],+d[1],+d[2],+t[0],+t[1],+t[2], +tMilis);;
+        var date = new Date(+d[0], +d[1], +d[2], +t[0], +t[1], +t[2], +tMilis);;
         return date;
     }
-    
+
     public static getWeek(date: Date) {
         var onejan = new Date(date.getFullYear(), 0, 1);
         return Math.ceil((((date.getTime() - onejan.getTime()) / 86400000) + onejan.getDay() + 1) / 7);

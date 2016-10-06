@@ -15,6 +15,9 @@ export class TableStatisComponent { // implements OnChanges {
   @Input()
   labels: any[]
 
+  @Input()
+  devEUI: string
+
   constructor(private ref: ChangeDetectorRef) {
     ref.detach();
     // setInterval(() => {

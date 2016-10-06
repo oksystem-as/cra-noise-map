@@ -1,3 +1,11 @@
 .navbar {
   margin:10px;
 }
+
+.bold-sensor {
+  font-weight: bold;
+}
+
+.red-sensor {
+  color: red !important;;
+}

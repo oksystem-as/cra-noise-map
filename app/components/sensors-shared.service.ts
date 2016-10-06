@@ -26,6 +26,7 @@ export class Overlay {
 
 export enum Events {
     runAnimation = <any>"runAnimation",
+    selectSensor = <any>"selectSensor",
 }
 
 export class Event {
@@ -54,12 +55,15 @@ export class SensorsSharedService {
 
     private devicedetailParamsDefault = <DeviceDetailParams>{
         start: this.minDateLimit,
-        limit: 20,
+        limit: 1,
         order: Order.asc
     }
 
     constructor(private log: Logger, private craService: CRaService) {
         this.loadInitialData(this.devicedetailParamsDefault, this.sensors, true);
+        this.eventAggregator.subscribe((data)=> {
+            log.debug("[Event published] type: [" + data.type + "], publisher: [" + data.publisher + "] data: ",  data.data);
+        });
     }
 
     publishEvent(type: Events, data: any, publisher: any = "[not defined]") {
@@ -70,7 +74,7 @@ export class SensorsSharedService {
         return this.eventAggregator.filter((data) => { return data.type === type }).pluck('data');
     }
 
-    listenEvent(type: Events): Observable<any> {
+    listenEvent(type: Events): Observable<Event> {
         return this.eventAggregator.filter((data) => { return data.type === type });
     }
 
@@ -89,15 +93,15 @@ export class SensorsSharedService {
         this.animationSensor.next(sensor);
     }
 
-    getSelectedSensor(): Observable<Sensor> {
-        this.log.debug("SensorsSharedService.getSelectedSensor()");
-        return this.selectedSensor.asObservable();
-    }
+    // getSelectedSensor(): Observable<Sensor> {
+    //     this.log.debug("SensorsSharedService.getSelectedSensor()");
+    //     return this.selectedSensor.asObservable();
+    // }
 
-    setSelectedSensor(sensor: Sensor) {
-        this.log.debug("SensorsSharedService.setSelectedSensor()", sensor);
-        this.selectedSensor.next(sensor);
-    }
+    // setSelectedSensor(sensor: Sensor) {
+    //     this.log.debug("SensorsSharedService.setSelectedSensor()", sensor);
+    //     this.selectedSensor.next(sensor);
+    // }
 
     getOverlays(): Observable<Overlay[]> {
         this.log.debug("SensorsSharedService.getOverlays()");
@@ -155,7 +159,6 @@ export class SensorsSharedService {
                     // let payload: ARF8084BAPayload = aRF8084BAPayloadResolver.resolve(record.payloadHex)
                     let payload = this.reslovePayload(devicedetailParams.payloadType, record.payloadHex)
                     payload.createdAt = DateUtils.parseDate(record.createdAt);
-                    console.log(record.createdAt, payload.createdAt)
                     payload.payloadType = response.payloadType;
                     sensor.payloads.push(payload);
                 })
