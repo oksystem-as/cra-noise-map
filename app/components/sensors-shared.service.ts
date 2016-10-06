@@ -61,8 +61,8 @@ export class SensorsSharedService {
 
     constructor(private log: Logger, private craService: CRaService) {
         this.loadInitialData(this.devicedetailParamsDefault, this.sensors, true);
-        this.eventAggregator.subscribe((data)=> {
-            log.debug("[Event published] type: [" + data.type + "], publisher: [" + data.publisher + "] data: ",  data.data);
+        this.eventAggregator.subscribe((data) => {
+            log.debug("[Event published] type: [" + data.type + "], publisher: [" + data.publisher + "] data: ", data.data);
         });
     }
 
@@ -157,7 +157,7 @@ export class SensorsSharedService {
                 sensor.publisher = response.publisher;
                 response.records.forEach(record => {
                     // let payload: ARF8084BAPayload = aRF8084BAPayloadResolver.resolve(record.payloadHex)
-                    let payload = this.reslovePayload(devicedetailParams.payloadType, record.payloadHex)
+                    let payload = this.reslovePayload(devicedetailParams.payloadType, record.payloadHex, sensor.devEUI)
                     payload.createdAt = DateUtils.parseDate(record.createdAt);
                     payload.payloadType = response.payloadType;
                     sensor.payloads.push(payload);
@@ -189,7 +189,7 @@ export class SensorsSharedService {
                     sensor.payloadType = response.payloadType;
                     sensor.publisher = response.publisher;
                     response.records.forEach((record: Record) => {
-                        let payload = this.reslovePayload(this.deviceType, record.payloadHex);
+                        let payload = this.reslovePayload(this.deviceType, record.payloadHex, sensor.devEUI);
                         payload.createdAt = DateUtils.parseDate(record.createdAt);
                         payload.payloadType = response.payloadType;
                         sensor.payloads.push(payload);
@@ -211,23 +211,54 @@ export class SensorsSharedService {
         }
     }
 
-    private reslovePayload(payloadType: PayloadType, payload: String): Payload {
-        let aRF8084BAPayloadResolver = new ARF8084BAPayloadResolver();
-        let rHF1S001PayloadResolver = new RHF1S001PayloadResolver();
-
+    private reslovePayload(payloadType: PayloadType, payload: String, devEUI: string): Payload {
         if (payloadType == PayloadType.ARF8084BA) {
             // this.log.debug("je to ARF8084BA " + payload)
-            let payloadint = aRF8084BAPayloadResolver.resolve(payload);
+            let payloadint = this.aRF8084BAPayloadResolver.resolve(payload);
             // fake data 
-            payloadint.temp = Math.floor(Math.random() * 100) + 1
+            this.listLocationSensor.forEach(element => {
+                if (element.devEUI === devEUI) {
+                    payloadint.latitude = element.latitude;
+                    payloadint.longtitude = element.longtitude;
+                    console.log(Math.floor(Math.sin(element.index++/30)*10));
+
+                    element.noise += Math.floor(Math.sin(element.index++/30)*10)
+                    // element.noise = Math.floor(element.noise);
+                    // console.log(element.noise, this.listLocationSensor);
+                    // console.log(Math.floor(((Math.random() * 10) / 2))); ((Math.random() * 10) / 2)
+                    // if (element.noise > 80 && element.noise > 40) {
+                   
+                    // } else {
+                    // element.noise += Math.floor(((Math.random() * 10) / 2));
+                    // }
+
+                    payloadint.temp = element.noise;
+                }
+            });
+
+
             return payloadint;
         }
 
         if (payloadType == PayloadType.RHF1S001) {
             // this.log.debug("je to RHF1S001 " + payload)
-            let payloadint = rHF1S001PayloadResolver.resolve(payload);
+            let payloadint = this.rHF1S001PayloadResolver.resolve(payload);
             return payloadint
         }
         return null;
     }
+
+    private baseNoise = 30;
+    private aRF8084BAPayloadResolver = new ARF8084BAPayloadResolver();
+    private rHF1S001PayloadResolver = new RHF1S001PayloadResolver();
+    private listLocationSensor: { devEUI: string, latitude: number, longtitude: number, noise: number, index: number }[] = [
+        { devEUI: "0018B20000000336", latitude: 50.052853, longtitude: 14.439492, noise: this.baseNoise, index: 10 },
+        { devEUI: "0018B20000000165", latitude: 50.062028, longtitude: 14.428990, noise: this.baseNoise, index: 2 },
+        { devEUI: "0018B2000000016E", latitude: 50.039161, longtitude: 14.389049, noise: this.baseNoise, index: 20 },
+        { devEUI: "0018B20000000337", latitude: 50.051616, longtitude: 14.525933, noise: this.baseNoise, index: 7 },
+        { devEUI: "0018B2000000033C", latitude: 50.105831, longtitude: 14.474953, noise: this.baseNoise, index: 3 },
+        { devEUI: "0018B2000000033A", latitude: 50.142034, longtitude: 14.391308, noise: this.baseNoise, index: 10 },
+        { devEUI: "0018B20000000339", latitude: 49.966399, longtitude: 14.442805, noise: this.baseNoise, index: 4 },
+        { devEUI: "0018B20000000335", latitude: 50.089150, longtitude: 14.377480, noise: this.baseNoise, index: 4 },
+    ]
 }

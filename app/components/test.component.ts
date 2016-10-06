@@ -75,7 +75,17 @@ class RxUtils {
 export class TestComponent {
 
   constructor() {
-    this.extendedArray();
+    this.randomNumber();
+  }
+
+  private randomNumber(){
+    let init = 30;
+    for (var index = 0; index < 20000; index++) {
+      init += Math.sin(index/30)
+      console.log(Math.floor(init))
+      // init = init + Math.floor(Math.sin(init));
+      // console.log(init, Math.floor(Math.sin(init)))
+    }
   }
   
   // porad nefunguje :( - test pri transpilaci do ES5
