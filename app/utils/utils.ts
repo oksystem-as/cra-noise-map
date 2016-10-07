@@ -101,6 +101,21 @@ export class BitUtils {
     }
 }
 
+export enum MonthList{
+	Leden = 0,
+	Unor,
+	Berezen,
+	Duben,
+	Kveten,
+	Cerven,
+    Cervenec,
+	Srpen,
+	Zari,
+	Rijen,
+	Listopad,
+	Prosinec
+}
+
 export class DateUtils {
     /**
      * ocekavanzy format je 2016-10-04T07:55:32+0000
@@ -124,7 +139,7 @@ export class DateUtils {
         var tMilis: string = time[1];
 
         // "+"" znamena prevod na cislo
-        var date = new Date(+d[0], +d[1], +d[2], +t[0], +t[1], +t[2], +tMilis);;
+        var date = new Date(+d[0], +d[1]-1, +d[2], +t[0], +t[1], +t[2], +tMilis);;
         return date;
     }
 

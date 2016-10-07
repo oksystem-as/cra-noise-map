@@ -38,7 +38,9 @@ export class MapComponent implements AfterViewInit {
   private chkbox = false;
   private overlays: { checked: boolean, value: number, text: string, position: number }[];
   private noiseMapType;
-
+  private sliderNewDate: Date = SensorsSharedService.minDateLimit;
+  private hour = 3600000;
+  private day = 3600000*24;
   // private iconOn = {
   //   path: google.maps.SymbolPath.CIRCLE,
   //   scale: 12,
@@ -144,7 +146,7 @@ export class MapComponent implements AfterViewInit {
     });
 
     this.map.controls[google.maps.ControlPosition.RIGHT_TOP].push(document.getElementById('statistics'));
-    this.map.controls[google.maps.ControlPosition.RIGHT_TOP].push(document.getElementById('tabs-map-legend'));
+    this.map.controls[google.maps.ControlPosition.LEFT_TOP].push(document.getElementById('tabs-map-legend'));
     this.map.controls[google.maps.ControlPosition.BOTTOM_CENTER].push(document.getElementById('baseMapLegend'));
 
   }
@@ -182,6 +184,10 @@ export class MapComponent implements AfterViewInit {
   }
 
   private addNewDataListener() {
+    this.sensorsSharedService.listenEventData(Events.sliderNewDate).subscribe(data => {
+      this.sliderNewDate = data;
+    });
+
     this.sensorsSharedService.listenEventData(Events.runAnimation).filter((sensor: Sensor) => {
       return sensor != undefined && sensor.payloads != undefined
     }).subscribe((sensor: Sensor) => {
@@ -257,9 +263,21 @@ export class MapComponent implements AfterViewInit {
 
       var i = 1;
       sensors.forEach(sensor => {
+        // if (sensor.payloads[0] != undefined) {
+        //   console.log(sensor.payloads[0].createdAt.toLocaleString());
+        // }
         if (sensor.payloadType == PayloadType.ARF8084BA) {
           sensor.payloads.forEach((payload: ARF8084BAPayload) => {
-            if (payload.longtitude != undefined && payload.latitude != undefined) {
+            // je v rozmezi hodiny od vybraneho data
+  
+            let createdAt = payload.createdAt.getTime();
+            let min = this.sliderNewDate.getTime();
+            let max = this.sliderNewDate.getTime() + this.day;
+            let isBetween = min <= createdAt && createdAt < max
+
+            console.log(isBetween, new Date(min).toLocaleString() + " <= " + new Date(createdAt).toLocaleString() + " < " + new Date(max).toLocaleString());
+
+            if (payload.longtitude != undefined && payload.latitude != undefined && isBetween) {
               //this.log.debug("kreslim ", payload.latitude, payload.longtitude);
 
               var infowindow = this.createInfoWindow(payload, sensor);
@@ -313,9 +331,9 @@ export class MapComponent implements AfterViewInit {
     let text = "<strong>pozice:</strong> " + payload.latitudeText + "N " + payload.longtitudeText + "E<br> " +
       "<strong>hluk:</strong> " + payload.temp + "dB<br> " +
       "<strong>ID:</strong> " + sensor.devEUI;
-
     return new google.maps.InfoWindow({
       content: "<div class='info-window'>" + text + "</div>",
+      disableAutoPan: true,
     });
   }
 
@@ -342,8 +360,8 @@ export class MapComponent implements AfterViewInit {
     marker.addListener('mouseover', () => {
       marker.setIcon(this.decorateAsSelected(marker.getIcon()));
       // setTimeout(() => {
-        infoWin.open(this.map, marker);
-      // }, 50);
+      infoWin.open(this.map, marker);
+      // }, 2000);
 
     });
 
@@ -400,7 +418,7 @@ export class MapComponent implements AfterViewInit {
   }
 
 
-   private devicedetailParamsDefault = <DeviceDetailParams>{
+  private devicedetailParamsDefault = <DeviceDetailParams>{
     start: new Date(2014, 1, 11),
     //stop: new Date("2016-09-22"),
     order: Order.asc,

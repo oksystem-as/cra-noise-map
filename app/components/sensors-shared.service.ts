@@ -15,7 +15,7 @@ import { DeviceDetail, Record } from '../entity/device/device-detail';
 import { Devices, DeviceRecord } from '../entity/device/devices';
 import { Payload, PayloadType } from '../payloads/payload';
 import { Sensor } from '../entity/sensor';
-import { DateUtils } from '../utils/utils';
+import { DateUtils, MonthList } from '../utils/utils';
 
 export class Overlay {
     checked: boolean;
@@ -27,6 +27,7 @@ export class Overlay {
 export enum Events {
     runAnimation = <any>"runAnimation",
     selectSensor = <any>"selectSensor",
+    sliderNewDate = <any>"sliderNewDate",
 }
 
 export class Event {
@@ -37,12 +38,13 @@ export class Event {
 
 @Injectable()
 export class SensorsSharedService {
-
-    private minDateLimit = new Date(2016, 7, 18);
+    // POZOR mesic je o jedna
+    // http://stackoverflow.com/questions/1453043/zero-based-month-numbering 
+    public static minDateLimit = new Date(2016, MonthList.Srpen, 18);
     private sensors: BehaviorSubject<Sensor[]> = new BehaviorSubject([]);
     private animationSensor: BehaviorSubject<Sensor> = new BehaviorSubject(null);
     private statisticsData: BehaviorSubject<Sensor> = new BehaviorSubject(null);
-    private minDate: BehaviorSubject<Date> = new BehaviorSubject(this.minDateLimit);
+    private minDate: BehaviorSubject<Date> = new BehaviorSubject(SensorsSharedService.minDateLimit);
     private overlays: BehaviorSubject<Overlay[]> = new BehaviorSubject(null);
 
     private selectedSensor: BehaviorSubject<Sensor> = new BehaviorSubject(null);
@@ -54,12 +56,15 @@ export class SensorsSharedService {
     private deviceType = PayloadType.ARF8084BA;
 
     private devicedetailParamsDefault = <DeviceDetailParams>{
-        start: this.minDateLimit,
+        start: SensorsSharedService.minDateLimit,
         limit: 1,
         order: Order.asc
     }
 
     constructor(private log: Logger, private craService: CRaService) {
+        console.log(SensorsSharedService.minDateLimit.toLocaleString())
+        console.log(SensorsSharedService.minDateLimit.toDateString())
+        console.log(SensorsSharedService.minDateLimit.toString())
         this.loadInitialData(this.devicedetailParamsDefault, this.sensors, true);
         this.eventAggregator.subscribe((data) => {
             log.debug("[Event published] type: [" + data.type + "], publisher: [" + data.publisher + "] data: ", data.data);
@@ -220,19 +225,34 @@ export class SensorsSharedService {
                 if (element.devEUI === devEUI) {
                     payloadint.latitude = element.latitude;
                     payloadint.longtitude = element.longtitude;
-                    console.log(Math.floor(Math.sin(element.index++/30)*10));
-
-                    element.noise += Math.floor(Math.sin(element.index++/30)*10)
+                    payloadint.latitudeText = "TestLat";
+                    payloadint.longtitudeText = "TestLong";
+                    payloadint.temp = Math.floor(((Math.random() * 100)));
+                    payloadint.status.GPSInfoIsPresent = true;
+                    // console.log(Math.floor(Math.sin(element.index++ / 30) * 10));
+                    // element.noise += Math.floor(Math.sin(element.index++ / 30) * 10)
                     // element.noise = Math.floor(element.noise);
                     // console.log(element.noise, this.listLocationSensor);
                     // console.log(Math.floor(((Math.random() * 10) / 2))); ((Math.random() * 10) / 2)
                     // if (element.noise > 80 && element.noise > 40) {
-                   
+
                     // } else {
                     // element.noise += Math.floor(((Math.random() * 10) / 2));
                     // }
 
-                    payloadint.temp = element.noise;
+                    // if (Math.round(((Math.random()))) == 0) {
+                    //     payloadint.status.GPSInfoIsPresent = false;
+                    //       payloadint.latitude = null;
+                    //     payloadint.longtitude = element.longtitude;
+                    // } else {
+                    //     payloadint.status.GPSInfoIsPresent = true;
+                    //     payloadint.latitude = element.latitude;
+                    //     payloadint.longtitude = element.longtitude;
+                    //     // console.log(Math.floor(Math.sin(element.index++ / 30) * 10));
+                    //     // element.noise += Math.floor(Math.sin(element.index++ / 30) * 10)
+                    // }
+                    // payloadint.temp = Math.floor(((Math.random() * 100)));
+
                 }
             });
 

@@ -40,10 +40,10 @@ export class MenuComponent {
     // })
 
     this.sensorsSharedService.getSensors()
-    .filter((sensors) => {
-      return sensors != undefined && sensors.length > 0;
-    }).subscribe((sensors: Sensor[]) => {
+    .filter((sensors) => {return sensors != undefined && sensors.length > 0;})
+    .subscribe((sensors: Sensor[]) => {
       this.sensors = sensors;
+       this.selectedSensor = null;
       // if (this.init) {
       //   this.sensorsAnimate = sensors.slice(0);
       //   this.init = false;

@@ -2,7 +2,7 @@ import { Component, AfterViewInit, ViewChild, SimpleChange, Input, ViewEncapsula
 import { Logger } from "angular2-logger/core";
 /// <reference path="../../typings/globals/googlemaps/google.maps.d.ts" />
 /// <reference path="../../typings/globals/markerclustererplus/markerclustererplus.d.ts" />
-import { SensorsSharedService } from '../sensors-shared.service';
+import { SensorsSharedService, Events } from '../sensors-shared.service';
 import { Sensor } from '../../entity/sensor';
 import { Payload, PayloadType } from '../../payloads/payload';
 import { RxUtils, ObjectUtils, RandomUtils } from '../../utils/utils';
@@ -57,8 +57,8 @@ export class StatisComponent {//implements AfterViewInit {
     public barChartLegend: boolean = false;
     public barChartData = [
         {
-            label: "hluk(dB)", 
-            borderWidth: 1, 
+            label: "hluk(dB)",
+            borderWidth: 1,
             data: [],
 
             // fill: false,
@@ -102,7 +102,7 @@ export class StatisComponent {//implements AfterViewInit {
         if (this.slider) {
             this.slider.destroy();
             this.sliderEvent.complete();
-            this.sliderEvent =  new BehaviorSubject(null);
+            this.sliderEvent = new BehaviorSubject(null);
         }
     }
 
@@ -141,7 +141,6 @@ export class StatisComponent {//implements AfterViewInit {
     }
 
     constructor(private log: Logger, private sensorsSharedService: SensorsSharedService, elementRef: ElementRef) {
-        // this.elementRef = elementRef;
         var source = sensorsSharedService.getStatisticsData()
             .filter(data => {
                 return data != undefined && data.payloads != undefined && data.payloadType == PayloadType.ARF8084BA &&
@@ -153,12 +152,16 @@ export class StatisComponent {//implements AfterViewInit {
                 }
                 return data.payloads.length > 0
             }).subscribe(data => {
+                console.log("getStatisticsData2 ", data);
+                var element = data.payloads[0];
+                console.log("createdAt2 ", element.createdAt.toLocaleString())
+
                 this.clearChart();
                 //  console.log("startDate ", data.payloads[0].createdAt.toLocaleString());
                 // data.payloads.forEach((data) => {
                 //     console.log(data.createdAt.toLocaleString());
                 // })
-               
+
                 if (this.firstInitSlider) {
 
                     this.initSlider(data.payloads[0].createdAt);
@@ -171,7 +174,7 @@ export class StatisComponent {//implements AfterViewInit {
                 }
 
                 this.devEUI = data.devEUI;
-                
+
                 // 1. vytvarim novy stream jelikoz stream getStatisticsData() se neuzavira a nektere volani 
                 // (reduce(), last() atp.) cekaji na completed resp uzavreni streamu, ktereho se nedockaji ...
                 // 2. musim provest deep copy listu a v nem obs. objektu jinak dochayi k modifikaci objektu napric streamy 
@@ -220,9 +223,10 @@ export class StatisComponent {//implements AfterViewInit {
     }
 
     private initSlider(firstDate: Date) {
+        this.sensorsSharedService.publishEvent(Events.sliderNewDate,  firstDate);
         // this.removeSlider();
         let oldDate = firstDate;
-        
+
         console.log("start ", firstDate);
 
         // pocet bodu na slideru    
@@ -276,7 +280,7 @@ export class StatisComponent {//implements AfterViewInit {
             .filter(data => { return data != undefined; })
             .debounceTime(1500)
             .subscribe(newDate => {
-                this.sliderEvent.next(newDate);
+                //this.sliderEvent.next(newDate);
                 let time1 = parseInt(newDate[0].toString());
                 let time2 = parseInt(newDate[1].toString());
                 // this.selectedDate = this.slider.getValue();
