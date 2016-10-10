@@ -17,7 +17,6 @@ import { BaseMapLegendComponent } from './components/map/base.map.legend.compone
 import { HttpModule }    from '@angular/http';
 import { Logger, Options, Level  } from "angular2-logger/core"; 
 import { DropdownModule } from "ng2-dropdown";
-import { MapLegendComponent } from './components/map/map.legend.component';
 import { Ng2BootstrapModule } from 'ng2-bootstrap/ng2-bootstrap';
 
 import { CRaService } from './service/cra.service';
@@ -40,7 +39,6 @@ import { ChartsModule } from 'ng2-charts/ng2-charts';
     MenuComponent,
     TestComponent,
     SliderComponent,
-    MapLegendComponent,
     StatisticsComponent,
     SideMenuComponent,
     StatisComponent,

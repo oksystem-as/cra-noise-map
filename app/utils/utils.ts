@@ -31,22 +31,25 @@ export class ColorLegend {
     value: number;
     color: string;
     valueText: string;
+    colorText: string;
 }
 
 export class ColorUtils {
     //private static colorValueMap: Map<string, boolean> = new Map<string, boolean>(){} ;
     public static colorValueMap: ColorLegend[] =
     [
-        { value: 0, color: "#1f8545", valueText: "do 40 dB" },
-        { value: 40, color: "#79c67a", valueText: "40 - 45 dB" },
-        { value: 45, color: "#d3ffbe", valueText: "45 - 50 dB" },
-        { value: 50, color: "#ffffbe", valueText: "50 - 45 dB" },
-        { value: 55, color: "#ffff74", valueText: "55 - 60 dB" },
-        { value: 60, color: "#ffc200", valueText: "60 - 65 dB" },
-        { value: 65, color: "#e60000", valueText: "65 - 70 dB" },
-        { value: 70, color: "#b50000", valueText: "70 - 75 dB" },
-        { value: 75, color: "#630a6c", valueText: "75 - 80 dB" },
-        { value: 80, color: "#001f9d", valueText: "80 dB a více" },
+        { value: -1, color: "#000000", valueText: "dB" , colorText: "white"}, 
+        { value: 0,  color: "#DAFFCE", valueText: "< 40" , colorText: "black"},   // color:#d3ffbe
+        { value: 40, color: "#38EF40", valueText: "40-45", colorText: "black"},   // color:#79c67a
+        { value: 45, color: "#008056", valueText: "45-50", colorText: "black"},   // color:#1f8545 
+        { value: 50, color: "#F1B79A", valueText: "50-55", colorText: "black"},   // color:#ffffbe
+        { value: 55, color: "#FFAD45", valueText: "55-60", colorText: "black"},   // color:#ffff74
+        { value: 60, color: "#FF1D2B", valueText: "60-65", colorText: "black"},   // color:#ffc200
+        { value: 65, color: "#BB2C28", valueText: "65-70", colorText: "black"},   // color:#e60000
+        { value: 70, color: "#CD3796", valueText: "70-75", colorText: "black"},   // color:#b50000
+        { value: 75, color: "#1491F8", valueText: "75-80", colorText: "black"},   // color:#630a6c
+        { value: 80, color: "#09369B", valueText: "80-85", colorText: "white"},   // color:#001f9d
+        { value: 85, color: "#001760", valueText: "85 >" , colorText: "white"},
     ];
 
     public static getColor(value: number): string {
