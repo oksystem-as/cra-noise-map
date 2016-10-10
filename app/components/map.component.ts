@@ -145,10 +145,9 @@ export class MapComponent implements AfterViewInit {
       name: 'noise'
     });
 
-    this.map.controls[google.maps.ControlPosition.LEFT_TOP].push(document.getElementById('tabs-map-legend'));
     this.map.controls[google.maps.ControlPosition.RIGHT_TOP].push(document.getElementById('statistics'));
-    this.map.controls[google.maps.ControlPosition.RIGHT_CENTER].push(document.getElementById('baseMapLegendVertical'));
-    this.map.controls[google.maps.ControlPosition.BOTTOM_CENTER].push(document.getElementById('baseMapLegendHorizontal'));
+    this.map.controls[google.maps.ControlPosition.RIGHT_TOP].push(document.getElementById('tabs-map-legend'));
+    this.map.controls[google.maps.ControlPosition.TOP_LEFT].push(document.getElementById('baseMapLegend'));
   }
 
   private onChkboxClick(payload) {
