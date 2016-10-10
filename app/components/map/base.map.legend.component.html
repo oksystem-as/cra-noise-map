@@ -2,8 +2,7 @@
     <!--Horizontal-->
     <div *ngIf="!showVertical">
         <span class="legendText" *ngFor="let legend of legends">  
-        <span class="smallBox" [style.background]="legend.color" ></span>
-        <span>{{legend.valueText}}</span>
+            <span>{{legend.valueText}}</span>
         </span>
     </div>
     <!--Vertical-->

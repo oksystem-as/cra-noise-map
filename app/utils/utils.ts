@@ -45,9 +45,9 @@ export class ColorUtils {
         { value: 50, color: "#F1B79A", valueText: "50-55", colorText: "black" },   // color:#ffffbe
         { value: 55, color: "#FFAD45", valueText: "55-60", colorText: "black" },   // color:#ffff74
         { value: 60, color: "#FF1D2B", valueText: "60-65", colorText: "black" },   // color:#ffc200
-        { value: 65, color: "#BB2C28", valueText: "65-70", colorText: "black" },   // color:#e60000
-        { value: 70, color: "#CD3796", valueText: "70-75", colorText: "black" },   // color:#b50000
-        { value: 75, color: "#1491F8", valueText: "75-80", colorText: "black" },   // color:#630a6c
+        { value: 65, color: "#BB2C28", valueText: "65-70", colorText: "white" },   // color:#e60000
+        { value: 70, color: "#CD3796", valueText: "70-75", colorText: "white" },   // color:#b50000
+        { value: 75, color: "#1491F8", valueText: "75-80", colorText: "white" },   // color:#630a6c
         { value: 80, color: "#09369B", valueText: "80-85", colorText: "white" },   // color:#001f9d
         { value: 85, color: "#001760", valueText: "85 >", colorText: "white" },
     ];

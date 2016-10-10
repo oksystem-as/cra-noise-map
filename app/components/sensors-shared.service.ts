@@ -273,13 +273,13 @@ export class SensorsSharedService {
     private aRF8084BAPayloadResolver = new ARF8084BAPayloadResolver();
     private rHF1S001PayloadResolver = new RHF1S001PayloadResolver();
     private listLocationSensor: { devEUI: string, latitude: number, name: string, longtitude: number, latitudeText: string, longtitudeText: string, noise: number, index: number }[] = [
-        { devEUI: "0018B20000000336", name: "čidlo - OKsystem           ", latitude: 50.052853, longtitude: 14.439492, latitudeText: "50°03'10.3\"", longtitudeText: "14°29'22.2\"", noise: this.baseNoise, index: 10 },
-        { devEUI: "0018B20000000165", name: "čidlo - Kongresové centrum ", latitude: 50.062028, longtitude: 14.428990, latitudeText: "50°04'10.3\"", longtitudeText: "14°28'22.2\"", noise: this.baseNoise, index: 2 },
-        { devEUI: "0018B2000000016E", name: "čidlo - Třebotovksá        ", latitude: 50.039161, longtitude: 14.389049, latitudeText: "50°02'10.3\"", longtitudeText: "14°25'22.2\"", noise: this.baseNoise, index: 20 },
-        { devEUI: "0018B20000000337", name: "čidlo - Trhanovské naměstí ", latitude: 50.051616, longtitude: 14.525933, latitudeText: "50°05'10.3\"", longtitudeText: "14°20'22.2\"", noise: this.baseNoise, index: 7 },
-        { devEUI: "0018B2000000033C", name: "čidlo - Světovova          ", latitude: 50.105831, longtitude: 14.474953, latitudeText: "50°03'10.3\"", longtitudeText: "14°23'22.2\"", noise: this.baseNoise, index: 3 },
-        { devEUI: "0018B2000000033A", name: "čidlo - U Roztockého háje  ", latitude: 50.142034, longtitude: 14.391308, latitudeText: "50°04'10.3\"", longtitudeText: "14°22'22.2\"", noise: this.baseNoise, index: 10 },
-        { devEUI: "0018B20000000339", name: "čidlo - K točné            ", latitude: 49.966399, longtitude: 14.442805, latitudeText: "50°08'10.3\"", longtitudeText: "14°21'22.2\"", noise: this.baseNoise, index: 4 },
-        { devEUI: "0018B20000000335", name: "čidlo - Na petynce         ", latitude: 50.089150, longtitude: 14.377480, latitudeText: "50°09'10.3\"", longtitudeText: "14°27'22.2\"", noise: this.baseNoise, index: 4 },
+        { devEUI: "0018B20000000336", name: "OKsystem           ", latitude: 50.052853, longtitude: 14.439492, latitudeText: "50°03'10.3\"", longtitudeText: "14°29'22.2\"", noise: this.baseNoise, index: 10 },
+        { devEUI: "0018B20000000165", name: "Kongresové centrum ", latitude: 50.062028, longtitude: 14.428990, latitudeText: "50°04'10.3\"", longtitudeText: "14°28'22.2\"", noise: this.baseNoise, index: 2 },
+        { devEUI: "0018B2000000016E", name: "Třebotovksá        ", latitude: 50.039161, longtitude: 14.389049, latitudeText: "50°02'10.3\"", longtitudeText: "14°25'22.2\"", noise: this.baseNoise, index: 20 },
+        { devEUI: "0018B20000000337", name: "Trhanovské naměstí ", latitude: 50.051616, longtitude: 14.525933, latitudeText: "50°05'10.3\"", longtitudeText: "14°20'22.2\"", noise: this.baseNoise, index: 7 },
+        { devEUI: "0018B2000000033C", name: "Světovova          ", latitude: 50.105831, longtitude: 14.474953, latitudeText: "50°03'10.3\"", longtitudeText: "14°23'22.2\"", noise: this.baseNoise, index: 3 },
+        { devEUI: "0018B2000000033A", name: "U Roztockého háje  ", latitude: 50.142034, longtitude: 14.391308, latitudeText: "50°04'10.3\"", longtitudeText: "14°22'22.2\"", noise: this.baseNoise, index: 10 },
+        { devEUI: "0018B20000000339", name: "K točné            ", latitude: 49.966399, longtitude: 14.442805, latitudeText: "50°08'10.3\"", longtitudeText: "14°21'22.2\"", noise: this.baseNoise, index: 4 },
+        { devEUI: "0018B20000000335", name: "Na petynce         ", latitude: 50.089150, longtitude: 14.377480, latitudeText: "50°09'10.3\"", longtitudeText: "14°27'22.2\"", noise: this.baseNoise, index: 4 },
     ]
 }

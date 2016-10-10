@@ -1,3 +1,26 @@
-<div id="statistics">
-    <tabs-statis></tabs-statis>
-</div> 
+<div id="statistics2">
+    <div>
+        <div id="buttons">
+            <div id="combo">
+                <ul class="nav navbar-nav">
+                    <li class="dropdown" dropdown>
+                        <a *ngIf="selectedSensor == undefined" class=" dropdown dropdown-toggle" dropdown-open data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Vyberte čidlo <span class="glyphicon glyphicon-menu-down" ></span></a>
+                        <a *ngIf="selectedSensor != undefined" class=" dropdown dropdown-toggle" dropdown-open data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{selectedSensor.name}} <span class="glyphicon glyphicon-menu-down"></span></a>
+                        <ul class="dropdown-menu" > <!--dropdown-not-closable-zone-->
+                            <li *ngFor="let sensor of sensors, let ndx = index">
+                                <!--tooltip="{{sensor.devEUI}}"-->
+                                <a data-placement="left" (click)="onClick(sensor)" [class.bold-sensor]="isSensorOnMap(sensor)" [class.gray-sensor]="!isSensorOnMap(sensor)"
+                                    [class.red-sensor]="isSensorSelected(sensor)">{{sensor.name}}</a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            <button *ngIf="isHidden" type="button" class="btn btn-primary statisButton" (click)="isHidden = false">  <span class="glyphicon glyphicon-menu-down" aria-hidden="true"></span> </button>
+            <button *ngIf="!isHidden" type="button" class="btn btn-default statisButton" (click)="isHidden = true">  <span class="glyphicon glyphicon-menu-up" aria-hidden="true"></span> </button>
+        </div>
+        <div  id="statistics" [hidden]="isHidden">
+            <tabs-statis></tabs-statis>
+        </div>
+    </div>
+</div>

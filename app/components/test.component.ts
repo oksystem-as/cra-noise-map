@@ -155,35 +155,6 @@ export class TestComponent {
   }
 
 
-  // private deepCopyArr(array: any[]): any[] {
-  //   var out = [];
-  //   for (var i = 0, len = array.length; i < len; i++) {
-  //     var item = array[i];
-  //     var obj = {};
-  //     for (var k in item) {
-  //       obj[k] = this.deepCopy(item[k], undefined);
-  //     }
-  //     out.push(obj);
-  //   }
-  //   return out;
-  // }
-
-  // private deepCopy(from, to) {
-  //   if (from == null || typeof from != "object") return from;
-  //   if (from.constructor != Object && from.constructor != Array) return from;
-  //   if (from.constructor == Date || from.constructor == RegExp || from.constructor == Function ||
-  //     from.constructor == String || from.constructor == Number || from.constructor == Boolean)
-  //     return new from.constructor(from);
-
-  //   to = to || new from.constructor();
-
-  //   for (var name in from) {
-  //     to[name] = typeof to[name] == "undefined" ? this.deepCopy(from[name], null) : to[name];
-  //   }
-
-  //   return to;
-  // }
-
   testCloningAdv() {
     let payload1 = new RHF1S001Payload();
     payload1.createdAt = new Date(2015, 1, 1);

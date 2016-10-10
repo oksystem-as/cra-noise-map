@@ -21,6 +21,7 @@ import { Ng2BootstrapModule } from 'ng2-bootstrap/ng2-bootstrap';
 
 import { CRaService } from './service/cra.service';
 import { ChartsModule } from 'ng2-charts/ng2-charts';
+import { Collapse } from "./directives/collapse.directive"
 
 @NgModule({
   imports: [
@@ -46,6 +47,7 @@ import { ChartsModule } from 'ng2-charts/ng2-charts';
     TableStatisComponent,
     TabsMapLegendComponent,
     BaseMapLegendComponent,
+    Collapse,
     ],
   bootstrap: [AppComponent]
 })

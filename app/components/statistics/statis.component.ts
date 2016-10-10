@@ -5,7 +5,7 @@ import { Logger } from "angular2-logger/core";
 import { SensorsSharedService, Events } from '../sensors-shared.service';
 import { Sensor } from '../../entity/sensor';
 import { Payload, PayloadType } from '../../payloads/payload';
-import { RxUtils, ObjectUtils, RandomUtils } from '../../utils/utils';
+import { RxUtils, ObjectUtils, RandomUtils, DateUtils } from '../../utils/utils';
 
 import { ARF8084BAPayload } from '../../payloads/ARF8084BAPayload';
 import { RHF1S001Payload } from '../../payloads/RHF1S001Payload';
@@ -32,7 +32,7 @@ export enum StatisType {
     styleUrls: ['app/components/statistics/statis.component.css'],
     // encapsulation: ViewEncapsulation.Native
 })
-export class StatisComponent {//implements AfterViewInit {
+export class StatisComponent implements AfterViewInit {
     @ViewChild('myChart')
     private _chart;
     @ViewChild('myTable')
@@ -118,7 +118,7 @@ export class StatisComponent {//implements AfterViewInit {
         this.barTableLabels.push(this.getDateFormatForTable(date));
         let sch = new SimpleChange(this.barChartData, this.barChartData);
         let obj = { data: sch };
-       
+
         if (this._chart != undefined && this._chart.chart != undefined) {
             this._chart.ngOnChanges(obj);
         }
@@ -135,7 +135,7 @@ export class StatisComponent {//implements AfterViewInit {
         this.barTableLabels.length = 0;
         let sch = new SimpleChange(this.barChartData, this.barChartData);
         let obj = { data: sch };
-        
+
         if (this._chart != undefined && this._chart.chart != undefined) {
             this._chart.ngOnChanges(obj);
         }
@@ -168,7 +168,7 @@ export class StatisComponent {//implements AfterViewInit {
                 // })
 
                 if (this.firstInitSlider) {
-
+                    this.removeSlider();
                     this.initSlider(data.payloads[0].createdAt);
                     this.firstInitSlider = false;
                 } else if (data.publisher == "menuItem" || data.publisher == "markerItem") {
@@ -228,7 +228,7 @@ export class StatisComponent {//implements AfterViewInit {
     }
 
     private initSlider(firstDate: Date) {
-        this.sensorsSharedService.publishEvent(Events.sliderNewDate,  firstDate);
+        this.sensorsSharedService.publishEvent(Events.sliderNewDate, firstDate);
         // this.removeSlider();
         let oldDate = firstDate;
 
@@ -350,14 +350,14 @@ export class StatisComponent {//implements AfterViewInit {
     }
 
     private getDateFormatForTable(date: Date): string {
-         let dateFormat = date.toLocaleDateString();
-         switch (this.statisType) {
-             case StatisType.HOUR: {
+        let dateFormat = date.toLocaleDateString();
+        switch (this.statisType) {
+            case StatisType.HOUR: {
                 dateFormat = date.toLocaleString();
                 break;
-            } 
-         }
-         return dateFormat;
+            }
+        }
+        return dateFormat;
     }
 
     private getDateFormat(date): string {
@@ -396,7 +396,21 @@ export class StatisComponent {//implements AfterViewInit {
     //     console.log(' [ngOnInit]: ', this.statisType);
     // }
 
-    // ngAfterViewInit(): void {
-    //     console.log(' [ngAfterViewInit]: ', this.statisType);
-    // }
+    ngAfterViewInit(): void {
+        console.log(' [ngAfterViewInit]: ', this.statisType);
+        // default
+        let start = new Date().getTime()-DateUtils.DAY_IN_MILIS;
+        let start2 = new Date().getTime();
+        this.slider = new Slider('#' + this.statisId, {
+            ticks: [start, start2],
+            ticks_labels: [new Date(start).toLocaleDateString(), new Date(start2).toLocaleDateString()],
+            ticks_snap_bounds: 2,
+              formatter: function (value) {
+                // console.log(value)
+                return new Date(value).toLocaleString();
+            },
+            id: this.sliderId,
+        });
+        this.slider.disable();
+    }
 }
