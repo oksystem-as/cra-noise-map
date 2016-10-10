@@ -38,7 +38,7 @@ export class ColorUtils {
     //private static colorValueMap: Map<string, boolean> = new Map<string, boolean>(){} ;
     public static colorValueMap: ColorLegend[] =
     [
-        { value: -1, color: "#FFFFFF", valueText: "dB" , colorText: "black"}, 
+        { value: -1, color: "#000000", valueText: "dB"   , colorText: "white"}, 
         { value: 0,  color: "#DAFFCE", valueText: "< 40" , colorText: "black"},   // color:#d3ffbe
         { value: 40, color: "#38EF40", valueText: "40-45", colorText: "black"},   // color:#79c67a
         { value: 45, color: "#008056", valueText: "45-50", colorText: "black"},   // color:#1f8545 

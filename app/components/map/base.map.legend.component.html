@@ -1,10 +1,13 @@
-<div id="baseMapLegendHorizontal">
-    <span class="legendText" *ngFor="let legend of legends">  
+<div id="baseMapLegend">
+    <!--Horizontal-->
+    <div *ngIf="!showVertical">
+        <span class="legendText" *ngFor="let legend of legends">  
         <span class="smallBox" [style.background]="legend.color" ></span>
         <span>{{legend.valueText}}</span>
-    </span>
+        </span>
+    </div>
+    <!--Vertical-->
+    <div *ngIf="showVertical">
+        <div class="legendText" *ngFor="let legend of legends" [style.background]="legend.color" [style.color]="legend.colorText">{{legend.valueText}}</div>
+    </div>
 </div>
-
-<span id="baseMapLegendVertical">
-    <div class="legendText" *ngFor="let legend of legends"  [style.background]="legend.color" [style.color]="legend.colorText">{{legend.valueText}}</div>
-</span>

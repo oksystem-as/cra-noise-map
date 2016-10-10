@@ -19,14 +19,15 @@ import { ChartsModule, BaseChartComponent } from 'ng2-charts/ng2-charts';
 @Component({
     selector: 'base-map-legend',
     templateUrl: 'app/components/map/base.map.legend.component.html',
-    styleUrls: ['app/components/map/base.map.legend.component.css'],
-    // encapsulation: ViewEncapsulation.Native
+    styleUrls: ['app/components/map/base.map.legend.component.css']
 })
 
 
 
 export class BaseMapLegendComponent {
     private legends: ColorLegend[] = ColorUtils.colorValueMap;
+    @Input()
+    private showVertical: boolean = true;
 
     constructor() {
         console.log("BaseMapLegendComponent", this.legends)
