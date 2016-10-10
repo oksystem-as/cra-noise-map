@@ -80,7 +80,7 @@ export class SliderComponent implements AfterViewInit {
 
         // pokud se vybere nove datum provede se prenacteni dat s novym vychozim datem
         this.slider.on("slideStop", newDate => {
-            this.sensorsSharedService.publishEvent(Events.sliderNewDate,  new Date(newDate));
+            this.sensorsSharedService.publishEvent(Events.sliderNewDate,  new Date(newDate),  "SliderComponent.slideStop event");
             let time = parseInt(newDate.toString());
             // this.selectedDate = this.slider.getValue();
             this.log.debug("slideStop - " + newDate)

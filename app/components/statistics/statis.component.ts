@@ -53,6 +53,7 @@ export class StatisComponent {//implements AfterViewInit {
     };
 
     public barChartLabels: string[] = [];
+    public barTableLabels: string[] = [];
     public barChartType: string = 'line';
     public barChartLegend: boolean = false;
     public barChartData = [
@@ -110,12 +111,14 @@ export class StatisComponent {//implements AfterViewInit {
     //     console.log("StatisComponent.ngOnChanges", data);
     // }
 
-    private updateChart(data: number, label: string) {
+    private updateChartAndTable(data: number, date: Date) {
         // console.log(' [updateChart]: ', data, label);
         this.barChartData[0].data.push(data);
-        this.barChartLabels.push(label);
+        this.barChartLabels.push(this.getDateFormat(date));
+        this.barTableLabels.push(this.getDateFormatForTable(date));
         let sch = new SimpleChange(this.barChartData, this.barChartData);
         let obj = { data: sch };
+       
         if (this._chart != undefined && this._chart.chart != undefined) {
             this._chart.ngOnChanges(obj);
         }
@@ -125,16 +128,18 @@ export class StatisComponent {//implements AfterViewInit {
         }
     }
 
-    private clearChart() {
+    private clearChartAndTable() {
         // console.log(' [clearChart]: ', this.statisType);
         this.barChartData[0].data.length = 0;
         this.barChartLabels.length = 0;
+        this.barTableLabels.length = 0;
         let sch = new SimpleChange(this.barChartData, this.barChartData);
         let obj = { data: sch };
+        
         if (this._chart != undefined && this._chart.chart != undefined) {
             this._chart.ngOnChanges(obj);
-
         }
+
         if (this._table != undefined) {
             this._table.refresh();
         }
@@ -148,7 +153,7 @@ export class StatisComponent {//implements AfterViewInit {
             }).filter(data => {
                 if (data.payloads.length == 0) {
                     alert("Zadanému intervalu nevyhovují žádná data.")
-                    this.clearChart();
+                    this.clearChartAndTable();
                 }
                 return data.payloads.length > 0
             }).subscribe(data => {
@@ -156,7 +161,7 @@ export class StatisComponent {//implements AfterViewInit {
                 var element = data.payloads[0];
                 console.log("createdAt2 ", element.createdAt.toLocaleString())
 
-                this.clearChart();
+                this.clearChartAndTable();
                 //  console.log("startDate ", data.payloads[0].createdAt.toLocaleString());
                 // data.payloads.forEach((data) => {
                 //     console.log(data.createdAt.toLocaleString());
@@ -166,7 +171,7 @@ export class StatisComponent {//implements AfterViewInit {
 
                     this.initSlider(data.payloads[0].createdAt);
                     this.firstInitSlider = false;
-                } else if (data.publisher == "menuItem") {
+                } else if (data.publisher == "menuItem" || data.publisher == "markerItem") {
                     // pokud je vyber z menu je potreba provest reset 
                     this.removeSlider();
                     this.initSlider(data.payloads[0].createdAt);
@@ -184,37 +189,37 @@ export class StatisComponent {//implements AfterViewInit {
                         // Observable.from(ObjectUtils.deepCopyArr(data.payloads)).first().subscribe((data) => {
                         //     console.log("first", data);
                         // });
-                        this.resolveLogAvaerange(RxUtils.groupByHours(ObjectUtils.deepCopyArr(data.payloads)));
+                        this.resolveLogAverange(RxUtils.groupByHours(ObjectUtils.deepCopyArr(data.payloads)));
                         break;
                     }
                     case StatisType.DAY6_22: {
                         log.debug('denni 6-22 prumer: ');
-                        this.resolveLogAvaerange(RxUtils.groupByDay(ObjectUtils.deepCopyArr(data.payloads)));
+                        this.resolveLogAverange(RxUtils.groupByDay(ObjectUtils.deepCopyArr(data.payloads)));
                         break;
                     }
                     case StatisType.DAY18_22: {
                         log.debug('denni 18-22 prumer: ');
-                        this.resolveLogAvaerange(RxUtils.groupBy18_22(ObjectUtils.deepCopyArr(data.payloads)));
+                        this.resolveLogAverange(RxUtils.groupBy18_22(ObjectUtils.deepCopyArr(data.payloads)));
                         break;
                     }
                     case StatisType.NIGHT22_6: {
                         log.debug('nocni 22-6 prumer: ');
-                        this.resolveLogAvaerange(RxUtils.groupByNight(ObjectUtils.deepCopyArr(data.payloads)));
+                        this.resolveLogAverange(RxUtils.groupByNight(ObjectUtils.deepCopyArr(data.payloads)));
                         break;
                     }
                     case StatisType.DAY24: {
                         log.debug('denni 24h prumer: ');
-                        this.resolveLogAvaerange(RxUtils.groupByDays(ObjectUtils.deepCopyArr(data.payloads)));
+                        this.resolveLogAverange(RxUtils.groupByDays(ObjectUtils.deepCopyArr(data.payloads)));
                         break;
                     }
                     case StatisType.WEEK: {
                         log.debug('tydeni prumer: ');
-                        this.resolveLogAvaerange(RxUtils.groupByWeek(ObjectUtils.deepCopyArr(data.payloads)));
+                        this.resolveLogAverange(RxUtils.groupByWeek(ObjectUtils.deepCopyArr(data.payloads)));
                         break;
                     }
                     case StatisType.MONTH: {
                         log.debug('mesicni prumer: ');
-                        this.resolveLogAvaerange(RxUtils.groupByMonth(ObjectUtils.deepCopyArr(data.payloads)));
+                        this.resolveLogAverange(RxUtils.groupByMonth(ObjectUtils.deepCopyArr(data.payloads)));
                         break;
                     }
                     default: throw "nepodporovany graf " + this.statisType;
@@ -308,7 +313,7 @@ export class StatisComponent {//implements AfterViewInit {
         });
 
     }
-    private resolveLogAvaerange(group: Observable<GroupedObservable<number, Payload>>) {
+    private resolveLogAverange(group: Observable<GroupedObservable<number, Payload>>) {
         group.subscribe(group => {
             // console.log('group: ', group);
 
@@ -335,23 +340,30 @@ export class StatisComponent {//implements AfterViewInit {
             // // zobrazeni a spusteni straemu
             logAvgDataStream.subscribe(
                 data => {
-                    let dateFormat = this.getDateFormat(data.time);
-                    this.updateChart(Math.round(data.logAverange), dateFormat);
-                    //    console.log(' [data]: ', data.time.toLocaleString(), ' logAverange: ' + data.logAverange); 
+                    this.updateChartAndTable(Math.round(data.logAverange), data.time);
+                    // console.log(' [data]: ', data.time.toLocaleString(), ' logAverange: ' + data.logAverange); 
                 },
 
                 (err) => { console.log('Error: ' + err); },
-                () => { /*console.log('Completed') */ });
+                () => { /*console.log('Completed')*/ });
         });
+    }
+
+    private getDateFormatForTable(date: Date): string {
+         let dateFormat = date.toLocaleDateString();
+         switch (this.statisType) {
+             case StatisType.HOUR: {
+                dateFormat = date.toLocaleString();
+                break;
+            } 
+         }
+         return dateFormat;
     }
 
     private getDateFormat(date): string {
         let dateFormat;
         switch (this.statisType) {
-            case StatisType.HOUR: {
-                dateFormat = date.toLocaleString();
-                break;
-            }
+            case StatisType.HOUR:
             case StatisType.DAY6_22:
             case StatisType.DAY18_22:
             case StatisType.NIGHT22_6:

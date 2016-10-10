@@ -16,16 +16,6 @@ import { BehaviorSubject } from "rxjs/Rx";
 import 'rxjs/Rx';
 import { ChartsModule, BaseChartComponent } from 'ng2-charts/ng2-charts';
 
-export enum StatisType {
-    HOUR,
-    DAY6_22,
-    DAY18_22,
-    NIGHT22_6,
-    DAY24,
-    WEEK,
-    MONTH,
-}
-
 @Component({
     selector: 'statistics',
     templateUrl: 'app/components/statistics/statistics.component.html',

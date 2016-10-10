@@ -40,7 +40,7 @@ export class Event {
 export class SensorsSharedService {
     // POZOR mesic je o jedna
     // http://stackoverflow.com/questions/1453043/zero-based-month-numbering 
-    public static minDateLimit = new Date(2016, MonthList.Srpen, 18);
+    public static minDateLimit = new Date(2016, MonthList.Cervenec, 18);
     private sensors: BehaviorSubject<Sensor[]> = new BehaviorSubject([]);
     private animationSensor: BehaviorSubject<Sensor> = new BehaviorSubject(null);
     private statisticsData: BehaviorSubject<Sensor> = new BehaviorSubject(null);
@@ -162,7 +162,7 @@ export class SensorsSharedService {
                 sensor.publisher = response.publisher;
                 response.records.forEach(record => {
                     // let payload: ARF8084BAPayload = aRF8084BAPayloadResolver.resolve(record.payloadHex)
-                    let payload = this.reslovePayload(devicedetailParams.payloadType, record.payloadHex, sensor.devEUI)
+                    let payload = this.reslovePayload(devicedetailParams.payloadType, record.payloadHex, sensor)
                     payload.createdAt = DateUtils.parseDate(record.createdAt);
                     payload.payloadType = response.payloadType;
                     sensor.payloads.push(payload);
@@ -194,7 +194,7 @@ export class SensorsSharedService {
                     sensor.payloadType = response.payloadType;
                     sensor.publisher = response.publisher;
                     response.records.forEach((record: Record) => {
-                        let payload = this.reslovePayload(this.deviceType, record.payloadHex, sensor.devEUI);
+                        let payload = this.reslovePayload(this.deviceType, record.payloadHex, sensor);
                         payload.createdAt = DateUtils.parseDate(record.createdAt);
                         payload.payloadType = response.payloadType;
                         sensor.payloads.push(payload);
@@ -216,19 +216,20 @@ export class SensorsSharedService {
         }
     }
 
-    private reslovePayload(payloadType: PayloadType, payload: String, devEUI: string): Payload {
+    private reslovePayload(payloadType: PayloadType, payload: String, sensor: Sensor): Payload {
         if (payloadType == PayloadType.ARF8084BA) {
             // this.log.debug("je to ARF8084BA " + payload)
             let payloadint = this.aRF8084BAPayloadResolver.resolve(payload);
             // fake data 
             this.listLocationSensor.forEach(element => {
-                if (element.devEUI === devEUI) {
+                if (element.devEUI === sensor.devEUI) {
                     payloadint.latitude = element.latitude;
                     payloadint.longtitude = element.longtitude;
-                    payloadint.latitudeText = "TestLat";
-                    payloadint.longtitudeText = "TestLong";
+                    payloadint.latitudeText = element.longtitudeText;
+                    payloadint.longtitudeText = element.latitudeText;
                     payloadint.temp = Math.floor(((Math.random() * 100)));
                     payloadint.status.GPSInfoIsPresent = true;
+                    sensor.name = element.name;
                     // console.log(Math.floor(Math.sin(element.index++ / 30) * 10));
                     // element.noise += Math.floor(Math.sin(element.index++ / 30) * 10)
                     // element.noise = Math.floor(element.noise);
@@ -271,14 +272,14 @@ export class SensorsSharedService {
     private baseNoise = 30;
     private aRF8084BAPayloadResolver = new ARF8084BAPayloadResolver();
     private rHF1S001PayloadResolver = new RHF1S001PayloadResolver();
-    private listLocationSensor: { devEUI: string, latitude: number, longtitude: number, noise: number, index: number }[] = [
-        { devEUI: "0018B20000000336", latitude: 50.052853, longtitude: 14.439492, noise: this.baseNoise, index: 10 },
-        { devEUI: "0018B20000000165", latitude: 50.062028, longtitude: 14.428990, noise: this.baseNoise, index: 2 },
-        { devEUI: "0018B2000000016E", latitude: 50.039161, longtitude: 14.389049, noise: this.baseNoise, index: 20 },
-        { devEUI: "0018B20000000337", latitude: 50.051616, longtitude: 14.525933, noise: this.baseNoise, index: 7 },
-        { devEUI: "0018B2000000033C", latitude: 50.105831, longtitude: 14.474953, noise: this.baseNoise, index: 3 },
-        { devEUI: "0018B2000000033A", latitude: 50.142034, longtitude: 14.391308, noise: this.baseNoise, index: 10 },
-        { devEUI: "0018B20000000339", latitude: 49.966399, longtitude: 14.442805, noise: this.baseNoise, index: 4 },
-        { devEUI: "0018B20000000335", latitude: 50.089150, longtitude: 14.377480, noise: this.baseNoise, index: 4 },
+    private listLocationSensor: { devEUI: string, latitude: number, name: string, longtitude: number, latitudeText: string, longtitudeText: string, noise: number, index: number }[] = [
+        { devEUI: "0018B20000000336", name: "čidlo - OKsystem           ", latitude: 50.052853, longtitude: 14.439492, latitudeText: "50°03'10.3\"", longtitudeText: "14°29'22.2\"", noise: this.baseNoise, index: 10 },
+        { devEUI: "0018B20000000165", name: "čidlo - Kongresové centrum ", latitude: 50.062028, longtitude: 14.428990, latitudeText: "50°04'10.3\"", longtitudeText: "14°28'22.2\"", noise: this.baseNoise, index: 2 },
+        { devEUI: "0018B2000000016E", name: "čidlo - Třebotovksá        ", latitude: 50.039161, longtitude: 14.389049, latitudeText: "50°02'10.3\"", longtitudeText: "14°25'22.2\"", noise: this.baseNoise, index: 20 },
+        { devEUI: "0018B20000000337", name: "čidlo - Trhanovské naměstí ", latitude: 50.051616, longtitude: 14.525933, latitudeText: "50°05'10.3\"", longtitudeText: "14°20'22.2\"", noise: this.baseNoise, index: 7 },
+        { devEUI: "0018B2000000033C", name: "čidlo - Světovova          ", latitude: 50.105831, longtitude: 14.474953, latitudeText: "50°03'10.3\"", longtitudeText: "14°23'22.2\"", noise: this.baseNoise, index: 3 },
+        { devEUI: "0018B2000000033A", name: "čidlo - U Roztockého háje  ", latitude: 50.142034, longtitude: 14.391308, latitudeText: "50°04'10.3\"", longtitudeText: "14°22'22.2\"", noise: this.baseNoise, index: 10 },
+        { devEUI: "0018B20000000339", name: "čidlo - K točné            ", latitude: 49.966399, longtitude: 14.442805, latitudeText: "50°08'10.3\"", longtitudeText: "14°21'22.2\"", noise: this.baseNoise, index: 4 },
+        { devEUI: "0018B20000000335", name: "čidlo - Na petynce         ", latitude: 50.089150, longtitude: 14.377480, latitudeText: "50°09'10.3\"", longtitudeText: "14°27'22.2\"", noise: this.baseNoise, index: 4 },
     ]
 }

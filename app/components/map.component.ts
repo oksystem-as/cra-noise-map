@@ -16,7 +16,7 @@ import { CRaService, DeviceDetailParams, DeviceParams, Order } from '../service/
 
 import { ARF8084BAPayload } from '../payloads/ARF8084BAPayload';
 import { RHF1S001Payload } from '../payloads/RHF1S001Payload';
-import { ObjectUtils, ColorUtils } from '../utils/utils';
+import { ObjectUtils, ColorUtils, DateUtils } from '../utils/utils';
 
 class Point {
   location: google.maps.LatLng;
@@ -39,8 +39,7 @@ export class MapComponent implements AfterViewInit {
   private overlays: { checked: boolean, value: number, text: string, position: number }[];
   private noiseMapType;
   private sliderNewDate: Date = SensorsSharedService.minDateLimit;
-  private hour = 3600000;
-  private day = 3600000*24;
+
   // private iconOn = {
   //   path: google.maps.SymbolPath.CIRCLE,
   //   scale: 12,
@@ -146,8 +145,8 @@ export class MapComponent implements AfterViewInit {
     });
 
     this.map.controls[google.maps.ControlPosition.RIGHT_TOP].push(document.getElementById('statistics'));
-    this.map.controls[google.maps.ControlPosition.RIGHT_TOP].push(document.getElementById('tabs-map-legend'));
-    this.map.controls[google.maps.ControlPosition.TOP_LEFT].push(document.getElementById('baseMapLegend'));
+    this.map.controls[google.maps.ControlPosition.LEFT_TOP].push(document.getElementById('tabs-map-legend'));
+    this.map.controls[google.maps.ControlPosition.RIGHT_CENTER].push(document.getElementById('baseMapLegend'));
   }
 
   private onChkboxClick(payload) {
@@ -266,23 +265,17 @@ export class MapComponent implements AfterViewInit {
         //   console.log(sensor.payloads[0].createdAt.toLocaleString());
         // }
         if (sensor.payloadType == PayloadType.ARF8084BA) {
+          sensor.showData = false;
           sensor.payloads.forEach((payload: ARF8084BAPayload) => {
             // je v rozmezi hodiny od vybraneho data
-  
-            let createdAt = payload.createdAt.getTime();
-            let min = this.sliderNewDate.getTime();
-            let max = this.sliderNewDate.getTime() + this.day;
-            let isBetween = min <= createdAt && createdAt < max
+            sensor.showData = DateUtils.isBetween_dayInterval(payload.createdAt, this.sliderNewDate);
 
-            console.log(isBetween, new Date(min).toLocaleString() + " <= " + new Date(createdAt).toLocaleString() + " < " + new Date(max).toLocaleString());
-
-            if (payload.longtitude != undefined && payload.latitude != undefined && isBetween) {
-              //this.log.debug("kreslim ", payload.latitude, payload.longtitude);
-
+            // if (payload.longtitude != undefined && payload.latitude != undefined) {
               var infowindow = this.createInfoWindow(payload, sensor);
+              console.log(infowindow);
               this.createMarker(payload.latitude, payload.longtitude, infowindow, payload.temp, sensor);
               // this.createHeatPoint(payload.latitude, payload.longtitude, payload.temp);
-            }
+            // }
           });
         }
       });
@@ -327,9 +320,10 @@ export class MapComponent implements AfterViewInit {
   }
 
   private createInfoWindow(payload: ARF8084BAPayload, sensor: Sensor): google.maps.InfoWindow {
-    let text = "<strong>pozice:</strong> " + payload.latitudeText + "N " + payload.longtitudeText + "E<br> " +
+    let text = "<strong>pozice:</strong> " + payload.longtitudeText +"N " +  payload.latitudeText + "E<br> " +
       "<strong>hluk:</strong> " + payload.temp + "dB<br> " +
-      "<strong>ID:</strong> " + sensor.devEUI;
+      "<strong>ID:</strong> " + sensor.devEUI + "<br> " + 
+       "<strong>Name:</strong> " + sensor.name;
     return new google.maps.InfoWindow({
       content: "<div class='info-window'>" + text + "</div>",
       disableAutoPan: true,
@@ -341,7 +335,7 @@ export class MapComponent implements AfterViewInit {
       position: new google.maps.LatLng(latitude, longtitude),
       map: this.map,
       //animation: google.maps.Animation.DROP,
-      icon: this.getColorIcon(value),
+      icon: sensor.showData ? this.getColorIcon(value) : this.getGrayIcon(),
       // title: value + "dB",
     });
 
@@ -416,6 +410,16 @@ export class MapComponent implements AfterViewInit {
     };
   }
 
+   private getGrayIcon() {
+    return {
+      path: google.maps.SymbolPath.CIRCLE,
+      scale: 12,
+      strokeColor: '#444',
+      fillColor: "gray",
+      fillOpacity: 0.8,
+      strokeWeight: 2,
+    };
+  }
 
   private devicedetailParamsDefault = <DeviceDetailParams>{
     start: new Date(2014, 1, 11),

@@ -8,7 +8,7 @@ import { CRaService, DeviceDetailParams, DeviceParams, Order } from '../service/
 import { ARF8084BAPayload } from '../payloads/ARF8084BAPayload';
 import { RHF1S001Payload } from '../payloads/RHF1S001Payload';
 import { DropdownModule } from "ng2-dropdown";
-import { ObjectUtils, ColorUtils, ArrayUtils } from '../utils/utils';
+import { ObjectUtils, ColorUtils, ArrayUtils, DateUtils } from '../utils/utils';
 
 @Component({
   selector: 'menu',
@@ -23,6 +23,7 @@ export class MenuComponent {
   private selectedSensor: Sensor;
 
   private init = true;
+  // private sliderNewDate = SensorsSharedService.minDateLimit;
 
   private devicedetailParamsDefault = <DeviceDetailParams>{
     start: new Date(2014, 1, 11),
@@ -33,6 +34,7 @@ export class MenuComponent {
 
 
   constructor(private log: Logger, private sensorsSharedService: SensorsSharedService) {
+
     // sensorsSharedService.getStatisticsData().subscribe((sensor: Sensor) => {
     //   // provedu aktualizaci puvodniho sensoru na novy ktery obsahuje vsechny payloady
     //   // - nutne jelikoz se tyto hodnoty mohou dal pouzivat
@@ -40,15 +42,15 @@ export class MenuComponent {
     // })
 
     this.sensorsSharedService.getSensors()
-    .filter((sensors) => {return sensors != undefined && sensors.length > 0;})
-    .subscribe((sensors: Sensor[]) => {
-      this.sensors = sensors;
-       this.selectedSensor = null;
-      // if (this.init) {
-      //   this.sensorsAnimate = sensors.slice(0);
-      //   this.init = false;
-      // }
-    })
+      .filter((sensors) => { return sensors != undefined && sensors.length > 0; })
+      .subscribe((sensors: Sensor[]) => {
+        this.sensors = sensors;
+        this.selectedSensor = null;
+        // if (this.init) {
+        //   this.sensorsAnimate = sensors.slice(0);
+        //   this.init = false;
+        // }
+      })
 
     // zvyrazneni vybraneho
     this.sensorsSharedService.listenEventData(Events.selectSensor).subscribe((sensor: Sensor) => {
@@ -58,20 +60,9 @@ export class MenuComponent {
   }
 
   private isSensorOnMap(sensor: Sensor): boolean {
-    let containsGPS = false;
-
-    if (sensor.payloads != undefined && sensor.payloads.length > 0) {
-      sensor.payloads.forEach(payload => {
-        if (payload.payloadType === PayloadType.ARF8084BA) {
-          let pay = payload as ARF8084BAPayload;
-          if (pay.status.GPSInfoIsPresent) {
-            containsGPS = true;
-          }
-        }
-      })
-    }
-    return containsGPS;
+    return sensor.showData;
   }
+
 
   private isSensorSelected(sensor: Sensor): boolean {
     if (this.selectedSensor != undefined) {

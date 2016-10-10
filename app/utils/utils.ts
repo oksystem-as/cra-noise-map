@@ -38,22 +38,18 @@ export class ColorUtils {
     //private static colorValueMap: Map<string, boolean> = new Map<string, boolean>(){} ;
     public static colorValueMap: ColorLegend[] =
     [
-<<<<<<< HEAD
-        { value: -1, color: "#000000", valueText: "dB" , colorText: "white"}, 
-=======
-        { value: -1, color: "#000000", valueText: "dB"   , colorText: "white"}, 
->>>>>>> e10e290baff0ad107eebfc5b34a2778a087eba54
-        { value: 0,  color: "#DAFFCE", valueText: "< 40" , colorText: "black"},   // color:#d3ffbe
-        { value: 40, color: "#38EF40", valueText: "40-45", colorText: "black"},   // color:#79c67a
-        { value: 45, color: "#008056", valueText: "45-50", colorText: "black"},   // color:#1f8545 
-        { value: 50, color: "#F1B79A", valueText: "50-55", colorText: "black"},   // color:#ffffbe
-        { value: 55, color: "#FFAD45", valueText: "55-60", colorText: "black"},   // color:#ffff74
-        { value: 60, color: "#FF1D2B", valueText: "60-65", colorText: "black"},   // color:#ffc200
-        { value: 65, color: "#BB2C28", valueText: "65-70", colorText: "black"},   // color:#e60000
-        { value: 70, color: "#CD3796", valueText: "70-75", colorText: "black"},   // color:#b50000
-        { value: 75, color: "#1491F8", valueText: "75-80", colorText: "black"},   // color:#630a6c
-        { value: 80, color: "#09369B", valueText: "80-85", colorText: "white"},   // color:#001f9d
-        { value: 85, color: "#001760", valueText: "85 >" , colorText: "white"},
+        { value: -1, color: "#000000", valueText: "dB", colorText: "white" },
+        { value: 0, color: "#DAFFCE", valueText: "< 40", colorText: "black" },   // color:#d3ffbe
+        { value: 40, color: "#38EF40", valueText: "40-45", colorText: "black" },   // color:#79c67a
+        { value: 45, color: "#008056", valueText: "45-50", colorText: "black" },   // color:#1f8545 
+        { value: 50, color: "#F1B79A", valueText: "50-55", colorText: "black" },   // color:#ffffbe
+        { value: 55, color: "#FFAD45", valueText: "55-60", colorText: "black" },   // color:#ffff74
+        { value: 60, color: "#FF1D2B", valueText: "60-65", colorText: "black" },   // color:#ffc200
+        { value: 65, color: "#BB2C28", valueText: "65-70", colorText: "black" },   // color:#e60000
+        { value: 70, color: "#CD3796", valueText: "70-75", colorText: "black" },   // color:#b50000
+        { value: 75, color: "#1491F8", valueText: "75-80", colorText: "black" },   // color:#630a6c
+        { value: 80, color: "#09369B", valueText: "80-85", colorText: "white" },   // color:#001f9d
+        { value: 85, color: "#001760", valueText: "85 >", colorText: "white" },
     ];
 
     public static getColor(value: number): string {
@@ -108,22 +104,35 @@ export class BitUtils {
     }
 }
 
-export enum MonthList{
-	Leden = 0,
-	Unor,
-	Berezen,
-	Duben,
-	Kveten,
-	Cerven,
+export enum MonthList {
+    Leden = 0,
+    Unor,
+    Berezen,
+    Duben,
+    Kveten,
+    Cerven,
     Cervenec,
-	Srpen,
-	Zari,
-	Rijen,
-	Listopad,
-	Prosinec
+    Srpen,
+    Zari,
+    Rijen,
+    Listopad,
+    Prosinec
 }
 
 export class DateUtils {
+    public static HOUR_IN_MILIS = 3600000;
+    public static DAY_IN_MILIS = DateUtils.HOUR_IN_MILIS * 24;;
+
+    public static isBetween_dayInterval(date: Date, startDate: Date): boolean {
+        let createdAt = date.getTime();
+        let min = startDate.getTime();
+        let max = startDate.getTime() + DateUtils.DAY_IN_MILIS;
+        let isBetween = min <= createdAt && createdAt < max
+            
+        console.log(isBetween, new Date(min).toLocaleString() + " <= " + new Date(createdAt).toLocaleString() + " < " + new Date(max).toLocaleString());
+        return isBetween;
+    }
+
     /**
      * ocekavanzy format je 2016-10-04T07:55:32+0000
      */
@@ -146,7 +155,7 @@ export class DateUtils {
         var tMilis: string = time[1];
 
         // "+"" znamena prevod na cislo
-        var date = new Date(+d[0], +d[1]-1, +d[2], +t[0], +t[1], +t[2], +tMilis);;
+        var date = new Date(+d[0], +d[1] - 1, +d[2], +t[0], +t[1], +t[2], +tMilis);;
         return date;
     }
 
@@ -245,20 +254,22 @@ export class ObjectUtils {
     }
 
     public static deepCopy(from, to) {
+        // console.log("deepCopy", from);
         // console.log(from, to);
         if (from == null || typeof from != "object") {
             // console.log("prvni");
             return from;
         }
-        if (!(from instanceof Object) || !(from instanceof Array)) {
+        if (!(from instanceof Object) && !(from instanceof Array)) {
             // console.log("druhy");
             return from;
         }
         if (from instanceof Date) {
+            // console.log("treti Date");
             return new Date(from);
         }
         // TODO i ostani objekty
-        if (from instanceof Date || from instanceof RegExp || from instanceof Function ||
+        if (from instanceof RegExp || from instanceof Function ||
             from instanceof String || from instanceof Number || from instanceof Boolean) {
             throw "Ne vsechny objekty momentalne umim klonovat ... :( ) objekt: " + from;
             // return this.newInstance(from, from);
@@ -267,7 +278,7 @@ export class ObjectUtils {
         // console.log("ctvrty - ", from);
 
         to = to || Object.create(from);
-
+        // console.log("4te to ", to);
         for (var name in from) {
             to[name] = typeof to[name] == "undefined" ? ObjectUtils.deepCopy(from[name], null) : to[name];
         }

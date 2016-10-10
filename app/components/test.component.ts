@@ -8,6 +8,7 @@ import { RHF1S001PayloadResolver } from '../payloads/RHF1S001PayloadResolver';
 import { Data } from './test.data';
 import { Observable, } from 'rxjs/Observable';
 import { IntervalObservable } from 'rxjs/Observable/IntervalObservable';
+import { ArrayUtils, MonthList, ObjectUtils } from '../utils/utils';
 
 import 'rxjs/Rx';
 
@@ -75,7 +76,7 @@ class RxUtils {
 export class TestComponent {
 
   constructor() {
-    this.randomNumber();
+    this.testCloningAdv();
   }
 
   private randomNumber(){
@@ -154,34 +155,34 @@ export class TestComponent {
   }
 
 
-  private deepCopyArr(array: any[]): any[] {
-    var out = [];
-    for (var i = 0, len = array.length; i < len; i++) {
-      var item = array[i];
-      var obj = {};
-      for (var k in item) {
-        obj[k] = this.deepCopy(item[k], undefined);
-      }
-      out.push(obj);
-    }
-    return out;
-  }
+  // private deepCopyArr(array: any[]): any[] {
+  //   var out = [];
+  //   for (var i = 0, len = array.length; i < len; i++) {
+  //     var item = array[i];
+  //     var obj = {};
+  //     for (var k in item) {
+  //       obj[k] = this.deepCopy(item[k], undefined);
+  //     }
+  //     out.push(obj);
+  //   }
+  //   return out;
+  // }
 
-  private deepCopy(from, to) {
-    if (from == null || typeof from != "object") return from;
-    if (from.constructor != Object && from.constructor != Array) return from;
-    if (from.constructor == Date || from.constructor == RegExp || from.constructor == Function ||
-      from.constructor == String || from.constructor == Number || from.constructor == Boolean)
-      return new from.constructor(from);
+  // private deepCopy(from, to) {
+  //   if (from == null || typeof from != "object") return from;
+  //   if (from.constructor != Object && from.constructor != Array) return from;
+  //   if (from.constructor == Date || from.constructor == RegExp || from.constructor == Function ||
+  //     from.constructor == String || from.constructor == Number || from.constructor == Boolean)
+  //     return new from.constructor(from);
 
-    to = to || new from.constructor();
+  //   to = to || new from.constructor();
 
-    for (var name in from) {
-      to[name] = typeof to[name] == "undefined" ? this.deepCopy(from[name], null) : to[name];
-    }
+  //   for (var name in from) {
+  //     to[name] = typeof to[name] == "undefined" ? this.deepCopy(from[name], null) : to[name];
+  //   }
 
-    return to;
-  }
+  //   return to;
+  // }
 
   testCloningAdv() {
     let payload1 = new RHF1S001Payload();
@@ -192,7 +193,7 @@ export class TestComponent {
 
     let arr = [payload1, payload2];
 
-    var clone = this.deepCopyArr(arr);
+    var clone = ObjectUtils.deepCopyArr(arr);
     clone[1].createdAt = new Date(2017, 1, 1);
 
     console.log(arr);
@@ -216,7 +217,7 @@ export class TestComponent {
         }
       }
 
-    var clone = this.deepCopy(obj, undefined);
+    var clone = ObjectUtils.deepCopy(obj, undefined);
     clone.date = new Date(2015, 1, 1);
     console.log(obj, clone);
   }
