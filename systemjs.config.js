@@ -14,7 +14,7 @@
     'ng2-dropdown':               'node_modules/ng2-dropdown',
     'ng2-charts':                 'node_modules/ng2-charts',
     'moment':                     'node_modules/moment/',
-    'ng2-responsive':              'node_modules/ng2-responsive/'
+    'ng2-responsive':              'node_modules/ng2-responsive'
     
 
   };

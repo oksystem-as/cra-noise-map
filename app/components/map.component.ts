@@ -1,7 +1,7 @@
 import { Component, AfterViewInit, ViewChild } from '@angular/core';
 import { Logger } from "angular2-logger/core";
 import { Observable } from "rxjs/Observable";
-import { Scheduler } from "rxjs/scheduler";
+import { Scheduler } from "rxjs/Scheduler";
 /// <reference path="../../typings/globals/googlemaps/google.maps.d.ts" />
 /// <reference path="../../typings/globals/markerclustererplus/markerclustererplus.d.ts" />
 //import '../../node_modules/google-maps/lib/Google.js';
