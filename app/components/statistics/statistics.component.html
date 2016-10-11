@@ -19,7 +19,7 @@
             <button *ngIf="isHidden" type="button" class="btn btn-primary statisButton" (click)="isHidden = false">  <span class="glyphicon glyphicon-menu-down" aria-hidden="true"></span> </button>
             <button *ngIf="!isHidden" type="button" class="btn btn-default statisButton" (click)="isHidden = true">  <span class="glyphicon glyphicon-menu-up" aria-hidden="true"></span> </button>
         </div>
-        <div  id="statistics" [hidden]="isHidden">
+        <div  id="statistics" [collapse]="isHidden" > <!--  [collapse]="isHidden"  [hidden]="isHidden" -->
             <tabs-statis></tabs-statis>
         </div>
     </div>

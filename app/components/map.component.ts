@@ -11,7 +11,7 @@ import { Scheduler } from "rxjs/scheduler";
 // import { DeviceDetail } from '../entity/device/detail/device-detail';.
 import { Sensor } from '../entity/sensor';
 import { Payload, PayloadType } from '../payloads/payload';
-import { SensorsSharedService, Overlay, Events } from './sensors-shared.service';
+import { SensorsSharedService, Overlay, Events, OverlayGroup } from './sensors-shared.service';
 import { CRaService, DeviceDetailParams, DeviceParams, Order } from '../service/cra.service';
 
 import { ARF8084BAPayload } from '../payloads/ARF8084BAPayload';
@@ -72,7 +72,7 @@ export class MapComponent implements AfterViewInit {
 
   private initMap() {
     this.map = new google.maps.Map(document.getElementById(this.mapId), {
-      zoom: 10,
+      zoom: 12,
       center: { lat: 50.053942, lng: 14.437404 },
       mapTypeId: google.maps.MapTypeId.ROADMAP,
       mapTypeControl: true,
@@ -145,8 +145,9 @@ export class MapComponent implements AfterViewInit {
     });
 
     this.map.controls[google.maps.ControlPosition.RIGHT_TOP].push(document.getElementById('statistics2'));
-    this.map.controls[google.maps.ControlPosition.LEFT_TOP].push(document.getElementById('tabs-map-legend'));
+        this.map.controls[google.maps.ControlPosition.TOP_LEFT].push(document.getElementById('tabs-map-legend'));
     this.map.controls[google.maps.ControlPosition.LEFT_BOTTOM].push(document.getElementById('baseMapLegend'));
+
   }
 
   private onChkboxClick(payload) {
@@ -208,26 +209,31 @@ export class MapComponent implements AfterViewInit {
       })
     });
 
-    this.sensorsSharedService.getOverlays().debounceTime(1500).filter((overlays: Overlay[]) => {
-      return overlays != undefined && overlays.length > 0
-    }).subscribe((overlays: Overlay[]) => {
-      this.overlays = overlays;
+    this.sensorsSharedService.getOverlays().debounceTime(1500).filter((overlayGroup: OverlayGroup[]) => {
+      return overlayGroup != undefined && overlayGroup.length > 0
+    }).subscribe((overlayGroup: OverlayGroup[]) => {
+      overlayGroup.forEach((overlayGroup: OverlayGroup) => {
+        console.log("overlayGroup", overlayGroup);
+        this.overlays = overlayGroup.overlays;
 
-      let checked = false;
-      for (var index = 0; index < this.overlays.length; index++) {
-        let overlay = this.overlays[index];
-        if (overlay.checked) {
-          checked = true;
-          break;
+        let checked = false;
+        for (var index = 0; index < this.overlays.length; index++) {
+          let overlay = this.overlays[index];
+          if (overlay.checked) {
+            checked = true;
+            break;
+          }
         }
-      }
-      if (this.map.overlayMapTypes.getLength() > 0) {
-        this.map.overlayMapTypes.pop();
-      }
+        if (this.map.overlayMapTypes.getLength() > 0) {
+          this.map.overlayMapTypes.pop();
+        }
 
-      if (checked) {
-        this.map.overlayMapTypes.push(this.noiseMapType);
-      }
+        if (checked) {
+          console.log("overlayMapTypes GO");
+          this.map.overlayMapTypes.push(this.noiseMapType);
+        }
+      })
+
     })
 
     // zvyrazneni vybraneho
@@ -271,10 +277,10 @@ export class MapComponent implements AfterViewInit {
             sensor.showData = DateUtils.isBetween_dayInterval(payload.createdAt, this.sliderNewDate);
 
             // if (payload.longtitude != undefined && payload.latitude != undefined) {
-              var infowindow = this.createInfoWindow(payload, sensor);
-              console.log(infowindow);
-              this.createMarker(payload.latitude, payload.longtitude, infowindow, payload.temp, sensor);
-              // this.createHeatPoint(payload.latitude, payload.longtitude, payload.temp);
+            var infowindow = this.createInfoWindow(payload, sensor);
+            console.log(infowindow);
+            this.createMarker(payload.latitude, payload.longtitude, infowindow, payload.temp, sensor);
+            // this.createHeatPoint(payload.latitude, payload.longtitude, payload.temp);
             // }
           });
         }
@@ -320,10 +326,10 @@ export class MapComponent implements AfterViewInit {
   }
 
   private createInfoWindow(payload: ARF8084BAPayload, sensor: Sensor): google.maps.InfoWindow {
-    let text = "<strong>pozice:</strong> " + payload.longtitudeText +"N " +  payload.latitudeText + "E<br> " +
+    let text = "<strong>pozice:</strong> " + payload.longtitudeText + "N " + payload.latitudeText + "E<br> " +
       "<strong>hluk:</strong> " + payload.temp + "dB<br> " +
-      "<strong>ID:</strong> " + sensor.devEUI + "<br> " + 
-       "<strong>Name:</strong> " + sensor.name;
+      "<strong>ID:</strong> " + sensor.devEUI + "<br> " +
+      "<strong>Name:</strong> " + sensor.name;
     return new google.maps.InfoWindow({
       content: "<div class='info-window'>" + text + "</div>",
       disableAutoPan: true,
@@ -410,7 +416,7 @@ export class MapComponent implements AfterViewInit {
     };
   }
 
-   private getGrayIcon() {
+  private getGrayIcon() {
     return {
       path: google.maps.SymbolPath.CIRCLE,
       scale: 12,

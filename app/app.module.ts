@@ -5,7 +5,6 @@ import { FormsModule } from '@angular/forms';
 import { AppComponent } from './components/app.component';
 import { MapComponent } from './components/map.component';
 import { MenuComponent } from './components/menu.component';
-import { SideMenuComponent } from './components/side.menu.component';
 import { TestComponent } from './components/test.component';
 import { SliderComponent } from './components/slider.component';
 import { StatisticsComponent } from './components/statistics/statistics.component';
@@ -18,6 +17,7 @@ import { HttpModule }    from '@angular/http';
 import { Logger, Options, Level  } from "angular2-logger/core"; 
 import { DropdownModule } from "ng2-dropdown";
 import { Ng2BootstrapModule } from 'ng2-bootstrap/ng2-bootstrap';
+import { ResponsiveModule } from 'ng2-responsive';
 
 import { CRaService } from './service/cra.service';
 import { ChartsModule } from 'ng2-charts/ng2-charts';
@@ -32,6 +32,7 @@ import { Collapse } from "./directives/collapse.directive"
     DropdownModule,
     ChartsModule,
     Ng2BootstrapModule,
+    ResponsiveModule,
   ],
   providers: [CRaService,{ provide: Options, useValue: { store: true, level: Level.ERROR } },  Logger],
   declarations: [
@@ -41,13 +42,12 @@ import { Collapse } from "./directives/collapse.directive"
     TestComponent,
     SliderComponent,
     StatisticsComponent,
-    SideMenuComponent,
     StatisComponent,
     TabsStatisComponent,
     TableStatisComponent,
     TabsMapLegendComponent,
     BaseMapLegendComponent,
-    Collapse,
+    // Collapse,
     ],
   bootstrap: [AppComponent]
 })

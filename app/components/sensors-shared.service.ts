@@ -17,6 +17,12 @@ import { Payload, PayloadType } from '../payloads/payload';
 import { Sensor } from '../entity/sensor';
 import { DateUtils, MonthList } from '../utils/utils';
 
+
+export class OverlayGroup {
+    overlays: Overlay[];
+    name: string;
+}
+
 export class Overlay {
     checked: boolean;
     value: number;
@@ -45,7 +51,7 @@ export class SensorsSharedService {
     private animationSensor: BehaviorSubject<Sensor> = new BehaviorSubject(null);
     private statisticsData: BehaviorSubject<Sensor> = new BehaviorSubject(null);
     private minDate: BehaviorSubject<Date> = new BehaviorSubject(SensorsSharedService.minDateLimit);
-    private overlays: BehaviorSubject<Overlay[]> = new BehaviorSubject(null);
+    private overlays: BehaviorSubject<OverlayGroup[]> = new BehaviorSubject(null);
 
     private selectedSensor: BehaviorSubject<Sensor> = new BehaviorSubject(null);
 
@@ -108,12 +114,12 @@ export class SensorsSharedService {
     //     this.selectedSensor.next(sensor);
     // }
 
-    getOverlays(): Observable<Overlay[]> {
+    getOverlays(): Observable<OverlayGroup[]> {
         this.log.debug("SensorsSharedService.getOverlays()");
         return this.overlays.asObservable();
     }
 
-    setOverlays(overlays: Overlay[]) {
+    setOverlays(overlays: OverlayGroup[]) {
         this.log.debug("SensorsSharedService.setOverlays()", overlays);
         this.overlays.next(overlays);
     }

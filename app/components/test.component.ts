@@ -76,31 +76,77 @@ class RxUtils {
 export class TestComponent {
 
   constructor() {
-    this.testCloningAdv();
+    this.testEquivalent();
   }
 
-  private randomNumber(){
+  private testEquivalent() {
+    var jangoFett = {
+      occupation: "Bounty Hunter",
+      genetics: "superb"
+    };
+
+    var bobaFett = {
+      occupation: "Bounty Hunter",
+      genetics: "superb"
+    };
+
+    var bobaFett2 = {
+      occupation: "Bounty Hunter",
+      genetics: "superbs"
+    };
+    
+    console.log("isEq ", this.isEquivalent(jangoFett, bobaFett));
+      console.log("isEq ", this.isEquivalent(jangoFett, bobaFett2));
+  }
+
+  private isEquivalent(a, b) {
+    // Create arrays of property names
+    var aProps = Object.getOwnPropertyNames(a);
+    var bProps = Object.getOwnPropertyNames(b);
+
+    // If number of properties is different,
+    // objects are not equivalent
+    if (aProps.length != bProps.length) {
+      return false;
+    }
+
+    for (var i = 0; i < aProps.length; i++) {
+      var propName = aProps[i];
+
+      // If values of same property are not equal,
+      // objects are not equivalent
+      if (a[propName] !== b[propName]) {
+        return false;
+      }
+    }
+
+    // If we made it this far, objects
+    // are considered equivalent
+    return true;
+  }
+
+  private randomNumber() {
     let init = 30;
     for (var index = 0; index < 20000; index++) {
-      init += Math.sin(index/30)
+      init += Math.sin(index / 30)
       console.log(Math.floor(init))
       // init = init + Math.floor(Math.sin(init));
       // console.log(init, Math.floor(Math.sin(init)))
     }
   }
-  
+
   // porad nefunguje :( - test pri transpilaci do ES5
-  private extendedArray(){
-    class ExtendedArray<T> extends Array<T> {}
+  private extendedArray() {
+    class ExtendedArray<T> extends Array<T> { }
 
     var buildinArray = new Array<string>();
     var extendedArray = new ExtendedArray<string>();
-    
+
     buildinArray.push("A");
     console.log(buildinArray.length); // 1 - OK
     buildinArray[2] = "B";
     console.log(buildinArray.length); // 3 - OK
-    
+
     extendedArray.push("A");
     console.log(extendedArray.length); // 1 - OK
     extendedArray[2] = "B";
@@ -126,12 +172,12 @@ export class TestComponent {
           console.log(" data filtered ", data);
           return { hour: event };
         }))
-     });
+      });
 
-     var source4 = Observable.from(list)
-    .map( (x) => {
+    var source4 = Observable.from(list)
+      .map((x) => {
         return Observable.timer(1000);
-    });
+      });
 
 
     var source2 = IntervalObservable.from(list).timeInterval();

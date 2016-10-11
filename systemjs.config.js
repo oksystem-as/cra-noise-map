@@ -13,7 +13,9 @@
     'angular2-google-maps/core':  'node_modules/angular2-google-maps/core',
     'ng2-dropdown':               'node_modules/ng2-dropdown',
     'ng2-charts':                 'node_modules/ng2-charts',
-    'moment':                     'node_modules/moment/'
+    'moment':                     'node_modules/moment/',
+    'ng2-responsive':              'node_modules/ng2-responsive/'
+    
 
   };
   // packages tells the System loader how to load when no filename and/or no extension
@@ -25,6 +27,7 @@
     'ng2-dropdown':               { main: 'index.js', defaultExtension: 'js' },
     'ng2-charts':         { main: '/bundles/ng2-charts.js', defaultExtension: 'js' },
       'moment':                    { main: 'moment.js', defaultExtension: 'js' },
+    'ng2-responsive':               { main: 'index.js', defaultExtension: 'js' }
   };
   // Definice angluar packages - jen definice, pridani do packages bude nize
   var ngPackageNames = [
