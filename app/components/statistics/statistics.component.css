@@ -1,9 +1,18 @@
-  /*.collapse.in{
-      background-color: red
-  }
-  .collapse {
-  background-color: green
-}*/
+.navbar {
+  margin:10px;
+}
+
+.bold-sensor {
+  font-weight: bold;
+}
+
+.red-sensor {
+  color: red !important;
+}
+
+.gray-sensor{
+   color: gray;
+}
 
 #combo{
   /*width:  490px;*/
