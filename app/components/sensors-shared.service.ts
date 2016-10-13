@@ -1,3 +1,4 @@
+import { StatisticsComponent } from './statistics/statistics.component';
 import { Injectable, OnInit } from '@angular/core';
 import { Logger } from "angular2-logger/core";
 import { Subject } from 'rxjs/Subject';
@@ -30,10 +31,28 @@ export class Overlay {
     position: number;
 }
 
+
+export interface Eventa<T> {
+}
+
+export class Eventy {
+    public static runAnimation: Eventa<Observable<Sensor>>;
+}
 export enum Events {
     runAnimation = <any>"runAnimation",
     selectSensor = <any>"selectSensor",
     sliderNewDate = <any>"sliderNewDate",
+    startAnimation = <any>"startAnimation",
+    mapOverlays = <any>"mapOverlays",
+    statistics = <any>"statistics",
+    beforeLoadSensors = <any>"beforeLoadSensors",
+    loadSensors = <any>"loadSensors",
+}
+
+export class Event2<T> {
+    type: Eventa<T>;
+    data: T;
+    publisher: any;
 }
 
 export class Event {
@@ -48,14 +67,15 @@ export class SensorsSharedService {
     // http://stackoverflow.com/questions/1453043/zero-based-month-numbering 
     public static minDateLimit = new Date(2016, MonthList.Cervenec, 18);
     private sensors: BehaviorSubject<Sensor[]> = new BehaviorSubject([]);
-    private animationSensor: BehaviorSubject<Sensor> = new BehaviorSubject(null);
-    private statisticsData: BehaviorSubject<Sensor> = new BehaviorSubject(null);
-    private minDate: BehaviorSubject<Date> = new BehaviorSubject(SensorsSharedService.minDateLimit);
-    private overlays: BehaviorSubject<OverlayGroup[]> = new BehaviorSubject(null);
+    // private animationSensor: BehaviorSubject<Sensor> = new BehaviorSubject(null);
+    // private statisticsData: BehaviorSubject<Sensor> = new BehaviorSubject(null);
+    // private minDate: BehaviorSubject<Date> = new BehaviorSubject(SensorsSharedService.minDateLimit);
+    // private overlays: BehaviorSubject<OverlayGroup[]> = new BehaviorSubject(null);
 
-    private selectedSensor: BehaviorSubject<Sensor> = new BehaviorSubject(null);
+    // private selectedSensor: BehaviorSubject<Sensor> = new BehaviorSubject(null);
 
     private eventAggregator: Subject<Event> = new Subject<Event>();
+    private eventAggregator2: Subject<Event2<any>> = new Subject<Event2<any>>();
 
     private deviceList = ["0018B20000000165", "0018B20000000336", "0018B2000000016E", "0018B20000000337", "0018B2000000033C", "0018B2000000033A", "0018B20000000339", "0018B20000000335",]
     // private deviceList = ["0018B20000000165"];
@@ -68,21 +88,61 @@ export class SensorsSharedService {
     }
 
     constructor(private log: Logger, private craService: CRaService) {
-        console.log(SensorsSharedService.minDateLimit.toLocaleString())
-        console.log(SensorsSharedService.minDateLimit.toDateString())
-        console.log(SensorsSharedService.minDateLimit.toString())
-        this.loadInitialData(this.devicedetailParamsDefault, this.sensors, true);
+        // this.loadInitialData(this.devicedetailParamsDefault, this.sensors, true);
+        // this.publishEvent(Events.loadSensors, this.loadSensorsDefault());
+        this.eventAggregator2.subscribe((data) => {
+            log.debug("[Event2 published] type: [" + data.type + "], publisher: [" + data.publisher + "] data: ", data.data);
+        });
+
         this.eventAggregator.subscribe((data) => {
             log.debug("[Event published] type: [" + data.type + "], publisher: [" + data.publisher + "] data: ", data.data);
         });
+
+        // this.eventAggregator.subscribe((data) => {
+        //     data.data.subscribe(eventa => {
+        //         console.log("eventa  ", eventa);
+        //     });
+        // });
+        
+        // this.listenEventData(Events.runAnimation).subscribe(eventa => {
+        //     console.log("eventa  ", eventa);
+        //     eventa.subscribe(eventa => {
+        //         console.log("eventa2  ", eventa);
+        //     });
+        // });
+
+        // this.publishEvent(Events.runAnimation, this.loadSensorsDefault());
+
+        this.listenEvent2(Eventy.runAnimation).subscribe(eventa => {
+            console.log("eventa  " , eventa);
+        });
+         this.listenEvent2Data(Eventy.runAnimation).subscribe(sensor => {
+            console.log("Sensor2  " , Sensor);
+        });
+
+        this.publishEvent2(Eventy.runAnimation, this.loadSensorsDefault());
+     
+
     }
 
     publishEvent(type: Events, data: any, publisher: any = "[not defined]") {
         this.eventAggregator.next({ type: type, data: data, publisher: publisher });
     }
 
+    publishEvent2<T>(type: Eventa<T>, data: T, publisher: any = "[not defined]") {
+        this.eventAggregator2.next({ type: type, data: data, publisher: publisher });
+    }
+
     listenEventData(type: Events): Observable<any> {
         return this.eventAggregator.filter((data) => { return data.type === type }).pluck('data');
+    }
+
+    listenEvent2Data<T>(type: Eventa<T>): Observable<T> {
+        return this.eventAggregator2.filter((data) => { return data.type === type }).pluck('data') as Observable<T>;
+    }
+
+    listenEvent2<T>(type: Eventa<T>): Observable<Eventa<T>> {
+        return this.eventAggregator2.filter((data) => { return data.type === type });
     }
 
     listenEvent(type: Events): Observable<Event> {
@@ -94,15 +154,15 @@ export class SensorsSharedService {
     }
 
 
-    getAnimationSensor(): Observable<Sensor> {
-        this.log.debug("SensorsSharedService.getAnimationSensor()");
-        return this.animationSensor.asObservable();
-    }
+    // getAnimationSensor(): Observable<Sensor> {
+    //     this.log.debug("SensorsSharedService.getAnimationSensor()");
+    //     return this.animationSensor.asObservable();
+    // }
 
-    setAnimationSensor(sensor: Sensor) {
-        this.log.debug("SensorsSharedService.setAnimationSensor()", sensor);
-        this.animationSensor.next(sensor);
-    }
+    // setAnimationSensor(sensor: Sensor) {
+    //     this.log.debug("SensorsSharedService.setAnimationSensor()", sensor);
+    //     this.animationSensor.next(sensor);
+    // }
 
     // getSelectedSensor(): Observable<Sensor> {
     //     this.log.debug("SensorsSharedService.getSelectedSensor()");
@@ -114,54 +174,67 @@ export class SensorsSharedService {
     //     this.selectedSensor.next(sensor);
     // }
 
-    getOverlays(): Observable<OverlayGroup[]> {
-        this.log.debug("SensorsSharedService.getOverlays()");
-        return this.overlays.asObservable();
-    }
+    // getOverlays(): Observable<OverlayGroup[]> {
+    //     this.log.debug("SensorsSharedService.getOverlays()");
+    //     return this.overlays.asObservable();
+    // }
 
-    setOverlays(overlays: OverlayGroup[]) {
-        this.log.debug("SensorsSharedService.setOverlays()", overlays);
-        this.overlays.next(overlays);
-    }
+    // setOverlays(overlays: OverlayGroup[]) {
+    //     this.log.debug("SensorsSharedService.setOverlays()", overlays);
+    //     this.overlays.next(overlays);
+    // }
 
-    getStatisticsData(): Observable<Sensor> {
-        this.log.debug("SensorsSharedService.getStatisticsData()");
-        return this.statisticsData.asObservable();
-    }
+    // getStatisticsData(): Observable<Sensor> {
+    //     this.log.debug("SensorsSharedService.getStatisticsData()");
+    //     return this.statisticsData.asObservable();
+    // }
 
     loadStatisticsData(devicedetailParams: DeviceDetailParams) {
         this.log.debug("SensorsSharedService.loadStatisticsData() ", devicedetailParams);
-        this.loadDeviceDetails(devicedetailParams, this.statisticsData);
+        this.loadSensor2(devicedetailParams).subscribe(sensor => {
+            this.publishEvent(Events.statistics, sensor);
+        });
     }
 
-    getSensors(): Observable<Sensor[]> {
-        this.log.debug("SensorsSharedService.getGps()");
-        return this.sensors.asObservable();
+    loadSensorsDefault(): Observable<Sensor> {
+        let devicedetailParamsList: DeviceDetailParams[] = [];
+        this.deviceList.forEach(element => {
+            let deviceDetailParams: DeviceDetailParams = <DeviceDetailParams>{
+                start: SensorsSharedService.minDateLimit,
+                limit: 1,
+                order: Order.asc,
+                devEUI: element,
+                payloadType: this.deviceType,
+            }
+            devicedetailParamsList.push(deviceDetailParams);
+        });
+
+        return this.loadSensors(devicedetailParamsList);
     }
 
-
-    getMinDate(): Observable<Date> {
-        this.log.debug("SensorsSharedService.getMinDate()");
-        return this.minDate.asObservable();
+    loadSensors(devicedetailParamsList: DeviceDetailParams[]): Observable<Sensor> {
+        this.log.debug("SensorsSharedService.loadSensors()", devicedetailParamsList);
+        let obs: Observable<Sensor>;
+        // devicedetailParamsList.forEach(devicedetailParams => {
+        //     if (obs != undefined) {
+        //         obs.merge(this.loadSensor2(devicedetailParams))
+        //     } else {
+        obs = this.loadSensor2(devicedetailParamsList[0]);
+        //     }
+        // });
+        // Observable.merge(
+        return obs;
     }
 
-
-    loadSensor(params: DeviceDetailParams): void {
-        this.log.debug("SensorsSharedService.loadGps()");
-        this.loadInitialData(params, this.sensors, false);
-    }
-
-    public loadInitialData(devicedetailParams: DeviceDetailParams, behaviorSubject: BehaviorSubject<any>, resolveMinDate: boolean) {
-        this.log.debug("SensorsSharedService.loadInitialData(). Params: ", devicedetailParams);
-        this.setDeviceDetails(devicedetailParams, behaviorSubject);
-    }
-
-    // nacte payloady zarizeni dle zadanych parametru - momentalne napsane primo na gps cidla
-    private loadDeviceDetails(devicedetailParams: DeviceDetailParams, behaviorSubject: BehaviorSubject<any>) {
-
-        this.craService.getDeviceDetail(devicedetailParams).subscribe(response => {
-
-            if (response && response.records && response.records instanceof Array) {
+    loadSensor2(devicedetailParams: DeviceDetailParams): Observable<Sensor> {
+        this.log.debug("SensorsSharedService.loadSensor2()", devicedetailParams);
+        return this.craService.getDeviceDetail(devicedetailParams)
+            .filter(response => {
+                this.log.debug("SensorsSharedService.loadSensor2() response1> ", response);
+                return response != undefined && response.records != undefined && response.records instanceof Array
+            })
+            .map((response, idx) => {
+                this.log.debug("SensorsSharedService.loadSensor2() response2> ", response);
                 var sensor = new Sensor();
                 sensor.devEUI = response.devEUI;
                 sensor.payloadType = response.payloadType;
@@ -174,12 +247,53 @@ export class SensorsSharedService {
                     sensor.payloads.push(payload);
                 })
                 this.log.debug("behaviorSubject ", sensor)
-                behaviorSubject.next(sensor);
-                // behaviorSubject.complete();
-            }
-        })
+                return sensor;
+            })
 
     }
+
+    getSensors(): Observable<Sensor[]> {
+        this.log.debug("SensorsSharedService.getGps()");
+        return this.sensors.asObservable();
+    }
+
+
+    // getMinDate(): Observable<Date> {
+    //     this.log.debug("SensorsSharedService.getMinDate()");
+    //     return this.minDate.asObservable();
+    // }
+
+
+    loadSensor(params: DeviceDetailParams): void {
+        this.log.debug("SensorsSharedService.loadGps()");
+        this.loadInitialData(params, this.sensors, false);
+    }
+
+    public loadInitialData(devicedetailParams: DeviceDetailParams, behaviorSubject: BehaviorSubject<any>, resolveMinDate: boolean) {
+        this.log.debug("SensorsSharedService.loadInitialData(). Params: ", devicedetailParams);
+        this.setDeviceDetails(devicedetailParams, behaviorSubject);
+    }
+
+    // // nacte payloady zarizeni dle zadanych parametru - momentalne napsane primo na gps cidla
+    // private loadDeviceDetails(devicedetailParams: DeviceDetailParams): Observable<Sensor> {
+    //     return this.craService.getDeviceDetail(devicedetailParams)
+    //         .filter(response => { return response && response.records && response.records instanceof Array })
+    //         .map((response, idx) => {
+    //             var sensor = new Sensor();
+    //             sensor.devEUI = response.devEUI;
+    //             sensor.payloadType = response.payloadType;
+    //             sensor.publisher = response.publisher;
+    //             response.records.forEach(record => {
+    //                 // let payload: ARF8084BAPayload = aRF8084BAPayloadResolver.resolve(record.payloadHex)
+    //                 let payload = this.reslovePayload(devicedetailParams.payloadType, record.payloadHex, sensor)
+    //                 payload.createdAt = DateUtils.parseDate(record.createdAt);
+    //                 payload.payloadType = response.payloadType;
+    //                 sensor.payloads.push(payload);
+    //             })
+    //             this.log.debug("behaviorSubject ", sensor)
+    //             return sensor;
+    //         })
+    // }
 
     // nacte payloady zarizeni dle zadanych parametru - momentalne napsane primo na gps cidla
     private setDeviceDetails(devicedetailParams: DeviceDetailParams, behaviorSubject: BehaviorSubject<any>) {

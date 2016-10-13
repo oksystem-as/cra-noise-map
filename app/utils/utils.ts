@@ -128,7 +128,7 @@ export class DateUtils {
         let min = startDate.getTime();
         let max = startDate.getTime() + DateUtils.DAY_IN_MILIS;
         let isBetween = min <= createdAt && createdAt < max
-            
+
         console.log(isBetween, new Date(min).toLocaleString() + " <= " + new Date(createdAt).toLocaleString() + " < " + new Date(max).toLocaleString());
         return isBetween;
     }
@@ -239,6 +239,32 @@ export class DateUtils {
 }
 
 export class ObjectUtils {
+
+    private isEquivalent(a, b) {
+        // Create arrays of property names
+        var aProps = Object.getOwnPropertyNames(a);
+        var bProps = Object.getOwnPropertyNames(b);
+
+        // If number of properties is different,
+        // objects are not equivalent
+        if (aProps.length != bProps.length) {
+            return false;
+        }
+
+        for (var i = 0; i < aProps.length; i++) {
+            var propName = aProps[i];
+
+            // If values of same property are not equal,
+            // objects are not equivalent
+            if (a[propName] !== b[propName]) {
+                return false;
+            }
+        }
+
+        // If we made it this far, objects
+        // are considered equivalent
+        return true;
+    }
 
     public static deepCopyArr(array: any[]): any[] {
         var out = [];

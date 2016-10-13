@@ -146,7 +146,7 @@ export class StatisComponent implements AfterViewInit {
     }
 
     constructor(private log: Logger, private sensorsSharedService: SensorsSharedService, elementRef: ElementRef) {
-        var source = sensorsSharedService.getStatisticsData()
+        var source = sensorsSharedService.listenEventData(Events.statistics)
             .filter(data => {
                 return data != undefined && data.payloads != undefined && data.payloadType == PayloadType.ARF8084BA &&
                     (data.publisher == undefined || data.publisher == this.sliderId || data.publisher == "menuItem" || data.publisher == "markerItem")
