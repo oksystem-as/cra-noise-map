@@ -36,7 +36,7 @@ export class MapComponent implements AfterViewInit {
   private makers: any[] = [];
   private points: Point[] = [];
   private chkbox = false;
-  private overlays: { checked: boolean, value: number, text: string, position: number }[];
+  private overlayGroup: OverlayGroup[];
   private noiseMapType;
   private sliderNewDate: Date = SensorsSharedService.minDateLimit;
 
@@ -79,7 +79,7 @@ export class MapComponent implements AfterViewInit {
       mapTypeControlOptions: {
         style: google.maps.MapTypeControlStyle.DEFAULT,
         position: google.maps.ControlPosition.LEFT_BOTTOM,
-        mapTypeIds: [google.maps.MapTypeId.ROADMAP, google.maps.MapTypeId.SATELLITE, google.maps.MapTypeId.HYBRID, google.maps.MapTypeId.TERRAIN, 'noise'/*, 'noise2016'*/]
+        mapTypeIds: [google.maps.MapTypeId.ROADMAP, google.maps.MapTypeId.SATELLITE, google.maps.MapTypeId.HYBRID, google.maps.MapTypeId.TERRAIN, 'noise']
       }
     });
 
@@ -106,7 +106,16 @@ export class MapComponent implements AfterViewInit {
 
         // determinate which layers should be shown
         var layers = "";
-        var unsortedLayers: Overlay[] = ObjectUtils.deepCopyArr(this.overlays);
+
+        var unsortedLayers: Overlay[];
+        this.overlayGroup.forEach((overlayGroup: OverlayGroup) => {
+          console.log("overlayGroup", overlayGroup);
+          if (unsortedLayers != undefined && unsortedLayers.length > 0) {
+            unsortedLayers = unsortedLayers.concat(ObjectUtils.deepCopyArr(overlayGroup.overlays));
+          } else {
+            unsortedLayers = ObjectUtils.deepCopyArr(overlayGroup.overlays);
+          }
+        });
         this.log.debug("Nesetridene pole", unsortedLayers);
         var sortedLayers: Overlay[] = unsortedLayers.sort((n1, n2) => n1.position - n2.position);
         this.log.debug("Setridene pole", sortedLayers);
@@ -145,18 +154,9 @@ export class MapComponent implements AfterViewInit {
     });
 
     this.map.controls[google.maps.ControlPosition.RIGHT_TOP].push(document.getElementById('statistics2'));
-        this.map.controls[google.maps.ControlPosition.TOP_LEFT].push(document.getElementById('tabs-map-legend'));
+    this.map.controls[google.maps.ControlPosition.TOP_LEFT].push(document.getElementById('tabs-map-legend'));
     this.map.controls[google.maps.ControlPosition.LEFT_BOTTOM].push(document.getElementById('baseMapLegend'));
 
-  }
-
-  private onChkboxClick(payload) {
-    // on/off selected map layer
-    if (payload.checked == true) {
-      this.map.overlayMapTypes.push(this.noiseMapType);
-    } else {
-      this.map.overlayMapTypes.pop();
-    }
   }
 
   // Normalizes the coords that tiles repeat across the x axis (horizontally)
@@ -212,15 +212,16 @@ export class MapComponent implements AfterViewInit {
     this.sensorsSharedService.getOverlays().debounceTime(1500).filter((overlayGroup: OverlayGroup[]) => {
       return overlayGroup != undefined && overlayGroup.length > 0
     }).subscribe((overlayGroup: OverlayGroup[]) => {
+      this.overlayGroup = overlayGroup;
+      let checked = false;
       overlayGroup.forEach((overlayGroup: OverlayGroup) => {
         console.log("overlayGroup", overlayGroup);
-        this.overlays = overlayGroup.overlays;
+        let overlays: Overlay[] = overlayGroup.overlays;
 
-        let checked = false;
-        for (var index = 0; index < this.overlays.length; index++) {
-          let overlay = this.overlays[index];
-          if (overlay.checked) {
+        for (var index = 0; index < overlays.length; index++) {
+          if (overlays[index].checked) {
             checked = true;
+            console.log("break z foru");
             break;
           }
         }
@@ -233,7 +234,6 @@ export class MapComponent implements AfterViewInit {
           this.map.overlayMapTypes.push(this.noiseMapType);
         }
       })
-
     })
 
     // zvyrazneni vybraneho
