@@ -5,15 +5,17 @@
       <ul id="overlayGroup" class="dropdown-menu" dropdown-not-closable-zone>
         <!--dropdown-not-closable-zone-->
         <li *ngFor="let overlayGroup of overlayGroups, let ndx = index" class="overlayGroup">
-          <span class="layerHadder">{{overlayGroup.name}}</span>
-          <a *ngFor="let overlay of overlayGroup.overlays" class="groupItem" tooltip="Pořadí vrstvy, výběr vrstvy, jméno vrstvy" tooltipPlacement="top" tooltipPopupDelay="1000">
+          <span class="layerHadder" >{{overlayGroup.name}}</span>
+          <a *ngFor="let overlay of overlayGroup.overlays" class="groupItem" tooltip="Pořadí vrstvy, výběr vrstvy, jméno vrstvy" tooltipPlacement="right" tooltipClass="tooltip-layer-component">
             <span class="groupItemSpan">      
               <span class="position" *ngIf="overlay.position>0">{{overlay.position}}</span>
               <span class="position" *ngIf!="overlay.position>0">&nbsp; &nbsp;</span>
               <span class="layerSpanBox">
                 <input type="checkbox" class="layerChBox" [(ngModel)]="overlay.checked" value={{overlay.value}} (ngModelChange)="onChkboxClick(overlay)">
               </span>
-              <span class="layerText">{{overlay.text}}</span>
+              <span class="layerText">
+                {{overlay.text}}
+                </span>
             </span>
           </a>
         </li>

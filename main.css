@@ -9,14 +9,14 @@
     background-image: linear-gradient(to bottom,  #f9f9f9 0%, #f5f5f5 100%)!important;
 }
 
-
-
 .info-window{
     font-family: 'Roboto','sans-serif';
     /*background-color: #f45;*/
   }
   
-
+.tooltip-layer-component{
+   width: 200px;
+}
   /*#slider {
     width: 84%;
 
