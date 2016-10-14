@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { Logger } from "angular2-logger/core";
-import { SensorsSharedService, Overlay, OverlayGroup } from '../sensors-shared.service';
+import { SensorsSharedService, Overlay, OverlayGroup, Events } from '../sensors-shared.service';
 
 @Component({
   selector: 'tabs-map-legend',
@@ -100,6 +100,6 @@ export class TabsMapLegendComponent {
       });
       overlay.position = 0;
     }
-    this.sensorsSharedService.setOverlays(this.overlayGroups);
+    this.sensorsSharedService.publishEvent(Events.mapOverlays, this.overlayGroups);
   }
 }

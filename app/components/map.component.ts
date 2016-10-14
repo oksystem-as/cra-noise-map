@@ -1,3 +1,4 @@
+
 import { Component, AfterViewInit, ViewChild } from '@angular/core';
 import { Logger } from "angular2-logger/core";
 import { Observable } from "rxjs/Observable";
@@ -153,9 +154,68 @@ export class MapComponent implements AfterViewInit {
       name: 'noise'
     });
 
+    var input = document.getElementById('pac-input') as HTMLInputElement;
+    var searchBox = new google.maps.places.SearchBox(input);
+
+
+    // Bias the SearchBox results towards current map's viewport.
+    this.map.addListener('bounds_changed', () => {
+      searchBox.setBounds(this.map.getBounds());
+    });
+
+    var markers = [];
+    // Listen for the event fired when the user selects a prediction and retrieve
+    // more details for that place.
+    searchBox.addListener('places_changed', () => {
+      var places = searchBox.getPlaces();
+
+      if (places.length == 0) {
+        return;
+      }
+
+      // Clear out the old markers.
+      markers.forEach( (marker) => {
+        marker.setMap(null);
+      });
+      markers = [];
+
+      // For each place, get the icon, name and location.
+      var bounds = new google.maps.LatLngBounds();
+      places.forEach( (place) => {
+        if (!place.geometry) {
+          console.log("Returned place contains no geometry");
+          return;
+        }
+        var icon = {
+          url: place.icon,
+          size: new google.maps.Size(71, 71),
+          origin: new google.maps.Point(0, 0),
+          anchor: new google.maps.Point(17, 34),
+          scaledSize: new google.maps.Size(25, 25)
+        };
+
+        // Create a marker for each place.
+        markers.push(new google.maps.Marker({
+          map: this.map,
+          icon: icon,
+          title: place.name,
+          position: place.geometry.location
+        }));
+
+        if (place.geometry.viewport) {
+          // Only geocodes have viewport.
+          bounds.union(place.geometry.viewport);
+        } else {
+          bounds.extend(place.geometry.location);
+        }
+      });
+      this.map.fitBounds(bounds);
+    });
+
     this.map.controls[google.maps.ControlPosition.RIGHT_TOP].push(document.getElementById('statistics2'));
     this.map.controls[google.maps.ControlPosition.TOP_LEFT].push(document.getElementById('tabs-map-legend'));
     this.map.controls[google.maps.ControlPosition.LEFT_BOTTOM].push(document.getElementById('baseMapLegend'));
+        this.map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
 
   }
 
@@ -209,7 +269,7 @@ export class MapComponent implements AfterViewInit {
       })
     });
 
-    this.sensorsSharedService.getOverlays().debounceTime(1500).filter((overlayGroup: OverlayGroup[]) => {
+    this.sensorsSharedService.listenEventData(Events.mapOverlays).debounceTime(1500).filter((overlayGroup: OverlayGroup[]) => {
       return overlayGroup != undefined && overlayGroup.length > 0
     }).subscribe((overlayGroup: OverlayGroup[]) => {
       this.overlayGroup = overlayGroup;
@@ -259,32 +319,32 @@ export class MapComponent implements AfterViewInit {
       });
     });
 
-    this.sensorsSharedService.getSensors().subscribe((sensors: Sensor[]) => {
+    this.sensorsSharedService.listenEventData(Events.loadSensors).subscribe((sensor: Sensor) => {
 
       // odstranim predchozi markery
-      this.removeMarkers();
-      this.removeHeatMap();
+      //this.removeMarkers();
+      // this.removeHeatMap();
 
       var i = 1;
-      sensors.forEach(sensor => {
-        // if (sensor.payloads[0] != undefined) {
-        //   console.log(sensor.payloads[0].createdAt.toLocaleString());
-        // }
-        if (sensor.payloadType == PayloadType.ARF8084BA) {
-          sensor.showData = false;
-          sensor.payloads.forEach((payload: ARF8084BAPayload) => {
-            // je v rozmezi hodiny od vybraneho data
-            sensor.showData = DateUtils.isBetween_dayInterval(payload.createdAt, this.sliderNewDate);
 
-            // if (payload.longtitude != undefined && payload.latitude != undefined) {
-            var infowindow = this.createInfoWindow(payload, sensor);
-            console.log(infowindow);
-            this.createMarker(payload.latitude, payload.longtitude, infowindow, payload.temp, sensor);
-            // this.createHeatPoint(payload.latitude, payload.longtitude, payload.temp);
-            // }
-          });
-        }
-      });
+      // if (sensor.payloads[0] != undefined) {
+      //   console.log(sensor.payloads[0].createdAt.toLocaleString());
+      // }
+      if (sensor.payloadType == PayloadType.ARF8084BA) {
+        sensor.showData = false;
+        sensor.payloads.forEach((payload: ARF8084BAPayload) => {
+          // je v rozmezi hodiny od vybraneho data
+          sensor.showData = DateUtils.isBetween_dayInterval(payload.createdAt, this.sliderNewDate);
+
+          // if (payload.longtitude != undefined && payload.latitude != undefined) {
+          var infowindow = this.createInfoWindow(payload, sensor);
+          console.log(infowindow);
+          this.createMarker(payload.latitude, payload.longtitude, infowindow, payload.temp, sensor);
+          // this.createHeatPoint(payload.latitude, payload.longtitude, payload.temp);
+          // }
+        });
+      }
+
 
       this.log.debug("pocet bodu " + this.points.length)
       this.createHeatMap();

@@ -47,10 +47,10 @@ export class StatisticsComponent {
         //   ArrayUtils.replaceObject(this.sensorsAnimate, sensor, (sen) => { return sen.devEUI === sensor.devEUI })
         // })
 
-        this.sensorsSharedService.getSensors()
-            .filter((sensors) => { return sensors != undefined && sensors.length > 0; })
-            .subscribe((sensors: Sensor[]) => {
-                this.sensors = sensors;
+        this.sensorsSharedService.listenEventData(Events.loadSensors)
+            .filter((sensor) => { return sensor != undefined })
+            .subscribe((sensor: Sensor) => {
+                this.sensors.push(sensor);
                 this.selectedSensor = null;
                 // if (this.init) {
                 //   this.sensorsAnimate = sensors.slice(0);
@@ -80,7 +80,7 @@ export class StatisticsComponent {
     }
 
     private onClickAnim(sensor: Sensor) {
-        this.sensorsSharedService.setAnimationSensor(sensor);
+        // this.sensorsSharedService.setAnimationSensor(sensor);
         this.sensorsSharedService.publishEvent(Events.runAnimation, sensor, "MenuComponent.onClickAnim");
     }
 
