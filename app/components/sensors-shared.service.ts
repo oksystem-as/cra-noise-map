@@ -7,7 +7,6 @@ import { Observable } from "rxjs/Observable";
 
 import { ARF8084BAPayload } from '../payloads/ARF8084BAPayload';
 import { ARF8084BAPayloadResolver } from '../payloads/ARF8084BAPayloadResolver';
-
 import { RHF1S001Payload } from '../payloads/RHF1S001Payload';
 import { RHF1S001PayloadResolver } from '../payloads/RHF1S001PayloadResolver';
 
@@ -17,7 +16,6 @@ import { Devices, DeviceRecord } from '../entity/device/devices';
 import { Payload, PayloadType } from '../payloads/payload';
 import { Sensor } from '../entity/sensor';
 import { DateUtils, MonthList } from '../utils/utils';
-
 
 export class OverlayGroup {
     overlays: Overlay[];
@@ -30,7 +28,6 @@ export class Overlay {
     text: string;
     position: number;
 }
-
 
 export interface IEvent<T> {
     name: string;
@@ -89,9 +86,9 @@ export class SensorsSharedService {
 
         // propojeni nacteni vsech senzoru a publish nacteni jednoho sensoru (na oboji je mozne si zaregistrovat posluchace)
         this.listenEventData(Events.loadSensors).subscribe(eventsList => {
-            console.log("Events.loadSensors obs: ", eventsList);
+            // console.log("Events.loadSensors obs: ", eventsList);
             eventsList.subscribe(eventa => {
-                console.log("Events.loadSensors sensor: ", eventa);
+                // console.log("Events.loadSensors sensor: ", eventa);
                 this.publishEvent(Events.loadSensor, eventa, "SensorsSharedService.loadSensors");
             });
         });
@@ -134,6 +131,7 @@ export class SensorsSharedService {
         this.eventAggregator = new Subject<AggregatorEvent<any>>();
     }
 
+    
     loadSensorsAndPublish(deviceDetailParams?: DeviceDetailParams) {
         console.log("SensorsSharedService.loadSensors()");
         this.publishEvent(Events.loadSensors, this.loadSensorsWithDefaultParam(deviceDetailParams), "SensorsSharedService.loadSensors");
@@ -176,7 +174,7 @@ export class SensorsSharedService {
     }
 
     private loadSensors(devicedetailParamsList: DeviceDetailParams[]): Observable<any> {
-        this.log.debug("SensorsSharedService.loadSensors()", devicedetailParamsList);
+        // this.log.debug("SensorsSharedService.loadSensors()", devicedetailParamsList);
 
         let list = [];
         devicedetailParamsList.forEach(devicedetailParams => {
@@ -187,13 +185,13 @@ export class SensorsSharedService {
     }
 
     private loadSensor(devicedetailParams: DeviceDetailParams): Observable<Sensor> {
-        this.log.debug("SensorsSharedService.loadSensor()", devicedetailParams);
+        // this.log.debug("SensorsSharedService.loadSensor()", devicedetailParams);
         return this.craService.getDeviceDetail(devicedetailParams)
             .filter(response => {
                 return response != undefined && response.records != undefined && response.records instanceof Array
             })
             .map((response, idx) => {
-                this.log.debug("SensorsSharedService.loadSensor() response: ", response);
+                // this.log.debug("SensorsSharedService.loadSensor() response: ", response);
                 var sensor = new Sensor();
                 sensor.devEUI = response.devEUI;
                 sensor.payloadType = response.payloadType;
@@ -205,7 +203,7 @@ export class SensorsSharedService {
                     payload.payloadType = response.payloadType;
                     sensor.payloads.push(payload);
                 })
-                this.log.debug("behaviorSubject ", sensor)
+                // this.log.debug("behaviorSubject ", sensor)
                 return sensor;
             })
     }

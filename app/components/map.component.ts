@@ -248,7 +248,7 @@ export class MapComponent implements AfterViewInit {
     this.sensorsSharedService.listenEventData(Events.selectSensor).subscribe((sensor: Sensor) => {
       // this.markersMap.
       this.markersMap.forEach((marker, key) => {
-        console.log("getSelectedSensor foundc ", key, marker);
+        // console.log("getSelectedSensor foundc ", key, marker);
         if (key === sensor.devEUI) {
           marker.setAnimation(google.maps.Animation.BOUNCE);
           marker.setIcon(this.decorateAsPermSelected(marker.getIcon()));
@@ -260,7 +260,7 @@ export class MapComponent implements AfterViewInit {
 
           var latLng = marker.getPosition(); // returns LatLng object
           this.map.panTo(latLng); // setCenter takes a LatLng object
-          console.log("getSelectedSensor found ", marker);
+          // console.log("getSelectedSensor found ", marker);
         } else {
           marker.isPermSelected = false;
           marker.setIcon(this.decorateAsNotSelected(marker.getIcon()));
@@ -271,7 +271,7 @@ export class MapComponent implements AfterViewInit {
     this.sensorsSharedService.listenEventData(Events.loadSensor).filter((sensor: Sensor) => {
       return sensor != undefined && sensor.payloads != undefined
     }).subscribe((sensor: Sensor) => {
-      console.log("New sensor event (Events.loadSensor): ", sensor)
+      // console.log("New sensor event (Events.loadSensor): ", sensor)
       this.removeMarkers(sensor.devEUI);
       // odstranim predchozi markery
       //this.removeMarkers();
