@@ -157,9 +157,7 @@ export class StatisComponent implements AfterViewInit {
                 }
                 return data.payloads.length > 0
             }).subscribe(data => {
-                console.log("getStatisticsData2 ", data);
                 var element = data.payloads[0];
-                console.log("createdAt2 ", element.createdAt.toLocaleString())
 
                 this.clearChartAndTable();
                 //  console.log("startDate ", data.payloads[0].createdAt.toLocaleString());
@@ -185,40 +183,37 @@ export class StatisComponent implements AfterViewInit {
                 // 2. musim provest deep copy listu a v nem obs. objektu jinak dochayi k modifikaci objektu napric streamy 
                 switch (this.statisType) {
                     case StatisType.HOUR: {
-                        log.debug('hodinovy prumer: ');
-                        // Observable.from(ObjectUtils.deepCopyArr(data.payloads)).first().subscribe((data) => {
-                        //     console.log("first", data);
-                        // });
+                        // log.debug('hodinovy prumer: ');
                         this.resolveLogAverange(RxUtils.groupByHours(ObjectUtils.deepCopyArr(data.payloads)));
                         break;
                     }
                     case StatisType.DAY6_22: {
-                        log.debug('denni 6-22 prumer: ');
+                        // log.debug('denni 6-22 prumer: ');
                         this.resolveLogAverange(RxUtils.groupByDay(ObjectUtils.deepCopyArr(data.payloads)));
                         break;
                     }
                     case StatisType.DAY18_22: {
-                        log.debug('denni 18-22 prumer: ');
+                        // log.debug('denni 18-22 prumer: ');
                         this.resolveLogAverange(RxUtils.groupBy18_22(ObjectUtils.deepCopyArr(data.payloads)));
                         break;
                     }
                     case StatisType.NIGHT22_6: {
-                        log.debug('nocni 22-6 prumer: ');
+                        // log.debug('nocni 22-6 prumer: ');
                         this.resolveLogAverange(RxUtils.groupByNight(ObjectUtils.deepCopyArr(data.payloads)));
                         break;
                     }
                     case StatisType.DAY24: {
-                        log.debug('denni 24h prumer: ');
+                        // log.debug('denni 24h prumer: ');
                         this.resolveLogAverange(RxUtils.groupByDays(ObjectUtils.deepCopyArr(data.payloads)));
                         break;
                     }
                     case StatisType.WEEK: {
-                        log.debug('tydeni prumer: ');
+                        // log.debug('tydeni prumer: ');
                         this.resolveLogAverange(RxUtils.groupByWeek(ObjectUtils.deepCopyArr(data.payloads)));
                         break;
                     }
                     case StatisType.MONTH: {
-                        log.debug('mesicni prumer: ');
+                        // log.debug('mesicni prumer: ');
                         this.resolveLogAverange(RxUtils.groupByMonth(ObjectUtils.deepCopyArr(data.payloads)));
                         break;
                     }
@@ -232,7 +227,7 @@ export class StatisComponent implements AfterViewInit {
         // this.removeSlider();
         let oldDate = firstDate;
 
-        console.log("start ", firstDate);
+        // console.log("start ", firstDate);
 
         // pocet bodu na slideru    
         let countOfpoint = 3;
@@ -240,7 +235,7 @@ export class StatisComponent implements AfterViewInit {
 
         // rozdil mezi kazdym bodem
         let diff = (aktualDate.getTime() - oldDate.getTime()) / countOfpoint;
-        console.log(diff);
+        // console.log(diff);
 
         let ticks_labels = [];
         let ticks = [];
@@ -253,7 +248,7 @@ export class StatisComponent implements AfterViewInit {
         for (var index = 1; index < countOfpoint; index++) {
             let time = oldDate.getTime() + index * diff;
             pom = new Date(time);
-            console.log(time, pom);
+            // console.log(time, pom);
             // dalsi body
             ticks.push(pom.getTime());
             ticks_labels.push(pom.toLocaleDateString());
@@ -263,8 +258,8 @@ export class StatisComponent implements AfterViewInit {
         ticks.push(aktualDate.getTime());
         ticks_labels.push(aktualDate.toLocaleDateString());
 
-        console.log(ticks);
-        console.log(ticks_labels);
+        // console.log(ticks);
+        // console.log(ticks_labels);
 
         this.log.debug("init slider - ", this.statisType)
         // let elem = this.elementRef.nativeElement.shadowRoot.querySelector('#' + this.statisId);
@@ -397,7 +392,7 @@ export class StatisComponent implements AfterViewInit {
     // }
 
     ngAfterViewInit(): void {
-        console.log(' [ngAfterViewInit]: ', this.statisType);
+        // console.log(' [ngAfterViewInit]: ', this.statisType);
         // default
         let start = new Date().getTime()-DateUtils.DAY_IN_MILIS;
         let start2 = new Date().getTime();

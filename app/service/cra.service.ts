@@ -38,10 +38,10 @@ export class CRaService {
     var devEUI = params.devEUI;
     var payloadType =  params.payloadType;
     var publisher = params.publisher;
-    this.log.debug("PersonService.getDeviceDetail()", params);
+    this.log.debug("CRaService.getDeviceDetail() init. ", params);
     return this.http.get(this.getDevicDetailUrl(params)).
        map(response => {
-        this.log.debug("PersonService.getDeviceDetail() return ", response.json());
+        this.log.debug("CRaService.getDeviceDetail() return ", response.json());
         let deviceDetail = response.json() as DeviceDetail
         deviceDetail.payloadType = payloadType;
         deviceDetail.devEUI = devEUI;
@@ -74,7 +74,7 @@ export class CRaService {
     if (params.stop) {
       url += '&stop=' + this.dateToString(params.stop);
     }
-    this.log.debug("detail url " + url, params)
+    this.log.debug("CRaService.getDevicDetailUrl() " + url)
     return url
   }
 

@@ -5,7 +5,7 @@ import { Logger } from "angular2-logger/core";
 import { SensorsSharedService, Events } from '../sensors-shared.service';
 import { Sensor } from '../../entity/sensor';
 import { Payload, PayloadType } from '../../payloads/payload';
-import { RxUtils, ObjectUtils } from '../../utils/utils';
+import { RxUtils, ObjectUtils, ArrayUtils } from '../../utils/utils';
 
 import { ARF8084BAPayload } from '../../payloads/ARF8084BAPayload';
 import { RHF1S001Payload } from '../../payloads/RHF1S001Payload';
@@ -47,16 +47,13 @@ export class StatisticsComponent {
         //   ArrayUtils.replaceObject(this.sensorsAnimate, sensor, (sen) => { return sen.devEUI === sensor.devEUI })
         // })
 
-        this.sensorsSharedService.listenEventData(Events.loadSensors)
-            .filter((sensor) => { return sensor != undefined })
+        this.sensorsSharedService.listenEventData(Events.loadSensor).filter((sensor) => { return sensor != undefined })
             .subscribe((sensor: Sensor) => {
-                this.sensors.push(sensor);
+                ArrayUtils.replaceOrAddObject(this.sensors, sensor, (sen) => { return sen.devEUI === sensor.devEUI })
                 this.selectedSensor = null;
-                // if (this.init) {
-                //   this.sensorsAnimate = sensors.slice(0);
-                //   this.init = false;
-                // }
             })
+
+
 
         // zvyrazneni vybraneho
         this.sensorsSharedService.listenEventData(Events.selectSensor).subscribe((sensor: Sensor) => {

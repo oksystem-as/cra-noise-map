@@ -10,7 +10,6 @@ export class ArrayUtils {
      */
     public static replaceObject<T>(array: T[], obj: T, predicate: (value: T) => boolean) {
         var ind;
-        array.find
         for (var index = 0; index < array.length; index++) {
             var sensorInt = array[index];
             if (predicate(sensorInt)) {
@@ -21,6 +20,26 @@ export class ArrayUtils {
 
         if (ind != undefined) {
             array[ind] = obj;
+        }
+    }
+
+      /**
+     * nahrazeni objektu v listu dle zadaneho predikatu
+     */
+    public static replaceOrAddObject<T>(array: T[], obj: T, predicate: (value: T) => boolean) {
+        var ind;
+        for (var index = 0; index < array.length; index++) {
+            var sensorInt = array[index];
+            if (predicate(sensorInt)) {
+                ind = index
+                break;
+            }
+        }
+
+        if (ind != undefined) {
+            array[ind] = obj;
+        } else {
+            array.push(obj);
         }
     }
 
@@ -129,7 +148,7 @@ export class DateUtils {
         let max = startDate.getTime() + DateUtils.DAY_IN_MILIS;
         let isBetween = min <= createdAt && createdAt < max
 
-        console.log(isBetween, new Date(min).toLocaleString() + " <= " + new Date(createdAt).toLocaleString() + " < " + new Date(max).toLocaleString());
+        // console.log(isBetween, new Date(min).toLocaleString() + " <= " + new Date(createdAt).toLocaleString() + " < " + new Date(max).toLocaleString());
         return isBetween;
     }
 

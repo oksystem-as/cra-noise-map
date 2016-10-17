@@ -21,20 +21,9 @@ import { ChartsModule } from 'ng2-charts/ng2-charts';
     templateUrl: 'app/components/map/base.map.legend.component.html',
     styleUrls: ['app/components/map/base.map.legend.component.css']
 })
-
-
-
 export class BaseMapLegendComponent {
     private legends: ColorLegend[] = ColorUtils.colorValueMap;
+    
     @Input()
     private showVertical: boolean = true;
-
-    constructor() {
-        console.log("BaseMapLegendComponent", this.legends)
-        console.log("BaseMapLegendComponent", ColorUtils.getColor(50));
-        console.log("BaseMapLegendComponent", ColorUtils.getColor(80));
-        console.log("BaseMapLegendComponent", ColorUtils.getColor(100));
-        //this.legends.push({ value: 0, color: "#FFFFFF", valueText: "do 400 dB"},)
-    }
-
 }

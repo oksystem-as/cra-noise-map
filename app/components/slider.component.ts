@@ -32,7 +32,6 @@ export class SliderComponent implements AfterViewInit {
     }
     ngAfterViewInit(): void {
         let oldDate = SensorsSharedService.minDateLimit;
-        console.log(oldDate.toLocaleString());
         this.removeSlider();
 
         // pocet bodu na slideru    
@@ -41,8 +40,6 @@ export class SliderComponent implements AfterViewInit {
 
         // rozdil mezi kazdym bodem
         let diff = (aktualDate.getTime() - oldDate.getTime()) / countOfpoint;
-
-        this.log.debug(diff);
 
         let ticks_labels = [];
         let ticks = [];
@@ -63,9 +60,6 @@ export class SliderComponent implements AfterViewInit {
         ticks.push(aktualDate.getTime());
         ticks_labels.push(aktualDate.toLocaleDateString());
 
-        this.log.debug(ticks);
-        this.log.debug(ticks_labels);
-
         this.slider = new Slider('#' + this.sliderId, {
             ticks: ticks,
             ticks_labels: ticks_labels,
@@ -83,15 +77,16 @@ export class SliderComponent implements AfterViewInit {
             this.sensorsSharedService.publishEvent(Events.sliderNewDate,  new Date(newDate),  "SliderComponent.slideStop event");
             let time = parseInt(newDate.toString());
             // this.selectedDate = this.slider.getValue();
-            this.log.debug("slideStop - " + newDate)
+            this.log.debug("slideStop - newDate: " + newDate)
 
             if (newDate != undefined) {
                 let devicedetailParams = <DeviceDetailParams>{
                     start: new Date(parseInt(newDate.toString(), 10)),
                     limit: 1,
                     order: Order.asc
+                    
                 }
-                this.sensorsSharedService.loadSensor(devicedetailParams);
+                this.sensorsSharedService.loadSensorsAndPublish(devicedetailParams);
             }
         });
 
