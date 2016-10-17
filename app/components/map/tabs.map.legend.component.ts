@@ -6,7 +6,6 @@ import { SensorsSharedService, Overlay, OverlayGroup, Events } from '../sensors-
   selector: 'tabs-map-legend',
   templateUrl: 'app/components/map/tabs.map.legend.component.html',
   styleUrls: ['app/components/map/tabs.map.legend.component.css'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TabsMapLegendComponent {
   private overlayGroups: OverlayGroup[] = [{
@@ -47,8 +46,6 @@ export class TabsMapLegendComponent {
       { checked: false, value: 23, text: "Ln", position: 0 },
       { checked: false, value: 24, text: "Ldvn", position: 0 }]
   }];
-
-
 
   //   // ŽELEZNICE
   //   { checked: false, value: 1, group: "Železnice", text: "Ln", position: 0 },

@@ -5,17 +5,27 @@
       <ul id="overlayGroup" class="dropdown-menu" dropdown-not-closable-zone>
         <!--dropdown-not-closable-zone-->
         <li *ngFor="let overlayGroup of overlayGroups, let ndx = index" class="overlayGroup">
-          <span class="layerHadder" >{{overlayGroup.name}}</span>
-          <a *ngFor="let overlay of overlayGroup.overlays" class="groupItem" tooltip="Pořadí vrstvy, výběr vrstvy, jméno vrstvy" tooltipPlacement="right" tooltipClass="tooltip-layer-component">
-            <span class="groupItemSpan">      
-              <span class="position" *ngIf="overlay.position>0">{{overlay.position}}</span>
-              <span class="position" *ngIf!="overlay.position>0">&nbsp; &nbsp;</span>
-              <span class="layerSpanBox">
-                <input type="checkbox" class="layerChBox" [(ngModel)]="overlay.checked" value={{overlay.value}} (ngModelChange)="onChkboxClick(overlay)">
-              </span>
-              <span class="layerText">
-                {{overlay.text}}
+          <span class="layerHeader">{{overlayGroup.name}}</span>
+          <a *ngFor="let overlay of overlayGroup.overlays" class="groupItem" tooltip="Pořadí vrstvy, výběr vrstvy, jméno vrstvy" tooltipPopupDelay="1500" tooltipPlacement="right" tooltipClass="tooltip-layer-component">
+            <span class="groupItemSpan"> 
+              <!-- Chrome, Firefox, Safari, Opera -->  
+              <span *hideItBrowser="['ie']">
+                <span class="position" *ngIf="overlay.position>0">{{overlay.position}}</span>
+                <span class="position" *ngIf!="overlay.position>0">&nbsp; &nbsp;</span>
+                <span class="layerSpanBox">
+                  <input type="checkbox" class="layerChBox" [(ngModel)]="overlay.checked" value={{overlay.value}} (ngModelChange)="onChkboxClick(overlay)"/>
                 </span>
+                <span class="layerText">{{overlay.text}}</span>
+              </span>
+              <!-- Internet Explorer -->
+              <span *showItBrowser="['ie']">
+                <span class="positionIE" *ngIf="overlay.position>0">{{overlay.position}}</span>
+                <span class="positionIE" *ngIf!="overlay.position>0">&nbsp; &nbsp;</span>
+                <span class="layerSpanBoxIE">
+                  <input type="checkbox" class="layerChBoxIE" [(ngModel)]="overlay.checked" value={{overlay.value}} (ngModelChange)="onChkboxClick(overlay)"/>
+                </span>
+                <span class="layerTextIE">{{overlay.text}}</span>
+              </span>
             </span>
           </a>
         </li>
