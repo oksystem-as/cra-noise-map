@@ -7,7 +7,7 @@ import { RHF1S001PayloadResolver } from '../payloads/RHF1S001PayloadResolver';
 
 import { Data } from './test.data';
 import { Observable, } from 'rxjs/Observable';
-import { IntervalObservable } from 'rxjs/Observable/IntervalObservable';
+import { IntervalObservable } from 'rxjs/observable/IntervalObservable';
 import { ArrayUtils, MonthList, ObjectUtils } from '../utils/utils';
 
 import 'rxjs/Rx';
