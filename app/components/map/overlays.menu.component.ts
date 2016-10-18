@@ -4,10 +4,10 @@ import { SensorsSharedService, Overlay, OverlayGroup, Events } from '../sensors-
 
 @Component({
   selector: 'overlays-menu',
-  templateUrl: 'app/components/map/tabs.map.legend.component.html',
-  styleUrls: ['app/components/map/tabs.map.legend.component.css'],
+  templateUrl: 'app/components/map/overlays.menu.component.html',
+  styleUrls: ['app/components/map/overlays.menu.component.css'],
 })
-export class TabsMapLegendComponent {
+export class OverlaysMenuComponent {
   private overlayGroups: OverlayGroup[] = [{
     name: "Železnice",
     overlays: [

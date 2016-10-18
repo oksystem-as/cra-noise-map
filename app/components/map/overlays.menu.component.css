@@ -22,17 +22,20 @@
   width: 178px;
 }
 
-/*.navbar-nav>li>a {
-  width: 165px;
-}*/
-
-#tabs-map-legend > ul > li > a > span {
-  margin-left: 3px;
+#overlaysMenuId > ul > li > a {
+  width: 38px;
+  height: 38px;
+  padding: 0px;
 }
 
-#tabs-map-legend > ul > li > a {
-  font-size: 13px;
-  width: initial;
+.nav > li > a > img {
+    max-width: none;
+    margin-top: 3px;
+    margin-left: 3px;
+}
+
+.dropdown-menu>li>a {
+  padding: 0px;
 }
 
 ul {
@@ -95,10 +98,6 @@ span.layerTextIE {
 span.layerSpanBox {
   position: relative;
   top: -1px;
-}
-
-.dropdown-menu>li>a {
-  padding: 0px;
 }
 
 .groupItem {
