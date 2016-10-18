@@ -24,24 +24,24 @@ export class CRaService {
   
   constructor(private log: Logger, private http: Http) { }
 
-  getDevices(params: DeviceParams): Observable<Devices> {
-    this.log.debug("PersonService.getDevices()");
-    return this.http.get(this.getDeviceUrl(params)). 
-      map(response => {
-        this.log.debug("PersonService.getDevices() return ", response.json());
-        return response.json() as Devices
-      })
-      .catch(this.handleErrorObservable);
-  }
+  // getDevices(params: DeviceParams): Observable<Devices> {
+  //   this.log.debug("PersonService.getDevices()");
+  //   return this.http.get(this.getDeviceUrl(params)). 
+  //     map(response => {
+  //       this.log.debug("PersonService.getDevices() return ", response.json());
+  //       return response.json() as Devices
+  //     })
+  //     .catch(this.handleErrorObservable);
+  // }
 
   getDeviceDetail(params: DeviceDetailParams): Observable<DeviceDetail> {
     var devEUI = params.devEUI;
     var payloadType =  params.payloadType;
     var publisher = params.publisher;
-    this.log.debug("PersonService.getDeviceDetail()", params);
+    // this.log.debug("CRaService.getDeviceDetail() init. ", params);
     return this.http.get(this.getDevicDetailUrl(params)).
        map(response => {
-        this.log.debug("PersonService.getDeviceDetail() return ", response.json());
+        // this.log.debug("CRaService.getDeviceDetail() return ", response.json());
         let deviceDetail = response.json() as DeviceDetail
         deviceDetail.payloadType = payloadType;
         deviceDetail.devEUI = devEUI;
@@ -74,23 +74,23 @@ export class CRaService {
     if (params.stop) {
       url += '&stop=' + this.dateToString(params.stop);
     }
-    this.log.debug("detail url " + url, params)
+    this.log.debug("CRaService.getDevicDetailUrl() " +  url )
     return url
   }
 
-  private getDeviceUrl(params: DeviceParams): string {
-    let url = this.restProxy + this.deviceBaseUrl + params.projectName + '?token=' + this.token;
+  // private getDeviceUrl(params: DeviceParams): string {
+  //   let url = this.restProxy + this.deviceBaseUrl + params.projectName + '?token=' + this.token;
 
-    if (params.limit) {
-      url += '&limit=' + params.limit;
-    }
+  //   if (params.limit) {
+  //     url += '&limit=' + params.limit;
+  //   }
 
-    if (params.offset) {
-      url += '&offset=' + params.offset;
-    }
-    this.log.debug("device url " + url)
-    return url
-  }
+  //   if (params.offset) {
+  //     url += '&offset=' + params.offset;
+  //   }
+  //   this.log.debug("device url " + url)
+  //   return url
+  // }
 
   private handleErrorObservable(error: any) {
     // In a real world app, we might use a remote logging infrastructure

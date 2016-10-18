@@ -4,7 +4,6 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AppComponent } from './components/app.component';
 import { MapComponent } from './components/map.component';
-import { MenuComponent } from './components/menu.component';
 import { TestComponent } from './components/test.component';
 import { SliderComponent } from './components/slider.component';
 import { StatisticsComponent } from './components/statistics/statistics.component';
@@ -38,7 +37,6 @@ import { Collapse } from "./directives/collapse.directive"
   declarations: [
     AppComponent,
     MapComponent,
-    MenuComponent,
     TestComponent,
     SliderComponent,
     StatisticsComponent,
