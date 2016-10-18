@@ -36,7 +36,7 @@ export class StatisticsComponent {
         start: new Date(2014, 1, 11),
         //stop: new Date("2016-09-22"),
         order: Order.asc,
-        //limit:10000
+        limit:10000
     }
 
     constructor(private log: Logger, private sensorsSharedService: SensorsSharedService) {
