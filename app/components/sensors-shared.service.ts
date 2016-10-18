@@ -43,6 +43,7 @@ export class Events {
     // public static beforeLoadSensors: IEvent<string> = { name: "beforeLoadSensors" };
     public static loadSensors: IEvent<Observable<Sensor>> = { name: "loadSensors" };
     public static loadSensor: IEvent<Sensor> = { name: "loadSensor" };
+    public static mapInstance: IEvent<google.maps.Map> = { name: "mapInstance" };
 }
 
 export class AggregatorEvent<T> {

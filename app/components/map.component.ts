@@ -25,7 +25,7 @@ import { ObjectUtils, ColorUtils, DateUtils } from '../utils/utils';
 })
 export class MapComponent implements AfterViewInit {
   private mapId = "map"
-  private map: google.maps.Map;
+  public map: google.maps.Map;
   private markersMap: Map<string, any> = new Map<string, any>();
   private overlayGroup: OverlayGroup[];
   private noiseMapType: google.maps.ImageMapType;
@@ -37,7 +37,6 @@ export class MapComponent implements AfterViewInit {
   ngAfterViewInit(): void {
     this.initMap();
     this.initNoiseOverlay();
-    this.initSearchBox();
     this.initControlsLayout()
     this.addNewDataListener();
     this.sensorsSharedService.loadSensorsAndPublish();
@@ -55,6 +54,7 @@ export class MapComponent implements AfterViewInit {
         mapTypeIds: [google.maps.MapTypeId.ROADMAP, google.maps.MapTypeId.SATELLITE, google.maps.MapTypeId.HYBRID, google.maps.MapTypeId.TERRAIN, 'noise']
       }
     });
+    this.sensorsSharedService.publishEvent(Events.mapInstance, this.map, "MapComponent.initMap");
   }
 
   private initNoiseOverlay() {
@@ -124,72 +124,10 @@ export class MapComponent implements AfterViewInit {
     });
   }
 
-  initSearchBox() {
-    var input = document.getElementById('pac-input') as HTMLInputElement;
-    var searchBox = new google.maps.places.SearchBox(input);
-
-    // Bias the SearchBox results towards current map's viewport.
-    this.map.addListener('bounds_changed', () => {
-      searchBox.setBounds(this.map.getBounds());
-    });
-
-    var markers = [];
-    // Listen for the event fired when the user selects a prediction and retrieve
-    // more details for that place.
-    searchBox.addListener('places_changed', () => {
-      var places = searchBox.getPlaces();
-
-      if (places.length == 0) {
-        return;
-      }
-
-      // Clear out the old markers.
-      markers.forEach((marker) => {
-        marker.setMap(null);
-      });
-      markers = [];
-
-      // For each place, get the icon, name and location.
-      var bounds = new google.maps.LatLngBounds();
-      places.forEach((place) => {
-        if (!place.geometry) {
-          console.log("Returned place contains no geometry");
-          return;
-        }
-        var icon = {
-          url: place.icon,
-          size: new google.maps.Size(71, 71),
-          origin: new google.maps.Point(0, 0),
-          anchor: new google.maps.Point(17, 34),
-          scaledSize: new google.maps.Size(25, 25)
-        };
-
-        // Create a marker for each place.
-        markers.push(new google.maps.Marker({
-          map: this.map,
-          icon: icon,
-          title: place.name,
-          position: place.geometry.location
-        }));
-
-        if (place.geometry.viewport) {
-          // Only geocodes have viewport.
-          bounds.union(place.geometry.viewport);
-        } else {
-          bounds.extend(place.geometry.location);
-        }
-      });
-      this.map.fitBounds(bounds);
-    });
-
-    
-  }
-
   initControlsLayout() {
     this.map.controls[google.maps.ControlPosition.RIGHT_TOP].push(document.getElementById('statisticsId'));
     this.map.controls[google.maps.ControlPosition.TOP_LEFT].push(document.getElementById('overlaysMenuId'));
     this.map.controls[google.maps.ControlPosition.LEFT_BOTTOM].push(document.getElementById('baseMapLegendId'));
-    this.map.controls[google.maps.ControlPosition.TOP_LEFT].push(document.getElementById('pac-input'));
   }
 
   // Normalizes the coords that tiles repeat across the x axis (horizontally)
