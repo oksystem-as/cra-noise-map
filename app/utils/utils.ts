@@ -152,6 +152,16 @@ export class DateUtils {
         return isBetween;
     }
 
+    public static isBetween_dayIntervalFromMidnight(date: Date, startDate: Date): boolean {
+        let createdAt = date.getTime();
+        let min = DateUtils.getDayFlatDate(startDate).getTime();
+        let max = DateUtils.getDayFlatDate(startDate).getTime() + DateUtils.DAY_IN_MILIS;
+        let isBetween = min <= createdAt && createdAt < max
+
+        // console.log(isBetween, new Date(min).toLocaleString() + " <= " + new Date(createdAt).toLocaleString() + " < " + new Date(max).toLocaleString());
+        return isBetween;
+    }
+
     /**
      * ocekavanzy format je 2016-10-04T07:55:32+0000
      */
@@ -253,6 +263,14 @@ export class DateUtils {
         date.setMinutes(0);
         date.setSeconds(0);
         date.setMilliseconds(0);
+        return date;
+    }
+
+     public static getMidnight(date: Date): Date {
+        date.setHours(23);
+        date.setMinutes(59);
+        date.setSeconds(59);
+        date.setMilliseconds(999);
         return date;
     }
 }

@@ -52,8 +52,8 @@ export class CRaService {
   }
 
   private getDevicDetailUrl(params: DeviceDetailParams): string {
-     let url = window.location.href + this.devApiPrefix + this.deviceDetailBaseUrl + params.devEUI + '?token=' + this.token;
-    //let url = this.restProxy + this.deviceDetailBaseUrl + params.devEUI + '?token=' + this.token;
+    //  let url = window.location.href + this.devApiPrefix + this.deviceDetailBaseUrl + params.devEUI + '?token=' + this.token;
+    let url = this.restProxy + this.deviceDetailBaseUrl + params.devEUI + '?token=' + this.token;
 
     if (params.limit) {
       url += '&limit=' + params.limit;

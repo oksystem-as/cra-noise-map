@@ -1,3 +1,4 @@
+import { DateUtils } from '../utils/utils';
 import { Component, AfterViewInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { Logger } from "angular2-logger/core";
 /// <reference path="../../typings/globals/googlemaps/google.maps.d.ts" />
@@ -61,7 +62,7 @@ export class SliderComponent implements AfterViewInit {
                 ticks_snap_bounds: diff / 24,
                 // definice zobrazeni datoveho modelu uzivateli v tooltipu 
                 formatter: function (value) {
-                    return new Date(value).toLocaleString();
+                    return new Date(value).toLocaleDateString();
                 },
                 id: "slider",
                 range: false,
@@ -75,8 +76,11 @@ export class SliderComponent implements AfterViewInit {
                 this.log.debug("slideStop - newDate: " + newDate)
 
                 if (newDate != undefined) {
+                    let truncDateStart = DateUtils.getDayFlatDate(new Date(parseInt(newDate.toString(), 10)));
+                    let truncDateStop = DateUtils.getMidnight(new Date(parseInt(newDate.toString(), 10)));
                     let devicedetailParams = <DeviceDetailParams>{
-                        start: new Date(parseInt(newDate.toString(), 10)),
+                        start : truncDateStart,
+                        stop : truncDateStop,
                         limit: 1,
                         order: Order.asc
 
@@ -86,7 +90,6 @@ export class SliderComponent implements AfterViewInit {
             });
 
             //map.controls[google.maps.ControlPosition.BOTTOM_LEFT].push(document.getElementById("rectangle3"));
-            //  this.slider.refresh();
 
             // po kazdem nacteni se nastavi vybrane datum 
             // this.sensorsSharedService.setSelectedDate(this.selectedDate);
