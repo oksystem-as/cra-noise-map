@@ -12,6 +12,7 @@ import { TabsStatisComponent } from './components/statistics/tabs.statis.compone
 import { TableStatisComponent } from './components/statistics/table.statis.component';
 import { OverlaysMenuComponent } from './components/map/overlays.menu.component';
 import { BaseMapLegendComponent } from './components/map/base.map.legend.component';
+import { SearchComponent } from './components/map/search.component';
 import { OverlaysSearchComponent } from './components/map/overlays.search.component';
 import { HttpModule }    from '@angular/http';
 import { Logger, Options, Level  } from "angular2-logger/core"; 
@@ -47,6 +48,7 @@ import { Collapse } from "./directives/collapse.directive"
     OverlaysMenuComponent,
     BaseMapLegendComponent,
     OverlaysSearchComponent,
+    SearchComponent,
     // Collapse,
     ],
   bootstrap: [AppComponent]
