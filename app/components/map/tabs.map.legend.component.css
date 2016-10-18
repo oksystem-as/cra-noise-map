@@ -12,8 +12,6 @@
   -webkit-box-shadow: 0px 0px 10px 4px rgba(0,0,0,0.19);
   -moz-box-shadow: 0px 0px 10px 4px rgba(0,0,0,0.19);
   box-shadow: 0px 0px 10px 4px rgba(0,0,0,0.19);
-
-  /*width: 9.5%;*/
 }
 
 .overlayGroup {
@@ -21,15 +19,21 @@
   font-size: 11px;
   opacity: .94;
   padding-bottom: 5px;
+  width: 178px;
 }
 
-/*#tabs-map-legend > ul > li > a {
- width: 9%;
-}
-
-#tabs-map-legend > ul > li{
-  width: 9%;
+/*.navbar-nav>li>a {
+  width: 165px;
 }*/
+
+#tabs-map-legend > ul > li > a > span {
+  margin-left: 3px;
+}
+
+#tabs-map-legend > ul > li > a {
+  font-size: 13px;
+  width: initial;
+}
 
 ul {
   list-style-type: none;
