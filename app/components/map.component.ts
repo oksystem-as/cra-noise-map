@@ -206,9 +206,19 @@ export class MapComponent implements AfterViewInit {
       });
     });
 
+    this.sensorsSharedService.listenEventData(Events.loadSensors).subscribe(() => {
+      // pri kazdem reloadu se markerz jakoby zresetuji  
+      this.markersMap.forEach((marker, key) => {
+        marker.setIcon(this.getGrayIcon());
+        marker.showData = false;
+      });
+      return true;
+    });
+
     this.sensorsSharedService.listenEventData(Events.loadSensor).filter((sensor: Sensor) => {
-      return sensor != undefined && sensor.payloads != undefined
+      return sensor != undefined && sensor.payloads != undefined && sensor.payloads.length > 0
     }).subscribe((sensor: Sensor) => {
+        console.log("Events.loadSensorCCC ");
       // console.log("New sensor event (Events.loadSensor): ", sensor)
       this.removeMarkers(sensor.devEUI);
       // odstranim predchozi markery
@@ -224,7 +234,7 @@ export class MapComponent implements AfterViewInit {
         sensor.showData = false;
         sensor.payloads.forEach((payload: ARF8084BAPayload) => {
           // je v rozmezi hodiny od vybraneho data
-          sensor.showData = DateUtils.isBetween_dayInterval(payload.createdAt, this.sliderNewDate);
+          sensor.showData = DateUtils.isBetween_dayIntervalFromMidnight(payload.createdAt, this.sliderNewDate);
 
           var infowindow = this.createInfoWindow(payload, sensor);
           this.createMarker(payload.latitude, payload.longtitude, infowindow, payload.temp, sensor);
@@ -266,6 +276,7 @@ export class MapComponent implements AfterViewInit {
 
     marker.sensor = sensor;
     marker.isPermSelected = false;
+    marker.showData = sensor.showData;
 
     marker.addListener('click', () => {
       this.sensorsSharedService.publishEvent(Events.selectSensor, marker.sensor, "MapComponent.markerClick");
@@ -278,7 +289,9 @@ export class MapComponent implements AfterViewInit {
     marker.addListener('mouseover', () => {
       marker.setIcon(this.decorateAsSelected(marker.getIcon()));
       // setTimeout(() => {
-      infoWin.open(this.map, marker);
+      if(marker.showData){
+        infoWin.open(this.map, marker);
+      }
       // }, 2000);
 
     });
