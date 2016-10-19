@@ -23,7 +23,7 @@ import { ChartsModule } from 'ng2-charts/ng2-charts';
 })
 export class StatisticsComponent {
     //collapse content
-    public isHidden: boolean = false;
+    public isHidden: boolean = true;
 
     private sensors: Sensor[] = [];
     // private sensorsAnimate: Sensor[] = [];
