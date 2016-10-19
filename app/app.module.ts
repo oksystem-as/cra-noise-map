@@ -14,6 +14,7 @@ import { OverlaysMenuComponent } from './components/map/overlays.menu.component'
 import { BaseMapLegendComponent } from './components/map/base.map.legend.component';
 import { SearchComponent } from './components/map/search.component';
 import { OverlaysSearchComponent } from './components/map/overlays.search.component';
+import { LogoComponent } from './components/map/logo.component';
 import { HttpModule }    from '@angular/http';
 import { Logger, Options, Level  } from "angular2-logger/core"; 
 import { DropdownModule } from "ng2-dropdown";
@@ -49,6 +50,7 @@ import { Collapse } from "./directives/collapse.directive"
     BaseMapLegendComponent,
     OverlaysSearchComponent,
     SearchComponent,
+    LogoComponent,
     // Collapse,
     ],
   bootstrap: [AppComponent]
