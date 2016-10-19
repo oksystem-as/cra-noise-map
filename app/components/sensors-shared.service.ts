@@ -44,6 +44,7 @@ export class Events {
     public static loadSensors: IEvent<Observable<Sensor>> = { name: "loadSensors" };
     public static loadSensor: IEvent<Sensor> = { name: "loadSensor" };
     public static mapInstance: IEvent<google.maps.Map> = { name: "mapInstance" };
+    // public static chartPointSelected: IEvent<google.maps.Map> = { name: "chartPointSelected" };
 }
 
 export class AggregatorEvent<T> {

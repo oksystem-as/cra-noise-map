@@ -1,5 +1,5 @@
 <div id="statis">
-    <table-statis #myTable [devEUI]="devEUI" [data]="barChartData[0].data" [labels]="barTableLabels"></table-statis>
+    <!--<table-statis #myTable [devEUI]="devEUI" [data]="barChartData[0].data" [labels]="barTableLabels"></table-statis>-->
     <!--<base-chart *ngIf="barChartData && barChartData.length != 0" #myChart class="chart"-->
     <base-chart #myChart class="chart"
             [datasets]="barChartData"
@@ -7,6 +7,7 @@
             [options]="barChartOptions"
             [legend]="barChartLegend"
             [chartType]="barChartType" 
+            [colors]="colors"
             width="540" 
             height="200" 
             style="padding-top: 10px; padding-right: 10px;">

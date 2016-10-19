@@ -53,11 +53,10 @@ export class StatisticsComponent {
                 this.selectedSensor = null;
             })
 
-
-
         // zvyrazneni vybraneho
         this.sensorsSharedService.listenEventData(Events.selectSensor).subscribe((sensor: Sensor) => {
             this.selectedSensor = sensor;
+            this.isHidden = false;
         });
 
     }
