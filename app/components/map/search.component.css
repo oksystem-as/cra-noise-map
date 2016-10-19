@@ -1,10 +1,9 @@
 .controls {
-    margin-top: 10px;
     border: 1px solid transparent;
-    border-radius: 2px 0 0 2px;
+    border-radius: 2px 0px 0px 2px;
     box-sizing: border-box;
     -moz-box-sizing: border-box;
-    height: 32px;
+    height: 38px;
     outline: none;
     border-radius: 0px 4px 4px 0px;
     -moz-border-radius: 0px 4px 4px 0px;
@@ -13,20 +12,17 @@
 
 #pac-input {
     background-color: #fff;
-    font-family: Roboto;
+    font-family: Roboto; 
     font-size: 14px;
     font-weight: 300;
     padding: 0 11px 0 13px;
     text-overflow: ellipsis;
-    width: 255px;
-    margin-left: 48px;
-    margin-top: -38px;
-    height: 38px;
+    opacity: 0.95;
 }
 
-#pac-input:focus {
-    /*border-color: darkgray;*/
-}
+/*#pac-input:focus {
+    border-color: darkgray;
+}*/
 
 .pac-container {
     font-family: Roboto;

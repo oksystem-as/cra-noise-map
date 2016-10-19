@@ -70,7 +70,6 @@ export class SearchComponent {
                     });
                     map.fitBounds(bounds);
                 });
-                map.controls[google.maps.ControlPosition.LEFT_TOP].push(input);
             }
         });
     }
