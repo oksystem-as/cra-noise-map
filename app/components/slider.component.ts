@@ -89,7 +89,7 @@ export class SliderComponent implements AfterViewInit {
                 }
             });
 
-            //map.controls[google.maps.ControlPosition.BOTTOM_LEFT].push(document.getElementById("rectangle3"));
+            map.controls[google.maps.ControlPosition.BOTTOM_LEFT].push(document.getElementById("rectangle3"));
 
             // po kazdem nacteni se nastavi vybrane datum 
             // this.sensorsSharedService.setSelectedDate(this.selectedDate);

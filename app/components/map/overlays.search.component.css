@@ -33,9 +33,8 @@
   border-bottom: 0px;
   border-top: 0px;
   border-style: solid;
-  /*position: absolute;*/
-  height: 38px;
   width: 1px;
-  margin-left: 37px;
   z-index: 3 !important;
+  padding-top: 5px;
+  padding-bottom: 5px;
 }

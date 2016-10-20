@@ -49,9 +49,9 @@ export class MapComponent implements AfterViewInit {
       mapTypeId: google.maps.MapTypeId.ROADMAP,
       mapTypeControl: true,
       mapTypeControlOptions: {
-        style: google.maps.MapTypeControlStyle.DEFAULT,
-        position: google.maps.ControlPosition.LEFT_BOTTOM,
-        mapTypeIds: [google.maps.MapTypeId.ROADMAP, google.maps.MapTypeId.SATELLITE, google.maps.MapTypeId.HYBRID, google.maps.MapTypeId.TERRAIN, 'noise']
+        style: google.maps.MapTypeControlStyle.DROPDOWN_MENU,
+        position: google.maps.ControlPosition.LEFT_TOP,
+        mapTypeIds: [google.maps.MapTypeId.ROADMAP, google.maps.MapTypeId.SATELLITE, google.maps.MapTypeId.HYBRID, google.maps.MapTypeId.TERRAIN]
       }
     });
     this.sensorsSharedService.publishEvent(Events.mapInstance, this.map, "MapComponent.initMap");
