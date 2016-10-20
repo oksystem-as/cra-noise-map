@@ -64,7 +64,7 @@ export class SliderComponent implements AfterViewInit {
                 formatter: function (value) {
                     return new Date(value).toLocaleDateString();
                 },
-                id: "slider",
+                id: "mainSlider",
                 range: false,
             });
 
