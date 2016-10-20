@@ -20,6 +20,13 @@
   z-index: 1 !important;
 }
 
+#overlaysSearchId > div {
+  border-radius: 4px 4px 4px 4px;
+  -moz-border-radius: 4px 4px 4px 4px;
+  -webkit-border-radius: 4px 4px 4px 4px;
+  border: 0px solid #000000;
+}
+
 .separator {
   border-right: 1px lightgray;
   border-left: 0px;
