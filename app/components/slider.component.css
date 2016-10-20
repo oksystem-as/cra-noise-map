@@ -11,6 +11,7 @@
     padding-right: 49px;
     padding-left: 120px;
     margin-top: -66px;
+    z-index: -1;
 }
 
 #rectangle2 {
