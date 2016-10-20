@@ -1,12 +1,12 @@
 <div id="baseMapLegendId">
     <!--Horizontal-->
     <div *ngIf="!showVertical">
-        <span class="legendText" *ngFor="let legend of legends">  
+        <span class="legendText" *ngFor="let legend of legends" tooltip="Hluk naměřený v DB" tooltipPopupDelay="1500" tooltipPlacement="top" tooltipClass="tooltip-legend">  
             <span>{{legend.valueText}}</span>
         </span>
     </div>
     <!--Vertical-->
     <div *ngIf="showVertical">
-        <div class="legendText" *ngFor="let legend of legends" [style.background]="legend.color" [style.color]="legend.colorText">{{legend.valueText}}</div>
+        <div class="legendText" *ngFor="let legend of legends" [style.background]="legend.color" [style.color]="legend.colorText" tooltip="Hluk naměřený v DB" tooltipPopupDelay="1500" tooltipPlacement="right" tooltipClass="tooltip-legend">{{legend.valueText}}</div>
     </div>
 </div>

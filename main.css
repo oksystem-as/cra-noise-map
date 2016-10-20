@@ -1,15 +1,23 @@
 .info-window{
-    font-family: 'Roboto','sans-serif';  
-    /*background-color: #f45;*/
-  }
+  font-family: 'Roboto','sans-serif';  
+  /*background-color: #f45;*/
+}
+
+.tooltip-legend {
+  width: 150px;
+}
   
 .tooltip-layer-component {
-   width: 200px;
+  width: 200px;
 }
 
 .tooltip-search {
-   width: 178px;
-   margin-bottom: 5px;
+  width: 178px;
+  margin-bottom: 5px;
+}
+
+.tooltip-layer-button {
+  width: 150px;
 }
 
   /*#slider {
