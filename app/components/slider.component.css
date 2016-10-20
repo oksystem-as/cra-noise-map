@@ -8,16 +8,9 @@
 #rectangle3 {
     position: relative;
     width:100%;
-/*<<<<<<< HEAD*/
-    padding-right: 49px;
-    padding-left: 120px;
-    margin-top: -66px;
-    z-index: -1;
-/*=======
     padding-right: 123px;
     left: 76px;
     padding-bottom: 17px; 
->>>>>>> 4a717670836ca1e926919ddc3ee16b41014ca2a8*/
 }
 
 #rectangle2 {
