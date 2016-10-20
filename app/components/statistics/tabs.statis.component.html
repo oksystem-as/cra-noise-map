@@ -51,7 +51,9 @@
          (removed)="removeTabHandler(tabz)">
       {{tabz?.content}}
     </tab>-->
-
+            
+    <!--<tab heading="Hodinový" ><chart></chart></tab>-->
+    <!--<tab heading="Denní 6-22"><chart></chart></tab>-->
     <tab heading="Hodinový" (select)="statis1.refreshSlider($event)"><statis #statis1 [statisType]="0"></statis></tab>
     <tab heading="Denní 6-22" (select)="statis2.refreshSlider($event)"><statis #statis2 [statisType]="1"></statis></tab>
     <tab heading="Denní 18-22" (select)="statis3.refreshSlider($event)"><statis #statis3 [statisType]="2"></statis></tab>

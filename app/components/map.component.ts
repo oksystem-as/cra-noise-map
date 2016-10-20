@@ -218,7 +218,6 @@ export class MapComponent implements AfterViewInit {
     this.sensorsSharedService.listenEventData(Events.loadSensor).filter((sensor: Sensor) => {
       return sensor != undefined && sensor.payloads != undefined && sensor.payloads.length > 0
     }).subscribe((sensor: Sensor) => {
-        console.log("Events.loadSensorCCC ");
       // console.log("New sensor event (Events.loadSensor): ", sensor)
       this.removeMarkers(sensor.devEUI);
       // odstranim predchozi markery

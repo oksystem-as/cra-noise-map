@@ -16,3 +16,7 @@
   -webkit-border-radius: 4px 4px 4px 4px;
   border: 0px solid #000000;
 }
+
+#baseMapLegendId{
+    margin-bottom: 4px;
+}
