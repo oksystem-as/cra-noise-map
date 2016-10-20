@@ -1,5 +1,12 @@
 <div id="rectangle3" >
-    <div id="rectangle2">
+    <!-- Chrome, Firefox, Safari, Opera -->  
+    <div id="rectangle2" *hideItBrowser="['ie']">
+	<div id="rectangle">
+	    <input id="{{sliderId}}"/>
+        </div>
+    </div>
+    <!-- Internet Explorer -->
+    <div id="rectangle2IE" *showItBrowser="['ie']">
         <div id="rectangle">
 	    <input id="{{sliderId}}"/>
         </div>

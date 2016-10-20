@@ -1,3 +1,14 @@
+#overlaysSearchId {
+  z-index: 15 !important;
+}
+
+#overlaysSearchId > div {
+  border-radius: 4px 4px 4px 4px;
+  -moz-border-radius: 4px 4px 4px 4px;
+  -webkit-border-radius: 4px 4px 4px 4px;
+  border: 0px solid #000000;
+}
+
 .overlaysSearch {
   margin-left: 10px;
   background-color: white;
@@ -14,17 +25,6 @@
   -webkit-box-shadow: 0px 0px 10px 4px rgba(0,0,0,0.19);
   -moz-box-shadow: 0px 0px 10px 4px rgba(0,0,0,0.19);
   box-shadow: 0px 0px 10px 4px rgba(0,0,0,0.19); 
-}
-
-#overlaysSearchId {
-  z-index: 1 !important;
-}
-
-#overlaysSearchId > div {
-  border-radius: 4px 4px 4px 4px;
-  -moz-border-radius: 4px 4px 4px 4px;
-  -webkit-border-radius: 4px 4px 4px 4px;
-  border: 0px solid #000000;
 }
 
 .separator {

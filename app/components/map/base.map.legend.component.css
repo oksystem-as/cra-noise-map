@@ -1,5 +1,9 @@
+#baseMapLegendId {
+  z-index: 14 !important;
+}
+
 .legendText {
-  z-index: -1;
+  z-index: 13;
   margin: 0px;
   margin-left: 16px;
   padding: 2px;
