@@ -1,5 +1,4 @@
 #overlaysMenuId {
-  z-index: 1 !important;
   background-color: white;
 
   border-radius: 4px 0px 0px 4px;
@@ -23,9 +22,9 @@
 }
 
 .nav > li > a > img {
-    max-width: none;
-    margin-top: 3px;
-    margin-left: 3px;
+  max-width: none;
+  margin-top: 3px;
+   margin-left: 3px;
 }
 
 .dropdown-menu>li>a {

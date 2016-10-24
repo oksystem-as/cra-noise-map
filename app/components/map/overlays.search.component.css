@@ -2,6 +2,10 @@
   z-index: 15 !important;
 }
 
+.overlaysSearchMobile {
+  width: 100%;
+}
+
 #overlaysSearchId > div {
   border-radius: 4px 4px 4px 4px;
   -moz-border-radius: 4px 4px 4px 4px;
@@ -34,7 +38,11 @@
   border-top: 0px;
   border-style: solid;
   width: 1px;
-  z-index: 3 !important;
   padding-top: 5px;
   padding-bottom: 5px;
+}
+
+.mobileTop {
+  position: relative;
+  margin: 0px auto;
 }

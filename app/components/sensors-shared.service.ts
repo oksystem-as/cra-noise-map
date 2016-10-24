@@ -27,6 +27,7 @@ export class Overlay {
     value: number;
     text: string;
     position: number;
+    tooltip: string;
 }
 
 export interface IEvent<T> {

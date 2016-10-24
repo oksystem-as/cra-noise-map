@@ -1,32 +1,24 @@
-<div id="overlaysSearchId">
-    <!------------------------------------------------------- DESKTOP, TABLET, SMART TV -------------------------------------------------------->
-    <div class="standard" *showItDevice="['desktop','tablet','smarttv']">
-        <logo></logo>
-        <div class="overlaysSearch">
-            <span class="separator">
-                <overlays-menu></overlays-menu>
-            </span>
+<!------------------------------------------------------- DESKTOP, TABLET, SMART TV -------------------------------------------------------->
+<div id="overlaysSearchId" class="overlaysSearchStandard" *hideItDevice="['mobile']">
+    <logo></logo>
+    <div class="overlaysSearch">
+        <overlays-menu></overlays-menu>
+        <span class="separator"></span>
         <search></search>
-        </div>
     </div>
-    <!------------------------------------------------------- MOBILE ------------------------------------------------------->
-    <div class="mobile" *showItDevice="['mobile']">
-        <div id="mobile-top">
-            <span class="upper-bar">
-                <span class="separator">
-                    <overlays-menu></overlays-menu>       
-                </span>
-                <span class="separator">
-                    <search></search>
-                </span>
-                <!--<span class="separator">
-                    <senzor-list></senzor-list>
-                </span>-->
-            </span>
-        </div>
-        <div class="logo">
-            <logo></logo>
-        </div>
+</div>
+<!------------------------------------------------------- MOBILE ------------------------------------------------------->
+<div id="overlaysSearchId" class="overlaysSearchMobile" *showItDevice="['mobile']">
+    <div class="mobileTop">
+        <span class="upperBar">
+            <overlays-menu></overlays-menu>   
+            <span class="separator"></span>
+            <search></search>
+            <span class="separator"></span>
+            <senzor-menu></senzor-menu>
+        </span>
     </div>
-
-
+    <div class="logo">
+        <logo></logo>
+    </div>
+</div>

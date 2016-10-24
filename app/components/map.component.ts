@@ -126,9 +126,8 @@ export class MapComponent implements AfterViewInit {
 
   initControlsLayout() {
     this.map.controls[google.maps.ControlPosition.RIGHT_TOP].push(document.getElementById('statisticsId'));
-    this.map.controls[google.maps.ControlPosition.TOP_LEFT].push(document.getElementById('overlaysSearchId')); // desktop
+    this.map.controls[google.maps.ControlPosition.TOP_LEFT].push(document.getElementById('overlaysSearchId'));
     this.map.controls[google.maps.ControlPosition.LEFT_BOTTOM].push(document.getElementById('baseMapLegendId'));
-    //this.map.controls[google.maps.ControlPosition.TOP_LEFT].push(document.getElementById('mobile-top'));
   }
 
   // Normalizes the coords that tiles repeat across the x axis (horizontally)

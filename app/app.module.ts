@@ -12,7 +12,7 @@ import { StatisComponent } from './components/statistics/statis.component';
 import { TabsStatisComponent } from './components/statistics/tabs.statis.component';
 import { TableStatisComponent } from './components/statistics/table.statis.component';
 import { ChartComponent } from './components/statistics/chart.component';
-import { SenzorListComponent } from './components/statistics/senzor.list.component';
+import { SenzorMenuComponent } from './components/statistics/senzor.menu.component';
 import { OverlaysMenuComponent } from './components/map/overlays.menu.component';
 import { BaseMapLegendComponent } from './components/map/base.map.legend.component';
 import { SearchComponent } from './components/map/search.component';
@@ -60,7 +60,7 @@ import { Collapse } from "./directives/collapse.directive"
     LogoComponent,
     LoadingComponent,
     ChartComponent,
-    SenzorListComponent,
+    SenzorMenuComponent,
     // Collapse,
     ],
   bootstrap: [AppComponent]

@@ -8,7 +8,7 @@
           <!--dropdown-not-closable-zone-->
           <li *ngFor="let overlayGroup of overlayGroups, let ndx = index" class="overlayGroup">
             <span class="layerHeader">{{overlayGroup.name}}</span>
-            <a *ngFor="let overlay of overlayGroup.overlays" class="groupItem" tooltip="Pořadí vrstvy, výběr vrstvy, jméno vrstvy" tooltipPopupDelay="1500" tooltipPlacement="right" tooltipClass="tooltip-layer-component">
+            <a *ngFor="let overlay of overlayGroup.overlays" class="groupItem">
               <span class="groupItemSpan"> 
               <!-- Chrome, Firefox, Safari, Opera -->  
               <span *hideItBrowser="['ie']">
@@ -17,7 +17,7 @@
               <span class="layerSpanBox">
                   <input type="checkbox" class="layerChBox" [(ngModel)]="overlay.checked" value={{overlay.value}} (ngModelChange)="onChkboxClick(overlay)"/>
                 </span>
-              <span class="layerText">{{overlay.text}}</span>
+              <span class="layerText" tooltip={{overlay.tooltip}} tooltipPopupDelay="1500" tooltipPlacement="right" tooltipClass="tooltip-layer-component">{{overlay.text}}</span>
               </span>
               <!-- Internet Explorer -->
               <span *showItBrowser="['ie']">

@@ -11,40 +11,40 @@ export class OverlaysMenuComponent {
   private overlayGroups: OverlayGroup[] = [{
     name: "Železnice",
     overlays: [
-      { checked: false, value: 1, text: "Ln", position: 0 },
-      { checked: false, value: 2, text: "Ldvn", position: 0 },
-      { checked: false, value: 3, text: "Ln-generalizováno", position: 0 },
-      { checked: false, value: 4, text: "Ldvn-generalizováno", position: 0 }]
+      { checked: false, value: 1, text: "Ln", position: 0, tooltip: "Hlukový indikátor pro noc" },
+      { checked: false, value: 2, text: "Ldvn", position: 0, tooltip: "Hlukový indikátor pro den, večer a noc" },
+      { checked: false, value: 3, text: "Ln-generalizováno", position: 0, tooltip: "Hlukový indikátor pro noc" },
+      { checked: false, value: 4, text: "Ldvn-generalizováno", position: 0, tooltip: "Hlukový indikátor pro den, večer a noc" }]
   },
   {
     name: "Silnice",
     overlays: [
-      { checked: false, value: 8, text: "Ln", position: 0 },
-      { checked: false, value: 9, text: "Ldvn", position: 0 },]
+      { checked: false, value: 8, text: "Ln", position: 0, tooltip: "Hlukový indikátor pro noc" },
+      { checked: false, value: 9, text: "Ldvn", position: 0, tooltip: "Hlukový indikátor pro den, večer a noc" },]
   },
   {
     name: "Ostrava",
     overlays: [
-      { checked: false, value: 14, text: "Ln", position: 0 },
-      { checked: false, value: 15, text: "Ldvn", position: 0 },]
+      { checked: false, value: 14, text: "Ln", position: 0, tooltip: "Hlukový indikátor pro noc" },
+      { checked: false, value: 15, text: "Ldvn", position: 0, tooltip: "Hlukový indikátor pro den, večer a noc" },]
   },
   {
     name: "Brno",
     overlays: [
-      { checked: false, value: 17, text: "Ln", position: 0 },
-      { checked: false, value: 18, text: "Ldvn", position: 0 },]
+      { checked: false, value: 17, text: "Ln", position: 0, tooltip: "Hlukový indikátor pro noc" },
+      { checked: false, value: 18, text: "Ldvn", position: 0, tooltip: "Hlukový indikátor pro den, večer a noc" },]
   },
   {
     name: "Praha",
     overlays: [
-      { checked: false, value: 20, text: "Ln", position: 0 },
-      { checked: false, value: 21, text: "Ldvn", position: 0 },]
+      { checked: false, value: 20, text: "Ln", position: 0, tooltip: "Hlukový indikátor pro noc" },
+      { checked: false, value: 21, text: "Ldvn", position: 0, tooltip: "Hlukový indikátor pro den, večer a noc" },]
   },
   {
     name: "Letiště Ruzyně",
     overlays: [
-      { checked: false, value: 23, text: "Ln", position: 0 },
-      { checked: false, value: 24, text: "Ldvn", position: 0 }]
+      { checked: false, value: 23, text: "Ln", position: 0, tooltip: "Hlukový indikátor pro noc" },
+      { checked: false, value: 24, text: "Ldvn", position: 0, tooltip: "Hlukový indikátor pro den, večer a noc" }]
   }];
 
   private count: number = 0;
