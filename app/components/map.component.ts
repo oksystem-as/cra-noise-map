@@ -30,6 +30,7 @@ export class MapComponent implements AfterViewInit {
   private overlayGroup: OverlayGroup[];
   private noiseMapType: google.maps.ImageMapType;
   private sliderNewDate: Date = SensorsSharedService.minDateLimit;
+  private showLoading = false;
 
   constructor(private log: Logger, private sensorsSharedService: SensorsSharedService) {
   }
@@ -128,7 +129,9 @@ export class MapComponent implements AfterViewInit {
     this.map.controls[google.maps.ControlPosition.RIGHT_TOP].push(document.getElementById('statisticsId'));
     this.map.controls[google.maps.ControlPosition.TOP_LEFT].push(document.getElementById('overlaysSearchId'));
     this.map.controls[google.maps.ControlPosition.LEFT_BOTTOM].push(document.getElementById('baseMapLegendId'));
+    this.map.controls[google.maps.ControlPosition.TOP_CENTER].push(document.getElementById('loadingOnMap'));
   }
+
 
   // Normalizes the coords that tiles repeat across the x axis (horizontally)
   // like the standard Google map tiles.
@@ -154,6 +157,14 @@ export class MapComponent implements AfterViewInit {
   }
 
   private addNewDataListener() {
+    this.sensorsSharedService.listenEventData(Events.statistics).subscribe(showLoading => {
+      // this.sensorsSharedService.publishEvent(Events.showMasterLoading, false);
+    });
+
+    this.sensorsSharedService.listenEventData(Events.showMasterLoading).subscribe(showLoading => {
+      this.showLoading = showLoading;
+    });
+
     this.sensorsSharedService.listenEventData(Events.sliderNewDate).subscribe(data => {
       this.sliderNewDate = data;
     });
@@ -278,6 +289,7 @@ export class MapComponent implements AfterViewInit {
     marker.showData = sensor.showData;
 
     marker.addListener('click', () => {
+      this.sensorsSharedService.publishEvent(Events.showMasterLoading, true);
       this.sensorsSharedService.publishEvent(Events.selectSensor, marker.sensor, "MapComponent.markerClick");
       this.devicedetailParamsDefault.devEUI = marker.sensor.devEUI;
       this.devicedetailParamsDefault.payloadType = marker.sensor.payloadType;
@@ -362,6 +374,6 @@ export class MapComponent implements AfterViewInit {
     start: new Date(2014, 1, 11),
     //stop: new Date("2016-09-22"),
     order: Order.asc,
-    //limit:10000
+    limit:10000
   }
 }

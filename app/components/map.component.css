@@ -1,9 +1,12 @@
-   #map {
+#map {
     height: 100%;
     width: 100%;
     margin-top:-14px;
-  }
+}
 
+#loadingOnMap{
+    margin-top: 20px;
+}
   /*#floating-panel {
     position: absolute;
     top: 10px;
