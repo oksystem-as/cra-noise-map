@@ -10,11 +10,13 @@ import { StatisticsComponent } from './components/statistics/statistics.componen
 import { StatisComponent } from './components/statistics/statis.component';
 import { TabsStatisComponent } from './components/statistics/tabs.statis.component';
 import { TableStatisComponent } from './components/statistics/table.statis.component';
+import { SenzorListComponent } from './components/statistics/senzor.list.component';
 import { OverlaysMenuComponent } from './components/map/overlays.menu.component';
 import { BaseMapLegendComponent } from './components/map/base.map.legend.component';
 import { SearchComponent } from './components/map/search.component';
 import { OverlaysSearchComponent } from './components/map/overlays.search.component';
 import { LogoComponent } from './components/map/logo.component';
+import { MobileTopComponent } from './components/mobile/mobile.top.component';
 import { LoadingComponent } from './components/loading.component';
 import { HttpModule }    from '@angular/http';
 import { Logger, Options, Level  } from "angular2-logger/core"; 
@@ -52,7 +54,9 @@ import { Collapse } from "./directives/collapse.directive"
     OverlaysSearchComponent,
     SearchComponent,
     LogoComponent,
+    MobileTopComponent,
     LoadingComponent,
+    SenzorListComponent,
     // Collapse,
     ],
   bootstrap: [AppComponent]

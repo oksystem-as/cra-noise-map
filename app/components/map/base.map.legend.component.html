@@ -1,12 +1,85 @@
 <div id="baseMapLegendId">
-    <!--Horizontal-->
-    <div *ngIf="!showVertical">
-        <span class="legendText" *ngFor="let legend of legends" tooltip="Hluk naměřený v DB" tooltipPopupDelay="1500" tooltipPlacement="top" tooltipClass="tooltip-legend">  
-            <span>{{legend.valueText}}</span>
-        </span>
+    <!------------------------------------------------------- DESKTOP -------------------------------------------------------->
+    <div class="desktop" *isDesktop>
+        <!--Horizontal-->
+        <div *ngIf="!showVertical" class="legend-horizontal">
+            <span class="legendText" *ngFor="let legend of legends" [style.background]="legend.color" [style.color]="legend.colorText" tooltip="Hluk naměřený v DB" tooltipPopupDelay="1500" tooltipPlacement="top" tooltipClass="tooltip-legend">  
+                <span>{{legend.valueText}}</span>
+            </span>
+        </div>
+        <!--Vertical-->
+        <div *ngIf="showVertical" class="legend-vertical">
+            <div class="legendText" *ngFor="let legend of legends" [style.background]="legend.color" [style.color]="legend.colorText" tooltip="Hluk naměřený v DB" tooltipPopupDelay="1500" tooltipPlacement="right" tooltipClass="tooltip-legend">{{legend.valueText}}</div>
+        </div>
     </div>
-    <!--Vertical-->
-    <div *ngIf="showVertical">
-        <div class="legendText" *ngFor="let legend of legends" [style.background]="legend.color" [style.color]="legend.colorText" tooltip="Hluk naměřený v DB" tooltipPopupDelay="1500" tooltipPlacement="right" tooltipClass="tooltip-legend">{{legend.valueText}}</div>
+    
+    <!------------------------------------------------------- SMART TV ------------------------------------------------------->
+    <div class="smart_tv" *isSmartTv>
+        <!--Horizontal-->
+        <div *ngIf="!showVertical" class="legend-horizontal">
+            <span class="legendText" *ngFor="let legend of legends" [style.background]="legend.color" [style.color]="legend.colorText" tooltip="Hluk naměřený v DB" tooltipPopupDelay="1500" tooltipPlacement="top" tooltipClass="tooltip-legend">  
+                <span>{{legend.valueText}}</span>
+            </span>
+        </div>
+        <!--Vertical-->
+        <div *ngIf="showVertical" class="legend-vertical">
+            <div class="legendText" *ngFor="let legend of legends" [style.background]="legend.color" [style.color]="legend.colorText" tooltip="Hluk naměřený v DB" tooltipPopupDelay="1500" tooltipPlacement="right" tooltipClass="tooltip-legend">{{legend.valueText}}</div>
+        </div>
+    </div>
+    
+    <!------------------------------------------------------- TABLET ------------------------------------------------------->
+    <div class="tablet" *isTablet>
+        <!--Horizontal-->
+        <div *ngIf="!showVertical" class="legend-horizontal">
+            <span class="legendText" *ngFor="let legend of legends" [style.background]="legend.color" [style.color]="legend.colorText" tooltip="Hluk naměřený v DB" tooltipPopupDelay="1500" tooltipPlacement="top" tooltipClass="tooltip-legend">  
+                <span>{{legend.valueText}}</span>
+            </span>
+        </div>
+        <!--Vertical-->
+        <div *ngIf="showVertical" class="legend-vertical">
+            <div class="legendText" *ngFor="let legend of legends" [style.background]="legend.color" [style.color]="legend.colorText" tooltip="Hluk naměřený v DB" tooltipPopupDelay="1500" tooltipPlacement="right" tooltipClass="tooltip-legend">{{legend.valueText}}</div>
+        </div>
+    </div>
+    
+    <!------------------------------------------------------- MOBILE ------------------------------------------------------->
+    <div class="mobile" *isMobile>
+        <!--Horizontal-->
+        <div *ngIf="!showVertical" class="legend-horizontal">
+            <ul class="nav navbar-nav">
+                <li class="dropup" dropdown>
+                    <a class="dropdown dropdown-toggle" dropdown-open data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAEYUlEQVRYhdWWS2hcZRTHf+c+5nHz6BgbcZEWCRqERukiRalSW5W2QmsVHwvjYjZDkQiuxF0XXYuIC8XHIoJFim4apCjiosFStLPooquixbZpQ5NpZpKZuTNzX8dFJpOZvKaZoYIHLnO/e7/v/H/fOd85d+D/bO9cXHSOTs081o0Po5vFvhe8jep73fiQThemsy6lpcqlUrEyrKq7fnltl9eJn24i8HQYRs8Cj4jIq5066QJAM74X1G852amXjlKQzrpOFOntudl8qv4oAp74+cTQ9e366jQCb/p+kGoaG6CZThxtGyB92QU42Qh/wyR99NxM7IEDIIwC+9cD8Chw7MEDQEZV2QAAZfuHse0hPPZrDtAYSL9hyM6H+hMXozAamL+7uNH0KEzEXvAs8y+UAkL1wksPbw0wfqnYH4TR+9VaMBhGmkIZQEhB4xoAHOrRSvUlCPyAwkKpZRvJZJxkT5w7FR+tw6BaRaQALAAFoKBKQUQXTJFCr219LQDprHtYVc9GqqkwUIIwalxRpC3EibhF5Ae4pSqGITi9CRwnjmEaFL2AXMXfcseGQF/M8npsc+L7Z3q/aaQgnXWfVPScICMrz1QVVRowYRgRhopEIbGYRSIZQ2Q1i3dKNWphtKnwjrhFf8zKicgb34450/XgrVo66w6o8oMIL262g4ofUvRDBpN2i7gfRsyUauvmmyLsiFv0xUxE5KqgJybHehoNq6UKJsecBUGPAJ9vJO5HEXMVj7IfMl/xUV1NT9EPW+ZahrAzabOrL86OuIUhcl7guWbxdQAAk/t6AmACZQJo1FqkylzZY+VINEOoKiVvGcA2hMGkzVBvnL6YVY+SfgIcnxxzltbqbVmG6az7MnBWVQfmKz7lNbsE6LVNemyTfM0nFbdxLKM5NR5wcnLMmdxMo20fSGfdEdcPfyt6wZAhgggYIhgs/woKt3IYcRuxDAzLRCwTwzZLdm/ylckx5/et/FvtABSuObZZdWxz/TtVSv/MEft7lmq/Q5ho+RTEgCvt/LdtxaLsBh7fSLx8Y57g3hISRiQWy0hrCcaA/V0DIBzcSNy9lcPLlzBrAQIYkZIolEBbGteh7gHWOFFV3NsL1O4VAbC81c5neQF2udo8fR38tgDS2TKw2pRUlcpsntp840NUML1gpnlNvFjB8BvVO3b8q6v9HQOADAO7V0bVuwWqdwsrwx+BPUYY7QE+Y/lvGQIk8iXqDcMS4fmtFNpVwcGG+Nwildk8wE1gAvhpKjO68vqD8dPTZ0C/BNlrhhHxJZdaqgeWU3h+M4F2Z+AQQDW3hHv7XgB8CuyZyow2iwNw5tSBP4F9wEeAa1dqWBWvZRMb2aaNKH3ZBeFWbaE4VL4xfwU0M5V5KtsGGIDx09PDwBcqcrg82B+oaQ5OZUYLG83dPALCiLfoDpRv5j4E9t2vOMCZUweuKxxBdTxRKC8Q6YH7Xduwdy/k977+3bXhbS9cY+Onpwfe+viP7QP8V/Yvuz/qq043ILAAAAAASUVORK5CYII="
+                        alt="Legenda">
+                    </a>
+                    <ul id="LegendGroupHorizontal" class="dropdown-menu" dropdown-not-closable-zone>
+                    <!--dropdown-not-closable-zone-->
+                        <li class="legendGroupItem">
+                            <span class="legendText" *ngFor="let legend of legends" [style.background]="legend.color" [style.color]="legend.colorText" tooltip="Hluk naměřený v DB" tooltipPopupDelay="1500" tooltipPlacement="top" tooltipClass="tooltip-legend">  
+                                <span>{{legend.valueText}}</span>
+                            </span>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+        <!--Vertical-->
+        <div *ngIf="showVertical" class="legend-vertical">
+            <ul class="nav navbar-nav">
+                <li class="dropup" dropdown>
+                    <a class="dropdown dropdown-toggle" dropdown-open data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAEYUlEQVRYhdWWS2hcZRTHf+c+5nHz6BgbcZEWCRqERukiRalSW5W2QmsVHwvjYjZDkQiuxF0XXYuIC8XHIoJFim4apCjiosFStLPooquixbZpQ5NpZpKZuTNzX8dFJpOZvKaZoYIHLnO/e7/v/H/fOd85d+D/bO9cXHSOTs081o0Po5vFvhe8jep73fiQThemsy6lpcqlUrEyrKq7fnltl9eJn24i8HQYRs8Cj4jIq5066QJAM74X1G852amXjlKQzrpOFOntudl8qv4oAp74+cTQ9e366jQCb/p+kGoaG6CZThxtGyB92QU42Qh/wyR99NxM7IEDIIwC+9cD8Chw7MEDQEZV2QAAZfuHse0hPPZrDtAYSL9hyM6H+hMXozAamL+7uNH0KEzEXvAs8y+UAkL1wksPbw0wfqnYH4TR+9VaMBhGmkIZQEhB4xoAHOrRSvUlCPyAwkKpZRvJZJxkT5w7FR+tw6BaRaQALAAFoKBKQUQXTJFCr219LQDprHtYVc9GqqkwUIIwalxRpC3EibhF5Ae4pSqGITi9CRwnjmEaFL2AXMXfcseGQF/M8npsc+L7Z3q/aaQgnXWfVPScICMrz1QVVRowYRgRhopEIbGYRSIZQ2Q1i3dKNWphtKnwjrhFf8zKicgb34450/XgrVo66w6o8oMIL262g4ofUvRDBpN2i7gfRsyUauvmmyLsiFv0xUxE5KqgJybHehoNq6UKJsecBUGPAJ9vJO5HEXMVj7IfMl/xUV1NT9EPW+ZahrAzabOrL86OuIUhcl7guWbxdQAAk/t6AmACZQJo1FqkylzZY+VINEOoKiVvGcA2hMGkzVBvnL6YVY+SfgIcnxxzltbqbVmG6az7MnBWVQfmKz7lNbsE6LVNemyTfM0nFbdxLKM5NR5wcnLMmdxMo20fSGfdEdcPfyt6wZAhgggYIhgs/woKt3IYcRuxDAzLRCwTwzZLdm/ylckx5/et/FvtABSuObZZdWxz/TtVSv/MEft7lmq/Q5ho+RTEgCvt/LdtxaLsBh7fSLx8Y57g3hISRiQWy0hrCcaA/V0DIBzcSNy9lcPLlzBrAQIYkZIolEBbGteh7gHWOFFV3NsL1O4VAbC81c5neQF2udo8fR38tgDS2TKw2pRUlcpsntp840NUML1gpnlNvFjB8BvVO3b8q6v9HQOADAO7V0bVuwWqdwsrwx+BPUYY7QE+Y/lvGQIk8iXqDcMS4fmtFNpVwcGG+Nwildk8wE1gAvhpKjO68vqD8dPTZ0C/BNlrhhHxJZdaqgeWU3h+M4F2Z+AQQDW3hHv7XgB8CuyZyow2iwNw5tSBP4F9wEeAa1dqWBWvZRMb2aaNKH3ZBeFWbaE4VL4xfwU0M5V5KtsGGIDx09PDwBcqcrg82B+oaQ5OZUYLG83dPALCiLfoDpRv5j4E9t2vOMCZUweuKxxBdTxRKC8Q6YH7Xduwdy/k977+3bXhbS9cY+Onpwfe+viP7QP8V/Yvuz/qq043ILAAAAAASUVORK5CYII="
+                        alt="Legenda">
+                    </a>
+                    <ul id="LegendGroupVertical" class="dropdown-menu" dropdown-not-closable-zone>
+                    <!--dropdown-not-closable-zone-->
+                        <li *ngFor="let legend of legends" class="legendGroupItem">
+                            <div class="legendText"  [style.background]="legend.color" [style.color]="legend.colorText" tooltip="Hluk naměřený v DB" tooltipPopupDelay="1500" tooltipPlacement="right" tooltipClass="tooltip-legend">
+                                {{legend.valueText}}
+                            </div>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
     </div>
 </div>
