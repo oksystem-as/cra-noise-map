@@ -1,6 +1,6 @@
 <div id="baseMapLegendId">
-    <!------------------------------------------------------- DESKTOP -------------------------------------------------------->
-    <div class="desktop" *isDesktop>
+    <!------------------------------------------------------- DESKTOP, TABLET, SMART TV -------------------------------------------------------->
+    <div class="desktop" *showItDevice="['desktop','tablet','smarttv']">
         <!--Horizontal-->
         <div *ngIf="!showVertical" class="legend-horizontal">
             <span class="legendText" *ngFor="let legend of legends" [style.background]="legend.color" [style.color]="legend.colorText" tooltip="Hluk naměřený v DB" tooltipPopupDelay="1500" tooltipPlacement="top" tooltipClass="tooltip-legend">  
@@ -13,36 +13,9 @@
         </div>
     </div>
     
-    <!------------------------------------------------------- SMART TV ------------------------------------------------------->
-    <div class="smart_tv" *isSmartTv>
-        <!--Horizontal-->
-        <div *ngIf="!showVertical" class="legend-horizontal">
-            <span class="legendText" *ngFor="let legend of legends" [style.background]="legend.color" [style.color]="legend.colorText" tooltip="Hluk naměřený v DB" tooltipPopupDelay="1500" tooltipPlacement="top" tooltipClass="tooltip-legend">  
-                <span>{{legend.valueText}}</span>
-            </span>
-        </div>
-        <!--Vertical-->
-        <div *ngIf="showVertical" class="legend-vertical">
-            <div class="legendText" *ngFor="let legend of legends" [style.background]="legend.color" [style.color]="legend.colorText" tooltip="Hluk naměřený v DB" tooltipPopupDelay="1500" tooltipPlacement="right" tooltipClass="tooltip-legend">{{legend.valueText}}</div>
-        </div>
-    </div>
-    
-    <!------------------------------------------------------- TABLET ------------------------------------------------------->
-    <div class="tablet" *isTablet>
-        <!--Horizontal-->
-        <div *ngIf="!showVertical" class="legend-horizontal">
-            <span class="legendText" *ngFor="let legend of legends" [style.background]="legend.color" [style.color]="legend.colorText" tooltip="Hluk naměřený v DB" tooltipPopupDelay="1500" tooltipPlacement="top" tooltipClass="tooltip-legend">  
-                <span>{{legend.valueText}}</span>
-            </span>
-        </div>
-        <!--Vertical-->
-        <div *ngIf="showVertical" class="legend-vertical">
-            <div class="legendText" *ngFor="let legend of legends" [style.background]="legend.color" [style.color]="legend.colorText" tooltip="Hluk naměřený v DB" tooltipPopupDelay="1500" tooltipPlacement="right" tooltipClass="tooltip-legend">{{legend.valueText}}</div>
-        </div>
-    </div>
-    
+  
     <!------------------------------------------------------- MOBILE ------------------------------------------------------->
-    <div class="mobile" *isMobile>
+    <div class="mobile" *showItDevice="['mobile']">
         <!--Horizontal-->
         <div *ngIf="!showVertical" class="legend-horizontal">
             <ul class="nav navbar-nav">
