@@ -52,6 +52,8 @@ export enum StatisType {
 //       yAxisID?: string
 //       data: Array<number>
 export class ChartComponent { //implements AfterViewInit {
+    @Input()
+    public statisType: StatisType = StatisType.DAY24;
     public chartId = "chartId" + RandomUtils.getRandom();
     public sliderId = "sliderId" + RandomUtils.getRandom();
     private linearChartData: Chart.LineChartData = {
@@ -63,7 +65,7 @@ export class ChartComponent { //implements AfterViewInit {
         {
             data: [],
             pointBackgroundColor: "blue",
-            // backgroundColor: "white",
+            backgroundColor: "white",
             borderColor: "red",
             pointRadius: 1,
             tension: 10,
@@ -74,7 +76,7 @@ export class ChartComponent { //implements AfterViewInit {
         data: this.linearChartData,
         options: {
             scaleShowGridLines: true,
-            scaleGridLineColor: "rgba(0,0,0,.05)",
+            scaleGridLineColor: "#FF7E99",
             scaleGridLineWidth: 1,
             bezierCurve: true,
             bezierCurveTension: 0.4,
@@ -91,8 +93,7 @@ export class ChartComponent { //implements AfterViewInit {
         }
     }
     private chart: Chart.LineChartInstance;
-    @Input()
-    public statisType: StatisType = StatisType.DAY24;
+
 
     private getDateFormat(date): string {
         let dateFormat;
@@ -129,7 +130,7 @@ export class ChartComponent { //implements AfterViewInit {
         labels.push(this.getDateFormat(date));
         let limit = 83;
         if (data > limit) {
-            (dataset.pointBackgroundColor as string[]).push("red");
+            (dataset.pointBackgroundColor as string[]).push("#FF7E99");
         } else {
             (dataset.pointBackgroundColor as string[]).push("green");
         }
