@@ -19,6 +19,7 @@
             <button *ngIf="isHidden" type="button" class="btn btn-primary statisButton" (click)="isHidden = false" tooltip="Rozbalit statistiky" tooltipPopupDelay="1500" tooltipPlacement="left"> <span class="glyphicon glyphicon-menu-down" aria-hidden="true"></span> </button>
             <button *ngIf="!isHidden" type="button" class="btn btn-default statisButton" (click)="isHidden = true" tooltip="Sbalit statistiky" tooltipPopupDelay="1500" tooltipPlacement="left"> <span class="glyphicon glyphicon-menu-up" aria-hidden="true"></span> </button>
         </div>
+
         <div  id="statistics" [collapse]="isHidden" > <!--  [collapse]="isHidden"  [hidden]="isHidden" -->
             <tabs-statis></tabs-statis>
         </div>

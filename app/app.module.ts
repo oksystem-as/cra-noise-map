@@ -4,12 +4,14 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AppComponent } from './components/app.component';
 import { MapComponent } from './components/map.component';
-import { TestComponent } from './components/test.component';
+import { TestComponent } from './components/test/test.component';
+import { TabTestComponent } from './components/test/test.tabs.char.component';
 import { SliderComponent } from './components/slider.component';
 import { StatisticsComponent } from './components/statistics/statistics.component';
 import { StatisComponent } from './components/statistics/statis.component';
 import { TabsStatisComponent } from './components/statistics/tabs.statis.component';
 import { TableStatisComponent } from './components/statistics/table.statis.component';
+import { ChartComponent } from './components/statistics/chart.component';
 import { SenzorListComponent } from './components/statistics/senzor.list.component';
 import { OverlaysMenuComponent } from './components/map/overlays.menu.component';
 import { BaseMapLegendComponent } from './components/map/base.map.legend.component';
@@ -17,6 +19,8 @@ import { SearchComponent } from './components/map/search.component';
 import { OverlaysSearchComponent } from './components/map/overlays.search.component';
 import { LogoComponent } from './components/map/logo.component';
 import { LoadingComponent } from './components/loading.component';
+
+
 import { HttpModule }    from '@angular/http';
 import { Logger, Options, Level  } from "angular2-logger/core"; 
 import { DropdownModule } from "ng2-dropdown";
@@ -43,6 +47,7 @@ import { Collapse } from "./directives/collapse.directive"
     AppComponent,
     MapComponent,
     TestComponent,
+    TabTestComponent,
     SliderComponent,
     StatisticsComponent,
     StatisComponent,
@@ -54,6 +59,7 @@ import { Collapse } from "./directives/collapse.directive"
     SearchComponent,
     LogoComponent,
     LoadingComponent,
+    ChartComponent,
     SenzorListComponent,
     // Collapse,
     ],

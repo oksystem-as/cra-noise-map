@@ -1,14 +1,14 @@
 import { Component, AfterViewInit } from '@angular/core';
-import { ARF8084BAPayload } from '../payloads/ARF8084BAPayload';
-import { ARF8084BAPayloadResolver } from '../payloads/ARF8084BAPayloadResolver';
+import { ARF8084BAPayload } from '../../payloads/ARF8084BAPayload';
+import { ARF8084BAPayloadResolver } from '../../payloads/ARF8084BAPayloadResolver';
 
-import { RHF1S001Payload } from '../payloads/RHF1S001Payload';
-import { RHF1S001PayloadResolver } from '../payloads/RHF1S001PayloadResolver';
+import { RHF1S001Payload } from '../../payloads/RHF1S001Payload';
+import { RHF1S001PayloadResolver } from '../../payloads/RHF1S001PayloadResolver';
 
 import { Data } from './test.data';
 import { Observable, } from 'rxjs/Observable';
 import { IntervalObservable } from 'rxjs/observable/IntervalObservable';
-import { ArrayUtils, MonthList, ObjectUtils } from '../utils/utils';
+import { ArrayUtils, MonthList, ObjectUtils } from '../../utils/utils';
 
 import 'rxjs/Rx';
 
