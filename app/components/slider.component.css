@@ -6,6 +6,7 @@
 }
 
 #rectangle3 {
+    z-index: 12;
     position: relative;
     width:100%;
     padding-right: 123px;
@@ -14,6 +15,7 @@
 }
 
 #rectangle2 {
+    z-index: 11;
     padding-right: 36px;
     padding-left: 36px;
     padding-top: 2px;
@@ -33,6 +35,7 @@
   }
 
 #rectangle2IE {
+    z-index: 11;
     padding-right: 36px;
     padding-left: 46px;
     padding-top: 2px;
