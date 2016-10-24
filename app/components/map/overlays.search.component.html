@@ -1,8 +1,32 @@
 <div id="overlaysSearchId">
-    <logo></logo>
-    <div class="overlaysSearch">
-        <overlays-menu></overlays-menu>
-        <span class="separator"></span>
+    <!------------------------------------------------------- DESKTOP, TABLET, SMART TV -------------------------------------------------------->
+    <div class="standard" *showItDevice="['desktop','tablet','smarttv']">
+        <logo></logo>
+        <div class="overlaysSearch">
+            <span class="separator">
+                <overlays-menu></overlays-menu>
+            </span>
         <search></search>
+        </div>
     </div>
-</div>
+    <!------------------------------------------------------- MOBILE ------------------------------------------------------->
+    <div class="mobile" *showItDevice="['mobile']">
+        <div id="mobile-top">
+            <span class="upper-bar">
+                <span class="separator">
+                    <overlays-menu></overlays-menu>       
+                </span>
+                <span class="separator">
+                    <search></search>
+                </span>
+                <!--<span class="separator">
+                    <senzor-list></senzor-list>
+                </span>-->
+            </span>
+        </div>
+        <div class="logo">
+            <logo></logo>
+        </div>
+    </div>
+
+

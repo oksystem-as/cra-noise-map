@@ -1,6 +1,6 @@
 <div id="baseMapLegendId">
     <!------------------------------------------------------- DESKTOP, TABLET, SMART TV -------------------------------------------------------->
-    <div class="desktop" *showItDevice="['desktop','tablet','smarttv']">
+    <div class="standard" *showItDevice="['desktop','tablet','smarttv']">
         <!--Horizontal-->
         <div *ngIf="!showVertical" class="legend-horizontal">
             <span class="legendText" *ngFor="let legend of legends" [style.background]="legend.color" [style.color]="legend.colorText" tooltip="Hluk naměřený v DB" tooltipPopupDelay="1500" tooltipPlacement="top" tooltipClass="tooltip-legend">  
