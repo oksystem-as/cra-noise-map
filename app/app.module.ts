@@ -28,7 +28,6 @@ import { Ng2BootstrapModule } from 'ng2-bootstrap/ng2-bootstrap';
 import { ResponsiveModule } from 'ng2-responsive';
 
 import { CRaService } from './service/cra.service';
-import { ChartsModule } from 'ng2-charts/ng2-charts';
 import { Collapse } from "./directives/collapse.directive"
 
 @NgModule({
@@ -38,7 +37,6 @@ import { Collapse } from "./directives/collapse.directive"
     FormsModule,
     HttpModule,
     DropdownModule,
-    ChartsModule,
     Ng2BootstrapModule,
     ResponsiveModule,
   ],

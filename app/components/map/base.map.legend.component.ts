@@ -5,7 +5,7 @@ import { Logger } from "angular2-logger/core";
 import { SensorsSharedService } from '../sensors-shared.service';
 import { Sensor } from '../../entity/sensor';
 import { Payload, PayloadType } from '../../payloads/payload';
-import { RxUtils, ObjectUtils, RandomUtils, ColorUtils, ColorLegend } from '../../utils/utils';
+import { ObjectUtils, RandomUtils, ColorUtils, ColorLegend } from '../../utils/utils';
 
 import { ARF8084BAPayload } from '../../payloads/ARF8084BAPayload';
 import { RHF1S001Payload } from '../../payloads/RHF1S001Payload';

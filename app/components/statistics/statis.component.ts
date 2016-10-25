@@ -5,7 +5,7 @@ import { Logger } from "angular2-logger/core";
 import { SensorsSharedService, Events } from '../sensors-shared.service';
 import { Sensor } from '../../entity/sensor';
 import { Payload, PayloadType } from '../../payloads/payload';
-import { RxUtils, ObjectUtils, RandomUtils, DateUtils } from '../../utils/utils';
+import { ObjectUtils, RandomUtils, DateUtils } from '../../utils/utils';
 
 import { ARF8084BAPayload } from '../../payloads/ARF8084BAPayload';
 import { RHF1S001Payload } from '../../payloads/RHF1S001Payload';
@@ -184,80 +184,6 @@ export class StatisComponent implements AfterViewInit {
     }
 
     constructor(private log: Logger, private sensorsSharedService: SensorsSharedService, elementRef: ElementRef) {
-        var source = sensorsSharedService.listenEventData(Events.statistics)
-            .filter(data => {
-                return data != undefined && data.payloads != undefined && data.payloadType == PayloadType.ARF8084BA &&
-                    (data.publisher == undefined || data.publisher == this.sliderId || data.publisher == "menuItem" || data.publisher == "markerItem")
-            }).filter(data => {
-                if (data.payloads.length == 0) {
-                    alert("Zadanému intervalu nevyhovují žádná data.")
-                    this.clearChartAndTable();
-                }
-                return data.payloads.length > 0
-            }).subscribe(data => {
-                var element = data.payloads[0];
-
-                this.clearChartAndTable();
-                //  console.log("startDate ", data.payloads[0].createdAt.toLocaleString());
-                // data.payloads.forEach((data) => {
-                //     console.log(data.createdAt.toLocaleString());
-                // })
-
-                if (this.firstInitSlider) {
-                    this.removeSlider();
-                    this.initSlider(data.payloads[0].createdAt);
-                    this.firstInitSlider = false;
-                } else if (data.publisher == "menuItem" || data.publisher == "markerItem") {
-                    // pokud je vyber z menu je potreba provest reset 
-                    this.removeSlider();
-                    this.initSlider(data.payloads[0].createdAt);
-                    this.firstInitSlider = false;
-                }
-
-                this.devEUI = data.devEUI;
-
-                // 1. vytvarim novy stream jelikoz stream getStatisticsData() se neuzavira a nektere volani 
-                // (reduce(), last() atp.) cekaji na completed resp uzavreni streamu, ktereho se nedockaji ...
-                // 2. musim provest deep copy listu a v nem obs. objektu jinak dochayi k modifikaci objektu napric streamy 
-                switch (this.statisType) {
-                    case StatisType.HOUR: {
-                        // log.debug('hodinovy prumer: ');
-                        this.resolveLogAverange(RxUtils.groupByHours(ObjectUtils.deepCopyArr(data.payloads)));
-                        break;
-                    }
-                    case StatisType.DAY6_22: {
-                        // log.debug('denni 6-22 prumer: ');
-                        this.resolveLogAverange(RxUtils.groupByDay(ObjectUtils.deepCopyArr(data.payloads)));
-                        break;
-                    }
-                    case StatisType.DAY18_22: {
-                        // log.debug('denni 18-22 prumer: ');
-                        this.resolveLogAverange(RxUtils.groupBy18_22(ObjectUtils.deepCopyArr(data.payloads)));
-                        break;
-                    }
-                    case StatisType.NIGHT22_6: {
-                        // log.debug('nocni 22-6 prumer: ');
-                        this.resolveLogAverange(RxUtils.groupByNight(ObjectUtils.deepCopyArr(data.payloads)));
-                        break;
-                    }
-                    case StatisType.DAY24: {
-                        // log.debug('denni 24h prumer: ');
-                        this.resolveLogAverange(RxUtils.groupByDays(ObjectUtils.deepCopyArr(data.payloads)));
-                        break;
-                    }
-                    case StatisType.WEEK: {
-                        // log.debug('tydeni prumer: ');
-                        this.resolveLogAverange(RxUtils.groupByWeek(ObjectUtils.deepCopyArr(data.payloads)));
-                        break;
-                    }
-                    case StatisType.MONTH: {
-                        // log.debug('mesicni prumer: ');
-                        this.resolveLogAverange(RxUtils.groupByMonth(ObjectUtils.deepCopyArr(data.payloads)));
-                        break;
-                    }
-                    default: throw "nepodporovany graf " + this.statisType;
-                }
-            });
     }
 
     private initSlider(firstDate: Date) {

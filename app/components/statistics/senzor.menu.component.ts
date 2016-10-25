@@ -4,7 +4,7 @@ import { MapComponent } from './../map.component';
 import { SensorsSharedService, Overlay, OverlayGroup, Events } from '../sensors-shared.service';
 import { Sensor } from '../../entity/sensor';
 import { Payload, PayloadType } from '../../payloads/payload';
-import { RxUtils, ObjectUtils, ArrayUtils } from '../../utils/utils';
+import { ObjectUtils, ArrayUtils } from '../../utils/utils';
 import { CRaService, DeviceDetailParams, DeviceParams, Order } from '../../service/cra.service';
 
 @Component({
