@@ -157,9 +157,6 @@ export class MapComponent implements AfterViewInit {
   }
 
   private addNewDataListener() {
-    this.sensorsSharedService.listenEventData(Events.statistics).subscribe(showLoading => {
-      // this.sensorsSharedService.publishEvent(Events.showMasterLoading, false);
-    });
 
     this.sensorsSharedService.listenEventData(Events.showMasterLoading).subscribe(showLoading => {
       this.showLoading = showLoading;

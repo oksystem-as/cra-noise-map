@@ -228,6 +228,7 @@ declare namespace Chart {
       label?: string
       fill?: boolean
       backgroundColor?: string
+      borderWidth?:number
       borderColor?: string | Array<string>
       borderCapStyle?: string
       borderDash?: Array<number>
@@ -393,7 +394,8 @@ declare namespace Chart {
     // @formatter:on
     gridLines?: Array<ScaleGridLinesOptions>;
     scaleLabel?: Array<ScaleLabelOptions>;
-    ticks?: Array<ScaleTickOptions>;
+    ticks?: ScaleTickOptions | Array<ScaleTickOptions>;
+    reverse?: boolean;
   }
 
   interface ScaleGridLinesOptions {
