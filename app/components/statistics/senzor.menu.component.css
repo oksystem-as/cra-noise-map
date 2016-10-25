@@ -22,13 +22,14 @@
 }
 
 .buttons {
+  z-index: 10 !important;
   margin-right: 230;
   margin-top: 20px;
   width: 160px;
   height: 38px;
 }
 
-#senzorMenuId > ul {
+.buttons > ul {
   border-radius: 4px 4px 4px 4px;
   -moz-border-radius: 4px 4px 4px 4px;
   -webkit-border-radius: 4px 4px 4px 4px;
@@ -40,12 +41,12 @@
   height: 38px;
 }
 
-#senzorMenuId > ul > li {
+.buttons > ul > li {
   width: 172px;
   height: 38px;
 }
 
-#senzorMenuId > ul > li > a {
+.buttons > ul > li > a {
   border-radius: 4px 4px 4px 4px;
   -moz-border-radius: 4px 4px 4px 4px;
   -webkit-border-radius: 4px 4px 4px 4px;
@@ -58,7 +59,11 @@
   font-family: Roboto,Arial,sans-serif;
 }
 
-#senzorMenuId > ul > li > a > img {
+.buttons > ul > li > ul {
+  z-index: 10;
+}
+
+.buttons > ul > li > a > img {
   position: relative;
   margin-left: -15px;
   margin-top: -3px;
@@ -68,7 +73,7 @@
   margin-left: 3px;
 }
 
-#senzorMenuId > ul > li > a > a {
+.buttons > ul > li > a > a {
   margin-left: 7px;
 }
 
@@ -83,34 +88,20 @@
 /*MOBILE*/
 .buttons-M {
   width: 38px;
-  margin-top: -45px;
-  margin-left: 220px;
+  height: 38px;
+  position: absolute;
+  top: -8px;
+  left: 222px;
   z-index: 16;
-}
-
-#navBar-M {
-  width: 38px;
-  height: 38px; 
 }
 
 #menu-button-M {
   width: 38px;
-  height: 38px;
-  margin-top: -23px;
-  position: relative;
+  height: 38px; 
 }
 
 #menu-button-M > img {
   margin-top: -6px;
-  margin-left: -13px;
-  position: relative;
+  margin-left: -12px;
 }
 
-#navBar-M > li > ul {
-  background-color: white;
-  font-family: Roboto,Arial,sans-serif;
-  font-size: 14px;
-  text-align: center;
-  padding: 0px;
-  width: 166px;
-}
