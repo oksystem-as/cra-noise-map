@@ -1,69 +1,65 @@
-.navbar {
-  margin:10px;
+#statistics {
+  font-family: Roboto,Arial,sans-serif; 
+  background-color: white;
+  width:  590px;
+  height: 407px !important;
+  /*margin-right: 10px;*/
+
+  margin-left: -400px;
+  margin-top: 14px;
+
+  border-radius: 4px 4px 4px 4px;
+  -moz-border-radius: 4px 4px 4px 4px;
+  -webkit-border-radius: 4px 4px 4px 4px;
+
+  -webkit-box-shadow: 0px 0px 10px 4px rgba(0,0,0,0.19);
+  -moz-box-shadow: 0px 0px 10px 4px rgba(0,0,0,0.19);
+  box-shadow: 0px 0px 10px 4px rgba(0,0,0,0.19);
 }
 
-.bold-sensor {
-  font-weight: bold;
+.statButton {
+  background-color: white;
+  margin-right: 15px;
+  margin-top: -38px;
+  height: 38px;
+  width: 190px;
+
+  border-radius: 4px 4px 4px 4px;
+  -moz-border-radius: 4px 4px 4px 4px;
+  -webkit-border-radius: 4px 4px 4px 4px;
+
+  -webkit-box-shadow: 0px 0px 10px 4px rgba(0,0,0,0.19);
+  -moz-box-shadow: 0px 0px 10px 4px rgba(0,0,0,0.19);
+  box-shadow: 0px 0px 10px 4px rgba(0,0,0,0.19);
 }
 
-.red-sensor {
-  color: red !important;
+.senzorListIco {
+  margin-left: 5px;
+  margin-top: 3px;
+  position: relative;
 }
 
-.gray-sensor{
-   color: gray;
-}
-#combo{
-      padding-top: 0px;
-    padding-bottom: 0px;
-     font-size: 14px; 
+.statMenuText{
+  margin-top: 9px;
+  position: relative;
+  height: 100% !important;
+  width: 50px;
 }
 
-#buttons{
-    width:  590px;
-    height: 50px;
-    background-color: white;
-    margin-top: 24px;
-    margin-right: 10px;
-    margin-bottom: 8px;
-    border-radius: 4px 4px 4px 4px;
-    -moz-border-radius: 4px 4px 4px 4px;
-    -webkit-border-radius: 4px 4px 4px 4px;
+.description {
+  position: relative;
 
-    -webkit-box-shadow: 0px 0px 10px 4px rgba(0,0,0,0.19);
-    -moz-box-shadow: 0px 0px 10px 4px rgba(0,0,0,0.19);
-    box-shadow: 0px 0px 10px 4px rgba(0,0,0,0.19);
+  background-color: white;
+  font-family: Roboto,Arial,sans-serif;
+  font-size: 14px;
+  text-align: center;
+
+  margin-left: 5px;
+  margin-right: 5px;
+  margin-top: 5px;
 }
 
-.statisButton{
-    margin-top: 5px;
-    margin-left: 435px;
-    margin-top: -39px;
-    margin-left: 540px;
+#hiddenButton {
+  margin-left: 2px;
+  margin-top: 4px;
 }
-
-
-  #statistics   {
-    font-family: Roboto,Arial,sans-serif; 
-    background-color: white;
-    width:  590px;
-    height: 407px !important;
-    margin-right: 10px;
-
-    /*border: solid #ddd;*/
-    /*border-width: 0px 1px 1px 1px;*/
-    /*margin-bottom: 10px; 
-    margin-right: 10px;*/
-    /*margin-top: 70px;*/
-    /*margin-top: -23%;
-    /*position: absolute;*/
-
-    border-radius: 4px 4px 4px 4px;
-    -moz-border-radius: 4px 4px 4px 4px;
-    -webkit-border-radius: 4px 4px 4px 4px;
-    /*border: 0px solid #000000;*/
-
-    -webkit-box-shadow: 0px 0px 10px 4px rgba(0,0,0,0.19);
-    -moz-box-shadow: 0px 0px 10px 4px rgba(0,0,0,0.19);
-    box-shadow: 0px 0px 10px 4px rgba(0,0,0,0.19);
-  }

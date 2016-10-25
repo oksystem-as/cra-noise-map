@@ -14,9 +14,6 @@ import { CRaService, DeviceDetailParams, DeviceParams, Order } from '../../servi
 })
 
 export class SenzorMenuComponent {
-  //collapse content
-  public isHidden: boolean = true;
-
   private sensors: Sensor[] = [];
   // private sensorsAnimate: Sensor[] = [];
   private selectedSensor: Sensor;
@@ -48,7 +45,6 @@ export class SenzorMenuComponent {
     // zvyrazneni vybraneho
     this.sensorsSharedService.listenEventData(Events.selectSensor).subscribe((sensor: Sensor) => {
       this.selectedSensor = sensor;
-      this.isHidden = false;
     });
 
   }
