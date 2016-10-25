@@ -7,7 +7,7 @@
   width: 100%;
 }
 
-#overlaysSearchId > div {
+.overlaysSearchStandard > div {
   border-radius: 4px 4px 4px 4px;
   -moz-border-radius: 4px 4px 4px 4px;
   -webkit-border-radius: 4px 4px 4px 4px;
@@ -63,7 +63,6 @@
   width: 1px;
   padding-top: 5px;
   padding-bottom: 5px;
-  z-index: 18;
 }
 
 #SeparatorM-2 { 
@@ -76,5 +75,4 @@
   width: 1px;
   padding-top: 5px;
   padding-bottom: 5px;
-  z-index: 18;
 }

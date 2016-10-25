@@ -98,10 +98,24 @@ span.layerSpanBox {
   height: 18px;
 }
 
+.dropdown-menu {
+   overflow-y: auto; 
+   overflow-x: auto;
+}
 
 /*MOBILE VERSION*/
-#nav-bar-M {
+#overlaysMenuId-M {
+  background-color: white;
+}
+
+#overlaysMenuId-M > ul > li > a {
+  height: 38px;
   width: 38px;
+  padding: 0px;
+}
+
+#nav-bar-M {
+  width: 100%;
 }
 
 #overlayGroup-M {

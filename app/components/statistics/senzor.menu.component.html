@@ -2,10 +2,10 @@
     <div id="combo">
         <ul class="nav navbar-nav">
             <li class="dropdown" dropdown>
-                <a *ngIf="selectedSensor == undefined" class="dropdown dropdown-toggle" dropdown-open data-toggle="dropdown" role="button"
+                <a *ngIf="selectedSensor == undefined" class=" dropdown dropdown-toggle" dropdown-open data-toggle="dropdown" role="button"
                     aria-haspopup="true" aria-expanded="false" tooltip="Vybráním čidla se zobrazí jeho statistiky" tooltipPopupDelay="1500"
                     tooltipPlacement="left">Vyberte čidlo<span class="glyphicon glyphicon-menu-down" ></span></a>
-                <a *ngIf="selectedSensor != undefined" class="dropdown dropdown-toggle" dropdown-open data-toggle="dropdown" role="button"
+                <a *ngIf="selectedSensor != undefined" class=" dropdown dropdown-toggle" dropdown-open data-toggle="dropdown" role="button"
                     aria-haspopup="true" aria-expanded="false">{{selectedSensor.name}} <span class="glyphicon glyphicon-menu-down"></span></a>
                 <ul class="dropdown-menu">
                     <!--dropdown-not-closable-zone-->
@@ -18,28 +18,31 @@
             </li>
         </ul>
     </div>
+    <button *ngIf="isHidden" type="button" class="btn btn-primary statisButton" (click)="isHidden = false" tooltip="Rozbalit statistiky"
+        tooltipPopupDelay="1500" tooltipPlacement="left"> <span class="glyphicon glyphicon-menu-down" aria-hidden="true"></span> </button>
+    <button *ngIf="!isHidden" type="button" class="btn btn-default statisButton" (click)="isHidden = true" tooltip="Sbalit statistiky"
+        tooltipPopupDelay="1500" tooltipPlacement="left"> <span class="glyphicon glyphicon-menu-up" aria-hidden="true"></span> </button>
 </div>
 
 <div id="buttons-M" *showItDevice="['mobile']">
     <!--<div id="combo">-->
-        <ul class="nav navbar-nav" id="navBar-M">
-            <li class="dropdown" dropdown>
-                <a class="dropdown dropdown-toggle" dropdown-open data-toggle="dropdown" role="button"
-                    aria-haspopup="true" aria-expanded="false" tooltip="Vybrat čidlo" tooltipPopupDelay="1500"
-                    tooltipPlacement="left" id="menu-button-M">
-                    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAACZklEQVRYhc2WP2gTYRjGf19zSWqCYrXSIiLUQQcVsgT8N+igFIKlhVuEcxAMNTe1gx0FnawROjVQHFw6OKRToEMHC0IdbBUli4NYsKFUWpSmJDW54DnkziY1l1y+NMEHDo6P932e3733Hhy0IE2NjWlqbKwVD/Hy/p0x4IhM8/ei9wZAn89YlMzPKsCUZDN9PsO+vS7roQDj+WOnp65cDct6SOnt0jKBH9/GAYhPJsxOKz6ZMAG6OvrYNaS0xfVrGt4tVJ91B2H4QYcAKlUyIPUCCrsdBDhzsXyVDIiPwtlzkP5Ys7R9O2CH5zfgXtSxrD0A+8MV50EfPIBTeE9PzXL3O2AvE8DtKChe9+EAj5+2AGAbZ9cwC3nE5xV4OFMN0cTYK9X4FVQaR3VMdQTz55fyWcloKbwxQC1jjwdzeGgP4ldOOrw+QL2nsiG2V+HueShuSoWD0w64GanHgzkyBN4Aovdk08G2ak/gecz9SP3d0uHgNIGB4xCOSI30YAAuX2t7sK3/439ACJFZfL10yu/3lU+3s44N5s6+ofkMhN+5vkprywAUCkWEEJm/AIqi3PzwPq2apvnPRPK53YHcTu7Wif7emQrmChnWVa3Nja3R4OHgQiB4aHXvdAUAIcRvRVGSrqA1VZ/QVH3aVXF137Sm6hON6tyseQTY0lT9UZMM/cAF4Fm9orpLqKn6USAEfGoyHKsnZHk4qtEEBoE3s8nEEwkANFUPWx6vnGoafYYRICUTbilleTjKEUBT9S7K9PMtAMwDg5ZXcwDAJWB9NpnIyKZbveuWV9MAIWBONrxCc5ZXTf0BVERJC6Hb0y0AAAAASUVORK5CYII=">
-                </a>
-                <!--<a *ngIf="selectedSensor != undefined" class="dropdown dropdown-toggle" dropdown-open data-toggle="dropdown" role="button"
+    <ul class="nav navbar-nav" id="navBar-M">
+        <li class="dropdown" dropdown>
+            <a class="dropdown dropdown-toggle" dropdown-open data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"
+                tooltip="Vybrat čidlo" tooltipPopupDelay="1500" tooltipPlacement="left" id="menu-button-M">
+                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAACZklEQVRYhc2WP2gTYRjGf19zSWqCYrXSIiLUQQcVsgT8N+igFIKlhVuEcxAMNTe1gx0FnawROjVQHFw6OKRToEMHC0IdbBUli4NYsKFUWpSmJDW54DnkziY1l1y+NMEHDo6P932e3733Hhy0IE2NjWlqbKwVD/Hy/p0x4IhM8/ei9wZAn89YlMzPKsCUZDN9PsO+vS7roQDj+WOnp65cDct6SOnt0jKBH9/GAYhPJsxOKz6ZMAG6OvrYNaS0xfVrGt4tVJ91B2H4QYcAKlUyIPUCCrsdBDhzsXyVDIiPwtlzkP5Ys7R9O2CH5zfgXtSxrD0A+8MV50EfPIBTeE9PzXL3O2AvE8DtKChe9+EAj5+2AGAbZ9cwC3nE5xV4OFMN0cTYK9X4FVQaR3VMdQTz55fyWcloKbwxQC1jjwdzeGgP4ldOOrw+QL2nsiG2V+HueShuSoWD0w64GanHgzkyBN4Aovdk08G2ak/gecz9SP3d0uHgNIGB4xCOSI30YAAuX2t7sK3/439ACJFZfL10yu/3lU+3s44N5s6+ofkMhN+5vkprywAUCkWEEJm/AIqi3PzwPq2apvnPRPK53YHcTu7Wif7emQrmChnWVa3Nja3R4OHgQiB4aHXvdAUAIcRvRVGSrqA1VZ/QVH3aVXF137Sm6hON6tyseQTY0lT9UZMM/cAF4Fm9orpLqKn6USAEfGoyHKsnZHk4qtEEBoE3s8nEEwkANFUPWx6vnGoafYYRICUTbilleTjKEUBT9S7K9PMtAMwDg5ZXcwDAJWB9NpnIyKZbveuWV9MAIWBONrxCc5ZXTf0BVERJC6Hb0y0AAAAASUVORK5CYII=">
+            </a>
+            <!--<a *ngIf="selectedSensor != undefined" class="dropdown dropdown-toggle" dropdown-open data-toggle="dropdown" role="button"
                     aria-haspopup="true" aria-expanded="false">{{selectedSensor.name}} <span class="glyphicon glyphicon-menu-down"></span></a>-->
-                <ul class="dropdown-menu">
-                    <!--dropdown-not-closable-zone-->
-                    <li *ngFor="let sensor of sensors, let ndx = index">
-                        <!--tooltip="{{sensor.devEUI}}"-->
-                        <a data-placement="left" (click)="onClick(sensor)" [class.bold-sensor]="isSensorOnMap(sensor)" [class.gray-sensor]="!isSensorOnMap(sensor)"
-                            [class.red-sensor]="isSensorSelected(sensor)">{{sensor.name}}</a>
-                    </li>
-                </ul>
-            </li>
-        </ul>
+            <ul class="dropdown-menu">
+                <!--dropdown-not-closable-zone-->
+                <li *ngFor="let sensor of sensors, let ndx = index">
+                    <!--tooltip="{{sensor.devEUI}}"-->
+                    <a data-placement="left" (click)="onClick(sensor)" [class.bold-sensor]="isSensorOnMap(sensor)" [class.gray-sensor]="!isSensorOnMap(sensor)"
+                        [class.red-sensor]="isSensorSelected(sensor)">{{sensor.name}}</a>
+                </li>
+            </ul>
+        </li>
+    </ul>
     <!--</div>-->
 </div>
