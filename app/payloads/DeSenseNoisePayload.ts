@@ -1,4 +1,3 @@
-import { BitUtils } from '../utils/utils'
 import { Payload, PayloadType } from './payload'
 
 export class DeSenseNoisePayload implements Payload {

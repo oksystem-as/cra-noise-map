@@ -1,5 +1,4 @@
 import  { DeSenseNoisePayload } from './DeSenseNoisePayload'
-import { BitUtils } from '../utils/utils'
 
 export class DeSenseNoisePayloadResolver {
 
