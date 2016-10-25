@@ -60,37 +60,73 @@ export class ChartComponent { //implements AfterViewInit {
         labels: [],
         datasets: [{
             data: [],
-            pointBackgroundColor: []
-        },
-        {
-            data: [],
-            pointBackgroundColor: "blue",
-            backgroundColor: "white",
-            borderColor: "red",
-            pointRadius: 1,
-            tension: 10,
-        }]
+            pointBackgroundColor: [],
+            borderWidth:2,
+            borderColor: "#FF7E99",
+            backgroundColor: "rgba(255, 71, 108, 0.2)",
+            pointBorderColor: "white",
+            pointBorderWidth: 1,
+            // borderColor: "#FF7E99",
+        }
+            ,
+            {
+                data: [],
+                // pointBackgroundColor: "blue",
+                fill: false,
+                // backgroundColor: "rgb(108, 216, 106)",
+                borderColor: "rgb(108, 216, 106)",
+                pointRadius: 0,
+                borderWidth:1,
+            }
+        ]
     }
     //{ data: Chart.LineChartData, options?: Chart.LineChartOptions }
+    private globalOptions: Chart.LineChartOptions = {
+           // showLines: true,
+              //  stacked:  true,
+        scales: {
+            // xAxes: [{
+            //     reverse: true,
+            //     ticks: {
+            //         beginAtZero: true
+            //     }
+            // }],
+            yAxes: [{
+                ticks: {
+                    beginAtZero: true
+                }
+            }]
+        },
+          defaultColor: "blue",
+        // scales: {
+        //       yAxes: [{
+        //         ticks: {
+        //             beginAtZero:true
+        //         }
+        //     }]
+        // }
+        //defaultColor: "#FF7E99", 
+        // scaleShowGridLines: true,
+        // scaleGridLineColor: "#FF7E99",
+        // borderColor: "#FF7E99",
+        // backgroundColor: "#FF7E99",
+        // scaleGridLineWidth: 1,
+        // bezierCurve: true,
+        // bezierCurveTension: 0.4,
+        // pointDot: true,
+        // pointDotRadius: 4,
+        // pointDotStrokeWidth: 1,
+        // pointHitDetectionRadius: 20,
+        // datasetStroke: true,
+        // datasetStrokeWidth: 2,
+        maintainAspectRatio: true,
+        responsive: false,
+        // onClick: handleClick,
+    }
+
     private data = {
         data: this.linearChartData,
-        options: {
-            scaleShowGridLines: true,
-            scaleGridLineColor: "#FF7E99",
-            scaleGridLineWidth: 1,
-            bezierCurve: true,
-            bezierCurveTension: 0.4,
-            pointDot: true,
-            pointDotRadius: 4,
-            pointDotStrokeWidth: 1,
-            pointHitDetectionRadius: 20,
-            datasetStroke: true,
-            datasetStrokeWidth: 2,
-            datasetFill: true,
-            maintainAspectRatio: true,
-            responsive: false,
-            // onClick: handleClick,
-        }
+        options: this.globalOptions
     }
     private chart: Chart.LineChartInstance;
 
@@ -132,7 +168,7 @@ export class ChartComponent { //implements AfterViewInit {
         if (data > limit) {
             (dataset.pointBackgroundColor as string[]).push("#FF7E99");
         } else {
-            (dataset.pointBackgroundColor as string[]).push("green");
+            (dataset.pointBackgroundColor as string[]).push("rgb(108, 216, 106)");
         }
         datasetLine.data.push(limit);
     }
@@ -142,9 +178,9 @@ export class ChartComponent { //implements AfterViewInit {
             let dataset = this.linearChartData.datasets[0];
             let labels = this.linearChartData.labels;
             dataset.data.length = 0;
-           (dataset.pointBackgroundColor as string[]).length = 0;
+            (dataset.pointBackgroundColor as string[]).length = 0;
             labels.length = 0;
-       
+
         }
     }
 
@@ -255,8 +291,10 @@ export class ChartComponent { //implements AfterViewInit {
                 (err) => { console.log('Error: ' + err); },
                 () => { /*console.log('Completed')*/ });
         },
-        (err) => { console.log('Error: ' + err); },
-        () => { this.updateChart(); });
+            (err) => { console.log('Error: ' + err); },
+            () => { 
+                this.updateChart();
+                this.sensorsSharedService.publishEvent(Events.showMasterLoading, false); });
     }
 
     private getValue(payload: Payload): number {
