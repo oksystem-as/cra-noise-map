@@ -66,7 +66,7 @@ export class TestComponent {
     ];
     sensor.payloads = payloads;
 
-    console.log("sensor", JSON.stringify(sensor));
+    // console.log("sensor", JSON.stringify(sensor));
 
     // var t0 = performance.now();
     StatisticsUtils.resolveLogAverangeListEvent(sensor, StatisType.DAY24).subscribe(list => {
