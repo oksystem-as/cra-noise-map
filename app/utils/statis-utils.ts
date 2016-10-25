@@ -43,7 +43,7 @@ export class StatisticsUtils {
             let count = group.length;
 
             group.forEach((data: ARF8084BAPayload) => {
-                let powValue = Math.pow(10, (data.temp) / 10)
+                let powValue = Math.pow(10, this.getValue(data) / 10)
                 sumValue += powValue;
             })
 

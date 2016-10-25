@@ -50,22 +50,27 @@ export class TestComponent {
 
   private statisTest() {
     let sensor: Sensor = new Sensor();
-    let payloads: any[] = [
-      { createdAt: new Date(2016, 10, 25, 10, 11), payloadType: PayloadType.ARF8084BA, temp: 50 },
-      { createdAt: new Date(2016, 10, 25, 10, 11), payloadType: PayloadType.ARF8084BA, temp: 60 },
-      { createdAt: new Date(2016, 10, 25, 10, 11), payloadType: PayloadType.ARF8084BA, temp: 40 },
-      { createdAt: new Date(2016, 10, 25, 10, 11), payloadType: PayloadType.ARF8084BA, temp: 80 },
+    sensor.devEUI = "0004A30B0019D0EA"
+    sensor.payloadType = PayloadType.DeSenseNoise;
 
-      { createdAt: new Date(2016, 10, 24, 10, 11), payloadType: PayloadType.ARF8084BA, temp: 10 },
-      { createdAt: new Date(2016, 10, 24, 11, 11), payloadType: PayloadType.ARF8084BA, temp: 20 },
-      { createdAt: new Date(2016, 10, 24, 12, 11), payloadType: PayloadType.ARF8084BA, temp: 40 },
-      { createdAt: new Date(2016, 10, 24, 08, 11), payloadType: PayloadType.ARF8084BA, temp: 80 },
+    let payloads: any[] = [
+      { noise: 50, rssi: 10, snr: 15, battery: 3.214, createdAt: new Date(2016, 10, 25, 10, 11), payloadType: PayloadType.DeSenseNoise },
+      { noise: 60, rssi: 10, snr: 15, battery: 3.214, createdAt: new Date(2016, 10, 25, 10, 11), payloadType: PayloadType.DeSenseNoise },
+      { noise: 80, rssi: 10, snr: 15, battery: 3.214, createdAt: new Date(2016, 10, 25, 10, 11), payloadType: PayloadType.DeSenseNoise },
+      { noise: 20, rssi: 10, snr: 15, battery: 3.214, createdAt: new Date(2016, 10, 25, 10, 11), payloadType: PayloadType.DeSenseNoise },
+
+      { noise: 50, rssi: 10, snr: 15, battery: 3.214, createdAt: new Date(2016, 10, 24, 10, 11), payloadType: PayloadType.DeSenseNoise },
+      { noise: 40, rssi: 10, snr: 15, battery: 3.214, createdAt: new Date(2016, 10, 24, 10, 11), payloadType: PayloadType.DeSenseNoise },
+      { noise: 70, rssi: 10, snr: 15, battery: 3.214, createdAt: new Date(2016, 10, 24, 10, 11), payloadType: PayloadType.DeSenseNoise },
+      { noise: 10, rssi: 10, snr: 15, battery: 3.214, createdAt: new Date(2016, 10, 24, 10, 11), payloadType: PayloadType.DeSenseNoise },
     ];
     sensor.payloads = payloads;
 
+    console.log("sensor", JSON.stringify(sensor));
+
     // var t0 = performance.now();
     StatisticsUtils.resolveLogAverangeListEvent(sensor, StatisType.DAY24).subscribe(list => {
-      console.log("resolveLogAverangeListEvent",  list)
+      console.log("resolveLogAverangeListEvent", list)
       // var t1 = performance.now();
       // console.log("Call to doSomething took " + (t1 - t0) + " milliseconds.")
     });
