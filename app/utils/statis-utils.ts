@@ -42,7 +42,7 @@ export class StatisticsUtils {
             let sumValue = 0;
             let count = group.length;
 
-            group.forEach((data: ARF8084BAPayload) => {
+            group.forEach((data) => {
                 let powValue = Math.pow(10, this.getValue(data) / 10)
                 sumValue += powValue;
             })
@@ -118,7 +118,7 @@ export class StatisticsUtils {
                 // log.debug('mesicni prumer: ');
                 return RxUtils.groupByMonth(ObjectUtils.deepCopyArr(data.payloads));
             }
-            default: throw "nepodporovany graf " + statisType;
+            default: throw "Nepodporovany typ statistiky: " + statisType;
         }
     }
 
