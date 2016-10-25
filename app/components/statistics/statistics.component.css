@@ -1,9 +1,10 @@
 #statistics {
+  z-index: -1;
+
   font-family: Roboto,Arial,sans-serif; 
   background-color: white;
   width:  590px;
   height: 407px !important;
-  /*margin-right: 10px;*/
 
   margin-left: -400px;
   margin-top: 14px;
@@ -20,7 +21,7 @@
 .statButton {
   background-color: white;
   margin-right: 15px;
-  margin-top: -38px;
+  margin-top: -58.2px;
   height: 38px;
   width: 190px;
 
@@ -39,13 +40,6 @@
   position: relative;
 }
 
-.statMenuText{
-  margin-top: 9px;
-  position: relative;
-  height: 100% !important;
-  width: 50px;
-}
-
 .description {
   position: relative;
 
@@ -54,12 +48,13 @@
   font-size: 14px;
   text-align: center;
 
-  margin-left: 5px;
+  margin-left: 44px;
   margin-right: 5px;
   margin-top: 5px;
+  top: -27px;
 }
 
 #hiddenButton {
-  margin-left: 2px;
+  margin-left: 105px;
   margin-top: 4px;
 }
