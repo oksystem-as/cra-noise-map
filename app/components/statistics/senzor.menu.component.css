@@ -92,13 +92,13 @@
   position: absolute;
   top: -8px;
   left: 222px;
-  z-index: 16 !important;
+  z-index: 10 !important;
 }
 
 #menu-button-M {
   width: 38px;
   height: 38px; 
-  z-index: 17 !important;
+  z-index: 15 !important;
 }
 
 #menu-button-M > img {

@@ -8,8 +8,8 @@ import { SensorsSharedService } from '../sensors-shared.service';
 })
 export class TabTestComponent {
   ngAfterViewInit(): void {
-    this.createChart("myChart1");
-    this.createChart("myChart2");
+    // this.createChart("myChart1");
+    // this.createChart("myChart2");
   }
 
   private createChart(id: string) {
