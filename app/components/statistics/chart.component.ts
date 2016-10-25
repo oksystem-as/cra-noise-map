@@ -15,9 +15,6 @@ import { GroupedObservable } from 'rxjs/operator/groupBy';
 import { BehaviorSubject } from "rxjs/Rx";
 import 'rxjs/Rx';
 import { ChartsModule } from 'ng2-charts/ng2-charts';
-import { WebWorkerService } from '../../../node_modules/angular2-web-worker/web-worker';
-// import { WebWorkerService } from 'angular2-web-worker'; 
-
 export enum StatisType {
     HOUR,
     DAY6_22,
@@ -34,7 +31,6 @@ export enum StatisType {
     templateUrl: 'chart.component.html',
     styleUrls: ['chart.component.css'],
     // encapsulation: ViewEncapsulation.Native
-    providers: [WebWorkerService]
 })
 export class ChartComponent { //implements AfterViewInit {
     @Input()
@@ -169,7 +165,7 @@ export class ChartComponent { //implements AfterViewInit {
         }
     }
 
-    constructor(private log: Logger, private sensorsSharedService: SensorsSharedService, elementRef: ElementRef, private webWorkerService: WebWorkerService) {
+    constructor(private log: Logger, private sensorsSharedService: SensorsSharedService, elementRef: ElementRef) {
         var source = sensorsSharedService.listenEventData(Events.statistics)
             .filter(data => {
                 return data != undefined && data.payloads != undefined && data.payloadType == PayloadType.ARF8084BA &&
