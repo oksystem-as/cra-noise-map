@@ -1,68 +1,29 @@
-import { ARF8084BAPayload, Status, Hemisphere } from './ARF8084BAPayload'
+import  { DeSenseNoisePayload } from './DeSenseNoisePayload'
 import { BitUtils } from '../utils/utils'
 
-export class ARF8084BAPayloadResolver {
-    public resolve(payload: String): ARF8084BAPayload {
-        let aRF8084BAPayload = new ARF8084BAPayload();
+export class DeSenseNoisePayloadResolver {
+
+    public resolve(payload: String): DeSenseNoisePayload {
+        let deSenseNoisePayload = new DeSenseNoisePayload();
         let charArrPayload = payload.split('');
-        let status = new Status(parseInt(charArrPayload[0] + charArrPayload[1], 16));
-        aRF8084BAPayload.status = status;
-
-        let index = 1;
-
-        if (status.tempInfoIsPresent) {
-            aRF8084BAPayload.temp = parseInt(charArrPayload[++index] + charArrPayload[++index], 16);
+        
+        let sensorType =  parseInt(charArrPayload[0]+charArrPayload[1] , 16);
+        if(sensorType !== 10){
+            throw new Error("Nepodporovany typ sensoru. sensorType:" + sensorType);
         }
+        
+        let rssi = parseInt(charArrPayload[2]+charArrPayload[3], 16);
+        deSenseNoisePayload.rssi = rssi;
 
-        if (status.GPSInfoIsPresent) {
-            let latDeg = parseInt(charArrPayload[++index] + charArrPayload[++index], 10)
-            let latMin = parseInt(charArrPayload[++index] + charArrPayload[++index], 10)
-            let latSec = parseFloat(parseInt(charArrPayload[++index] + charArrPayload[++index], 10) + "." + parseInt(charArrPayload[++index], 10));
+        let snr = parseInt(charArrPayload[4]+charArrPayload[5], 16);
+        deSenseNoisePayload.snr = snr - 128;
 
-            let northSouth = parseInt(charArrPayload[++index], 16)
-            aRF8084BAPayload.latitudeHemisphere = Hemisphere.N;
-            if (BitUtils.isBitOn(northSouth, 0)) {
-                aRF8084BAPayload.latitudeHemisphere = Hemisphere.S;
-            }
+        let batt = parseInt(charArrPayload[6]+charArrPayload[7]+charArrPayload[8]+charArrPayload[9], 16);
+        deSenseNoisePayload.battery = batt * 0.001;
 
-            let longDeg = parseInt(charArrPayload[++index] + charArrPayload[++index] + charArrPayload[++index], 10)
-            let longMin = parseInt(charArrPayload[++index] + charArrPayload[++index], 10)
-            let longSec = parseInt(charArrPayload[++index] + charArrPayload[++index], 10)
-
-            let eastWest = parseInt(charArrPayload[++index], 16)
-
-            aRF8084BAPayload.longtitudeHemisphere = Hemisphere.E;
-            if (BitUtils.isBitOn(eastWest, 0)) {
-                aRF8084BAPayload.longtitudeHemisphere = Hemisphere.W;
-            }
-
-            aRF8084BAPayload.latitudeText = latDeg + "°" + latMin + "'" + latSec + "''";
-            let latitude = ((((latMin * 60)) + latSec) / 3600) + latDeg;
-            aRF8084BAPayload.latitude = Math.round(latitude * 10000000) / 10000000;
-
-            aRF8084BAPayload.longtitudeText = longDeg + "°" + longMin + "'" + longSec + "''";
-            let longtitude = ((((longMin * 60)) + longSec) / 3600) + longDeg;
-            aRF8084BAPayload.longtitude = Math.round(longtitude * 10000000) / 10000000;
-        }
-
-        if(status.upCounterIsPresent){
-			aRF8084BAPayload.uplinkFrameCounter = parseInt(charArrPayload[++index] + charArrPayload[++index], 16);
-		}
-		
-		if(status.downCounterIsPresent){
-			aRF8084BAPayload.downlinkFrameCounter = parseInt(charArrPayload[++index] + charArrPayload[++index], 16)
-		}
-	
-		if(status.batteryVoltageInformationIsPresent){
-			aRF8084BAPayload.batteryMSB = parseInt(charArrPayload[++index] + charArrPayload[++index], 16)
-			aRF8084BAPayload.batteryLSB = parseInt(charArrPayload[++index] + charArrPayload[++index], 16)
-		}
-		
-		if(status.RSSI_SNRInformationIsPresent){
-			aRF8084BAPayload.rssi = parseInt(charArrPayload[++index] + charArrPayload[++index], 16)
-			aRF8084BAPayload.snr = parseInt(charArrPayload[++index] + charArrPayload[++index], 16)
-		}
-
-        return aRF8084BAPayload;
+        let noise = parseInt(charArrPayload[10]+charArrPayload[11]+charArrPayload[12]+charArrPayload[13], 16);
+        deSenseNoisePayload.noise = noise * 0.01;
+        
+        return deSenseNoisePayload; 
     }
 }

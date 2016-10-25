@@ -263,10 +263,14 @@ export class MapComponent implements AfterViewInit {
   }
 
   private createInfoWindow(payload: ARF8084BAPayload, sensor: Sensor): google.maps.InfoWindow {
-    let text = "<strong>pozice:</strong> " + payload.longtitudeText + "N " + payload.latitudeText + "E<br> " +
-      "<strong>hluk:</strong> " + payload.temp + "dB<br> " +
-      "<strong>ID:</strong> " + sensor.devEUI + "<br> " +
-      "<strong>Name:</strong> " + sensor.name;
+    let text = 
+      "<strong>Čidlo:</strong> " + sensor.name  + "<br> " +
+      "<strong>Datum měření hluku:</strong> " + payload.createdAt.toLocaleDateString() + "<br> " +
+      "<strong>Aktuální hodnota hluku:</strong> " + payload.temp + "dB<br> <br>" +
+      "<strong>Průměrné hladiny hluku:</strong>" +
+      " <table class='table'> " + //class='table table-striped'
+      " <thead><tr><th>Interval měření</th><th>hodnota</th></tr></thead>" + 
+      " <tr><th>Hodinový průměr</th><td>201 dB</td> ";
     return new google.maps.InfoWindow({
       content: "<div class='info-window'>" + text + "</div>",
       disableAutoPan: true,
@@ -298,7 +302,7 @@ export class MapComponent implements AfterViewInit {
     marker.addListener('mouseover', () => {
       marker.setIcon(this.decorateAsSelected(marker.getIcon()));
       // setTimeout(() => {
-      if(marker.showData){
+      if (marker.showData) {
         infoWin.open(this.map, marker);
       }
       // }, 2000);
@@ -372,6 +376,6 @@ export class MapComponent implements AfterViewInit {
     start: new Date(2014, 1, 11),
     //stop: new Date("2016-09-22"),
     order: Order.asc,
-    limit:10000
+    limit: 10000
   }
 }

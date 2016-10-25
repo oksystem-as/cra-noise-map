@@ -15,6 +15,8 @@ import { GroupedObservable } from 'rxjs/operator/groupBy';
 import { BehaviorSubject } from "rxjs/Rx";
 import 'rxjs/Rx';
 import { ChartsModule } from 'ng2-charts/ng2-charts';
+import { WebWorkerService } from '../../../node_modules/angular2-web-worker/web-worker';
+// import { WebWorkerService } from 'angular2-web-worker'; 
 
 export enum StatisType {
     HOUR,
@@ -32,25 +34,8 @@ export enum StatisType {
     templateUrl: 'chart.component.html',
     styleUrls: ['chart.component.css'],
     // encapsulation: ViewEncapsulation.Native
+    providers: [WebWorkerService]
 })
-
-//   backgroundColor?: string
-//       borderColor?: string | Array<string>
-//       borderCapStyle?: string
-//       borderDash?: Array<number>
-//       borderDashOffset?: number
-//       borderJoinStyle?: string
-//       pointBorderColor?: string | Array<string>
-//       pointBorderWidth?: number | Array<number>
-//       pointBackgroundColor?: string | Array<string>
-//       pointHoverRadius?: number | Array<number>
-//       pointHoverBackgroundColor?: string | Array<string>
-//       pointHoverBorderColor?: string | Array<string>
-//       pointHoverBorderWidth?: number | Array<number>
-//       pointRadius?: number | Array<number>
-//       tension?: number
-//       yAxisID?: string
-//       data: Array<number>
 export class ChartComponent { //implements AfterViewInit {
     @Input()
     public statisType: StatisType = StatisType.DAY24;
@@ -61,7 +46,7 @@ export class ChartComponent { //implements AfterViewInit {
         datasets: [{
             data: [],
             pointBackgroundColor: [],
-            borderWidth:2,
+            borderWidth: 2,
             borderColor: "#FF7E99",
             backgroundColor: "rgba(255, 71, 108, 0.2)",
             pointBorderColor: "white",
@@ -69,21 +54,21 @@ export class ChartComponent { //implements AfterViewInit {
             // borderColor: "#FF7E99",
         }
             ,
-            {
-                data: [],
-                // pointBackgroundColor: "blue",
-                fill: false,
-                // backgroundColor: "rgb(108, 216, 106)",
-                borderColor: "rgb(108, 216, 106)",
-                pointRadius: 0,
-                borderWidth:1,
-            }
+        {
+            data: [],
+            // pointBackgroundColor: "blue",
+            fill: false,
+            // backgroundColor: "rgb(108, 216, 106)",
+            borderColor: "rgb(108, 216, 106)",
+            pointRadius: 0,
+            borderWidth: 1,
+        }
         ]
     }
     //{ data: Chart.LineChartData, options?: Chart.LineChartOptions }
     private globalOptions: Chart.LineChartOptions = {
-           // showLines: true,
-              //  stacked:  true,
+        // showLines: true,
+        //  stacked:  true,
         scales: {
             // xAxes: [{
             //     reverse: true,
@@ -97,7 +82,7 @@ export class ChartComponent { //implements AfterViewInit {
                 }
             }]
         },
-          defaultColor: "blue",
+        defaultColor: "blue",
         // scales: {
         //       yAxes: [{
         //         ticks: {
@@ -184,8 +169,7 @@ export class ChartComponent { //implements AfterViewInit {
         }
     }
 
-
-    constructor(private log: Logger, private sensorsSharedService: SensorsSharedService, elementRef: ElementRef) {
+    constructor(private log: Logger, private sensorsSharedService: SensorsSharedService, elementRef: ElementRef, private webWorkerService: WebWorkerService) {
         var source = sensorsSharedService.listenEventData(Events.statistics)
             .filter(data => {
                 return data != undefined && data.payloads != undefined && data.payloadType == PayloadType.ARF8084BA &&
@@ -197,6 +181,11 @@ export class ChartComponent { //implements AfterViewInit {
                 }
                 return data.payloads.length > 0
             }).subscribe(data => {
+                //  console.log("before worker");
+                //   this.webWorkerService.run(input => input * input, 10);
+                // this.webWorkerService.run((data1)=> {
+                //     console.log("worker", data1);
+                // }, data);
                 var element = data.payloads[0];
                 this.clearChartAndTable();
 
@@ -286,15 +275,16 @@ export class ChartComponent { //implements AfterViewInit {
                 data => {
                     // console.log(' [data]: ', data.time.toLocaleString(), ' logAverange: ' + data.logAverange);
                     this.addChartData(Math.round(data.logAverange), data.time);
-
+                    
                 },
                 (err) => { console.log('Error: ' + err); },
                 () => { /*console.log('Completed')*/ });
         },
             (err) => { console.log('Error: ' + err); },
-            () => { 
+            () => {
                 this.updateChart();
-                this.sensorsSharedService.publishEvent(Events.showMasterLoading, false); });
+                this.sensorsSharedService.publishEvent(Events.showMasterLoading, false);
+            });
     }
 
     private getValue(payload: Payload): number {
