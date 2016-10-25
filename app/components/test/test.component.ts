@@ -9,6 +9,10 @@ import { Data } from './test.data';
 import { Observable, } from 'rxjs/Observable';
 import { IntervalObservable } from 'rxjs/observable/IntervalObservable';
 import { ArrayUtils, MonthList, ObjectUtils } from '../../utils/utils';
+import { StatisticUtils, StatisType } from '../../utils/statis-utils';
+import { Sensor } from '../../entity/sensor';
+import { Payload, PayloadType } from '../../payloads/payload'
+
 
 import 'rxjs/Rx';
 
@@ -77,80 +81,30 @@ class RxUtils {
 export class TestComponent {
 
   constructor() {
-    // this.testEquivalent();
+    this.statisTest()
   }
 
-  //  showGraph(): void {
-  //   var canvas = <HTMLCanvasElement>document.getElementById("myChart");
-  //   var ctx: CanvasRenderingContext2D = canvas.getContext("2d");
+  private statisTest() {
+    let sensor: Sensor = new Sensor();
+    let payloads: any[] = [
+      { createdAt: new Date(2016, 10, 25, 10, 11), payloadType: PayloadType.ARF8084BA, temp: 50 },
+      { createdAt: new Date(2016, 10, 25, 10, 11), payloadType: PayloadType.ARF8084BA, temp: 60 },
+      { createdAt: new Date(2016, 10, 25, 10, 11), payloadType: PayloadType.ARF8084BA, temp: 40 },
+      { createdAt: new Date(2016, 10, 25, 10, 11), payloadType: PayloadType.ARF8084BA, temp: 80 },
 
-  //   let linearChartData: Chart.LineChartData = {
-  //     labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
-  //     datasets: [{
-  //       label: '# of Votes',
-  //       data: [12, 19, 3, 5, 2, 3],
-  //       pointBackgroundColor: [
-  //         'rgba(255, 99, 132, 0.2)',
-  //         'rgba(54, 162, 235, 0.2)',
-  //         'rgba(255, 206, 86, 0.2)',
-  //         'rgba(75, 192, 192, 0.2)',
-  //         'rgba(153, 102, 255, 0.2)',
-  //         'rgba(255, 159, 64, 0.2)'
-  //       ],
-  //       pointBorderWidth: [12, 19, 3, 5, 2, 3],
-  //       pointRadius: 10,
-  //     }]
-  //   }
+      { createdAt: new Date(2016, 10, 24, 10, 11), payloadType: PayloadType.ARF8084BA, temp: 10 },
+      { createdAt: new Date(2016, 10, 24, 11, 11), payloadType: PayloadType.ARF8084BA, temp: 20 },
+      { createdAt: new Date(2016, 10, 24, 12, 11), payloadType: PayloadType.ARF8084BA, temp: 40 },
+      { createdAt: new Date(2016, 10, 24, 08, 11), payloadType: PayloadType.ARF8084BA, temp: 80 },
+    ];
+    sensor.payloads = payloads;
 
-  //   var data = {
-  //     data: linearChartData,
-  //     options: {
-  //       scaleShowGridLines: true,
-  //       scaleGridLineColor: "rgba(0,0,0,.05)",
-  //       scaleGridLineWidth: 1,
-  //       bezierCurve: true,
-  //       bezierCurveTension: 0.4,
-  //       pointDot: true,
-  //       pointDotRadius: 4,
-  //       pointDotStrokeWidth: 1,
-  //       pointHitDetectionRadius: 20,
-  //       datasetStroke: true,
-  //       datasetStrokeWidth: 2,
-  //       datasetFill: true,
-  //       onClick: handleClick,
-  //       maintainAspectRatio: false
-  //     }
-  //   }
-
-  //   var chart = Chart.Line(ctx, data);
-  //   function handleClick(evt)
-  //   {
-  //     var activeElement = chart.getElementAtEvent(evt) as any[];
-  //     if(activeElement && activeElement.length > 0){
-  //       console.log(activeElement, chart.data.datasets[activeElement[0]._datasetIndex].data[activeElement[0]._index], chart.data.labels[activeElement[0]._datasetIndex]);
-  //     } else {
-  //         console.log("klikni na bod");
-  //     }
-  //   }
-  
-  //   linearChartData.datasets[0].data[0] = 1;
-
-  //   setTimeout(() => {
-  //     linearChartData.datasets[0].data[0] = 1;
-  //     chart.update(1000);
-  //   }, 1000)
-
-  //   setTimeout(() => {
-  //     chart.data.datasets[0].data[0] = 100;
-  //     chart.update(1000);
-  //   }, 3000)
-
-  //   setTimeout(() => {
-  //     (chart.data.datasets[0].pointBackgroundColor as string[])[0] = "#FFFFFF";
-  //     chart.update(1000);
-  //   }, 5000)
-
-  // }
+    StatisticUtils.logSum(sensor, StatisType.DAY24).subscribe(data => {
+      data.subscribe(data => {
+        console.log("out", data);
+      });
+    });
+  }
 
   private testEquivalent() {
     var jangoFett = {
@@ -167,7 +121,7 @@ export class TestComponent {
       occupation: "Bounty Hunter",
       genetics: "superbs"
     };
-    
+
     console.log("isEq ", this.isEquivalent(jangoFett, bobaFett));
     console.log("isEq ", this.isEquivalent(jangoFett, bobaFett2));
   }
