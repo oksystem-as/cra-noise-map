@@ -8,6 +8,7 @@ import { ARF8084BAPayload } from '../payloads/ARF8084BAPayload';
 import { RHF1S001Payload } from '../payloads/RHF1S001Payload';
 import 'rxjs/Rx';
 
+
 export enum StatisType {
     HOUR,
     DAY6_22,
@@ -20,7 +21,7 @@ export enum StatisType {
 
 export class StatisticUtils {
 
-    public static logSum(data: Sensor, statisType: StatisType): Observable<any>  {
+    public static logSum(data: Sensor, statisType: StatisType): Observable<Observable<{time: Date, logAverange: number}>>  {
         switch (statisType) {
             case StatisType.HOUR: {
                 // log.debug('hodinovy prumer: ');
@@ -54,7 +55,7 @@ export class StatisticUtils {
         }
     }
 
-    private static resolveLogAverange(groups: Observable<GroupedObservable<number, Payload>>): Observable<any> {
+    private static resolveLogAverange(groups: Observable<GroupedObservable<number, Payload>>): Observable<Observable<{time: Date, logAverange: number}>> {
        return groups.map(group => {
             // console.log('group: ', group);
 

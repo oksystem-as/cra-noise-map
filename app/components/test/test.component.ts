@@ -1,9 +1,13 @@
+import {resolve} from 'dns';
 import { Component, AfterViewInit } from '@angular/core';
 import { ARF8084BAPayload } from '../../payloads/ARF8084BAPayload';
 import { ARF8084BAPayloadResolver } from '../../payloads/ARF8084BAPayloadResolver';
 
 import { RHF1S001Payload } from '../../payloads/RHF1S001Payload';
 import { RHF1S001PayloadResolver } from '../../payloads/RHF1S001PayloadResolver';
+
+import { DeSenseNoisePayload } from '../../payloads/DeSenseNoisePayload';
+import { DeSenseNoisePayloadResolver } from '../../payloads/DeSenseNoisePayloadResolver';
 
 import { Data } from './test.data';
 import { Observable, } from 'rxjs/Observable';
@@ -81,9 +85,21 @@ class RxUtils {
 export class TestComponent {
 
   constructor() {
-    this.statisTest()
+    this.statisTest();
   }
 
+  private deSenseNoisePayloadResolverTest(){
+    let payload = "0aff880cd2a1d8"
+    let payload2 = "0aff860cd29bba"
+    let payload3 = "0aff810cbf0460" 
+    
+    let res = new  DeSenseNoisePayloadResolver();
+    
+    console.log(res.resolve(payload));
+    console.log(res.resolve(payload2));
+    console.log(res.resolve(payload3));
+  }
+  
   private statisTest() {
     let sensor: Sensor = new Sensor();
     let payloads: any[] = [

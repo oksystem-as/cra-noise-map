@@ -3,7 +3,7 @@ import { Payload, PayloadType } from './payload'
 
 export class DeSenseNoisePayload implements Payload {
     noise: number;
-    batter: number;
+    battery: number;
     rssi: number;
     snr: number;
     createdAt: Date;
