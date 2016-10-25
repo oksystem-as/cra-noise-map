@@ -92,16 +92,21 @@
   position: absolute;
   top: -8px;
   left: 222px;
-  z-index: 16;
+  z-index: 16 !important;
 }
 
 #menu-button-M {
   width: 38px;
   height: 38px; 
+  z-index: 17 !important;
 }
 
 #menu-button-M > img {
   margin-top: -6px;
   margin-left: -12px;
+}
+
+#navBar-M > li > ul {
+  background-color: white;
 }
 
