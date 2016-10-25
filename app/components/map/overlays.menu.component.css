@@ -1,3 +1,4 @@
+/*STANDARD VERSION*/
 #overlaysMenuId {
   background-color: white;
 
@@ -95,4 +96,25 @@ span.layerSpanBox {
 
 .groupItem {
   height: 18px;
+}
+
+
+/*MOBILE VERSION*/
+#nav-bar-M {
+  width: 38px;
+}
+
+#overlayGroup-M {
+  margin-left: 28px;
+  font-family: Roboto,Arial,sans-serif;
+  font-size: 19px;
+}
+
+#nav-bar-M > li > a {
+  margin-left: 15px;
+  margin-top: 6px;
+}
+
+#overlayGroup-M > li > span {
+  font-weight: 600;
 }

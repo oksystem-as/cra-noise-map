@@ -1,4 +1,4 @@
-<div id="overlaysMenuId">
+<div id="overlaysMenuId" *hideItDevice="['mobile']">
   <ul class="nav navbar-nav">
     <li class="dropdown" dropdown>
       <a class="dropdown dropdown-toggle" dropdown-open data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
@@ -13,8 +13,8 @@
               <!-- Chrome, Firefox, Safari, Opera -->  
               <span *hideItBrowser="['ie']">
                 <span class="position" *ngIf="overlay.position>0">{{overlay.position}}</span>
-              <span class="position" *ngIf!="overlay.position>0">&nbsp; &nbsp;</span>
-              <span class="layerSpanBox">
+                <span class="position" *ngIf!="overlay.position>0">&nbsp; &nbsp;</span>
+                <span class="layerSpanBox">
                   <input type="checkbox" class="layerChBox" [(ngModel)]="overlay.checked" value={{overlay.value}} (ngModelChange)="onChkboxClick(overlay)"/>
                 </span>
               <span class="layerText" tooltip={{overlay.tooltip}} tooltipPopupDelay="1500" tooltipPlacement="right" tooltipClass="tooltip-layer-component">{{overlay.text}}</span>
@@ -22,11 +22,49 @@
               <!-- Internet Explorer -->
               <span *showItBrowser="['ie']">
                 <span class="positionIE" *ngIf="overlay.position>0">{{overlay.position}}</span>
-              <span class="positionIE" *ngIf!="overlay.position>0">&nbsp; &nbsp;</span>
-              <span class="layerSpanBoxIE">
+                <span class="positionIE" *ngIf!="overlay.position>0">&nbsp; &nbsp;</span>
+                <span class="layerSpanBoxIE">
                   <input type="checkbox" class="layerChBoxIE" [(ngModel)]="overlay.checked" value={{overlay.value}} (ngModelChange)="onChkboxClick(overlay)"/>
                 </span>
               <span class="layerTextIE">{{overlay.text}}</span>
+              </span>
+              </span>
+            </a>
+          </li>
+        </ul>
+    </li>
+  </ul>
+</div>
+
+<div id="overlaysMenuId" *showItDevice="['mobile']">
+  <ul class="nav navbar-nav" id="nav-bar-M">
+    <li class="dropdown" dropdown>
+      <a class="dropdown dropdown-toggle" dropdown-open data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAEeElEQVRYhcVXb0wcRRx9szu3C2cEikDrQYofaluhEUPlsOGakEgaMUFLjIkxqGnChQCSKIYYpEiRAh8IUK2tiiSNLbGkCUnlg5HAB5JyCTkpVNJYqkThgtjK5YAz7t1xuzt+uD+9v9xxpen7tJuZ+b03783szAKPGSTRgez+GxTKih4AwOeYyd4ROZE6XELkq3oD5MWbYJIJTDJBXrzJVvWGRGrtyAG2WrIPTOoB5KrIPegQiLaJ6Ez3dlUAu/8ahbxSB8gdAEuJUdIO0FbQnItk72jMWGIKYKt6A5jrAqA+H4/YB+DmQcR6ojNPJSQgtt3xYvtYwgTszO54ET2WIAGJ2x0vwmMhAMD+LtVC3fwKkN99NMShoJfBpdaSpyclz3eAOQ8/fNY7gVwF5jwIeD9ERDc9C5J8DOBmHj05NwOSfIzopm/5BXhEmM3Q5BUDQg1AbLtPTGyAUANNXjHRmc1+OUFdsq6q5/5oGACXegiggwDUXWBWAToIknro3J8NAyTralBN/y4ou1St3XDaW1XG3qIc3/LqwePftx3+Tu/dFS8mxs3NgIj17QvvmX/87cbbsqp0coQMpyWldEycGpT8AgzfvrP/vy3HDQa23zeUJ9ykSMUG00n5V7h/rwbc3QBLj4+Y2ABNMzTPDpZc5/Nc8tZ5hamlD2ZNLE8IycenjFcsgREEWaMwtVRyO+aKRtSel8cKhkHiisVvd9lYwXDRiNojuZ1zgeShXBwATBmvWDK0afmUo10AnAEdqawqjesO+53i0ewT7XerjdF3i2d1t9+tNhaPZp+wOex3ZFVpBEADOjkpR7sytGn5U8YrFo8bISgZqDrglF3nFaa+EtrmiUVoMJ1UvLHINZ4S/DfQHBgsuU7D7A4Y+1OSRmwwGYcWg2QHvji+6OPG/8oVKp6rKxepUElALIHtnlicc0Ujam/Z2AvXSPYvR0n2raNlYwXXikZYbyS7CYhFpELlx7Vvlo+v5AqOz/uCd57vQWptfglu9wUwVgiOG4IoNr2ee8++7vy3RVblRgBJIYUljpBZAFAZK2Rg2pBJOylH+/YkPdn5w/K+FLhcPVDVKhAyC42mXtvRPe0XIH36SSFcrp9DHLGD59tIevqXZam3n3G6I8cSCT67JzaPLDGb7X0oSjuAwJNVhSgWaT/rmvUQCsICOG4IwSs8BYrSz6zWufHlHF1Fbb4vlqVoxARkSaRCZUVtfvn4co6OWa1zUJT+MHKOG4IgLPgd8EFqbTZ4Ywg/jrePJbLdYQrJvNf+4OM4EI7+HsrW1uq8tqWFNHti2eONRd46BQBJVLg0sZm/xNbXI9kNABvg+TaSmXkx+cOm6BeSIDfOnM7yziT8jkDIbfB8C8nInAQAZl0rhaJ0grEjYX057jJEsUl75uw/kXhiXkql080GyFFi2Q6EzINq6rVnuxO7lAYiRiyh2ADPt5LMzK9D7U5YgA8BsVQh/K9K9S3UaHY/tAC/kNBY4rR71wQAgKO/lzKbVQ8A5KkMc/IHHyX0c/rY8T9q1g0RI/q+egAAAABJRU5ErkJggg=="
+          alt="Výběr mapových vrstev"></a>
+        <ul id="overlayGroup-M" class="dropdown-menu" dropdown-not-closable-zone>
+          <!--dropdown-not-closable-zone-->
+          <li *ngFor="let overlayGroup of overlayGroups, let ndx = index" class="overlayGroup-M">
+            <span class="layerHeader-M">{{overlayGroup.name}}</span>
+            <a *ngFor="let overlay of overlayGroup.overlays" class="groupItem-M">
+              <span class="groupItemSpan-M"> 
+              <!-- Chrome, Firefox, Safari, Opera -->  
+              <span *hideItBrowser="['ie']">
+                <span class="position-M" *ngIf="overlay.position>0">{{overlay.position}}</span>
+                <span class="position-M" *ngIf!="overlay.position>0">&nbsp; &nbsp;</span>
+                <span class="layerSpanBox-M">
+                  <input type="checkbox" class="layerChBox-M" [(ngModel)]="overlay.checked" value={{overlay.value}} (ngModelChange)="onChkboxClick(overlay)"/>
+                </span>
+              <span class="layerText-M" tooltip={{overlay.tooltip}} tooltipPopupDelay="1500" tooltipPlacement="right" tooltipClass="tooltip-layer-component">{{overlay.text}}</span>
+              </span>
+              <!-- Internet Explorer -->
+              <span *showItBrowser="['ie']">
+                <span class="positionIE-M" *ngIf="overlay.position>0">{{overlay.position}}</span>
+                <span class="positionIE-M" *ngIf!="overlay.position>0">&nbsp; &nbsp;</span>
+                <span class="layerSpanBoxIE-M">
+                  <input type="checkbox" class="layerChBoxIE-M" [(ngModel)]="overlay.checked" value={{overlay.value}} (ngModelChange)="onChkboxClick(overlay)"/>
+                </span>
+              <span class="layerTextIE-M">{{overlay.text}}</span>
               </span>
               </span>
             </a>

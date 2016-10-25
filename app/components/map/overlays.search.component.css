@@ -1,5 +1,6 @@
 #overlaysSearchId {
   z-index: 15 !important;
+  height: 36px;
 }
 
 .overlaysSearchMobile {
@@ -45,4 +46,35 @@
 .mobileTop {
   position: relative;
   margin: 0px auto;
+}
+
+.navbar-nav > li > a {
+  height: 38px;
+}
+
+/*#overlaysSearchId > span > span:nth-child(1) {*/
+#SeparatorM-1 {
+  background-color: red;
+  border-right: 1px lightgray;
+  border-left: 0px;
+  border-bottom: 0px;
+  border-top: 0px;
+  border-style: solid;
+  width: 1px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  z-index: 18;
+}
+
+#SeparatorM-2 { 
+  background-color: red;
+  border-right: 1px lightgray;
+  border-left: 0px;
+  border-bottom: 0px;
+  border-top: 0px;
+  border-style: solid;
+  width: 1px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  z-index: 18;
 }

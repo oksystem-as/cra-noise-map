@@ -1,45 +1,55 @@
 .controls {
-    border: 1px solid transparent;
-    border-radius: 2px 0px 0px 2px;
-    box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    height: 38px;
-    outline: none;
-    border-radius: 0px 4px 4px 0px;
-    -moz-border-radius: 0px 4px 4px 0px;
-    -webkit-border-radius: 0px 4px 4px 0px;
+  border: 1px solid transparent;
+  border-radius: 2px 0px 0px 2px;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  height: 38px;
+  outline: none;
+  border-radius: 0px 4px 4px 0px;
+  -moz-border-radius: 0px 4px 4px 0px;
+  -webkit-border-radius: 0px 4px 4px 0px;
 }
 
 #pac-input {
-    background-color: #fff;
-    font-family: Roboto; 
-    font-size: 14px;
-    font-weight: 300;
-    padding: 0 1px 0 8px;
-    text-overflow: ellipsis;
-    opacity: 0.95;
+  background-color: #fff;
+  font-family: Roboto; 
+  font-size: 14px;
+  font-weight: 300;
+  padding: 0 1px 0 8px;
+  text-overflow: ellipsis;
+  opacity: 0.95;
 }
 
-/*#pac-input:focus {
-    border-color: darkgray;
-}*/
-
 .pac-container {
-    font-family: Roboto;
+  font-family: Roboto;
 }
 
 #type-selector {
-    color: #fff;
-    background-color: #4d90fe;
-    padding: 5px 11px 0px 11px;
+  color: #fff;
+  background-color: #4d90fe;
+  padding: 5px 11px 0px 11px;
 }
 
 #type-selector label {
-    font-family: Roboto;
-    font-size: 13px;
-    font-weight: 300;
+  font-family: Roboto;
+  font-size: 13px;
+  font-weight: 300;
 }
 
 #target {
-    width: 250px;
+  width: 250px;
+}
+
+#pac-input-M {
+  padding-top: 13px;
+  padding-bottom: 11px;
+  top: 0px;
+  margin-left: 38px;
+  position: fixed;
+  background-color: #fff;
+  font-family: Roboto; 
+  font-size: 14px;
+  font-weight: 300;
+  padding: 0 1px 0 8px;
+  text-overflow: ellipsis;
 }

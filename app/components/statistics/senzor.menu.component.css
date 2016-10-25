@@ -1,0 +1,24 @@
+#navBar-M {
+  width: 38px;
+  height: 38px;
+  position: relative !important;
+  margin-top: -45px;
+  margin-left: 195px;
+  z-index: 18;
+}
+
+#menu-button-M {
+  height: 37px;
+  padding-left: 3px;
+  padding-top: 3px;
+  position: relative !important;
+}
+
+#navBar-M > li > ul {
+  background-color: white;
+  font-family: Roboto,Arial,sans-serif;
+  font-size: 14px;
+  text-align: center;
+  padding: 0px;
+  width: 166px;
+}

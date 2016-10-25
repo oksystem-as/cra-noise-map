@@ -9,15 +9,21 @@
 </div>
 <!------------------------------------------------------- MOBILE ------------------------------------------------------->
 <div id="overlaysSearchId" class="overlaysSearchMobile" *showItDevice="['mobile']">
-    <div class="mobileTop">
+    <!--<div class="mobileTop">-->
         <span class="upperBar">
-            <overlays-menu></overlays-menu>   
-            <span class="separator"></span>
-            <search></search>
-            <span class="separator"></span>
-            <senzor-menu></senzor-menu>
+            <span class="layerButton">
+              <overlays-menu></overlays-menu>
+            </span>   
+            <span class="separatorM-1"></span>
+            <span class="searchBar">
+                <search></search>
+            </span>
+            <span class="separatorM-2"></span>
+            <span class="senzorButton">
+              <senzor-menu></senzor-menu>
+            </span>
         </span>
-    </div>
+    <!--</div>-->
     <div class="logo">
         <logo></logo>
     </div>
