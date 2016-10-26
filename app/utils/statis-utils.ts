@@ -17,6 +17,11 @@ export enum StatisType {
     MONTH,
 }
 
+export class Statistics {
+    statisType: StatisType;
+    statistic: Statistic[];
+}
+
 export class Statistic {
     time: Date;
     logAverange: number;
@@ -43,6 +48,23 @@ export class StatisticsUtils {
 
         let logAverange = 10 * Math.log(sumValue / count) / Math.log(10);
         return logAverange;
+    }
+
+    /**
+     * vstupni data roztridi dle intervalu zadaneho v parametru statisType
+     * Vraci Observable, ktery obsahuje jen jednu eventu a to list vsech objektu obsahujici vsechny log. prumery
+     * return Observable<{ time: Date, logAverange: number }>
+     */
+    public static resolveAllLogAverangeListEvent(data: Sensor): Observable<Statistics[]> {
+        return Observable.forkJoin(
+            this.resolveLogAverangeListEvent(data, StatisType.HOUR     ).map(data => <Statistics>{statisType: StatisType.HOUR, statistic: data}),
+            this.resolveLogAverangeListEvent(data, StatisType.DAY18_22 ).map(data => <Statistics>{statisType: StatisType.DAY18_22, statistic: data}),
+            this.resolveLogAverangeListEvent(data, StatisType.DAY24    ).map(data => <Statistics>{statisType: StatisType.DAY24, statistic: data}),
+            this.resolveLogAverangeListEvent(data, StatisType.DAY6_22  ).map(data => <Statistics>{statisType: StatisType.DAY6_22, statistic: data}),
+            this.resolveLogAverangeListEvent(data, StatisType.NIGHT22_6).map(data => <Statistics>{statisType: StatisType.NIGHT22_6, statistic: data}),
+            this.resolveLogAverangeListEvent(data, StatisType.WEEK     ).map(data => <Statistics>{statisType: StatisType.WEEK, statistic: data}),
+            this.resolveLogAverangeListEvent(data, StatisType.MONTH    ).map(data => <Statistics>{statisType: StatisType.MONTH, statistic: data}),            
+        ); 
     }
 
     /**

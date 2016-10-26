@@ -36,6 +36,8 @@ export enum StatisType {
 export class ChartComponent { //implements AfterViewInit {
     @Input()
     public statisType: StatisType = StatisType.DAY24;
+
+    private chart: Chart.LineChartInstance;
     public chartId = "chartId" + RandomUtils.getRandom();
     public sliderId = "sliderId" + RandomUtils.getRandom();
     private linearChartData: Chart.LineChartData = {
@@ -62,7 +64,7 @@ export class ChartComponent { //implements AfterViewInit {
         }
         ]
     }
-    //{ data: Chart.LineChartData, options?: Chart.LineChartOptions }
+
     private globalOptions: Chart.LineChartOptions = {
         // showLines: true,
         //  stacked:  true,
@@ -110,30 +112,6 @@ export class ChartComponent { //implements AfterViewInit {
         data: this.linearChartData,
         options: this.globalOptions
     }
-    private chart: Chart.LineChartInstance;
-
-
-    private getDateFormat(date): string {
-        let dateFormat;
-        switch (this.statisType) {
-            case StatisType.HOUR:
-            case StatisType.DAY6_22:
-            case StatisType.DAY18_22:
-            case StatisType.NIGHT22_6:
-            case StatisType.DAY24:
-            case StatisType.WEEK: {
-                dateFormat = date.toLocaleDateString();
-                break;
-            }
-            case StatisType.MONTH: {
-                // TODO jen mesice 
-                dateFormat = date.toLocaleDateString();
-                break;
-            }
-            default: throw "nepodporovany graf " + this.statisType;
-        }
-        return dateFormat
-    }
 
     private updateChart() {
         this.chart.update();
@@ -145,7 +123,7 @@ export class ChartComponent { //implements AfterViewInit {
         let datasetLine = this.linearChartData.datasets[1];
         let labels = this.linearChartData.labels;
         dataset.data.push(data);
-        labels.push(this.getDateFormat(date));
+        labels.push(date.toLocaleDateString());
         let limit = 83;
         if (data > limit) {
             (dataset.pointBackgroundColor as string[]).push("#FF7E99");
@@ -168,33 +146,17 @@ export class ChartComponent { //implements AfterViewInit {
 
     constructor(private log: Logger, private sensorsSharedService: SensorsSharedService, elementRef: ElementRef) {
         var source = sensorsSharedService.listenEventData(Events.statistics)
-            .filter(data => {
-                return data != undefined && data.payloads != undefined && data.payloadType == PayloadType.ARF8084BA &&
-                    (data.publisher == undefined || data.publisher == this.sliderId || data.publisher == "menuItem" || data.publisher == "markerItem")
-            })
-            .filter(data => {
-                if (data.payloads.length == 0) {
-                    alert("Zadanému intervalu nevyhovují žádná data.")
-                    this.clearChartAndTable();
-                }
-                return data.payloads.length > 0
-            })
-            .subscribe(data => {
-
+            .subscribe(statistics => {
                 this.clearChartAndTable();
-
-                StatisticsUtils.resolveLogAverangeListEvent(data, this.statisType).subscribe(
-                    list => {
-                        list.forEach(data => {
+                statistics.forEach(statis => {
+                    if(statis.statisType === this.statisType){
+                        statis.statistic.forEach(data => {
                             this.addChartData(Math.round(data.logAverange), data.time);
                         })
-                    },
-                    (err) => { console.log('Error: ' + err); },
-                    () => {
-                        this.updateChart();
-                        this.sensorsSharedService.publishEvent(Events.showMasterLoading, false);
-                    });
-
+                    }
+                });
+                this.updateChart();
+                this.sensorsSharedService.publishEvent(Events.showMasterLoading, false);
             });
     }
 

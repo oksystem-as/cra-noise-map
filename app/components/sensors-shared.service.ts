@@ -16,6 +16,7 @@ import { Devices, DeviceRecord } from '../entity/device/devices';
 import { Payload, PayloadType } from '../payloads/payload';
 import { Sensor } from '../entity/sensor';
 import { DateUtils, MonthList } from '../utils/utils';
+import { StatisticsUtils, Statistics, Statistic } from '../utils/statis-utils';
 
 export class OverlayGroup {
     overlays: Overlay[];
@@ -40,7 +41,7 @@ export class Events {
     public static sliderNewDate: IEvent<Date> = { name: "sliderNewDate" };
     public static startAnimation: IEvent<Sensor> = { name: "startAnimation" };
     public static mapOverlays: IEvent<OverlayGroup[]> = { name: "mapOverlays" };
-    public static statistics: IEvent<Sensor> = { name: "statistics" };
+    public static statistics: IEvent<Statistics[]> = { name: "statistics" };
     // public static beforeLoadSensors: IEvent<string> = { name: "beforeLoadSensors" };
     public static loadSensors: IEvent<Observable<Sensor>> = { name: "loadSensors" };
     public static loadSensor: IEvent<Sensor> = { name: "loadSensor" };
@@ -112,7 +113,7 @@ export class SensorsSharedService {
     listenEventData<T>(type: IEvent<T>): Observable<T> {
         return this.eventAggregator.filter((data) => { return data.type === type }).pluck('data') as Observable<T>;
     }
-    
+
     /**
      * prida posluchace na konkretni eventu viz class Events
      * - da moznost zaregistrovat subscribe, ktery dostane jako eventu AggregatorEvent<T>
@@ -135,7 +136,7 @@ export class SensorsSharedService {
         this.eventAggregator = new Subject<AggregatorEvent<any>>();
     }
 
-    
+
     loadSensorsAndPublish(deviceDetailParams?: DeviceDetailParams) {
         console.log("SensorsSharedService.loadSensors()");
         this.publishEvent(Events.loadSensors, this.loadSensorsWithDefaultParam(deviceDetailParams), "SensorsSharedService.loadSensors");
@@ -143,9 +144,14 @@ export class SensorsSharedService {
 
     loadStatisticsData(devicedetailParams: DeviceDetailParams) {
         this.log.debug("SensorsSharedService.loadStatisticsData() ", devicedetailParams);
-        this.loadSensor(devicedetailParams).subscribe(sensor => {
-            this.publishEvent(Events.statistics, sensor);
-        });
+        this.loadSensor(devicedetailParams)
+            .filter(data => {
+                return data != undefined && data.payloads != undefined 
+            }).subscribe(sensor => {
+                StatisticsUtils.resolveAllLogAverangeListEvent(sensor).subscribe(list => {
+                    this.publishEvent(Events.statistics, list);
+                });
+            });
     }
 
     private loadSensorsWithDefaultParam(deviceDetailParams?: DeviceDetailParams): Observable<Sensor> {

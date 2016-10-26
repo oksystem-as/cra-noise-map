@@ -10,7 +10,7 @@ import { SliderComponent } from './components/slider.component';
 import { StatisticsComponent } from './components/statistics/statistics.component';
 import { StatisComponent } from './components/statistics/statis.component';
 import { TabsStatisComponent } from './components/statistics/tabs.statis.component';
-import { TableStatisComponent } from './components/statistics/table.statis.component';
+import { TableStatisComponent } from './components/statistics/table.component';
 import { ChartComponent } from './components/statistics/chart.component';
 import { SenzorMenuComponent } from './components/statistics/senzor.menu.component';
 import { OverlaysMenuComponent } from './components/map/overlays.menu.component';
