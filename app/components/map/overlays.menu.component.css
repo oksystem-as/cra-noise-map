@@ -106,7 +106,13 @@ span.layerSpanBox {
 }
 
 .groupItem {
-  height: 18px;
+  height: 20px;
+  margin-left: -24px;
+}
+
+.groupItemSpan {
+  position: relative;
+  top: -2px;
 }
 
 .dropdown-menu {
@@ -114,6 +120,14 @@ span.layerSpanBox {
   max-height: 425px; 
   overflow-x: auto;
   max-width: 220px; 
+}
+
+.layerTextLegend {
+  text-align: left;
+  position: relative;
+  font-family: Roboto,Arial,sans-serif;
+  font-size: 10px;
+  color: silver;
 }
 
 /*MOBILE VERSION*/
@@ -165,4 +179,12 @@ span.layerSpanBox {
 
 .groupItem-M {
   margin-left: -17px;
+}
+
+.layerTextLegend-M {
+  text-align: left;
+  position: relative;
+  font-family: Roboto,Arial,sans-serif;
+  font-size: 10px;
+  color: silver;
 }

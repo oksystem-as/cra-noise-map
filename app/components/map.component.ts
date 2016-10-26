@@ -48,12 +48,6 @@ export class MapComponent implements AfterViewInit {
       zoom: 12,
       center: { lat: 50.053942, lng: 14.437404 },
       mapTypeId: google.maps.MapTypeId.ROADMAP,
-      // mapTypeControl: true,
-      // mapTypeControlOptions: {
-      //   style: google.maps.MapTypeControlStyle.DROPDOWN_MENU,
-      //   position: google.maps.ControlPosition.LEFT_TOP,
-      //   mapTypeIds: [google.maps.MapTypeId.ROADMAP, google.maps.MapTypeId.SATELLITE, google.maps.MapTypeId.HYBRID, google.maps.MapTypeId.TERRAIN]
-      // }
       mapTypeControl: true,
       mapTypeControlOptions: {
         style: google.maps.MapTypeControlStyle.DROPDOWN_MENU,
@@ -62,6 +56,7 @@ export class MapComponent implements AfterViewInit {
       },
       zoomControl: true,
       zoomControlOptions: {
+        style: google.maps.ZoomControlStyle.SMALL,
         position: google.maps.ControlPosition.RIGHT_BOTTOM
       },
       scaleControl: true,
