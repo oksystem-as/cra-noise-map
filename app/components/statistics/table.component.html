@@ -1,0 +1,18 @@
+<div style="overflow-y: scroll; height:150px;">
+	<table class="statis-table table table-striped">
+		<!--<li *ngFor="let sensor of sensors, let ndx = index" ><a (click)="onClick(sensor)">{{sensor.devEUI}}</a></li>-->
+		<thead>
+			<tr>
+				<th>datum</th>
+				<th>hodnota</th>
+			</tr>
+		</thead>
+		<tbody>
+
+			<tr *ngFor="let label of labels, let ndx = index">
+				<th>{{label}}</th>
+				<td>{{data[ndx]}}</td>
+			</tr>
+		</tbody>
+	</table>
+</div>

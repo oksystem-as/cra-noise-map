@@ -3,9 +3,10 @@ import { StatisComponent } from './statis.component';
 
  
 @Component({
+    moduleId: module.id,
     selector: 'tabs-statis',
-    templateUrl: 'app/components/statistics/tabs.statis.component.html',
-    styleUrls: ['app/components/statistics/tabs.statis.component.css'],
+    templateUrl: 'tabs.statis.component.html',
+    styleUrls: ['tabs.statis.component.css'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TabsStatisComponent implements AfterViewInit {

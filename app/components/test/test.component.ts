@@ -85,6 +85,11 @@ export class TestComponent {
         console.log("resolveLogAverangeObsEvents", val)
       });
     });
+
+    StatisticsUtils.resolveAllLogAverangeListEvent(sensor).subscribe(val => {
+      console.log("resolveAllLogAverangeListEvent", val)
+    });
+    
   }
 
   private testEquivalent() {
