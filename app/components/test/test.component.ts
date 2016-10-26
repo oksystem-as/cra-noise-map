@@ -71,6 +71,7 @@ export class TestComponent {
     // var t0 = performance.now();
     StatisticsUtils.resolveLogAverangeListEvent(sensor, StatisType.DAY24).subscribe(list => {
       console.log("resolveLogAverangeListEvent", list)
+      console.log("resolveLogAverange", StatisticsUtils.resolveLogAverange(list));
       // var t1 = performance.now();
       // console.log("Call to doSomething took " + (t1 - t0) + " milliseconds.")
     });

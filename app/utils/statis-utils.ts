@@ -17,17 +17,40 @@ export enum StatisType {
     MONTH,
 }
 
+export class Statistic {
+    time: Date;
+    logAverange: number;
+}
+
 /**
  * utility pro vypocet statistik
  */
 export class StatisticsUtils {
 
     /**
+     * Pro zadany list statistic spocita log prumer vsech hodnot.
+     * napr. pokud chceme spocita prumer pro tyden, list bude obsahovat 7 statistik pro kazdy den v tydnu atp.
+     * return log. prumer vsech hodnot
+     */
+    public static resolveLogAverange(daysStatistic: Statistic[]): number {
+        let sumValue = 0;
+        let count = daysStatistic.length;
+
+        daysStatistic.forEach((statis) => {
+            let powValue = Math.pow(10, statis.logAverange / 10)
+            sumValue += powValue;
+        })
+
+        let logAverange = 10 * Math.log(sumValue / count) / Math.log(10);
+        return logAverange;
+    }
+
+    /**
      * vstupni data roztridi dle intervalu zadaneho v parametru statisType
      * Vraci Observable, ktery obsahuje jen jednu eventu a to list vsech objektu obsahujici k danemu datu log. prumer
      * return Observable<{ time: Date, logAverange: number }>
      */
-    public static resolveLogAverangeListEvent(data: Sensor, statisType: StatisType): Observable<{ time: Date, logAverange: number }[]> {
+    public static resolveLogAverangeListEvent(data: Sensor, statisType: StatisType): Observable<Statistic[]> {
         return this.resolveLogAverangeObjEvents(data, statisType).toArray();
     }
 
@@ -36,7 +59,7 @@ export class StatisticsUtils {
      * Vraci Observable, kde eventy jsou objekty obsahujici k danemu datu log. prumer
      * return Observable<{ time: Date, logAverange: number }>
      */
-    public static resolveLogAverangeObjEvents(data: Sensor, statisType: StatisType): Observable<{ time: Date, logAverange: number }> {
+    public static resolveLogAverangeObjEvents(data: Sensor, statisType: StatisType): Observable<Statistic> {
         return this.groupByTime(data, statisType).flatMap(group => group.toArray()).map(group => {
             let groupTime = group[0].createdAt;
             let sumValue = 0;
@@ -58,7 +81,7 @@ export class StatisticsUtils {
      * Vraci Observable, kde eventy jsou Observable s objekty obsahujici k danemu datu log. prumer
      * return Observable<Observable<{ time: Date, logAverange: number }>>
      */
-    public static resolveLogAverangeObsEvents(data: Sensor, statisType: StatisType): Observable<Observable<{ time: Date, logAverange: number }>> {
+    public static resolveLogAverangeObsEvents(data: Sensor, statisType: StatisType): Observable<Observable<Statistic>> {
         return this.groupByTime(data, statisType).map(group => {
             // console.log('group: ', group);
 
