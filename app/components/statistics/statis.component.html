@@ -1,21 +1,6 @@
 <div id="statis">
     <table-statis #myTable [devEUI]="devEUI" [data]="barChartData[0].data" [labels]="barTableLabels"></table-statis>
-    <!--<base-chart *ngIf="barChartData && barChartData.length != 0" #myChart class="chart"-->
-    <base-chart #myChart class="chart"
-            [datasets]="barChartData"
-            [labels]="barChartLabels"
-            [options]="barChartOptions"
-            [legend]="barChartLegend"
-            [chartType]="barChartType" 
-            width="540" 
-            height="200" 
-            style="padding-top: 10px; padding-right: 10px;">
-            <!--(chartHover)="chartHovered($event)"   
-            (chartClick)="chartClicked($event)">-->
-    </base-chart>
-
-    <!--<button  class="btn btn-default" (click)="refreshSlider()">clear</button>-->
-    <!--<button  class="btn btn-default" (click)="disEnaSlider()">dis</button>-->
+    <chart [statisType]="0"></chart>    
     <div class="slider3" >
         <input id="{{statisId}}" style="display: none; width: 510px;"/>
     </div>

@@ -1,4 +1,4 @@
-import {resolve} from 'dns';
+import { resolve } from 'dns';
 import { Component, AfterViewInit } from '@angular/core';
 import { ARF8084BAPayload } from '../../payloads/ARF8084BAPayload';
 import { ARF8084BAPayloadResolver } from '../../payloads/ARF8084BAPayloadResolver';
@@ -13,64 +13,12 @@ import { Data } from './test.data';
 import { Observable, } from 'rxjs/Observable';
 import { IntervalObservable } from 'rxjs/observable/IntervalObservable';
 import { ArrayUtils, MonthList, ObjectUtils } from '../../utils/utils';
-import { StatisticUtils, StatisType } from '../../utils/statis-utils';
+import { StatisticsUtils, StatisType } from '../../utils/statis-utils';
 import { Sensor } from '../../entity/sensor';
 import { Payload, PayloadType } from '../../payloads/payload'
 
 
 import 'rxjs/Rx';
-
-
-class DateUtils {
-  public static setHourFlatDate(date: Date) {
-    date.setMinutes(0);
-    date.setSeconds(0);
-    date.setMilliseconds(0);
-  }
-
-  public static getHourFlatDateFromMillis(dateMillis: number): Date {
-    let date = new Date(dateMillis);
-    date.setMinutes(0);
-    date.setSeconds(0);
-    date.setMilliseconds(0);
-    return date;
-  }
-
-  public static getDayFlatDateFromMillis(dateMillis: number): Date {
-    let date = new Date(dateMillis);
-    date.setHours(0);
-    date.setMinutes(0);
-    date.setSeconds(0);
-    date.setMilliseconds(0);
-    return date;
-  }
-}
-
-class RxUtils {
-  public static groupByHours(data: { time: number, value: number }[]): Observable<any> {
-    var source = Observable.from(data).groupBy(
-      data => {
-        return DateUtils.getHourFlatDateFromMillis(data.time).getTime()
-      },
-      data => {
-        data.time = DateUtils.getHourFlatDateFromMillis(data.time).getTime();
-        return data;
-      });
-    return source;
-  }
-
-  public static groupByDays(data: { time: number, value: number }[]): Observable<any> {
-    var source = Observable.from(data).groupBy(
-      data => {
-        return DateUtils.getDayFlatDateFromMillis(data.time).getTime()
-      },
-      data => {
-        data.time = DateUtils.getDayFlatDateFromMillis(data.time).getTime();
-        return data;
-      });
-    return source;
-  }
-}
 
 @Component({
   selector: 'test',
@@ -88,36 +36,52 @@ export class TestComponent {
     this.statisTest();
   }
 
-  private deSenseNoisePayloadResolverTest(){
+  private deSenseNoisePayloadResolverTest() {
     let payload = "0aff880cd2a1d8"
     let payload2 = "0aff860cd29bba"
-    let payload3 = "0aff810cbf0460" 
-    
-    let res = new  DeSenseNoisePayloadResolver();
-    
+    let payload3 = "0aff810cbf0460"
+
+    let res = new DeSenseNoisePayloadResolver();
+
     console.log(res.resolve(payload));
     console.log(res.resolve(payload2));
     console.log(res.resolve(payload3));
   }
-  
+
   private statisTest() {
     let sensor: Sensor = new Sensor();
-    let payloads: any[] = [
-      { createdAt: new Date(2016, 10, 25, 10, 11), payloadType: PayloadType.ARF8084BA, temp: 50 },
-      { createdAt: new Date(2016, 10, 25, 10, 11), payloadType: PayloadType.ARF8084BA, temp: 60 },
-      { createdAt: new Date(2016, 10, 25, 10, 11), payloadType: PayloadType.ARF8084BA, temp: 40 },
-      { createdAt: new Date(2016, 10, 25, 10, 11), payloadType: PayloadType.ARF8084BA, temp: 80 },
+    sensor.devEUI = "0004A30B0019D0EA"
+    sensor.payloadType = PayloadType.DeSenseNoise;
 
-      { createdAt: new Date(2016, 10, 24, 10, 11), payloadType: PayloadType.ARF8084BA, temp: 10 },
-      { createdAt: new Date(2016, 10, 24, 11, 11), payloadType: PayloadType.ARF8084BA, temp: 20 },
-      { createdAt: new Date(2016, 10, 24, 12, 11), payloadType: PayloadType.ARF8084BA, temp: 40 },
-      { createdAt: new Date(2016, 10, 24, 08, 11), payloadType: PayloadType.ARF8084BA, temp: 80 },
+    let payloads: any[] = [
+      { noise: 50, rssi: 10, snr: 15, battery: 3.214, createdAt: new Date(2016, 10, 25, 10, 11), payloadType: PayloadType.DeSenseNoise },
+      { noise: 60, rssi: 10, snr: 15, battery: 3.214, createdAt: new Date(2016, 10, 25, 10, 11), payloadType: PayloadType.DeSenseNoise },
+      { noise: 80, rssi: 10, snr: 15, battery: 3.214, createdAt: new Date(2016, 10, 25, 10, 11), payloadType: PayloadType.DeSenseNoise },
+      { noise: 20, rssi: 10, snr: 15, battery: 3.214, createdAt: new Date(2016, 10, 25, 10, 11), payloadType: PayloadType.DeSenseNoise },
+
+      { noise: 50, rssi: 10, snr: 15, battery: 3.214, createdAt: new Date(2016, 10, 24, 10, 11), payloadType: PayloadType.DeSenseNoise },
+      { noise: 40, rssi: 10, snr: 15, battery: 3.214, createdAt: new Date(2016, 10, 24, 10, 11), payloadType: PayloadType.DeSenseNoise },
+      { noise: 70, rssi: 10, snr: 15, battery: 3.214, createdAt: new Date(2016, 10, 24, 10, 11), payloadType: PayloadType.DeSenseNoise },
+      { noise: 10, rssi: 10, snr: 15, battery: 3.214, createdAt: new Date(2016, 10, 24, 10, 11), payloadType: PayloadType.DeSenseNoise },
     ];
     sensor.payloads = payloads;
 
-    StatisticUtils.logSum(sensor, StatisType.DAY24).subscribe(data => {
-      data.subscribe(data => {
-        console.log("out", data);
+    // console.log("sensor", JSON.stringify(sensor));
+
+    // var t0 = performance.now();
+    StatisticsUtils.resolveLogAverangeListEvent(sensor, StatisType.DAY24).subscribe(list => {
+      console.log("resolveLogAverangeListEvent", list)
+      // var t1 = performance.now();
+      // console.log("Call to doSomething took " + (t1 - t0) + " milliseconds.")
+    });
+
+    StatisticsUtils.resolveLogAverangeObjEvents(sensor, StatisType.DAY24).subscribe(val => {
+      console.log("resolveLogAverangeObjEvents", val)
+    });
+
+    StatisticsUtils.resolveLogAverangeObsEvents(sensor, StatisType.DAY24).subscribe(obs => {
+      obs.subscribe(val => {
+        console.log("resolveLogAverangeObsEvents", val)
       });
     });
   }
@@ -301,42 +265,42 @@ export class TestComponent {
   // })
 
 
-  testObservable3() {
-    let datain = new Data()
-    let data = datain.timeValueData
+  // testObservable3() {
+  //   let datain = new Data()
+  //   let data = datain.timeValueData
 
-    //var source = RxUtils.groupByHours(data);
-    var source = RxUtils.groupByDays(data);
+  //   //var source = RxUtils.groupByHours(data);
+  //   var source = RxUtils.groupByDays(data);
 
-    source.subscribe(group => {
-      // console.log('group: ', group);
+  //   source.subscribe(group => {
+  //     // console.log('group: ', group);
 
-      // uprava value a pridani count
-      let powDataStream = group.map((data, idx) => {
-        let powValue = Math.pow(10, (data.value / 10))
-        let powObj = { count: idx + 1, time: data.time, powValue: powValue, sumValue: powValue };
-        return powObj;
-      });
+  //     // uprava value a pridani count
+  //     let powDataStream = group.map((data, idx) => {
+  //       let powValue = Math.pow(10, (data.value / 10))
+  //       let powObj = { count: idx + 1, time: data.time, powValue: powValue, sumValue: powValue };
+  //       return powObj;
+  //     });
 
-      // soucet value
-      let sumDataStream = powDataStream.reduce((a, b) => {
-        b.sumValue = b.powValue + a.sumValue;
-        return b;
-      });
+  //     // soucet value
+  //     let sumDataStream = powDataStream.reduce((a, b) => {
+  //       b.sumValue = b.powValue + a.sumValue;
+  //       return b;
+  //     });
 
-      // logaritm. prumer ze souctu a poctu polozek (jen pro danou hodinu)
-      let logAvgDataStream = sumDataStream.map((data, idx) => {
-        let avgObj = { time: data.time, logAverange: 10 * Math.log(data.sumValue / data.count) / Math.log(10) };
-        return avgObj;
-      })
+  //     // logaritm. prumer ze souctu a poctu polozek (jen pro danou hodinu)
+  //     let logAvgDataStream = sumDataStream.map((data, idx) => {
+  //       let avgObj = { time: data.time, logAverange: 10 * Math.log(data.sumValue / data.count) / Math.log(10) };
+  //       return avgObj;
+  //     })
 
-      // zobrazeni a spusteni straemu
-      logAvgDataStream.subscribe(data => {
-        console.log(' [data]: ', data.time, new Date(data.time).toLocaleString(), data);
-      });
+  //     // zobrazeni a spusteni straemu
+  //     logAvgDataStream.subscribe(data => {
+  //       console.log(' [data]: ', data.time, new Date(data.time).toLocaleString(), data);
+  //     });
 
-    });
-  }
+  //   });
+  // }
 
   testObservable2() {
     // zobrazeni a spusteni straemu

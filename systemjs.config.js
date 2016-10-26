@@ -12,7 +12,6 @@
     'angular2-logger':            'node_modules/angular2-logger', 
     'angular2-google-maps/core':  'node_modules/angular2-google-maps/core',
     'ng2-dropdown':               'node_modules/ng2-dropdown',
-    'ng2-charts':                 'node_modules/ng2-charts',
     'moment':                     'node_modules/moment/',
     'ng2-responsive':              'node_modules/ng2-responsive',
     'ng2-bootstrap/ng2-bootstrap': 'node_modules/ng2-bootstrap/bundles/ng2-bootstrap.umd.js'   
@@ -25,7 +24,6 @@
     'angular2-logger':            { defaultExtension: 'js' }, 
     'angular2-google-maps/core':  { main: 'index.js', defaultExtension: 'js' },
     'ng2-dropdown':               { main: 'index.js', defaultExtension: 'js' },
-    'ng2-charts':                 { main: '/bundles/ng2-charts.js', defaultExtension: 'js' },
     'moment':                     { main: 'moment.js', defaultExtension: 'js' },
     'ng2-responsive':             { main: 'index.js', defaultExtension: 'js' }
   };
