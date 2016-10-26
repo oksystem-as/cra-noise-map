@@ -85,7 +85,8 @@ export class SliderComponent implements AfterViewInit {
                         order: Order.asc
 
                     }
-                    this.sensorsSharedService.loadSensorsAndPublish(devicedetailParams);
+                    // todo udelat nad exist daty
+                    // this.sensorsSharedService.loadSensorsAndPublish(devicedetailParams);
                 }
             });
 

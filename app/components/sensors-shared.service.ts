@@ -1,3 +1,4 @@
+import { Location } from 'ng2-bootstrap/components/utils/facade/browser';
 import { StatisticsComponent } from './statistics/statistics.component';
 import { Injectable, OnInit } from '@angular/core';
 import { Logger } from "angular2-logger/core";
@@ -10,13 +11,13 @@ import { ARF8084BAPayloadResolver } from '../payloads/ARF8084BAPayloadResolver';
 import { RHF1S001Payload } from '../payloads/RHF1S001Payload';
 import { RHF1S001PayloadResolver } from '../payloads/RHF1S001PayloadResolver';
 
-import { CRaService, DeviceDetailParams, DeviceParams, Order } from '../service/cra.service';
+import { CRaService, DeviceDetailParams } from '../service/cra.service';
 import { DeviceDetail, Record } from '../entity/device/device-detail';
 import { Devices, DeviceRecord } from '../entity/device/devices';
 import { Payload, PayloadType } from '../payloads/payload';
 import { Sensor } from '../entity/sensor';
 import { DateUtils, MonthList } from '../utils/utils';
-import { StatisticsUtils, Statistics, Statistic,SensorStatistics } from '../utils/statis-utils';
+import { StatisticsUtils, Statistics, Statistic, SensorStatistics } from '../utils/statis-utils';
 
 export class OverlayGroup {
     overlays: Overlay[];
@@ -42,8 +43,8 @@ export class Events {
     public static mapOverlays: IEvent<OverlayGroup[]> = { name: "mapOverlays" };
     public static statistics: IEvent<Statistics[]> = { name: "statistics" };
     // public static beforeLoadSensors: IEvent<string> = { name: "beforeLoadSensors" };
-    public static loadSensors: IEvent<Observable<Sensor>> = { name: "loadSensors" };
-    public static loadSensor: IEvent<Sensor> = { name: "loadSensor" };
+    public static loadSensors: IEvent<Observable<SensorStatistics>> = { name: "loadSensors" };
+    public static loadSensor: IEvent<SensorStatistics> = { name: "loadSensor" };
     public static mapInstance: IEvent<google.maps.Map> = { name: "mapInstance" };
     public static showMasterLoading: IEvent<boolean> = { name: "showMaterLoading" };
     // public static chartPointSelected: IEvent<google.maps.Map> = { name: "chartPointSelected" };
@@ -77,8 +78,12 @@ export class SensorsSharedService {
         { devEUI: "0018B20000000335", name: "Na petynce         ", latitude: 50.089150, longtitude: 14.377480, latitudeText: "50°09'10.3\"", longtitudeText: "14°27'22.2\"", noise: this.baseNoise, index: 4 },
     ]
 
-    private deviceList = ["0018B20000000165", "0018B20000000336", "0018B2000000016E", "0018B20000000337", "0018B2000000033C", "0018B2000000033A", "0018B20000000339", "0018B20000000335",]
-    // private deviceList = ["0018B20000000165"];
+    private location: { devEUI: string, name: string,  latitude: number, longtitude: number, latitudeText: string, longtitudeText: string }[] = [{
+        devEUI: "0004A30B0019D0EA", name: "Náměstí bratří synků", latitude: 50.064227, longtitude: 14.441406, latitudeText: "50°03'51.2\"N", longtitudeText: "14°26'29.1\"E",
+    }]
+
+    // private deviceList = ["0018B20000000165", "0018B20000000336", "0018B2000000016E", "0018B20000000337", "0018B2000000033C", "0018B2000000033A", "0018B20000000339", "0018B20000000335",]
+    private deviceList = ["0004A30B0019D0EA"];
     private deviceType = PayloadType.ARF8084BA;
     // ------------ TEST DATA ------------
 
@@ -136,97 +141,112 @@ export class SensorsSharedService {
     }
 
 
-    loadSensorsAndPublish(deviceDetailParams?: DeviceDetailParams) {
-        console.log("SensorsSharedService.loadSensors()");
-        this.publishEvent(Events.loadSensors, this.loadSensorsWithDefaultParam(deviceDetailParams), "SensorsSharedService.loadSensors");
+    loadSensorsAndPublish(date?: Date) {
+        console.log("SensorsSharedService.loadSensors()", date);
+        this.publishEvent(Events.loadSensors, this.loadSensors(new Date(2016, 9, 25), this.deviceList), "SensorsSharedService.loadSensors");
     }
 
     loadStatisticsData(devicedetailParams: DeviceDetailParams) {
         this.log.debug("SensorsSharedService.loadStatisticsData() ", devicedetailParams);
-        this.loadSensor(devicedetailParams)
-            .filter(data => {
-                return data != undefined && data.payloads != undefined 
-            }).subscribe(sensor => {
-                StatisticsUtils.resolveAllLogAverangeListEvent(sensor).subscribe(list => {
-                    this.publishEvent(Events.statistics, list);
-                });
-            });
+        // this.loadSensor(devicedetailParams)
+        //     .filter(data => {
+        //         return data != undefined && data.payloads != undefined 
+        //     }).subscribe(sensor => {
+        //         StatisticsUtils.resolveAllLogAverangeListEvent(sensor).subscribe(list => {
+        //             this.publishEvent(Events.statistics, list);
+        //         });
+        //     });
     }
 
-    private loadSensorsWithDefaultParam(deviceDetailParams?: DeviceDetailParams): Observable<Sensor> {
-        let devicedetailParamsList: DeviceDetailParams[] = [];
-        let deviceDetailParamsInter = deviceDetailParams;
-        this.deviceList.forEach(element => {
-            let deviceDetailParams;
-            if (deviceDetailParamsInter != undefined) {
-                devicedetailParamsList.push(<DeviceDetailParams>{
-                    start: deviceDetailParamsInter.start,
-                    stop: deviceDetailParamsInter.stop,
-                    limit: deviceDetailParamsInter.limit,
-                    order: deviceDetailParamsInter.order,
-                    devEUI: element,
-                    payloadType: this.deviceType,
-                    offset: deviceDetailParamsInter.offset
-                });
-            } else {
-                devicedetailParamsList.push(<DeviceDetailParams>{
-                    start: SensorsSharedService.minDateLimit,
-                    limit: 1,
-                    order: Order.asc,
-                    devEUI: element,
-                    payloadType: this.deviceType,
-                });
-            }
-        });
+    // private loadSensorsWithDefaultParam(deviceDetailParams?: DeviceDetailParams): Observable<Sensor> {
+    //     let devicedetailParamsList: DeviceDetailParams[] = [];
+    //     let deviceDetailParamsInter = deviceDetailParams;
+    //     this.deviceList.forEach(element => {
+    //         let deviceDetailParams;
+    //         if (deviceDetailParamsInter != undefined) {
+    //             devicedetailParamsList.push(<DeviceDetailParams>{
+    //                 start: deviceDetailParamsInter.start,
+    //                 stop: deviceDetailParamsInter.stop,
+    //                 limit: deviceDetailParamsInter.limit,
+    //                 order: deviceDetailParamsInter.order,
+    //                 devEUI: element,
+    //                 payloadType: this.deviceType,
+    //                 offset: deviceDetailParamsInter.offset
+    //             });
+    //         } else {
+    //             devicedetailParamsList.push(<DeviceDetailParams>{
+    //                 start: SensorsSharedService.minDateLimit,
+    //                 limit: 1,
+    //                 order: Order.asc,
+    //                 devEUI: element,
+    //                 payloadType: this.deviceType,
+    //             });
+    //         }
+    //     });
 
-        return this.loadSensors(devicedetailParamsList);
-    }
+    //     return this.loadSensors(devicedetailParamsList);
+    // }
 
-    private loadSensors(devicedetailParamsList: DeviceDetailParams[]): Observable<any> {
-        // this.log.debug("SensorsSharedService.loadSensors()", devicedetailParamsList);
+    private loadSensors(date: Date, devEUI: string[]): Observable<any> {
+        this.log.debug("SensorsSharedService.loadSensors()", date, devEUI);
 
         let list = [];
-        devicedetailParamsList.forEach(devicedetailParams => {
-            list.push(this.loadSensor(devicedetailParams));
+        devEUI.forEach(devEUI => {
+            let param = new DeviceDetailParams();
+            param.devEUI = devEUI;
+            param.date = date;
+            list.push(this.loadSensorNew(param));
         });
 
         return Observable.merge.apply(this, list)
     }
 
-    private loadSensor(devicedetailParams: DeviceDetailParams): Observable<Sensor> {
-        // this.log.debug("SensorsSharedService.loadSensor()", devicedetailParams);
-        return this.craService.getDeviceDetail(devicedetailParams)
-            .filter(response => {
-                return response != undefined && response.records != undefined && response.records instanceof Array
-            })
-            .map((response, idx) => {
-                // this.log.debug("SensorsSharedService.loadSensor() response: ", response);
-                var sensor = new Sensor();
-                sensor.devEUI = response.devEUI;
-                sensor.payloadType = response.payloadType;
-                sensor.publisher = response.publisher;
-                response.records.forEach(record => {
-                    // let payload: ARF8084BAPayload = aRF8084BAPayloadResolver.resolve(record.payloadHex)
-                    let payload = this.reslovePayload(devicedetailParams.payloadType, record.payloadHex, sensor)
-                    payload.createdAt = DateUtils.parseDate(record.createdAt);
-                    payload.payloadType = response.payloadType;
-                    sensor.payloads.push(payload);
-                })
-                // this.log.debug("behaviorSubject ", sensor)
-                return sensor;
-            })
-    }
+    // private loadSensor(devicedetailParams: DeviceDetailParams): Observable<Sensor> {
+    //     // this.log.debug("SensorsSharedService.loadSensor()", devicedetailParams);
+    //     return this.craService.getDeviceDetail(devicedetailParams)
+    //         .filter(response => {
+    //             return response != undefined && response.records != undefined && response.records instanceof Array
+    //         })
+    //         .map((response, idx) => {
+    //             // this.log.debug("SensorsSharedService.loadSensor() response: ", response);
+    //             var sensor = new Sensor();
+    //             sensor.devEUI = response.devEUI;
+    //             sensor.payloadType = response.payloadType;
+    //             sensor.publisher = response.publisher;
+    //             response.records.forEach(record => {
+    //                 // let payload: ARF8084BAPayload = aRF8084BAPayloadResolver.resolve(record.payloadHex)
+    //                 let payload = this.reslovePayload(devicedetailParams.payloadType, record.payloadHex, sensor)
+    //                 payload.createdAt = DateUtils.parseDate(record.createdAt);
+    //                 payload.payloadType = response.payloadType;
+    //                 sensor.payloads.push(payload);
+    //             })
+    //             // this.log.debug("behaviorSubject ", sensor)
+    //             return sensor;
+    //         })
+    // }
 
     private loadSensorNew(devicedetailParams: DeviceDetailParams): Observable<SensorStatistics> {
         // this.log.debug("SensorsSharedService.loadSensor()", devicedetailParams);
         return this.craService.getDeviceDetailNew(devicedetailParams)
             .filter(response => {
                 return response != undefined && response.statistics != undefined && response.statistics instanceof Array
-            });
-            // .map((response, idx) => {
-            //     console.log("loadSensorNew", response) ;
-            //     return {};
-            // })
+            }).map((response, idx) => {
+                console.log("loadSensorNew", response);
+                this.addLocation(response);
+                return response;
+            })
+    }
+
+    private addLocation(sensorStatistics: SensorStatistics) {
+        this.location.forEach(location => {
+            if(location.devEUI === sensorStatistics.devEUI){
+                sensorStatistics.name = location.name;
+                sensorStatistics.latitude = location.latitude;
+                sensorStatistics.latitudeText = location.latitudeText;
+                sensorStatistics.longtitude = location.longtitude;
+                sensorStatistics.longtitudeText = location.longtitudeText;
+            }
+        })
     }
 
 

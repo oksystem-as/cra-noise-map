@@ -13,6 +13,7 @@ import { Sensor } from '../entity/sensor';
 import { Payload, PayloadType } from '../payloads/payload';
 import { SensorsSharedService, Overlay, Events, OverlayGroup } from './sensors-shared.service';
 import { CRaService, DeviceDetailParams, DeviceParams, Order } from '../service/cra.service';
+import { SensorStatistics, Statistic, Statistics, StatisticsUtils, StatisType } from '../utils/statis-utils';
 
 import { ARF8084BAPayload } from '../payloads/ARF8084BAPayload';
 import { RHF1S001Payload } from '../payloads/RHF1S001Payload';
@@ -234,9 +235,9 @@ export class MapComponent implements AfterViewInit {
       return true;
     });
 
-    this.sensorsSharedService.listenEventData(Events.loadSensor).filter((sensor: Sensor) => {
-      return sensor != undefined && sensor.payloads != undefined && sensor.payloads.length > 0
-    }).subscribe((sensor: Sensor) => {
+    this.sensorsSharedService.listenEventData(Events.loadSensor).filter((sensor: SensorStatistics) => {
+      return sensor != undefined && sensor.statistics != undefined && sensor.statistics.length > 0
+    }).subscribe((sensor: SensorStatistics) => {
       // console.log("New sensor event (Events.loadSensor): ", sensor)
       this.removeMarkers(sensor.devEUI);
       // odstranim predchozi markery
@@ -248,17 +249,17 @@ export class MapComponent implements AfterViewInit {
       // if (sensor.payloads[0] != undefined) {
       //   console.log(sensor.payloads[0].createdAt.toLocaleString());
       // }
-      if (sensor.payloadType == PayloadType.ARF8084BA) {
-        sensor.showData = false;
-        sensor.payloads.forEach((payload: ARF8084BAPayload) => {
-          // je v rozmezi hodiny od vybraneho data
-          sensor.showData = DateUtils.isBetween_dayIntervalFromMidnight(payload.createdAt, this.sliderNewDate);
-
-          var infowindow = this.createInfoWindow(payload, sensor);
-          this.createMarker(payload.latitude, payload.longtitude, infowindow, payload.temp, sensor);
-
-        });
-      }
+      // if (sensor.payloadType == PayloadType.ARF8084BA) {
+      // sensor.showData = false;
+      sensor.statistics.forEach((statistics: Statistics) => {
+        if (statistics.type === StatisType.DAY24) {
+          var infowindow = this.createInfoWindow(sensor);
+          this.createMarker(sensor.latitude, sensor.longtitude, infowindow, statistics.avgValues[0].avgValue, sensor);
+        }
+        // je v rozmezi hodiny od vybraneho data
+        // sensor.showData = DateUtils.isBetween_dayIntervalFromMidnight(payload.createdAt, this.sliderNewDate);
+      });
+      // }
 
     });
   }
@@ -272,33 +273,38 @@ export class MapComponent implements AfterViewInit {
     }
   }
 
-  private createInfoWindow(payload: ARF8084BAPayload, sensor: Sensor): google.maps.InfoWindow {
+  private createInfoWindow(sensor: SensorStatistics): google.maps.InfoWindow {
     let text =
       "<strong>Čidlo:</strong> " + sensor.name + "<br> " +
-      "<strong>Datum měření hluku:</strong> " + payload.createdAt.toLocaleDateString() + "<br> " +
-      "<strong>Aktuální hodnota hluku:</strong> " + payload.temp + "dB<br> <br>" +
+      "<strong>Datum měření hluku:</strong> " + sensor.statistics[0].avgValues[0].date + "<br> " +
+      "<strong>Aktuální hodnota hluku:</strong> " + sensor.statistics[0].avgValues[0].avgValue + "dB<br> <br>" +
       "<strong>Průměrné hladiny hluku:</strong>" +
       " <table class='table'> " + //class='table table-striped'
-      " <thead><tr><th>Interval měření</th><th>hodnota</th></tr></thead>" +
-      " <tr><th>Hodinový průměr</th><td>201 dB</td> ";
+      " <thead><tr><th>Interval měření</th><th>hodnota</th></tr></thead>";
+
+      sensor.statistics.forEach(statistis => {
+         text += " <tr><th>" + statistis.type + "</th><td> "+ statistis.avgValues[0].avgValue + "dB</td> ";
+      })
+     
     return new google.maps.InfoWindow({
       content: "<div class='info-window'>" + text + "</div>",
       disableAutoPan: true,
     });
   }
 
-  private createMarker(latitude: number, longtitude: number, infoWin: google.maps.InfoWindow, value: number, sensor: Sensor): google.maps.Marker {
+  private createMarker(latitude: number, longtitude: number, infoWin: google.maps.InfoWindow, value: number, sensor: SensorStatistics): google.maps.Marker {
     var marker: any = new google.maps.Marker({
       position: new google.maps.LatLng(latitude, longtitude),
       map: this.map,
       //animation: google.maps.Animation.DROP,
-      icon: sensor.showData ? this.getColorIcon(value) : this.getGrayIcon(),
+      //icon: sensor.showData ? this.getColorIcon(value) : this.getGrayIcon(),
+      icon: this.getColorIcon(value),
       // title: value + "dB",
     });
 
     marker.sensor = sensor;
     marker.isPermSelected = false;
-    marker.showData = sensor.showData;
+    marker.showData = true //sensor.showData;
 
     marker.addListener('click', () => {
       this.sensorsSharedService.publishEvent(Events.showMasterLoading, true);

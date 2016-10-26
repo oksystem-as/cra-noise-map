@@ -23,10 +23,10 @@ export class CRaService {
   private deviceDetailBaseUrl = 'message/get/'
   private token = "kBPIDfNdSfk8fkATerBa6ct6yshdPbOX";
 
-  private restProxy2 = "http://10.0.106.69:8080/"
+  private restProxy2 = "http://10.0.1.59:58081/"
   private device = 'device/'
   private statis = '/statistics'
-  
+
   constructor(private log: Logger, private http: Http) { }
 
   // getDevices(params: DeviceParams): Observable<Devices> {
@@ -39,22 +39,22 @@ export class CRaService {
   //     .catch(this.handleErrorObservable);
   // }
 
-  getDeviceDetail(params: DeviceDetailParams): Observable<DeviceDetail> {
-    var devEUI = params.devEUI;
-    var payloadType =  params.payloadType;
-    var publisher = params.publisher;
-    // this.log.debug("CRaService.getDeviceDetail() init. ", params);
-    return this.http.get(this.getDevicDetailUrl(params)).
-       map(response => {
-        // this.log.debug("CRaService.getDeviceDetail() return ", response.json());
-        let deviceDetail = response.json() as DeviceDetail
-        deviceDetail.payloadType = payloadType;
-        deviceDetail.devEUI = devEUI;
-        deviceDetail.publisher = publisher;
-        return deviceDetail
-      })
-      .catch(this.handleErrorObservable);
-  }
+  // getDeviceDetail(params: DeviceDetailParams): Observable<DeviceDetail> {
+  //   var devEUI = params.devEUI;
+  //   var payloadType =  params.payloadType;
+  //   var publisher = params.publisher;
+  //   // this.log.debug("CRaService.getDeviceDetail() init. ", params);
+  //   return this.http.get(this.getDevicDetailUrl(params)).
+  //      map(response => {
+  //       // this.log.debug("CRaService.getDeviceDetail() return ", response.json());
+  //       let deviceDetail = response.json() as DeviceDetail
+  //       deviceDetail.payloadType = payloadType;
+  //       deviceDetail.devEUI = devEUI;
+  //       deviceDetail.publisher = publisher;
+  //       return deviceDetail
+  //     })
+  //     .catch(this.handleErrorObservable);
+  // }
 
   getDeviceDetailNew(params: DeviceDetailParams): Observable<SensorStatistics> {
     // var devEUI = params.devEUI;
@@ -62,7 +62,7 @@ export class CRaService {
     // var publisher = params.publisher;
     // this.log.debug("CRaService.getDeviceDetail() init. ", params);
     return this.http.get(this.getDevicDetailUrlNew(params)).
-       map(response => {
+      map(response => {
         // this.log.debug("CRaService.getDeviceDetail() return ", response.json());
         let deviceDetail = response.json() as SensorStatistics
         // deviceDetail.devEUI = devEUI;
@@ -75,40 +75,40 @@ export class CRaService {
   private getDevicDetailUrlNew(params: DeviceDetailParams): string {
     let url = this.restProxy2 + this.device + params.devEUI + this.statis;
 
-    if (params.start) {
-      url += '?date=' + this.dateToString(params.start);
+    if (params.date) {
+      url += '?date=' + this.dateToString(params.date);
     }
 
-    this.log.debug("CRaService.getDevicDetailUrlNew() " +  url )
+    this.log.debug("CRaService.getDevicDetailUrlNew() " + url)
     return url
   }
 
-  private getDevicDetailUrl(params: DeviceDetailParams): string {
-    //  let url = window.location.href + this.devApiPrefix + this.deviceDetailBaseUrl + params.devEUI + '?token=' + this.token;
-    let url = this.restProxy + this.deviceDetailBaseUrl + params.devEUI + '?token=' + this.token;
+  // private getDevicDetailUrl(params: DeviceDetailParams): string {
+  //   //  let url = window.location.href + this.devApiPrefix + this.deviceDetailBaseUrl + params.devEUI + '?token=' + this.token;
+  //   let url = this.restProxy + this.deviceDetailBaseUrl + params.devEUI + '?token=' + this.token;
 
-    if (params.limit) {
-      url += '&limit=' + params.limit;
-    }
+  //   if (params.limit) {
+  //     url += '&limit=' + params.limit;
+  //   }
 
-    if (params.offset) {
-      url += '&offset=' + params.offset;
-    }
+  //   if (params.offset) {
+  //     url += '&offset=' + params.offset;
+  //   }
 
-    if (params.order) {
-      url += '&order=' + params.order;
-    }
+  //   if (params.order) {
+  //     url += '&order=' + params.order;
+  //   }
 
-    if (params.start) {
-      url += '&start=' + this.dateToString(params.start);
-    }
+  //   if (params.start) {
+  //     url += '&start=' + this.dateToString(params.start);
+  //   }
 
-    if (params.stop) {
-      url += '&stop=' + this.dateToString(params.stop);
-    }
-    this.log.debug("CRaService.getDevicDetailUrl() " +  url )
-    return url
-  }
+  //   if (params.stop) {
+  //     url += '&stop=' + this.dateToString(params.stop);
+  //   }
+  //   this.log.debug("CRaService.getDevicDetailUrl() " +  url )
+  //   return url
+  // }
 
   // private getDeviceUrl(params: DeviceParams): string {
   //   let url = this.restProxy + this.deviceBaseUrl + params.projectName + '?token=' + this.token;
@@ -166,10 +166,12 @@ export enum Order {
 export class DeviceDetailParams {
   // kdo zapricinil nacteni - napr pro reload jen pro konkretni graf
   publisher: string;
-  
+
   payloadType: PayloadType;
 
   devEUI: string;
+
+  date: Date
 
   //Omezení počtu vypsaných záznamů. Hodnota musí být přirozeným číslem (1,2,3…N).
   limit: number;

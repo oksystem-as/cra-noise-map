@@ -19,6 +19,11 @@ export enum StatisType {
 
 export class SensorStatistics {
     devEUI: string;
+    name: string;
+    latitudeText: String;
+    latitude: number;
+    longtitudeText: String;
+    longtitude: number;
     statistics: Statistics[];
 }
 
