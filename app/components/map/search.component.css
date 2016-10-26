@@ -38,20 +38,8 @@
 }
 
 #pac-input-M {
-  /*padding-top: 13px;
-  padding-bottom: 11px;
-  top: 0px;
   margin-left: 38px;
-  position: fixed;
-  background-color: #fff;
-  font-family: Roboto; 
-  font-size: 14px;
-  font-weight: 300;
-  padding: 0 1px 0 8px;
-  text-overflow: ellipsis;
-  width: 47%;*/
-  margin-left: 38px;
-  top: -34px;
+  top: -10px;
   position: relative;
   background-color: #fff;
   font-family: Roboto;

@@ -25,7 +25,7 @@
   z-index: 10 !important;
   margin-right: 230;
   margin-top: 20px;
-  width: 160px;
+  width: 200px;
   height: 38px;
 }
 
@@ -39,11 +39,16 @@
   box-shadow: 0px 0px 10px 4px rgba(0,0,0,0.19);
   background-color: white;
   height: 38px;
+  width: 200px;
 }
 
 .buttons > ul > li {
-  width: 172px;
+  width: 38px;
   height: 38px;
+}
+
+.description {
+  margin-left: 10px
 }
 
 .buttons > ul > li > a {
@@ -61,20 +66,43 @@
 
 .buttons > ul > li > ul {
   z-index: 10;
+  width: 200px;
 }
 
-.buttons > ul > li > a > img {
+.senzorListIcoDown {
   position: relative;
-  margin-left: -15px;
+  margin-left: -13px;
   margin-top: -3px;
 }
 
-#senzorListArrow {
-  margin-left: 3px;
+.senzorListIcoUp {
+  margin-left: -14px;
+  margin-top: -3px;
 }
 
-.buttons > ul > li > a > a {
-  margin-left: 7px;
+/*#senzor-button-up {
+  margin-left: 1px;
+}*/
+
+#senzorListArrowDown {
+  padding-left: 4px;
+}
+
+#senzorListArrowUp {
+  padding-left: 1px;
+}
+
+#senzor-button-down {
+  position: relative;
+}
+
+#senzor-button-up {
+  position: relative;
+  width: 200px;
+}
+
+.selectedSenzorName {
+  margin-left: 1px;
 }
 
 .statisButton {
@@ -84,23 +112,20 @@
   margin-left: 540px;
 }
 
-
 /*MOBILE*/
 .buttons-M {
   height: 38px;
-  position: absolute;
-  top: -8px;
-  width: 100%;
   background-color: white;
-  /*z-index: 10 !important;*/
+  z-index: 15 !important;
+  top: -24px !important;
+  position: relative;
 }
 
 #menu-button-M {
   width: 38px;
   height: 38px; 
-  margin-left: 218px;
-  margin-top: -8px;
-  /*z-index: 15 !important;*/
+  margin-right: 136px;
+  margin-top: 30px;
 }
 
 .senzorListIco-M {
@@ -109,12 +134,20 @@
 }
 
 #navBar-M > li > ul {
-  margin-left: -40px;
+  z-index: 20;
+  margin-top: -5px;
+  margin-left: -34px;
   width: 193px;
-  margin-top: -1px;
+  height: 38px;
   text-align: center;
   font-size: 16px;
-  background-color: white;
   font-family: Roboto,Arial,sans-serif;
 }
+
+#navBar-M > li > ul > li {
+  background-color: white;
+  margin-top: -1px;
+}
+
+
 

@@ -1,14 +1,12 @@
 /*STANDARD VERSION*/
 .overlaysMenu {
-  background-color: white;
-
-  border-radius: 4px 0px 0px 4px;
-  -moz-border-radius: 4px 0px 0px 4px;
-  -webkit-border-radius: 4px 0px 0px 4px;
-  border: 0px solid #000000;
+  position: relative;
+  width: 38px;
+  height: 38px;
 }
 
 .overlayGroup {
+  position: relative;
   font-family: Roboto,Arial,sans-serif;
   font-size: 11px;
   opacity: .94;
@@ -16,25 +14,31 @@
   width: 178px;
 }
 
-.overlaysMenu > ul > li > a {
+#imageBox {
+  position: relative !important;
   width: 38px;
   height: 38px;
-  padding: 0px;
 }
 
-.nav > li > a > img {
-  max-width: none;
-  margin-top: 3px;
-   margin-left: 3px;
+.layerMenuIco {
+  position: relative;
+  /*padding-top: 3px;
+  padding-left: 3px;*/
+  margin-top: -12px;
+  margin-left: -12px;
 }
 
-.dropdown-menu>li>a {
-  padding: 0px;
+#layerNavBar {
+  position: fixed !important;
+  z-index: 10 !important;
+  width: 38px;
+  height: 38px;
 }
 
-ul {
-  list-style-type: none;
-  padding-left: 0px;
+#layerDropDown {
+  position: relative !important;
+  width: 38px;
+  height: 38px;
 }
 
 .position { 
@@ -99,13 +103,14 @@ span.layerSpanBox {
 }
 
 .dropdown-menu {
-   overflow-y: auto; 
-   overflow-x: auto;
+  overflow-y: auto; 
+  max-height: 425px; 
+  overflow-x: auto;
+  max-width: 180px; 
 }
 
 /*MOBILE VERSION*/
 .overlaysMenu-M {
-  /*z-index: 15 !important;*/
   height: 44px;
   background-color: white;
 }
