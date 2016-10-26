@@ -9,7 +9,7 @@
   position: relative;
   width: 38px;
   height: 38px;
-  z-index: 10 !important;
+  z-index: 20 !important;
 }
 
 .overlaysSearchStandard > div > overlays-menu {
@@ -74,8 +74,8 @@
 
 .mobileTop {
   position: relative;
-  margin: 0px auto;
   height: 38px;
+  top: 8px;
 }
 
 .navbar-nav > li > a {

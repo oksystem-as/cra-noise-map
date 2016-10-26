@@ -6,6 +6,7 @@
 }
 
 .overlayGroup {
+  z-index: 15 !important;
   position: relative;
   font-family: Roboto,Arial,sans-serif;
   font-size: 11px;
@@ -30,9 +31,15 @@
 
 #layerNavBar {
   position: fixed !important;
-  z-index: 10 !important;
+  z-index: 15 !important;
+  /*padding: 0px !important;*/
   width: 38px;
   height: 38px;
+}
+
+.navbar-nav {
+  padding: 0px !important;
+  margin: 0px !important;
 }
 
 #layerDropDown {
@@ -99,14 +106,28 @@ span.layerSpanBox {
 }
 
 .groupItem {
-  height: 18px;
+  height: 20px;
+  margin-left: -24px;
+}
+
+.groupItemSpan {
+  position: relative;
+  top: -2px;
 }
 
 .dropdown-menu {
   overflow-y: auto; 
   max-height: 425px; 
   overflow-x: auto;
-  max-width: 180px; 
+  max-width: 220px; 
+}
+
+.layerTextLegend {
+  text-align: left;
+  position: relative;
+  font-family: Roboto,Arial,sans-serif;
+  font-size: 10px;
+  color: silver;
 }
 
 /*MOBILE VERSION*/
@@ -121,25 +142,29 @@ span.layerSpanBox {
   padding: 0px;
 }
 
+.layerMenuIco-M {
+  margin-left: 2px;
+  margin-top: 3px;
+}
+
 #nav-bar-M {
   width: 60%;
 }
 
 #overlayGroup-M > li > a > span {
- margin-left: 5px;
+  margin-left: 5px;
 }
 
 #overlayGroup-M {
-  margin-left: 15px;
   font-family: Roboto,Arial,sans-serif;
   font-size: 16px;
   background-color: white;
-  width: 208px;
+  width: 210px;
   margin-top: -1px;
 }
 
 #nav-bar-M > li > a {
-  margin-left: 15px;
+  margin-left: 0px;
   margin-top: 6px;
 }
 
@@ -150,4 +175,16 @@ span.layerSpanBox {
 
 #nav-bar-M > li {
   height: 36px;
+}
+
+.groupItem-M {
+  margin-left: -17px;
+}
+
+.layerTextLegend-M {
+  text-align: left;
+  position: relative;
+  font-family: Roboto,Arial,sans-serif;
+  font-size: 10px;
+  color: silver;
 }

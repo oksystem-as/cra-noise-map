@@ -80,10 +80,6 @@
   margin-top: -3px;
 }
 
-/*#senzor-button-up {
-  margin-left: 1px;
-}*/
-
 #senzorListArrowDown {
   padding-left: 4px;
 }
@@ -122,21 +118,22 @@
 }
 
 #menu-button-M {
+  position: relative;
   width: 38px;
   height: 38px; 
-  margin-right: 136px;
+  margin-right: 56px;
   margin-top: 30px;
 }
 
 .senzorListIco-M {
-  margin-top: -6px;
+  margin-top: -6.5px;
   margin-left: -12px;
 }
 
 #navBar-M > li > ul {
   z-index: 20;
   margin-top: -5px;
-  margin-left: -34px;
+  margin-left: -114px;
   width: 193px;
   height: 38px;
   text-align: center;

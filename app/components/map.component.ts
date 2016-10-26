@@ -51,9 +51,19 @@ export class MapComponent implements AfterViewInit {
       mapTypeControl: true,
       mapTypeControlOptions: {
         style: google.maps.MapTypeControlStyle.DROPDOWN_MENU,
-        position: google.maps.ControlPosition.LEFT_TOP,
+        position: google.maps.ControlPosition.RIGHT_BOTTOM,
         mapTypeIds: [google.maps.MapTypeId.ROADMAP, google.maps.MapTypeId.SATELLITE, google.maps.MapTypeId.HYBRID, google.maps.MapTypeId.TERRAIN]
-      }
+      },
+      zoomControl: true,
+      zoomControlOptions: {
+        style: google.maps.ZoomControlStyle.SMALL,
+        position: google.maps.ControlPosition.RIGHT_BOTTOM
+      },
+      scaleControl: true,
+      streetViewControl: true,
+      streetViewControlOptions: {
+        position: google.maps.ControlPosition.RIGHT_BOTTOM
+      },
     });
     this.sensorsSharedService.publishEvent(Events.mapInstance, this.map, "MapComponent.initMap");
   }
@@ -263,13 +273,13 @@ export class MapComponent implements AfterViewInit {
   }
 
   private createInfoWindow(payload: ARF8084BAPayload, sensor: Sensor): google.maps.InfoWindow {
-    let text = 
-      "<strong>Čidlo:</strong> " + sensor.name  + "<br> " +
+    let text =
+      "<strong>Čidlo:</strong> " + sensor.name + "<br> " +
       "<strong>Datum měření hluku:</strong> " + payload.createdAt.toLocaleDateString() + "<br> " +
       "<strong>Aktuální hodnota hluku:</strong> " + payload.temp + "dB<br> <br>" +
       "<strong>Průměrné hladiny hluku:</strong>" +
       " <table class='table'> " + //class='table table-striped'
-      " <thead><tr><th>Interval měření</th><th>hodnota</th></tr></thead>" + 
+      " <thead><tr><th>Interval měření</th><th>hodnota</th></tr></thead>" +
       " <tr><th>Hodinový průměr</th><td>201 dB</td> ";
     return new google.maps.InfoWindow({
       content: "<div class='info-window'>" + text + "</div>",
