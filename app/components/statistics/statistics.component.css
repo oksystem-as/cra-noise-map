@@ -18,9 +18,10 @@
   box-shadow: 0px 0px 10px 4px rgba(0,0,0,0.19);
 }
 
+/*STANDARD*/
 .statButton {
   background-color: white;
-  margin-right: 15px;
+  margin-right: 10px;
   margin-top: -58.2px;
   height: 38px;
   width: 190px;
@@ -34,7 +35,7 @@
   box-shadow: 0px 0px 10px 4px rgba(0,0,0,0.19);
 }
 
-.senzorListIco {
+.statListIco {
   margin-left: 5px;
   margin-top: 3px;
   position: relative;
@@ -58,3 +59,33 @@
   margin-left: 105px;
   margin-top: 4px;
 }
+
+/*MOBILE*/
+
+.statMobile {
+  z-index: 15 !important;
+}
+
+#stat-button-down {
+  background-color: white;
+  border-color: white;
+  width: 38;
+  height: 38;
+  margin-top: -25px;
+  margin-right: 80px;
+}
+
+.statListIco-M {
+  margin-left: -12px;
+  margin-top: -2px;
+}
+
+#stat-button-up {
+  background-color: white;
+  border-color: white;
+  width: 38;
+  height: 38;
+  margin-top: -25px;
+  margin-left: 72px;
+}
+

@@ -1,10 +1,30 @@
-#overlaysSearchId {
+.overlaysSearchMobile {
   z-index: 15 !important;
   height: 36px;
+  height: 0px;
+  width: 0px;
 }
 
-.overlaysSearchMobile {
-  width: 100%;
+.overlaysSearchStandard {
+  position: relative;
+  width: 38px;
+  height: 38px;
+  z-index: 10 !important;
+}
+
+.overlaysSearchStandard > div > overlays-menu {
+  width: 38px !important;
+  height: 38px !important;
+  position: relative;
+  top: 0px;
+  left: 0px;
+  z-index: 20 !important;
+}
+
+.overlaysSearchStandard > div > search {
+  position: relative;
+  left: 40px;
+  top: -38px;
 }
 
 .overlaysSearchStandard > div {
@@ -41,11 +61,21 @@
   width: 1px;
   padding-top: 5px;
   padding-bottom: 5px;
+  position: relative;
+  top: -38px;
+  left: 38px;
+}
+
+.overlaysSearchMobile {
+  z-index: 15 !important;
+  height: 36px;
+  width: 100%;
 }
 
 .mobileTop {
   position: relative;
   margin: 0px auto;
+  height: 38px;
 }
 
 .navbar-nav > li > a {
@@ -74,4 +104,11 @@
   width: 1px;
   padding-top: 5px;
   padding-bottom: 5px;
+}
+
+.overlaysSearchMobile > div.mobileTop > span > search {
+  position: relative;
+  width: 45%;
+  height: 38px;
+  top: -25px;
 }
