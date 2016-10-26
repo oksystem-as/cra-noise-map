@@ -1,5 +1,5 @@
 /*STANDARD VERSION*/
-#overlaysMenuId {
+.overlaysMenu {
   background-color: white;
 
   border-radius: 4px 0px 0px 4px;
@@ -16,7 +16,7 @@
   width: 178px;
 }
 
-#overlaysMenuId > ul > li > a {
+.overlaysMenu > ul > li > a {
   width: 38px;
   height: 38px;
   padding: 0px;
@@ -104,24 +104,33 @@ span.layerSpanBox {
 }
 
 /*MOBILE VERSION*/
-#overlaysMenuId-M {
+.overlaysMenu-M {
+  /*z-index: 15 !important;*/
+  height: 44px;
   background-color: white;
 }
 
-#overlaysMenuId-M > ul > li > a {
+.overlaysMenu-M > ul > li > a {
   height: 38px;
   width: 38px;
   padding: 0px;
 }
 
 #nav-bar-M {
-  width: 100%;
+  width: 60%;
+}
+
+#overlayGroup-M > li > a > span {
+ margin-left: 5px;
 }
 
 #overlayGroup-M {
-  margin-left: 28px;
+  margin-left: 15px;
   font-family: Roboto,Arial,sans-serif;
-  font-size: 19px;
+  font-size: 16px;
+  background-color: white;
+  width: 208px;
+  margin-top: -1px;
 }
 
 #nav-bar-M > li > a {
@@ -131,4 +140,9 @@ span.layerSpanBox {
 
 #overlayGroup-M > li > span {
   font-weight: 600;
+  margin-left: 10px;
+}
+
+#nav-bar-M > li {
+  height: 36px;
 }
