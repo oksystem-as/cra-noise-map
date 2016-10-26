@@ -74,8 +74,8 @@
 
 .mobileTop {
   position: relative;
-  margin: 0px auto;
   height: 38px;
+  top: 8px;
 }
 
 .navbar-nav > li > a {
