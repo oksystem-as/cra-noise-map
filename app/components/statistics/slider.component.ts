@@ -1,4 +1,4 @@
-import { Component, AfterViewInit, ViewChild, SimpleChange, Input, ViewEncapsulation, ElementRef } from '@angular/core';
+import { Component, SimpleChanges, OnChanges, AfterViewInit, ChangeDetectorRef, ViewChild, SimpleChange, Input, ViewEncapsulation, ElementRef } from '@angular/core';
 import { Logger } from "angular2-logger/core";
 /// <reference path="../../typings/globals/googlemaps/google.maps.d.ts" />
 /// <reference path="../../typings/globals/markerclustererplus/markerclustererplus.d.ts" />
@@ -6,7 +6,7 @@ import { SensorsSharedService, Events } from '../sensors-shared.service';
 import { Sensor } from '../../entity/sensor';
 import { Payload, PayloadType } from '../../payloads/payload';
 import { ObjectUtils, RandomUtils, DateUtils } from '../../utils/utils';
-import { StatisType } from '../../utils/statis-utils';
+import { StatisticsUtils, StatisType } from '../../utils/statis-utils';
 
 import { ARF8084BAPayload } from '../../payloads/ARF8084BAPayload';
 import { RHF1S001Payload } from '../../payloads/RHF1S001Payload';
@@ -18,34 +18,50 @@ import 'rxjs/Rx';
 import { ChartsModule } from 'ng2-charts/ng2-charts';
 
 @Component({
-    selector: 'statis',
-    templateUrl: 'app/components/statistics/statis.component.html',
-    styleUrls: ['app/components/statistics/statis.component.css'],
-    // encapsulation: ViewEncapsulation.Native
+    moduleId: module.id,
+    selector: 'slider-statis',
+    templateUrl: 'slider.component.html',
+    styleUrls: ['slider.component.css'],
+    encapsulation: ViewEncapsulation.None
 })
-export class StatisComponent implements AfterViewInit {
-    public statisId = "statis" + RandomUtils.getRandom();
-    public sliderId = "slider" + RandomUtils.getRandom();
-
-    private devEUI;
+export class SliderStatisComponent { // implements OnChanges {
+    public sliderId = "sliderId" + RandomUtils.getRandom();
+    public sliderIdInternal = "statisSliderId" + RandomUtils.getRandom();
     private slider;
     private firstInitSlider = true;
     private sliderEvent: BehaviorSubject<any> = new BehaviorSubject(null);
 
-    @Input()
-    public statisType: StatisType = StatisType.DAY24;
+    constructor( private log: Logger, private sensorsSharedService: SensorsSharedService, elementRef: ElementRef) {
+        // changeDetectorRef.detach(); private changeDetectorRef: ChangeDetectorRef,
+        var source = sensorsSharedService.listenEventData(Events.statistics)
+            .subscribe(statistics => {
+                // this.clearChartAndTable();
+                // console.log(statistics)
+                statistics.forEach(statis => {
+                    if (statis.type == StatisType.HOUR) {
+                        let minDate = new Date().getTime();
+                        statis.avgValues.forEach(value => {
+                            if (value.date.getTime() < minDate) {
+                                minDate = value.date.getTime()
+                            }
+                        })
+                        this.initSlider(new Date(minDate));
+                        this.refreshSlider();
+                    }
+                });
+                // this.sensorsSharedService.publishEvent(Events.showMasterLoading, false);
+            });
+    }
 
-    public statisType2: StatisType = StatisType.DAY24;
+    // ngOnChanges(changes: SimpleChanges) {
+    //     console.log("ngOnChanges ", changes);
+    //     this.refreshSlider();
+    //     // this.changeDetectorRef.detectChanges();
+    // }
 
-
-    public refreshSlider(data) {
-        console.log(' [refreshSlider]: ', this.slider, data);
-        // hotfix - nevim uplne proc, ale funguje to ...
-        setTimeout(() => {
-            if (this.slider) {
-                this.slider.relayout();
-            }
-        }, 1)
+    ngAfterViewInit(): void {
+        // this.initSlider(new Date(2016, 1.1));
+        // this.refreshSlider();
     }
 
     private removeSlider() {
@@ -56,18 +72,18 @@ export class StatisComponent implements AfterViewInit {
         }
     }
 
-    // ngOnChanges(data) {
-    //     console.log("StatisComponent.ngOnChanges", data);
-    // }
-
-   
-
-    constructor(private log: Logger, private sensorsSharedService: SensorsSharedService, elementRef: ElementRef) {
+    public refreshSlider() {
+        // hotfix - nevim uplne proc, ale funguje to ...
+        setTimeout(() => {
+            if (this.slider) {
+                this.slider.relayout();
+            }
+        }, 1)
     }
 
     private initSlider(firstDate: Date) {
-        this.sensorsSharedService.publishEvent(Events.sliderNewDate, firstDate);
-        // this.removeSlider();
+        // this.sensorsSharedService.publishEvent(Events.sliderNewDate, firstDate);
+        this.removeSlider();
         let oldDate = firstDate;
 
         // console.log("start ", firstDate);
@@ -103,10 +119,8 @@ export class StatisComponent implements AfterViewInit {
 
         // console.log(ticks);
         // console.log(ticks_labels);
-
-        this.log.debug("init slider - ", this.statisType)
         // let elem = this.elementRef.nativeElement.shadowRoot.querySelector('#' + this.statisId);
-        this.slider = new Slider('#' + this.statisId, {
+        this.slider = new Slider('#' + this.sliderId, {
             ticks: ticks,
             ticks_labels: ticks_labels,
             ticks_snap_bounds: diff / 24,
@@ -114,9 +128,9 @@ export class StatisComponent implements AfterViewInit {
             // definice zobrazeni datoveho modelu uzivateli v tooltipu 
             formatter: function (value) {
                 // console.log(value)
-                return new Date(value[0]).toLocaleString() + " : " + new Date(value[1]).toLocaleString();
+                return new Date(value[0]).toLocaleDateString() + " : " + new Date(value[1]).toLocaleDateString();
             },
-            id: this.sliderId,
+            id: this.sliderIdInternal,
         });
 
         this.sliderEvent.asObservable()
@@ -133,7 +147,7 @@ export class StatisComponent implements AfterViewInit {
                     let devicedetailParams = <DeviceDetailParams>{
                         start: new Date(time1),
                         stop: new Date(time2),
-                        devEUI: this.devEUI,
+                        // devEUI: this.devEUI,
                         //limit: 5,
                         payloadType: PayloadType.ARF8084BA,
                         order: Order.asc,
@@ -150,39 +164,5 @@ export class StatisComponent implements AfterViewInit {
             this.sliderEvent.next(newDate);
         });
 
-    }
-  
-    private getDateFormatForTable(date: Date): string {
-        let dateFormat = date.toLocaleDateString();
-        switch (this.statisType) {
-            case StatisType.HOUR: {
-                dateFormat = date.toLocaleString();
-                break;
-            }
-        }
-        return dateFormat;
-    }
-
-
-    // ngOnInit() {
-    //     console.log(' [ngOnInit]: ', this.statisType);
-    // }
-
-    ngAfterViewInit(): void {
-        // console.log(' [ngAfterViewInit]: ', this.statisType);
-        // default
-        // let start = new Date().getTime() - DateUtils.DAY_IN_MILIS;
-        // let start2 = new Date().getTime();
-        // this.slider = new Slider('#' + this.statisId, {
-        //     ticks: [start, start2],
-        //     ticks_labels: [new Date(start).toLocaleDateString(), new Date(start2).toLocaleDateString()],
-        //     ticks_snap_bounds: 2,
-        //     formatter: function (value) {
-        //         // console.log(value)
-        //         return new Date(value).toLocaleString();
-        //     },
-        //     id: this.sliderId,
-        // });
-        // this.slider.disable();
     }
 }

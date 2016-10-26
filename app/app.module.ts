@@ -9,6 +9,7 @@ import { TabTestComponent } from './components/test/test.tabs.char.component';
 import { SliderComponent } from './components/slider.component';
 import { StatisticsComponent } from './components/statistics/statistics.component';
 import { StatisComponent } from './components/statistics/statis.component';
+import { SliderStatisComponent } from './components/statistics/slider.component';
 import { TabsStatisComponent } from './components/statistics/tabs.statis.component';
 import { TableStatisComponent } from './components/statistics/table.component';
 import { ChartComponent } from './components/statistics/chart.component';
@@ -59,6 +60,7 @@ import { Collapse } from "./directives/collapse.directive"
     LoadingComponent,
     ChartComponent,
     SenzorMenuComponent,
+    SliderStatisComponent,
     // Collapse,
     ],
   bootstrap: [AppComponent]

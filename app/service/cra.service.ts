@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Logger } from "angular2-logger/core";
 import { DeviceDetail } from '../entity/device/device-detail';
 import { Devices } from '../entity/device/devices';
+import { SensorStatistics } from '../utils/statis-utils';
 
 import { Http, Response, Headers, RequestOptions } from '@angular/http';
 import 'rxjs/add/operator/toPromise';
@@ -21,6 +22,10 @@ export class CRaService {
   private deviceBaseUrl = 'device/get/'
   private deviceDetailBaseUrl = 'message/get/'
   private token = "kBPIDfNdSfk8fkATerBa6ct6yshdPbOX";
+
+  private restProxy2 = "http://10.0.106.69:8080/"
+  private device = 'device/'
+  private statis = '/statistics'
   
   constructor(private log: Logger, private http: Http) { }
 
@@ -49,6 +54,33 @@ export class CRaService {
         return deviceDetail
       })
       .catch(this.handleErrorObservable);
+  }
+
+  getDeviceDetailNew(params: DeviceDetailParams): Observable<SensorStatistics> {
+    // var devEUI = params.devEUI;
+    // var payloadType =  params.payloadType;
+    // var publisher = params.publisher;
+    // this.log.debug("CRaService.getDeviceDetail() init. ", params);
+    return this.http.get(this.getDevicDetailUrlNew(params)).
+       map(response => {
+        // this.log.debug("CRaService.getDeviceDetail() return ", response.json());
+        let deviceDetail = response.json() as SensorStatistics
+        // deviceDetail.devEUI = devEUI;
+        // deviceDetail.publisher = publisher;
+        return deviceDetail
+      })
+      .catch(this.handleErrorObservable);
+  }
+
+  private getDevicDetailUrlNew(params: DeviceDetailParams): string {
+    let url = this.restProxy2 + this.device + params.devEUI + this.statis;
+
+    if (params.start) {
+      url += '?date=' + this.dateToString(params.start);
+    }
+
+    this.log.debug("CRaService.getDevicDetailUrlNew() " +  url )
+    return url
   }
 
   private getDevicDetailUrl(params: DeviceDetailParams): string {

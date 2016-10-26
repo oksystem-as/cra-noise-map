@@ -39,9 +39,9 @@ export class TableStatisComponent { // implements OnChanges {
       .subscribe(statistics => {
         this.clearTableData();
         statistics.forEach(statis => {
-          if (statis.statisType === this.statisType) {
-            statis.statistic.forEach(data => {
-              this.addTableData(Math.round(data.logAverange), data.time);
+          if (statis.type === this.statisType) {
+            statis.avgValues.forEach(value => {
+              this.addTableData(Math.round(value.avgValue), value.date);
             })
           }
         });

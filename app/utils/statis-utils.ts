@@ -8,23 +8,28 @@ import { RHF1S001Payload } from '../payloads/RHF1S001Payload';
 import { DeSenseNoisePayload } from '../payloads/DeSenseNoisePayload';
 
 export enum StatisType {
-    HOUR,
-    DAY6_22,
-    DAY18_22,
-    NIGHT22_6,
-    DAY24,
-    WEEK,
-    MONTH,
+    HOUR = <any>"HOUR",
+    DAY6_22 = <any>"DAY6_22",
+    DAY18_22 = <any>"DAY18_22",
+    NIGHT22_6 = <any>"NIGHT22_6",
+    DAY24 = <any>"DAY24",
+    WEEK = <any>"WEEK",
+    MONTH = <any>"MONTH",
+}
+
+export class SensorStatistics {
+    devEUI: string;
+    statistics: Statistics[];
 }
 
 export class Statistics {
-    statisType: StatisType;
-    statistic: Statistic[];
+    type: StatisType;
+    avgValues: Statistic[];
 }
 
 export class Statistic {
-    time: Date;
-    logAverange: number;
+    date: Date;
+    avgValue: number;
 }
 
 /**
@@ -42,7 +47,7 @@ export class StatisticsUtils {
         let count = daysStatistic.length;
 
         daysStatistic.forEach((statis) => {
-            let powValue = Math.pow(10, statis.logAverange / 10)
+            let powValue = Math.pow(10, statis.avgValue / 10)
             sumValue += powValue;
         })
 
@@ -57,14 +62,14 @@ export class StatisticsUtils {
      */
     public static resolveAllLogAverangeListEvent(data: Sensor): Observable<Statistics[]> {
         return Observable.forkJoin(
-            this.resolveLogAverangeListEvent(data, StatisType.HOUR     ).map(data => <Statistics>{statisType: StatisType.HOUR, statistic: data}),
-            this.resolveLogAverangeListEvent(data, StatisType.DAY18_22 ).map(data => <Statistics>{statisType: StatisType.DAY18_22, statistic: data}),
-            this.resolveLogAverangeListEvent(data, StatisType.DAY24    ).map(data => <Statistics>{statisType: StatisType.DAY24, statistic: data}),
-            this.resolveLogAverangeListEvent(data, StatisType.DAY6_22  ).map(data => <Statistics>{statisType: StatisType.DAY6_22, statistic: data}),
-            this.resolveLogAverangeListEvent(data, StatisType.NIGHT22_6).map(data => <Statistics>{statisType: StatisType.NIGHT22_6, statistic: data}),
-            this.resolveLogAverangeListEvent(data, StatisType.WEEK     ).map(data => <Statistics>{statisType: StatisType.WEEK, statistic: data}),
-            this.resolveLogAverangeListEvent(data, StatisType.MONTH    ).map(data => <Statistics>{statisType: StatisType.MONTH, statistic: data}),            
-        ); 
+            this.resolveLogAverangeListEvent(data, StatisType.HOUR).map(data => <Statistics>{ type: StatisType.HOUR, avgValues: data }),
+            this.resolveLogAverangeListEvent(data, StatisType.DAY18_22).map(data => <Statistics>{ type: StatisType.DAY18_22, avgValues: data }),
+            this.resolveLogAverangeListEvent(data, StatisType.DAY24).map(data => <Statistics>{ type: StatisType.DAY24, avgValues: data }),
+            this.resolveLogAverangeListEvent(data, StatisType.DAY6_22).map(data => <Statistics>{ type: StatisType.DAY6_22, avgValues: data }),
+            this.resolveLogAverangeListEvent(data, StatisType.NIGHT22_6).map(data => <Statistics>{ type: StatisType.NIGHT22_6, avgValues: data }),
+            this.resolveLogAverangeListEvent(data, StatisType.WEEK).map(data => <Statistics>{ type: StatisType.WEEK, avgValues: data }),
+            this.resolveLogAverangeListEvent(data, StatisType.MONTH).map(data => <Statistics>{ type: StatisType.MONTH, avgValues: data }),
+        );
     }
 
     /**
@@ -94,7 +99,7 @@ export class StatisticsUtils {
 
             let logAverange = 10 * Math.log(sumValue / count) / Math.log(10);
 
-            return { time: groupTime, logAverange: logAverange };
+            return { date: groupTime, avgValue: logAverange };
         });
     }
 
@@ -123,7 +128,7 @@ export class StatisticsUtils {
             // logaritm. prumer ze souctu a poctu polozek (jen pro danou hodinu)
             let logAvgDataStream = sumDataStream.map((data, idx) => {
                 // console.log(' [datax]: ', data);
-                let avgObj = { time: data.time, logAverange: 10 * Math.log(data.sumValue / data.count) / Math.log(10) };
+                let avgObj = { date: data.time, avgValue: 10 * Math.log(data.sumValue / data.count) / Math.log(10) };
                 return avgObj;
             })
 

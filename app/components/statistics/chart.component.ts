@@ -6,7 +6,7 @@ import { SensorsSharedService, Events } from '../sensors-shared.service';
 import { Sensor } from '../../entity/sensor';
 import { Payload, PayloadType } from '../../payloads/payload';
 import { ObjectUtils, RandomUtils, DateUtils } from '../../utils/utils';
-import { StatisticsUtils } from '../../utils/statis-utils';
+import { StatisticsUtils, StatisType } from '../../utils/statis-utils';
 
 import { ARF8084BAPayload } from '../../payloads/ARF8084BAPayload';
 import { RHF1S001Payload } from '../../payloads/RHF1S001Payload';
@@ -16,15 +16,6 @@ import { GroupedObservable } from 'rxjs/operator/groupBy';
 import { BehaviorSubject } from "rxjs/Rx";
 import 'rxjs/Rx';
 import { ChartsModule } from 'ng2-charts/ng2-charts';
-export enum StatisType {
-    HOUR,
-    DAY6_22,
-    DAY18_22,
-    NIGHT22_6,
-    DAY24,
-    WEEK,
-    MONTH,
-}
 
 @Component({
     moduleId: module.id,
@@ -148,10 +139,11 @@ export class ChartComponent { //implements AfterViewInit {
         var source = sensorsSharedService.listenEventData(Events.statistics)
             .subscribe(statistics => {
                 this.clearChartAndTable();
+                console.log(statistics)
                 statistics.forEach(statis => {
-                    if(statis.statisType === this.statisType){
-                        statis.statistic.forEach(data => {
-                            this.addChartData(Math.round(data.logAverange), data.time);
+                    if(statis.type === this.statisType){
+                        statis.avgValues.forEach(value => {
+                            this.addChartData(Math.round(value.avgValue), value.date);
                         })
                     }
                 });

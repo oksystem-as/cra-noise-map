@@ -59,13 +59,13 @@
     <tab heading="Denní 24h" ><chart [statisType]="4"></chart></tab>
     <tab heading="Týdenní" ><chart [statisType]="5"></chart></tab>
     <tab heading="Měsíční"><chart [statisType]="6"></chart></tab>-->
-    <tab heading="Hodinový" (select)="statis1.refreshSlider($event)"><statis #statis1 [statisType]="0"></statis></tab>
-    <tab heading="Denní 6-22" (select)="statis2.refreshSlider($event)"><statis #statis2 [statisType]="1"></statis></tab>
-    <tab heading="Denní 18-22" (select)="statis3.refreshSlider($event)"><statis #statis3 [statisType]="2"></statis></tab>
-    <tab heading="Noční 22-6" (select)="statis4.refreshSlider($event)"><statis #statis4 [statisType]="3"></statis></tab>
-    <tab heading="Denní 24h" (select)="statis5.refreshSlider($event)"><statis #statis5 [statisType]="4"></statis></tab>
-    <tab heading="Týdenní" (select)="statis6.refreshSlider($event)"><statis #statis6 [statisType]="5"></statis></tab>
-    <tab heading="Měsíční" (select)="statis7.refreshSlider($event)"><statis #statis7 [statisType]="6"></statis></tab>
+    <tab heading="Hodinový" (select)="statis1.refreshSlider($event)"><statis #statis1 [statisType]="HOUR"></statis></tab>
+    <tab heading="Denní 6-22" (select)="statis2.refreshSlider($event)"><statis #statis2 [statisType]="DAY6_22"></statis></tab>
+    <tab heading="Denní 18-22" (select)="statis3.refreshSlider($event)"><statis #statis3 [statisType]="DAY18_22"></statis></tab>
+    <tab heading="Noční 22-6" (select)="statis4.refreshSlider($event)"><statis #statis4 [statisType]="NIGHT22_6"></statis></tab>
+    <tab heading="Denní 24h" (select)="statis5.refreshSlider($event)"><statis #statis5 [statisType]="DAY24"></statis></tab>
+    <tab heading="Týdenní" (select)="statis6.refreshSlider($event)"><statis #statis6 [statisType]="WEEK"></statis></tab>
+    <tab heading="Měsíční" (select)="statis7.refreshSlider($event)"><statis #statis7 [statisType]="MONTH"></statis></tab>
   </tabset>
 
 </div>

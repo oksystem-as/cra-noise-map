@@ -16,7 +16,7 @@ import { Devices, DeviceRecord } from '../entity/device/devices';
 import { Payload, PayloadType } from '../payloads/payload';
 import { Sensor } from '../entity/sensor';
 import { DateUtils, MonthList } from '../utils/utils';
-import { StatisticsUtils, Statistics, Statistic } from '../utils/statis-utils';
+import { StatisticsUtils, Statistics, Statistic,SensorStatistics } from '../utils/statis-utils';
 
 export class OverlayGroup {
     overlays: Overlay[];
@@ -217,6 +217,19 @@ export class SensorsSharedService {
                 return sensor;
             })
     }
+
+    private loadSensorNew(devicedetailParams: DeviceDetailParams): Observable<SensorStatistics> {
+        // this.log.debug("SensorsSharedService.loadSensor()", devicedetailParams);
+        return this.craService.getDeviceDetailNew(devicedetailParams)
+            .filter(response => {
+                return response != undefined && response.statistics != undefined && response.statistics instanceof Array
+            });
+            // .map((response, idx) => {
+            //     console.log("loadSensorNew", response) ;
+            //     return {};
+            // })
+    }
+
 
     private getPayloadType(deviceRecord: DeviceRecord) {
         if (deviceRecord.model == "ARF8084BA") {
