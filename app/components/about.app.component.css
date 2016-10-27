@@ -1,0 +1,22 @@
+#aboutAppTextZone {
+  position: relative;
+  margin-right: 13px;
+  margin-top: 5px;
+  min-width: 450;
+  min-height: 250;
+}
+
+#about-app-button-down {
+  position: relative;
+  background-color: transparent;
+  width: 38px;
+  height: 38px;
+  margin-right: 20px;
+  padding-top: 10px;
+}
+
+#logoOkSystem {
+  position: relative;
+  margin-left: 152px;
+  top: -24px;
+}

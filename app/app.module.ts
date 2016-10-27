@@ -20,6 +20,7 @@ import { SearchComponent } from './components/map/search.component';
 import { OverlaysSearchComponent } from './components/map/overlays.search.component';
 import { LogoComponent } from './components/map/logo.component';
 import { LoadingComponent } from './components/loading.component';
+import { AboutAppComponent } from './components/about.app.component';
 
 
 import { HttpModule }    from '@angular/http';
@@ -61,6 +62,7 @@ import { Collapse } from "./directives/collapse.directive"
     ChartComponent,
     SenzorMenuComponent,
     SliderStatisComponent,
+    AboutAppComponent,
     // Collapse,
     ],
   bootstrap: [AppComponent]
