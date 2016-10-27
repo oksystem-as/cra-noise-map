@@ -35,7 +35,7 @@ export class StatisComponent implements AfterViewInit {
     @Input()
     public statisType: StatisType = StatisType.DAY24;
 
-    public statisType2: StatisType = StatisType.DAY24;
+    public statisType2: StatisType = StatisType.DAY6_22;
 
 
     public refreshSlider(data) {

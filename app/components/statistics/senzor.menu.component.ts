@@ -6,6 +6,7 @@ import { Sensor } from '../../entity/sensor';
 import { Payload, PayloadType } from '../../payloads/payload';
 import { ObjectUtils, ArrayUtils } from '../../utils/utils';
 import { CRaService, DeviceDetailParams, DeviceParams, Order } from '../../service/cra.service';
+import { StatisticsUtils, Statistics, Statistic, SensorStatistics } from '../../utils/statis-utils';
 
 @Component({
   selector: 'senzor-menu',
@@ -14,9 +15,9 @@ import { CRaService, DeviceDetailParams, DeviceParams, Order } from '../../servi
 })
 
 export class SenzorMenuComponent {
-  private sensors: Sensor[] = [];
+  private sensors: SensorStatistics[] = [];
   // private sensorsAnimate: Sensor[] = [];
-  private selectedSensor: Sensor;
+  private selectedSensor: SensorStatistics;
 
   private init = true;
   // private sliderNewDate = SensorsSharedService.minDateLimit;
@@ -37,14 +38,14 @@ export class SenzorMenuComponent {
     // })
 
     this.sensorsSharedService.listenEventData(Events.loadSensor).filter((sensor) => { return sensor != undefined })
-      .subscribe((sensor: Sensor) => {
-        ArrayUtils.replaceOrAddObject(this.sensors, sensor, (sen) => { return sen.devEUI === sensor.devEUI })
+      .subscribe((sensorStatistics: SensorStatistics) => {
+        ArrayUtils.replaceOrAddObject(this.sensors, sensorStatistics, (sen) => { return sen.devEUI === sensorStatistics.devEUI })
         this.selectedSensor = null;
       })
 
     // zvyrazneni vybraneho
-    this.sensorsSharedService.listenEventData(Events.selectSensor).subscribe((sensor: Sensor) => {
-      this.selectedSensor = sensor;
+    this.sensorsSharedService.listenEventData(Events.selectSensor).subscribe((sensorStatistics: SensorStatistics) => {
+      this.selectedSensor = sensorStatistics;
     });
 
   }
@@ -68,12 +69,12 @@ export class SenzorMenuComponent {
     this.sensorsSharedService.publishEvent(Events.runAnimation, sensor, "MenuComponent.onClickAnim");
   }
 
-  private onClick(sensor: Sensor) {
+  private onClick(sensor: SensorStatistics) {
     this.selectedSensor = sensor;
     this.sensorsSharedService.publishEvent(Events.selectSensor, sensor, "MenuComponent.onClick")
     this.devicedetailParamsDefault.devEUI = sensor.devEUI;
-    this.devicedetailParamsDefault.payloadType = sensor.payloadType;
-    this.devicedetailParamsDefault.publisher = "menuItem"
+    // this.devicedetailParamsDefault.payloadType = sensor.payloadType;
+    // this.devicedetailParamsDefault.publisher = "menuItem"
     this.sensorsSharedService.loadStatisticsData(this.devicedetailParamsDefault);
   }
 }

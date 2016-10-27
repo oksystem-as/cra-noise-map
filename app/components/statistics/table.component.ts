@@ -15,6 +15,8 @@ export class TableStatisComponent { // implements OnChanges {
   data: any[] = []
   labels: any[] = []
 
+  private limit: number;
+
   @Input()
   public statisType: StatisType = StatisType.DAY24;
 
@@ -28,7 +30,7 @@ export class TableStatisComponent { // implements OnChanges {
     this.labels.length = 0;
   }
 
-  updateTable(){
+  updateTable() {
     this.changeDetectorRef.detectChanges();
   }
 
@@ -36,9 +38,9 @@ export class TableStatisComponent { // implements OnChanges {
     changeDetectorRef.detach();
 
     var source = sensorsSharedService.listenEventData(Events.statistics)
-      .subscribe(statistics => {
+      .subscribe(sensorStatistics => {
         this.clearTableData();
-        statistics.forEach(statis => {
+        sensorStatistics.statistics.forEach(statis => {
           if (statis.type === this.statisType) {
             statis.avgValues.forEach(value => {
               this.addTableData(Math.round(value.avgValue), value.date);
@@ -48,5 +50,9 @@ export class TableStatisComponent { // implements OnChanges {
         this.updateTable();
         // this.sensorsSharedService.publishEvent(Events.showMasterLoading, false);
       });
+  }
+
+  ngAfterViewInit(): void {
+    this.limit = StatisticsUtils.getLimit(this.statisType);
   }
 }
