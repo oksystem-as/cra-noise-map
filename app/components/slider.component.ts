@@ -23,7 +23,6 @@ import 'rxjs/Rx';
 export class SliderComponent implements AfterViewInit {
     private sliderId = "sliderInput"
     private slider: Slider;
-    // private selectedDate: number;
 
     constructor(private log: Logger, private sensorsSharedService: SensorsSharedService) {
         sensorsSharedService.listenEventData(Events.mapInstance).subscribe(map => {
@@ -72,35 +71,18 @@ export class SliderComponent implements AfterViewInit {
             this.slider.on("slideStop", newDate => {
                 this.sensorsSharedService.publishEvent(Events.sliderNewDate, new Date(newDate), "SliderComponent.slideStop event");
                 let time = parseInt(newDate.toString());
-                // this.selectedDate = this.slider.getValue();
                 this.log.debug("slideStop - newDate: " + newDate)
 
                 if (newDate != undefined) {
-                    let truncDateStart = DateUtils.getDayFlatDate(new Date(parseInt(newDate.toString(), 10)));
-                    let truncDateStop = DateUtils.getMidnight(new Date(parseInt(newDate.toString(), 10)));
-                    let devicedetailParams = <DeviceDetailParams>{
-                        start : truncDateStart,
-                        stop : truncDateStop,
-                        limit: 1,
-                        order: Order.asc
-
-                    }
                     // todo udelat nad exist daty
-                    // this.sensorsSharedService.loadSensorsAndPublish(devicedetailParams);
+                    this.sensorsSharedService.loadSensorsAndPublish(DateUtils.getDayFlatDate(new Date(parseInt(newDate.toString(), 10))));
                 }
             });
 
             map.controls[google.maps.ControlPosition.BOTTOM_LEFT].push(document.getElementById("rectangle3"));
-
-            // po kazdem nacteni se nastavi vybrane datum 
-            // this.sensorsSharedService.setSelectedDate(this.selectedDate);
-
-
-            // this.sensorsSharedService.getSelectedDate().subscribe(date => {
-            //     if (date != undefined) {
-            //         this.slider.setValue(date);
-            //     }
-            // });
+            
+            // vybran je aktulani cas (neprovede se slideStop)
+            this.slider.setValue(new Date().getTime());
         });
     }
 

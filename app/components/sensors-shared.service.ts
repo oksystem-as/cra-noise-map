@@ -59,7 +59,7 @@ export class AggregatorEvent<T> {
 
 @Injectable()
 export class SensorsSharedService {
-    // POZOR mesic je o jedna
+    // POZOR mesic je o jedna nizsi
     // http://stackoverflow.com/questions/1453043/zero-based-month-numbering 
     public static minDateLimit = new Date(2016, MonthList.Cervenec, 18);
     private eventAggregator: Subject<AggregatorEvent<any>> = new Subject<AggregatorEvent<any>>();
@@ -68,23 +68,24 @@ export class SensorsSharedService {
     private baseNoise = 30;
     private aRF8084BAPayloadResolver = new ARF8084BAPayloadResolver();
     private rHF1S001PayloadResolver = new RHF1S001PayloadResolver();
-    private listLocationSensor: { devEUI: string, latitude: number, name: string, longtitude: number, latitudeText: string, longtitudeText: string, noise: number, index: number }[] = [
-        { devEUI: "0018B20000000336", name: "OKsystem           ", latitude: 50.052853, longtitude: 14.439492, latitudeText: "50°03'10.3\"", longtitudeText: "14°29'22.2\"", noise: this.baseNoise, index: 10 },
-        { devEUI: "0018B20000000165", name: "Kongresové centrum ", latitude: 50.062028, longtitude: 14.428990, latitudeText: "50°04'10.3\"", longtitudeText: "14°28'22.2\"", noise: this.baseNoise, index: 2 },
-        { devEUI: "0018B2000000016E", name: "Třebotovská        ", latitude: 50.039161, longtitude: 14.389049, latitudeText: "50°02'10.3\"", longtitudeText: "14°25'22.2\"", noise: this.baseNoise, index: 20 },
-        { devEUI: "0018B20000000337", name: "Trhanovské náměstí ", latitude: 50.051616, longtitude: 14.525933, latitudeText: "50°05'10.3\"", longtitudeText: "14°20'22.2\"", noise: this.baseNoise, index: 7 },
-        { devEUI: "0018B2000000033C", name: "Světovova          ", latitude: 50.105831, longtitude: 14.474953, latitudeText: "50°03'10.3\"", longtitudeText: "14°23'22.2\"", noise: this.baseNoise, index: 3 },
-        { devEUI: "0018B2000000033A", name: "U Roztockého háje  ", latitude: 50.142034, longtitude: 14.391308, latitudeText: "50°04'10.3\"", longtitudeText: "14°22'22.2\"", noise: this.baseNoise, index: 10 },
-        { devEUI: "0018B20000000339", name: "K točné            ", latitude: 49.966399, longtitude: 14.442805, latitudeText: "50°08'10.3\"", longtitudeText: "14°21'22.2\"", noise: this.baseNoise, index: 4 },
-        { devEUI: "0018B20000000335", name: "Na petynce         ", latitude: 50.089150, longtitude: 14.377480, latitudeText: "50°09'10.3\"", longtitudeText: "14°27'22.2\"", noise: this.baseNoise, index: 4 },
+    private location: { devEUI: string, latitude: number, name: string, longtitude: number, latitudeText: string, longtitudeText: string}[] = [
+        { devEUI: "0004A30B0019D0EA", name: "Náměstí bratří synků", latitude: 50.064227, longtitude: 14.441406, latitudeText: "50°03'51.2\"", longtitudeText: "14°26'29.1\""},
+        { devEUI: "0018B20000000336", name: "OKsystem            ", latitude: 50.052853, longtitude: 14.439492, latitudeText: "50°03'10.3\"", longtitudeText: "14°29'22.2\"" },
+        { devEUI: "0018B20000000165", name: "Kongresové centrum  ", latitude: 50.062028, longtitude: 14.428990, latitudeText: "50°04'10.3\"", longtitudeText: "14°28'22.2\"" },
+        { devEUI: "0018B2000000016E", name: "Třebotovská         ", latitude: 50.039161, longtitude: 14.389049, latitudeText: "50°02'10.3\"", longtitudeText: "14°25'22.2\"" },
+        { devEUI: "0018B20000000337", name: "Trhanovské náměstí  ", latitude: 50.051616, longtitude: 14.525933, latitudeText: "50°05'10.3\"", longtitudeText: "14°20'22.2\"" },
+        { devEUI: "0018B2000000033C", name: "Světovova           ", latitude: 50.105831, longtitude: 14.474953, latitudeText: "50°03'10.3\"", longtitudeText: "14°23'22.2\"" },
+        { devEUI: "0018B2000000033A", name: "U Roztockého háje   ", latitude: 50.142034, longtitude: 14.391308, latitudeText: "50°04'10.3\"", longtitudeText: "14°22'22.2\"" },
+        { devEUI: "0018B20000000339", name: "K točné             ", latitude: 49.966399, longtitude: 14.442805, latitudeText: "50°08'10.3\"", longtitudeText: "14°21'22.2\"" },
+        { devEUI: "0018B20000000335", name: "Na petynce          ", latitude: 50.089150, longtitude: 14.377480, latitudeText: "50°09'10.3\"", longtitudeText: "14°27'22.2\"" },
     ]
 
-    private location: { devEUI: string, name: string,  latitude: number, longtitude: number, latitudeText: string, longtitudeText: string }[] = [{
-        devEUI: "0004A30B0019D0EA", name: "Náměstí bratří synků", latitude: 50.064227, longtitude: 14.441406, latitudeText: "50°03'51.2\"N", longtitudeText: "14°26'29.1\"E",
-    }]
+    // private location: { devEUI: string, name: string,  latitude: number, longtitude: number, latitudeText: string, longtitudeText: string }[] = [{
+    //     devEUI: "0004A30B0019D0EA", name: "Náměstí bratří synků", latitude: 50.064227, longtitude: 14.441406, latitudeText: "50°03'51.2\"N", longtitudeText: "14°26'29.1\"E",
+    // }]
 
-    // private deviceList = ["0018B20000000165", "0018B20000000336", "0018B2000000016E", "0018B20000000337", "0018B2000000033C", "0018B2000000033A", "0018B20000000339", "0018B20000000335",]
-    private deviceList = ["0004A30B0019D0EA"];
+    private deviceList = ["0004A30B0019D0EA", "0018B20000000165", "0018B20000000336", "0018B2000000016E", "0018B20000000337", "0018B2000000033C", "0018B2000000033A", "0018B20000000339", "0018B20000000335",]
+    // private deviceList = ["0004A30B0019D0EA"];
     private deviceType = PayloadType.ARF8084BA;
     // ------------ TEST DATA ------------
 
@@ -141,10 +142,17 @@ export class SensorsSharedService {
         this.eventAggregator = new Subject<AggregatorEvent<any>>();
     }
 
-
+    /**
+     * nacte sensory
+     * default date je aktulani datum
+     */
     loadSensorsAndPublish(date?: Date) {
         console.log("SensorsSharedService.loadSensors()", date);
-        this.publishEvent(Events.loadSensors, this.loadSensors(new Date(2016, 9, 25), this.deviceList), "SensorsSharedService.loadSensors");
+        let dateInt = date;
+        if(!dateInt){
+            dateInt = DateUtils.getDayFlatDate(new Date())
+        }
+        this.publishEvent(Events.loadSensors, this.loadSensors(dateInt, this.deviceList), "SensorsSharedService.loadSensors");
     }
 
     loadStatisticsData(deviceDetailParams?: DeviceDetailParams) {
@@ -231,7 +239,7 @@ export class SensorsSharedService {
             .filter(response => {
                 return response != undefined && response.statistics != undefined && response.statistics instanceof Array
             }).map((response, idx) => {
-                console.log("loadSensorNew", response);
+                //console.log("loadSensorNew", response);
                 this.addLocationAndDate(response);
                 return response;
             })
