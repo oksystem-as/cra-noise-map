@@ -83,26 +83,26 @@ export class ChartComponent implements AfterViewInit {
         },
         maintainAspectRatio: true,
         responsive: false,
-        onClick: this.pointClick,
+        onClick: this.pointClick.bind(this, this.sensorsSharedService),
     }
-
 
     private dataChart = {
         data: this.linearChartData,
         options: this.globalOptions
     }
 
-    pointClick (evt) {
-        let chart: any = this.chart;
-        var activeElement = chart.controller.getElementAtEvent(evt) as any[];
-        if (activeElement && activeElement.length > 0) {
-            let date = chart.data.datasets[activeElement[0]._datasetIndex].dataLabels[activeElement[0]._datasetIndex];
-            let value = chart.data.datasets[activeElement[0]._datasetIndex].data[activeElement[0]._index];
-            this.sensorsSharedService.publishEvent(Events.chartPointSelected, { statisType: this.statisType, pointDate: date, pointValue: value })
-            console.log(activeElement, value, chart.data.labels[activeElement[0]._datasetIndex]);
-        } else {
-            console.log("klikni na bod");
-        }
+    pointClick (sensorsSharedService, evt, chartElement: any[]) {
+        if (chartElement && chartElement.length > 0) {
+            let date = this.chart.data.datasets[chartElement[0]._datasetIndex].dataLabels[chartElement[0]._index] as Date;
+            let value = this.chart.data.datasets[chartElement[0]._datasetIndex].data[chartElement[0]._index];
+            sensorsSharedService.publishEvent(Events.chartPointSelected, { statisType: this.statisType, pointDate: date, pointValue: value })
+            this.sensorsSharedService.publishEvent(Events.sliderNewDate, date, "ChartComponent.pointClick");
+            this.sensorsSharedService.loadSensorsAndPublish(DateUtils.getDayFlatDate(date));
+            // console.log(chartElement, value, date);
+        } 
+        // else {
+        //     console.log("klikni na bod");
+        // }
     }
 
 

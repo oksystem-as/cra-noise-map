@@ -66,7 +66,7 @@ export class SenzorMenuComponent {
 
   private onClickAnim(sensor: Sensor) {
     // this.sensorsSharedService.setAnimationSensor(sensor);
-    this.sensorsSharedService.publishEvent(Events.runAnimation, sensor, "MenuComponent.onClickAnim");
+    // this.sensorsSharedService.publishEvent(Events.runAnimation, sensor, "MenuComponent.onClickAnim");
   }
 
   private onClick(sensor: SensorStatistics) {
