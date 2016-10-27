@@ -34,10 +34,10 @@ export class SliderStatisComponent { // implements OnChanges {
     constructor( private log: Logger, private sensorsSharedService: SensorsSharedService, elementRef: ElementRef) {
         // changeDetectorRef.detach(); private changeDetectorRef: ChangeDetectorRef,
         var source = sensorsSharedService.listenEventData(Events.statistics)
-            .subscribe(statistics => {
+            .subscribe(sensorStatistics => {
                 // this.clearChartAndTable();
                 // console.log(statistics)
-                statistics.forEach(statis => {
+                sensorStatistics.statistics.forEach(statis => {
                     if (statis.type == StatisType.HOUR) {
                         let minDate = new Date().getTime();
                         statis.avgValues.forEach(value => {

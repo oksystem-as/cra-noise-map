@@ -137,10 +137,10 @@ export class ChartComponent { //implements AfterViewInit {
 
     constructor(private log: Logger, private sensorsSharedService: SensorsSharedService, elementRef: ElementRef) {
         var source = sensorsSharedService.listenEventData(Events.statistics)
-            .subscribe(statistics => {
+            .subscribe(sensorStatistics => {
                 this.clearChartAndTable();
-                console.log(statistics)
-                statistics.forEach(statis => {
+                console.log(sensorStatistics)
+                sensorStatistics.statistics.forEach(statis => {
                     if(statis.type === this.statisType){
                         statis.avgValues.forEach(value => {
                             this.addChartData(Math.round(value.avgValue), value.date);

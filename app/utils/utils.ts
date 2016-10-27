@@ -175,16 +175,21 @@ export class DateUtils {
         var d: string[] = a[0].split("-");
 
         // 07:55:32 , 0000
-        var time: string[] = a[1].split("+");
+        if(a[1].includes(".")){
+          var time: string[] = a[1].split(".");
+        } else{
+          var time: string[] = a[1].split("+");
+        }
+      
 
         // 07, 55, 32 
         var t: string[] = time[0].split(":");
 
         // 0000
-        var tMilis: string = time[1];
+        // var tMilis: string = time[1];
 
         // "+"" znamena prevod na cislo
-        var date = new Date(+d[0], +d[1] - 1, +d[2], +t[0], +t[1], +t[2], +tMilis);;
+        var date = new Date(+d[0], +d[1] - 1, +d[2], +t[0], +t[1], +t[2]);;
         return date;
     }
 

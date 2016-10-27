@@ -1,4 +1,4 @@
-import { Component, AfterViewInit, ViewChild } from '@angular/core';
+import { Component, ViewEncapsulation, AfterViewInit, ViewChild } from '@angular/core';
 import { Logger } from "angular2-logger/core";
 import { Observable } from "rxjs/Observable";
 import { Scheduler } from "rxjs/Scheduler";
@@ -23,6 +23,7 @@ import { ObjectUtils, ColorUtils, DateUtils } from '../utils/utils';
   selector: 'map',
   templateUrl: 'app/components/map.component.html',
   styleUrls: ['app/components/map.component.css'],
+  encapsulation: ViewEncapsulation.None
 })
 export class MapComponent implements AfterViewInit {
   private mapId = "map"
@@ -203,7 +204,7 @@ export class MapComponent implements AfterViewInit {
     })
 
     // zvyrazneni vybraneho
-    this.sensorsSharedService.listenEventData(Events.selectSensor).subscribe((sensor: Sensor) => {
+    this.sensorsSharedService.listenEventData(Events.selectSensor).subscribe((sensor: SensorStatistics) => {
       // this.markersMap.
       this.markersMap.forEach((marker, key) => {
         // console.log("getSelectedSensor foundc ", key, marker);
@@ -227,7 +228,7 @@ export class MapComponent implements AfterViewInit {
     });
 
     this.sensorsSharedService.listenEventData(Events.loadSensors).subscribe(() => {
-      // pri kazdem reloadu se markerz jakoby zresetuji  
+      // pri kazdem reloadu se markery jakoby zresetuji  
       this.markersMap.forEach((marker, key) => {
         marker.setIcon(this.getGrayIcon());
         marker.showData = false;
@@ -253,7 +254,7 @@ export class MapComponent implements AfterViewInit {
       // sensor.showData = false;
       sensor.statistics.forEach((statistics: Statistics) => {
         if (statistics.type === StatisType.DAY24) {
-          var infowindow = this.createInfoWindow(sensor);
+          var infowindow = this.createInfoWindow(sensor, statistics.avgValues[0].avgValue, statistics.avgValues[0].date);
           this.createMarker(sensor.latitude, sensor.longtitude, infowindow, statistics.avgValues[0].avgValue, sensor);
         }
         // je v rozmezi hodiny od vybraneho data
@@ -273,17 +274,17 @@ export class MapComponent implements AfterViewInit {
     }
   }
 
-  private createInfoWindow(sensor: SensorStatistics): google.maps.InfoWindow {
+  private createInfoWindow(sensor: SensorStatistics, dayAvgVal: number, date: Date): google.maps.InfoWindow {
     let text =
       "<strong>Čidlo:</strong> " + sensor.name + "<br> " +
-      "<strong>Datum měření hluku:</strong> " + sensor.statistics[0].avgValues[0].date + "<br> " +
-      "<strong>Aktuální hodnota hluku:</strong> " + sensor.statistics[0].avgValues[0].avgValue + "dB<br> <br>" +
+      "<strong>Datum měření hluku:</strong> " + date.toLocaleDateString() + "<br> " +
+      "<strong>Aktuální hodnota hluku:</strong> " + Math.round(dayAvgVal) + "dB<br> <br>" +
       "<strong>Průměrné hladiny hluku:</strong>" +
-      " <table class='table'> " + //class='table table-striped'
+      " <table class='table table-striped point-statis-table'> " + //class='table table-striped'
       " <thead><tr><th>Interval měření</th><th>hodnota</th></tr></thead>";
 
       sensor.statistics.forEach(statistis => {
-         text += " <tr><th>" + statistis.type + "</th><td> "+ statistis.avgValues[0].avgValue + "dB</td> ";
+         text += " <tr><th>" + statistis.type + "</th><td> "+ Math.round(statistis.avgValues[0].avgValue) + "dB</td> ";
       })
      
     return new google.maps.InfoWindow({
@@ -309,10 +310,10 @@ export class MapComponent implements AfterViewInit {
     marker.addListener('click', () => {
       this.sensorsSharedService.publishEvent(Events.showMasterLoading, true);
       this.sensorsSharedService.publishEvent(Events.selectSensor, marker.sensor, "MapComponent.markerClick");
-      this.devicedetailParamsDefault.devEUI = marker.sensor.devEUI;
-      this.devicedetailParamsDefault.payloadType = marker.sensor.payloadType;
-      this.devicedetailParamsDefault.publisher = "markerItem"
-      this.sensorsSharedService.loadStatisticsData(this.devicedetailParamsDefault);
+      // this.devicedetailParamsDefault.devEUI = marker.sensor.devEUI;
+      // this.devicedetailParamsDefault.payloadType = marker.sensor.payloadType;
+      // this.devicedetailParamsDefault.publisher = "markerItem"
+      this.sensorsSharedService.loadStatisticsData(<DeviceDetailParams>{devEUI: marker.sensor.devEUI, publisher: "markerItem"});
     });
 
     marker.addListener('mouseover', () => {

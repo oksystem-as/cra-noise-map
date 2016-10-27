@@ -37,11 +37,11 @@ export interface IEvent<T> {
 
 export class Events {
     public static runAnimation: IEvent<Sensor> = { name: "runAnimation" };
-    public static selectSensor: IEvent<Sensor> = { name: "selectSensor" };
+    public static selectSensor: IEvent<SensorStatistics> = { name: "selectSensor" };
     public static sliderNewDate: IEvent<Date> = { name: "sliderNewDate" };
     public static startAnimation: IEvent<Sensor> = { name: "startAnimation" };
     public static mapOverlays: IEvent<OverlayGroup[]> = { name: "mapOverlays" };
-    public static statistics: IEvent<Statistics[]> = { name: "statistics" };
+    public static statistics: IEvent<SensorStatistics> = { name: "statistics" };
     // public static beforeLoadSensors: IEvent<string> = { name: "beforeLoadSensors" };
     public static loadSensors: IEvent<Observable<SensorStatistics>> = { name: "loadSensors" };
     public static loadSensor: IEvent<SensorStatistics> = { name: "loadSensor" };
@@ -146,16 +146,15 @@ export class SensorsSharedService {
         this.publishEvent(Events.loadSensors, this.loadSensors(new Date(2016, 9, 25), this.deviceList), "SensorsSharedService.loadSensors");
     }
 
-    loadStatisticsData(devicedetailParams: DeviceDetailParams) {
-        this.log.debug("SensorsSharedService.loadStatisticsData() ", devicedetailParams);
-        // this.loadSensor(devicedetailParams)
-        //     .filter(data => {
-        //         return data != undefined && data.payloads != undefined 
-        //     }).subscribe(sensor => {
-        //         StatisticsUtils.resolveAllLogAverangeListEvent(sensor).subscribe(list => {
-        //             this.publishEvent(Events.statistics, list);
-        //         });
-        //     });
+    loadStatisticsData(deviceDetailParams?: DeviceDetailParams) {
+        this.log.debug("SensorsSharedService.loadStatisticsData() ");
+
+        this.loadSensorNew(deviceDetailParams)
+            .filter(data => {
+                return data != undefined && data.statistics != undefined 
+            }).subscribe(statistics => {
+                this.publishEvent(Events.statistics, statistics);
+            });
     }
 
     // private loadSensorsWithDefaultParam(deviceDetailParams?: DeviceDetailParams): Observable<Sensor> {
@@ -232,12 +231,12 @@ export class SensorsSharedService {
                 return response != undefined && response.statistics != undefined && response.statistics instanceof Array
             }).map((response, idx) => {
                 console.log("loadSensorNew", response);
-                this.addLocation(response);
+                this.addLocationAndDate(response);
                 return response;
             })
     }
 
-    private addLocation(sensorStatistics: SensorStatistics) {
+    private addLocationAndDate(sensorStatistics: SensorStatistics) {
         this.location.forEach(location => {
             if(location.devEUI === sensorStatistics.devEUI){
                 sensorStatistics.name = location.name;
@@ -245,7 +244,13 @@ export class SensorsSharedService {
                 sensorStatistics.latitudeText = location.latitudeText;
                 sensorStatistics.longtitude = location.longtitude;
                 sensorStatistics.longtitudeText = location.longtitudeText;
-            }
+            } 
+        })
+
+        sensorStatistics.statistics.forEach(statis =>{
+            statis.avgValues.forEach(value => {
+                value.date = DateUtils.parseDate(value.date);
+            })
         })
     }
 

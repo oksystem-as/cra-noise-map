@@ -36,9 +36,9 @@ export class TableStatisComponent { // implements OnChanges {
     changeDetectorRef.detach();
 
     var source = sensorsSharedService.listenEventData(Events.statistics)
-      .subscribe(statistics => {
+      .subscribe(sensorStatistics => {
         this.clearTableData();
-        statistics.forEach(statis => {
+        sensorStatistics.statistics.forEach(statis => {
           if (statis.type === this.statisType) {
             statis.avgValues.forEach(value => {
               this.addTableData(Math.round(value.avgValue), value.date);
