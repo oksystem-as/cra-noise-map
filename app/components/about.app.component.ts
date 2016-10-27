@@ -7,5 +7,6 @@ import { Logger } from "angular2-logger/core";
   styleUrls: ['app/components/about.app.component.css'],
 })
 export class AboutAppComponent {
-
+    //collapse content
+    public isHidden: boolean = true;
 }

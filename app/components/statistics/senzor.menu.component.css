@@ -21,15 +21,18 @@
   font-size: 14px; 
 }
 
-.buttons {
+.senzorDropMenu {
   z-index: 10 !important;
-  margin-right: 230;
+  /*margin-right: 230;
   margin-top: 20px;
   width: 200px;
+  height: 38px;*/
+  margin-right: 10px;
+  margin-top: 22px;
   height: 38px;
 }
 
-.buttons > ul {
+.senzorDropMenu > ul {
   border-radius: 4px 4px 4px 4px;
   -moz-border-radius: 4px 4px 4px 4px;
   -webkit-border-radius: 4px 4px 4px 4px;
@@ -38,12 +41,12 @@
   -moz-box-shadow: 0px 0px 10px 4px rgba(0,0,0,0.19);
   box-shadow: 0px 0px 10px 4px rgba(0,0,0,0.19);
   background-color: white;
-  height: 38px;
-  width: 200px;
+  height: 100%;
+  width: 100%;
 }
 
-.buttons > ul > li {
-  width: 38px;
+.senzorDropMenu > ul > li {
+  /*width: 38px;*/
   height: 38px;
 }
 
@@ -51,12 +54,13 @@
   margin-left: 10px
 }
 
-.buttons > ul > li > a {
+.senzorDropMenu > ul > li > a {
   border-radius: 4px 4px 4px 4px;
   -moz-border-radius: 4px 4px 4px 4px;
   -webkit-border-radius: 4px 4px 4px 4px;
-  width: 172px;
-  height: 38px;
+  /*width: 172px;
+  height: 38px;*/
+  height: 100%;
   padding-top: 7px;
   text-align: center;
   font-size: 14px;
@@ -64,13 +68,13 @@
   font-family: Roboto,Arial,sans-serif;
 }
 
-.buttons > ul > li > ul {
+.senzorDropMenu > ul > li > ul {
   z-index: 10;
-  width: 200px;
+  /*width: 200px;*/
 }
 
 .senzorListIcoDown {
-  position: relative;
+  /*position: relative;*/
   margin-left: -13px;
   margin-top: -3px;
 }
@@ -88,28 +92,21 @@
   padding-left: 1px;
 }
 
-#senzor-button-down {
+/*#senzor-button-down {
   position: relative;
-}
+}*/
 
-#senzor-button-up {
+/*#senzor-button-up {
   position: relative;
   width: 200px;
-}
+}*/
 
 .selectedSenzorName {
   margin-left: 1px;
 }
 
-.statisButton {
-  margin-top: 5px;
-  margin-left: 435px;
-  margin-top: -39px;
-  margin-left: 540px;
-}
-
 /*MOBILE*/
-.buttons-M {
+.senzorDropMenu-M {
   height: 38px;
   background-color: white;
   z-index: 15 !important;

@@ -6,8 +6,8 @@
   width:  590px;
   height: 407px !important;
 
-  margin-left: -400px;
-  margin-top: 14px;
+  /*margin-left: -400px;
+  margin-top: 14px;*/
 
   border-radius: 4px 4px 4px 4px;
   -moz-border-radius: 4px 4px 4px 4px;
@@ -19,12 +19,11 @@
 }
 
 /*STANDARD*/
-.statButton {
-  background-color: white;
+.statStandard {
+  /*background-color: white;*/
+  margin-top: 22px;
   margin-right: 10px;
-  margin-top: -58.2px;
   height: 38px;
-  width: 190px;
 
   border-radius: 4px 4px 4px 4px;
   -moz-border-radius: 4px 4px 4px 4px;
@@ -36,28 +35,38 @@
 }
 
 .statListIco {
-  margin-left: 5px;
-  margin-top: 3px;
-  position: relative;
+      margin-left: -8px;
+    margin-top: -3px;
+  /*position: relative;*/
 }
 
 .description {
-  position: relative;
+  /*position: relative;*/
 
-  background-color: white;
+  /*background-color: white;
   font-family: Roboto,Arial,sans-serif;
   font-size: 14px;
-  text-align: center;
+  text-align: center;*/
 
-  margin-left: 44px;
+  /*margin-left: 44px;
   margin-right: 5px;
   margin-top: 5px;
-  top: -27px;
+  top: -27px;*/
+  color: #337ab7;
+  z-index: 5;
+}
+
+#statButtonArrow {
+  color: #337ab7;
 }
 
 #hiddenButton {
-  margin-left: 105px;
-  margin-top: 4px;
+  /*margin-left: 105px;
+  margin-top: 4px;*/
+  background-color: white;
+  border-color: white;
+  height: 100%;
+  /*width: 100%;*/
 }
 
 /*MOBILE*/
