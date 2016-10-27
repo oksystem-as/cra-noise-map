@@ -238,7 +238,7 @@ export class MapComponent implements AfterViewInit {
     });
 
     this.sensorsSharedService.listenEventData(Events.loadSensor).filter((sensor: SensorStatistics) => {
-      return sensor != undefined && sensor.statistics != undefined && sensor.statistics.length > 0
+      return sensor != undefined && sensor.statistics != undefined //&& sensor.statistics.length > 0
     }).subscribe((sensor: SensorStatistics) => {
       // console.log("New sensor event (Events.loadSensor): ", sensor)
       this.removeMarkers(sensor.devEUI);
@@ -253,14 +253,19 @@ export class MapComponent implements AfterViewInit {
       // }
       // if (sensor.payloadType == PayloadType.ARF8084BA) {
       // sensor.showData = false;
+      let foundDAY24 = false;
       sensor.statistics.forEach((statistics: Statistics) => {
         if (statistics.type === StatisType.DAY24) {
+          foundDAY24 = true;
           var infowindow = this.createInfoWindow(sensor, statistics.avgValues[0].avgValue, statistics.avgValues[0].date);
-          this.createMarker(sensor.latitude, sensor.longtitude, infowindow, statistics.avgValues[0].avgValue, sensor);
+          this.createMarker(sensor.latitude, sensor.longtitude, infowindow, statistics.avgValues[0].avgValue, sensor, true);
         }
         // je v rozmezi hodiny od vybraneho data
         // sensor.showData = DateUtils.isBetween_dayIntervalFromMidnight(payload.createdAt, this.sliderNewDate);
       });
+      if(!foundDAY24){    
+         this.createMarker(sensor.latitude, sensor.longtitude, null, null, sensor, false);
+      }
       // }
 
     });
@@ -294,19 +299,19 @@ export class MapComponent implements AfterViewInit {
     });
   }
 
-  private createMarker(latitude: number, longtitude: number, infoWin: google.maps.InfoWindow, value: number, sensor: SensorStatistics): google.maps.Marker {
+  private createMarker(latitude: number, longtitude: number, infoWin: google.maps.InfoWindow, value: number, sensor: SensorStatistics, showData: boolean): google.maps.Marker {
     var marker: any = new google.maps.Marker({
       position: new google.maps.LatLng(latitude, longtitude),
       map: this.map,
       //animation: google.maps.Animation.DROP,
-      //icon: sensor.showData ? this.getColorIcon(value) : this.getGrayIcon(),
-      icon: this.getColorIcon(value),
+      icon: showData ? this.getColorIcon(value) : this.getGrayIcon(),
+      // icon: this.getColorIcon(value),
       // title: value + "dB",
     });
 
     marker.sensor = sensor;
     marker.isPermSelected = false;
-    marker.showData = true //sensor.showData;
+    marker.showData = showData //sensor.showData;
 
     marker.addListener('click', () => {
       this.sensorsSharedService.publishEvent(Events.showMasterLoading, true);
@@ -329,7 +334,9 @@ export class MapComponent implements AfterViewInit {
 
     marker.addListener('mouseout', () => {
       marker.setIcon(this.decorateAsNotSelectedPerm(marker.getIcon(), marker.isPermSelected));
-      infoWin.close();
+      if (marker.showData) {
+        infoWin.close();
+      }
     });
 
     this.markersMap.set(sensor.devEUI, marker);
