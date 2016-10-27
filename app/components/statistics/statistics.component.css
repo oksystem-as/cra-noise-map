@@ -1,4 +1,4 @@
-#statistics {
+#statisticsId {
   z-index: -1;
 
   font-family: Roboto,Arial,sans-serif; 
@@ -6,8 +6,8 @@
   width:  590px;
   height: 407px !important;
 
-  /*margin-left: -400px;
-  margin-top: 14px;*/
+  margin-right: 10px;
+  margin-top: 10px;
 
   border-radius: 4px 4px 4px 4px;
   -moz-border-radius: 4px 4px 4px 4px;
@@ -20,7 +20,6 @@
 
 /*STANDARD*/
 .statStandard {
-  /*background-color: white;*/
   margin-top: 22px;
   margin-right: 10px;
   height: 38px;
@@ -35,23 +34,11 @@
 }
 
 .statListIco {
-      margin-left: -8px;
-    margin-top: -3px;
-  /*position: relative;*/
+  margin-left: -8px;
+  margin-top: -3px;
 }
 
 .description {
-  /*position: relative;*/
-
-  /*background-color: white;
-  font-family: Roboto,Arial,sans-serif;
-  font-size: 14px;
-  text-align: center;*/
-
-  /*margin-left: 44px;
-  margin-right: 5px;
-  margin-top: 5px;
-  top: -27px;*/
   color: #337ab7;
   z-index: 5;
 }
@@ -61,12 +48,9 @@
 }
 
 #hiddenButton {
-  /*margin-left: 105px;
-  margin-top: 4px;*/
   background-color: white;
   border-color: white;
   height: 100%;
-  /*width: 100%;*/
 }
 
 /*MOBILE*/

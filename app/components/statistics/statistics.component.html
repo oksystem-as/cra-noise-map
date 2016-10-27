@@ -1,5 +1,5 @@
 <!--STANDARD-->
-<div id="statisticsId" class="statStandard" *hideItDevice="['mobile']">
+<div id="statisticsButtonId" class="statStandard" *hideItDevice="['mobile']">
     <button *ngIf="isHidden" type="button" class="btn btn-primary statisButton" id="hiddenButton" (click)="isHidden = false" data-toggle="collapse"
         tooltip="Rozbalit statistiky" tooltipPopupDelay="1500" tooltipPlacement="left"> 
           <img class="statListIco" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAABQklEQVRYhe2VsUoEMRCGv5Etoq7iVsIhNiqI+AbCgbW2V1rugf2WXnVYiFY2opb6AFaCD+AjuAgeFhbCWd3pcViIsXG9uG4RdE2a/SEs84fJfEyyCfhWquJaquI5X/UDhD0QBTR8AIz5KFoBmArM4EbFTZCFkaMR5Hjl9eTeCYAILcD4IwTQd4AbgLI1WDvaBFk0rHfQF+H19oMTAI3sCyx/dwXgMIv+9RCKxfrWHehGSSjI14Ja67fZ3sHwt3CZrDrwFCWrAi+g+9kQod+NkmknAIAq8AJKOEPeLyLvAH9u4WCpvQO0TU9rLqc6rQ2b/DI6MFnghbbJ3regAqgAKoAKIH8VN/j58t0CQ2C9IP8ZOAWucn7v87sFTOTmOmYg6Xh8BjKvYdeWukQ9Zh2oC9Td19fnkqq4Bsy4Lw6MtsqfPgAW8UBU6szqawAAAABJRU5ErkJggg==">
@@ -12,15 +12,11 @@
           <img class="statListIco" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAABQklEQVRYhe2VsUoEMRCGv5Etoq7iVsIhNiqI+AbCgbW2V1rugf2WXnVYiFY2opb6AFaCD+AjuAgeFhbCWd3pcViIsXG9uG4RdE2a/SEs84fJfEyyCfhWquJaquI5X/UDhD0QBTR8AIz5KFoBmArM4EbFTZCFkaMR5Hjl9eTeCYAILcD4IwTQd4AbgLI1WDvaBFk0rHfQF+H19oMTAI3sCyx/dwXgMIv+9RCKxfrWHehGSSjI14Ja67fZ3sHwt3CZrDrwFCWrAi+g+9kQod+NkmknAIAq8AJKOEPeLyLvAH9u4WCpvQO0TU9rLqc6rQ2b/DI6MFnghbbJ3regAqgAKoAKIH8VN/j58t0CQ2C9IP8ZOAWucn7v87sFTOTmOmYg6Xh8BjKvYdeWukQ9Zh2oC9Td19fnkqq4Bsy4Lw6MtsqfPgAW8UBU6szqawAAAABJRU5ErkJggg==">
           <span class="description"> Statistiky čidla</span>
           <span class="glyphicon glyphicon-menu-up" aria-hidden="true" id="statButtonArrow"></span>
-    </button>
-
-    <div id="statistics" [collapse]="isHidden">
-        <tabs-statis></tabs-statis>
-    </div>
+    </button>   
 </div>
 
 <!--MOBILE-->
-<div id="statisticsId" class="statMobile" *showItDevice="['mobile']">
+<div id="statisticsButtonId" class="statMobile" *showItDevice="['mobile']">
     <div class="statButton-M">
         <button *ngIf="isHidden" type="button" class="btn btn-primary statisButton" (click)="isHidden = false" id="stat-button-down"> 
             <img class="statListIco-M" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAABQklEQVRYhe2VsUoEMRCGv5Etoq7iVsIhNiqI+AbCgbW2V1rugf2WXnVYiFY2opb6AFaCD+AjuAgeFhbCWd3pcViIsXG9uG4RdE2a/SEs84fJfEyyCfhWquJaquI5X/UDhD0QBTR8AIz5KFoBmArM4EbFTZCFkaMR5Hjl9eTeCYAILcD4IwTQd4AbgLI1WDvaBFk0rHfQF+H19oMTAI3sCyx/dwXgMIv+9RCKxfrWHehGSSjI14Ja67fZ3sHwt3CZrDrwFCWrAi+g+9kQod+NkmknAIAq8AJKOEPeLyLvAH9u4WCpvQO0TU9rLqc6rQ2b/DI6MFnghbbJ3regAqgAKoAKIH8VN/j58t0CQ2C9IP8ZOAWucn7v87sFTOTmOmYg6Xh8BjKvYdeWukQ9Zh2oC9Td19fnkqq4Bsy4Lw6MtsqfPgAW8UBU6szqawAAAABJRU5ErkJggg==">    
@@ -29,9 +25,10 @@
         <button *ngIf="!isHidden" type="button" class="btn btn-default statisButton" (click)="isHidden = true" id="stat-button-up"> 
             <img class="statListIco-M" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAABQklEQVRYhe2VsUoEMRCGv5Etoq7iVsIhNiqI+AbCgbW2V1rugf2WXnVYiFY2opb6AFaCD+AjuAgeFhbCWd3pcViIsXG9uG4RdE2a/SEs84fJfEyyCfhWquJaquI5X/UDhD0QBTR8AIz5KFoBmArM4EbFTZCFkaMR5Hjl9eTeCYAILcD4IwTQd4AbgLI1WDvaBFk0rHfQF+H19oMTAI3sCyx/dwXgMIv+9RCKxfrWHehGSSjI14Ja67fZ3sHwt3CZrDrwFCWrAi+g+9kQod+NkmknAIAq8AJKOEPeLyLvAH9u4WCpvQO0TU9rLqc6rQ2b/DI6MFnghbbJ3regAqgAKoAKIH8VN/j58t0CQ2C9IP8ZOAWucn7v87sFTOTmOmYg6Xh8BjKvYdeWukQ9Zh2oC9Td19fnkqq4Bsy4Lw6MtsqfPgAW8UBU6szqawAAAABJRU5ErkJggg==">   
         </button>
-
-        <div id="statistics" [collapse]="isHidden">
-            <tabs-statis></tabs-statis>
-        </div>
     </div>
+</div>
+
+
+<div id="statisticsId" [collapse]="isHidden">
+   <tabs-statis></tabs-statis>
 </div>
