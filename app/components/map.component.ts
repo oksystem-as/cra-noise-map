@@ -48,7 +48,8 @@ export class MapComponent implements AfterViewInit {
   private initMap() {
     this.map = new google.maps.Map(document.getElementById(this.mapId), {
       zoom: 12,
-      center: { lat: 50.053942, lng: 14.437404 },
+      //center: { lat: 50.053942, lng: 14.437404 }, // OKsystem
+      center: { lat:  50.064227, lng: 14.441406 }, // nam brat. synk
       mapTypeId: google.maps.MapTypeId.ROADMAP,
       mapTypeControl: true,
       mapTypeControlOptions: {

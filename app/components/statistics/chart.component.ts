@@ -75,8 +75,8 @@ export class ChartComponent { //implements AfterViewInit {
             }]
         },
         defaultColor: "blue",
-        legend:{
-            display : false,
+        legend: {
+            display: false,
         },
         // scales: {
         //       yAxes: [{
@@ -101,7 +101,16 @@ export class ChartComponent { //implements AfterViewInit {
         // datasetStrokeWidth: 2,
         maintainAspectRatio: true,
         responsive: false,
-        // onClick: handleClick,
+        // onClick: this.handleClick,
+        onClick: function on(evt) {
+            var activeElement = this.getElementAtEvent(evt) as any[];
+            if (activeElement && activeElement.length > 0) {
+                //  console.log("bod", this);
+                console.log(activeElement, this.data.datasets[activeElement[0]._datasetIndex].data[activeElement[0]._index], this.data.labels[activeElement[0]._datasetIndex]);
+            } else {
+                console.log("klikni na bod");
+            }
+        }
     }
 
     private dataChart = {
@@ -187,5 +196,14 @@ export class ChartComponent { //implements AfterViewInit {
         if (!this.limit) {
             this.linearChartData.datasets.splice(1, 1);
         }
+
+        //     function handleClick(evt) {
+        //     var activeElement = this.chart.getElementAtEvent(evt) as any[];
+        //     if (activeElement && activeElement.length > 0) {
+        //         console.log(activeElement, this.chart.data.datasets[activeElement[0]._datasetIndex].data[activeElement[0]._index], this.chart.data.labels[activeElement[0]._datasetIndex]);
+        //     } else {
+        //         console.log("klikni na bod");
+        //     }
+        // }
     }
 }
