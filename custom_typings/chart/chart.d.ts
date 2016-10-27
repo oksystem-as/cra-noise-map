@@ -245,6 +245,7 @@ declare namespace Chart {
       tension?: number
       yAxisID?: string
       data: Array<number>
+      dataLabels?: Array<Object>
     }>
   }
 

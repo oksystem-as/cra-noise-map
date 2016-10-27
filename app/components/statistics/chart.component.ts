@@ -24,10 +24,9 @@ import { ChartsModule } from 'ng2-charts/ng2-charts';
     styleUrls: ['chart.component.css'],
     // encapsulation: ViewEncapsulation.Native
 })
-export class ChartComponent { //implements AfterViewInit {
+export class ChartComponent implements AfterViewInit {
     @Input()
     public statisType: StatisType = StatisType.DAY24;
-
     private statistic: Statistics;
     private limit: number;
     private chart: Chart.LineChartInstance;
@@ -37,6 +36,8 @@ export class ChartComponent { //implements AfterViewInit {
         labels: [],
         datasets: [{
             data: [],
+            // jen pro odlozeni objektu Date
+            dataLabels: [],
             pointBackgroundColor: [],
             borderWidth: 2,
             borderColor: "#FF7E99",
@@ -62,60 +63,48 @@ export class ChartComponent { //implements AfterViewInit {
         // showLines: true,
         //  stacked:  true,
         scales: {
-            // xAxes: [{
-            //     reverse: true,
-            //     ticks: {
-            //         beginAtZero: true
-            //     }
-            // }],
             yAxes: [{
                 ticks: {
                     beginAtZero: true
                 }
-            }]
+            }],
+            // xAxes: [{
+            //     ticks: {
+            //         callback: function on(evt: any) {
+            //             console.log("tiscks", evt);
+            //             return evt.toLocaleDateString();
+            //         }
+            //     }
+            // }]
         },
         defaultColor: "blue",
         legend: {
             display: false,
         },
-        // scales: {
-        //       yAxes: [{
-        //         ticks: {
-        //             beginAtZero:true
-        //         }
-        //     }]
-        // }
-        //defaultColor: "#FF7E99", 
-        // scaleShowGridLines: true,
-        // scaleGridLineColor: "#FF7E99",
-        // borderColor: "#FF7E99",
-        // backgroundColor: "#FF7E99",
-        // scaleGridLineWidth: 1,
-        // bezierCurve: true,
-        // bezierCurveTension: 0.4,
-        // pointDot: true,
-        // pointDotRadius: 4,
-        // pointDotStrokeWidth: 1,
-        // pointHitDetectionRadius: 20,
-        // datasetStroke: true,
-        // datasetStrokeWidth: 2,
         maintainAspectRatio: true,
         responsive: false,
-        // onClick: this.handleClick,
-        onClick: function on(evt) {
-            var activeElement = this.getElementAtEvent(evt) as any[];
-            if (activeElement && activeElement.length > 0) {
-                console.log(activeElement, this.data.datasets[activeElement[0]._datasetIndex].data[activeElement[0]._index], this.data.labels[activeElement[0]._datasetIndex]);
-            } else {
-                console.log("klikni na bod");
-            }
-        }
+        onClick: this.pointClick,
     }
+
 
     private dataChart = {
         data: this.linearChartData,
         options: this.globalOptions
     }
+
+    pointClick (evt) {
+        let chart: any = this.chart;
+        var activeElement = chart.controller.getElementAtEvent(evt) as any[];
+        if (activeElement && activeElement.length > 0) {
+            let date = chart.data.datasets[activeElement[0]._datasetIndex].dataLabels[activeElement[0]._datasetIndex];
+            let value = chart.data.datasets[activeElement[0]._datasetIndex].data[activeElement[0]._index];
+            this.sensorsSharedService.publishEvent(Events.chartPointSelected, { statisType: this.statisType, pointDate: date, pointValue: value })
+            console.log(activeElement, value, chart.data.labels[activeElement[0]._datasetIndex]);
+        } else {
+            console.log("klikni na bod");
+        }
+    }
+
 
     private updateChart() {
         this.chart.update();
@@ -127,6 +116,7 @@ export class ChartComponent { //implements AfterViewInit {
         let datasetLine = this.dataChart.data.datasets[1];
         let labels = this.dataChart.data.labels;
         dataset.data.push(data);
+        dataset.dataLabels.push(date);
         labels.push(date.toLocaleDateString());
         if (this.limit) {
             if (data > this.limit) {
@@ -139,14 +129,14 @@ export class ChartComponent { //implements AfterViewInit {
     }
 
 
-    private clearChartAndTable() {
+    private clearChartData() {
         if (this.linearChartData) {
             let dataset = this.dataChart.data.datasets[0];
             let labels = this.dataChart.data.labels;
             dataset.data.length = 0;
             (dataset.pointBackgroundColor as string[]).length = 0;
             labels.length = 0;
-
+            dataset.dataLabels.length = 0;
         }
     }
 
@@ -156,7 +146,7 @@ export class ChartComponent { //implements AfterViewInit {
             // console.log("ChartComponent listen statisSlider", data);
             if (data.statisType === this.statisType) {
                 // console.log("ChartComponent listen statisSlider je tam", data);
-                this.clearChartAndTable();
+                this.clearChartData();
                 this.statistic.avgValues.forEach(statis => {
                     // console.log("ChartComponent listen statisSlider statis ", statis);
                     if (data.startDate.getTime() < statis.date.getTime() && statis.date.getTime() < data.endDate.getTime()) {
@@ -174,7 +164,7 @@ export class ChartComponent { //implements AfterViewInit {
                 // console.log(sensorStatistics)
                 sensorStatistics.statistics.forEach(statis => {
                     if (statis.type === this.statisType) {
-                        this.clearChartAndTable();
+                        this.clearChartData();
                         this.statistic = statis;
                         statis.avgValues.forEach(value => {
                             this.addChartData(Math.round(value.avgValue), value.date);
