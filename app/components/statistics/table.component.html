@@ -9,7 +9,7 @@
 		</thead>
 		<tbody>
 
-			<tr *ngFor="let label of labels, let ndx = index">
+			<tr *ngFor="let label of labels, let ndx = index" [class.offLimit]="limit != undefined && data[ndx] > limit" [class.underLimit]="limit == undefined || data[ndx] <= limit" >
 				<th>{{label}}</th>
 				<td>{{data[ndx]}}</td>
 			</tr>

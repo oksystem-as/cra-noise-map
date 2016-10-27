@@ -28,6 +28,7 @@ export class ChartComponent { //implements AfterViewInit {
     @Input()
     public statisType: StatisType = StatisType.DAY24;
 
+    private limit: number;
     private chart: Chart.LineChartInstance;
     public chartId = "chartId" + RandomUtils.getRandom();
     public sliderId = "sliderId" + RandomUtils.getRandom();
@@ -115,14 +116,16 @@ export class ChartComponent { //implements AfterViewInit {
         let labels = this.linearChartData.labels;
         dataset.data.push(data);
         labels.push(date.toLocaleDateString());
-        let limit = 83;
-        if (data > limit) {
-            (dataset.pointBackgroundColor as string[]).push("#FF7E99");
-        } else {
-            (dataset.pointBackgroundColor as string[]).push("rgb(108, 216, 106)");
+        if (this.limit) {
+            if (data > this.limit) {
+                (dataset.pointBackgroundColor as string[]).push("#FF7E99");
+            } else {
+                (dataset.pointBackgroundColor as string[]).push("rgb(108, 216, 106)");
+            }
+            datasetLine.data.push(this.limit);
         }
-        datasetLine.data.push(limit);
     }
+
 
     private clearChartAndTable() {
         if (this.linearChartData) {
@@ -139,9 +142,9 @@ export class ChartComponent { //implements AfterViewInit {
         var source = sensorsSharedService.listenEventData(Events.statistics)
             .subscribe(sensorStatistics => {
                 this.clearChartAndTable();
-                console.log(sensorStatistics)
+                // console.log(sensorStatistics)
                 sensorStatistics.statistics.forEach(statis => {
-                    if(statis.type === this.statisType){
+                    if (statis.type === this.statisType) {
                         statis.avgValues.forEach(value => {
                             this.addChartData(Math.round(value.avgValue), value.date);
                         })
@@ -156,5 +159,10 @@ export class ChartComponent { //implements AfterViewInit {
         var canvas = <HTMLCanvasElement>document.getElementById(this.chartId);
         var ctx: CanvasRenderingContext2D = canvas.getContext("2d");
         this.chart = Chart.Line(ctx, this.data);
+        this.limit = StatisticsUtils.getLimit(this.statisType);
+
+        if (!this.limit) {
+            this.linearChartData.datasets.splice(1, 1);
+        }
     }
 }

@@ -37,10 +37,34 @@ export class Statistic {
     avgValue: number;
 }
 
+ 
+
 /**
  * utility pro vypocet statistik
  */
 export class StatisticsUtils {
+
+    private static limits: { statisType: StatisType, limit: number }[] = [
+        { statisType: StatisType.HOUR, limit: undefined },
+        { statisType: StatisType.DAY6_22, limit: 60 },
+        { statisType: StatisType.DAY18_22, limit: undefined },
+        { statisType: StatisType.NIGHT22_6, limit: 50 },
+        { statisType: StatisType.DAY24, limit: undefined },
+        { statisType: StatisType.WEEK, limit: undefined },
+        { statisType: StatisType.MONTH, limit: undefined },
+    ]
+    
+    /**
+     * k zadanemu statisType vraci definovany limit hluku
+     */
+    public static getLimit(statisType: StatisType): number{
+        for (var index = 0; index < this.limits.length; index++) {
+            var limitInt = this.limits[index];
+             if( limitInt.statisType === statisType){
+                return limitInt.limit;
+            }
+        }
+    }
 
     /**
      * Pro zadany list statistic spocita log prumer vsech hodnot.
