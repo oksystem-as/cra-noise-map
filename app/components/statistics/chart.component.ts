@@ -105,7 +105,6 @@ export class ChartComponent { //implements AfterViewInit {
         onClick: function on(evt) {
             var activeElement = this.getElementAtEvent(evt) as any[];
             if (activeElement && activeElement.length > 0) {
-                //  console.log("bod", this);
                 console.log(activeElement, this.data.datasets[activeElement[0]._datasetIndex].data[activeElement[0]._index], this.data.labels[activeElement[0]._datasetIndex]);
             } else {
                 console.log("klikni na bod");
