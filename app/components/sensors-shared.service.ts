@@ -273,57 +273,57 @@ export class SensorsSharedService {
         }
     }
 
-    private reslovePayload(payloadType: PayloadType, payload: String, sensor: Sensor): Payload {
-        if (payloadType == PayloadType.ARF8084BA) {
-            // this.log.debug("je to ARF8084BA " + payload)
-            let payloadint = this.aRF8084BAPayloadResolver.resolve(payload);
-            // fake data 
-            this.listLocationSensor.forEach(element => {
-                if (element.devEUI === sensor.devEUI) {
-                    payloadint.latitude = element.latitude;
-                    payloadint.longtitude = element.longtitude;
-                    payloadint.latitudeText = element.longtitudeText;
-                    payloadint.longtitudeText = element.latitudeText;
-                    payloadint.temp = Math.floor(((Math.random() * 100)));
-                    payloadint.status.GPSInfoIsPresent = true;
-                    sensor.name = element.name;
-                    // console.log(Math.floor(Math.sin(element.index++ / 30) * 10));
-                    // element.noise += Math.floor(Math.sin(element.index++ / 30) * 10)
-                    // element.noise = Math.floor(element.noise);
-                    // console.log(element.noise, this.listLocationSensor);
-                    // console.log(Math.floor(((Math.random() * 10) / 2))); ((Math.random() * 10) / 2)
-                    // if (element.noise > 80 && element.noise > 40) {
+    // private reslovePayload(payloadType: PayloadType, payload: String, sensor: Sensor): Payload {
+    //     if (payloadType == PayloadType.ARF8084BA) {
+    //         // this.log.debug("je to ARF8084BA " + payload)
+    //         let payloadint = this.aRF8084BAPayloadResolver.resolve(payload);
+    //         // fake data 
+    //         this.listLocationSensor.forEach(element => {
+    //             if (element.devEUI === sensor.devEUI) {
+    //                 payloadint.latitude = element.latitude;
+    //                 payloadint.longtitude = element.longtitude;
+    //                 payloadint.latitudeText = element.longtitudeText;
+    //                 payloadint.longtitudeText = element.latitudeText;
+    //                 payloadint.temp = Math.floor(((Math.random() * 100)));
+    //                 payloadint.status.GPSInfoIsPresent = true;
+    //                 sensor.name = element.name;
+    //                 // console.log(Math.floor(Math.sin(element.index++ / 30) * 10));
+    //                 // element.noise += Math.floor(Math.sin(element.index++ / 30) * 10)
+    //                 // element.noise = Math.floor(element.noise);
+    //                 // console.log(element.noise, this.listLocationSensor);
+    //                 // console.log(Math.floor(((Math.random() * 10) / 2))); ((Math.random() * 10) / 2)
+    //                 // if (element.noise > 80 && element.noise > 40) {
 
-                    // } else {
-                    // element.noise += Math.floor(((Math.random() * 10) / 2));
-                    // }
+    //                 // } else {
+    //                 // element.noise += Math.floor(((Math.random() * 10) / 2));
+    //                 // }
 
-                    // if (Math.round(((Math.random()))) == 0) {
-                    //     payloadint.status.GPSInfoIsPresent = false;
-                    //       payloadint.latitude = null;
-                    //     payloadint.longtitude = element.longtitude;
-                    // } else {
-                    //     payloadint.status.GPSInfoIsPresent = true;
-                    //     payloadint.latitude = element.latitude;
-                    //     payloadint.longtitude = element.longtitude;
-                    //     // console.log(Math.floor(Math.sin(element.index++ / 30) * 10));
-                    //     // element.noise += Math.floor(Math.sin(element.index++ / 30) * 10)
-                    // }
-                    // payloadint.temp = Math.floor(((Math.random() * 100)));
+    //                 // if (Math.round(((Math.random()))) == 0) {
+    //                 //     payloadint.status.GPSInfoIsPresent = false;
+    //                 //       payloadint.latitude = null;
+    //                 //     payloadint.longtitude = element.longtitude;
+    //                 // } else {
+    //                 //     payloadint.status.GPSInfoIsPresent = true;
+    //                 //     payloadint.latitude = element.latitude;
+    //                 //     payloadint.longtitude = element.longtitude;
+    //                 //     // console.log(Math.floor(Math.sin(element.index++ / 30) * 10));
+    //                 //     // element.noise += Math.floor(Math.sin(element.index++ / 30) * 10)
+    //                 // }
+    //                 // payloadint.temp = Math.floor(((Math.random() * 100)));
 
-                }
-            });
+    //             }
+    //         });
 
 
-            return payloadint;
-        }
+    //         return payloadint;
+    //     }
 
-        if (payloadType == PayloadType.RHF1S001) {
-            // this.log.debug("je to RHF1S001 " + payload)
-            let payloadint = this.rHF1S001PayloadResolver.resolve(payload);
-            return payloadint
-        }
-        return null;
-    }
+    //     if (payloadType == PayloadType.RHF1S001) {
+    //         // this.log.debug("je to RHF1S001 " + payload)
+    //         let payloadint = this.rHF1S001PayloadResolver.resolve(payload);
+    //         return payloadint
+    //     }
+    //     return null;
+    // }
 
 }

@@ -139,9 +139,7 @@ export class MapComponent implements AfterViewInit {
   }
 
   initControlsLayout() {
-    // this.map.controls[google.maps.ControlPosition.TOP_RIGHT].push(document.getElementById('aboutAppId'));
-    this.map.controls[google.maps.ControlPosition.TOP_RIGHT].push(document.getElementById('aboutAppButtons'));
-    this.map.controls[google.maps.ControlPosition.RIGHT_TOP].push(document.getElementById('aboutAppTextZone'));
+    this.map.controls[google.maps.ControlPosition.TOP_RIGHT].push(document.getElementById('aboutAppId'));
     this.map.controls[google.maps.ControlPosition.TOP_RIGHT].push(document.getElementById('statisticsId'));
     this.map.controls[google.maps.ControlPosition.TOP_RIGHT].push(document.getElementById('senzorMenuId'));
     this.map.controls[google.maps.ControlPosition.TOP_LEFT].push(document.getElementById('overlaysSearchId'));
