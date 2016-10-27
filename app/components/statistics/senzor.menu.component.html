@@ -1,4 +1,4 @@
-<div id="senzorMenuId" *hideItDevice="['mobile']" class="buttons">
+<div id="senzorMenuId" *hideItDevice="['mobile']" class="senzorDropMenu">
   <ul class="nav navbar-nav">
     <li class="dropdown" dropdown>
       <a *ngIf="selectedSensor == undefined" class="dropdown dropdown-toggle" dropdown-open data-toggle="dropdown" role="button"
@@ -25,7 +25,7 @@
   </ul>
 </div>
 
-<div id="senzorMenuId" *showItDevice="['mobile']" class="buttons-M">
+<div id="senzorMenuId" *showItDevice="['mobile']" class="senzorDropMenu-M">
     <ul class="nav navbar-nav" id="navBar-M">
       <li class="dropdown" dropdown>
         <a class="dropdown dropdown-toggle" dropdown-open data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" id="menu-button-M">
