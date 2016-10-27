@@ -6,7 +6,7 @@ import { SensorsSharedService, Events } from '../sensors-shared.service';
 import { Sensor } from '../../entity/sensor';
 import { Payload, PayloadType } from '../../payloads/payload';
 import { ObjectUtils, RandomUtils, DateUtils } from '../../utils/utils';
-import { StatisticsUtils, StatisType } from '../../utils/statis-utils';
+import { StatisticsUtils, StatisType, SensorStatistics, Statistics } from '../../utils/statis-utils';
 
 import { ARF8084BAPayload } from '../../payloads/ARF8084BAPayload';
 import { RHF1S001Payload } from '../../payloads/RHF1S001Payload';
@@ -28,6 +28,7 @@ export class ChartComponent { //implements AfterViewInit {
     @Input()
     public statisType: StatisType = StatisType.DAY24;
 
+    private statistic: Statistics;
     private limit: number;
     private chart: Chart.LineChartInstance;
     public chartId = "chartId" + RandomUtils.getRandom();
@@ -74,6 +75,9 @@ export class ChartComponent { //implements AfterViewInit {
             }]
         },
         defaultColor: "blue",
+        legend:{
+            display : false,
+        },
         // scales: {
         //       yAxes: [{
         //         ticks: {
@@ -100,7 +104,7 @@ export class ChartComponent { //implements AfterViewInit {
         // onClick: handleClick,
     }
 
-    private data = {
+    private dataChart = {
         data: this.linearChartData,
         options: this.globalOptions
     }
@@ -111,9 +115,9 @@ export class ChartComponent { //implements AfterViewInit {
 
     private addChartData(data: number, date: Date) {
         // console.log(' [updateChart]: ', data, date);
-        let dataset = this.linearChartData.datasets[0];
-        let datasetLine = this.linearChartData.datasets[1];
-        let labels = this.linearChartData.labels;
+        let dataset = this.dataChart.data.datasets[0];
+        let datasetLine = this.dataChart.data.datasets[1];
+        let labels = this.dataChart.data.labels;
         dataset.data.push(data);
         labels.push(date.toLocaleDateString());
         if (this.limit) {
@@ -129,8 +133,8 @@ export class ChartComponent { //implements AfterViewInit {
 
     private clearChartAndTable() {
         if (this.linearChartData) {
-            let dataset = this.linearChartData.datasets[0];
-            let labels = this.linearChartData.labels;
+            let dataset = this.dataChart.data.datasets[0];
+            let labels = this.dataChart.data.labels;
             dataset.data.length = 0;
             (dataset.pointBackgroundColor as string[]).length = 0;
             labels.length = 0;
@@ -139,12 +143,31 @@ export class ChartComponent { //implements AfterViewInit {
     }
 
     constructor(private log: Logger, private sensorsSharedService: SensorsSharedService, elementRef: ElementRef) {
-        var source = sensorsSharedService.listenEventData(Events.statistics)
-            .subscribe(sensorStatistics => {
+
+        sensorsSharedService.listenEventData(Events.statisSlider).subscribe(data => {
+            // console.log("ChartComponent listen statisSlider", data);
+            if (data.statisType === this.statisType) {
+                // console.log("ChartComponent listen statisSlider je tam", data);
                 this.clearChartAndTable();
+                this.statistic.avgValues.forEach(statis => {
+                    // console.log("ChartComponent listen statisSlider statis ", statis);
+                    if (data.startDate.getTime() < statis.date.getTime() && statis.date.getTime() < data.endDate.getTime()) {
+                        this.addChartData(Math.round(statis.avgValue), statis.date);
+                    }
+
+                })
+                this.updateChart();
+            }
+        })
+
+        sensorsSharedService.listenEventData(Events.statistics)
+            .subscribe(sensorStatistics => {
+
                 // console.log(sensorStatistics)
                 sensorStatistics.statistics.forEach(statis => {
                     if (statis.type === this.statisType) {
+                        this.clearChartAndTable();
+                        this.statistic = statis;
                         statis.avgValues.forEach(value => {
                             this.addChartData(Math.round(value.avgValue), value.date);
                         })
@@ -158,7 +181,7 @@ export class ChartComponent { //implements AfterViewInit {
     ngAfterViewInit(): void {
         var canvas = <HTMLCanvasElement>document.getElementById(this.chartId);
         var ctx: CanvasRenderingContext2D = canvas.getContext("2d");
-        this.chart = Chart.Line(ctx, this.data);
+        this.chart = Chart.Line(ctx, this.dataChart);
         this.limit = StatisticsUtils.getLimit(this.statisType);
 
         if (!this.limit) {

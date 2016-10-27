@@ -17,7 +17,7 @@ import { Devices, DeviceRecord } from '../entity/device/devices';
 import { Payload, PayloadType } from '../payloads/payload';
 import { Sensor } from '../entity/sensor';
 import { DateUtils, MonthList } from '../utils/utils';
-import { StatisticsUtils, Statistics, Statistic, SensorStatistics } from '../utils/statis-utils';
+import { StatisticsUtils, Statistics, Statistic, SensorStatistics, StatisType } from '../utils/statis-utils';
 
 export class OverlayGroup {
     overlays: Overlay[];
@@ -47,6 +47,7 @@ export class Events {
     public static loadSensor: IEvent<SensorStatistics> = { name: "loadSensor" };
     public static mapInstance: IEvent<google.maps.Map> = { name: "mapInstance" };
     public static showMasterLoading: IEvent<boolean> = { name: "showMaterLoading" };
+    public static statisSlider: IEvent<{statisType: StatisType, startDate : Date, endDate: Date}> = { name: "statisSlider" };
     // public static chartPointSelected: IEvent<google.maps.Map> = { name: "chartPointSelected" };
 }
 

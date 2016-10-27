@@ -31,6 +31,9 @@ export class SliderStatisComponent { // implements OnChanges {
     private firstInitSlider = true;
     private sliderEvent: BehaviorSubject<any> = new BehaviorSubject(null);
 
+    @Input()
+    public statisType: StatisType = StatisType.DAY24;
+
     constructor( private log: Logger, private sensorsSharedService: SensorsSharedService, elementRef: ElementRef) {
         // changeDetectorRef.detach(); private changeDetectorRef: ChangeDetectorRef,
         var source = sensorsSharedService.listenEventData(Events.statistics)
@@ -135,26 +138,29 @@ export class SliderStatisComponent { // implements OnChanges {
 
         this.sliderEvent.asObservable()
             .filter(data => { return data != undefined; })
-            .debounceTime(1500)
+            .debounceTime(1000)
             .subscribe(newDate => {
                 //this.sliderEvent.next(newDate);
                 let time1 = parseInt(newDate[0].toString());
                 let time2 = parseInt(newDate[1].toString());
                 // this.selectedDate = this.slider.getValue();
-                this.log.debug("slideStop - " + newDate)
+                // this.log.debug("slideStop - " + newDate)
 
                 if (newDate != undefined) {
-                    let devicedetailParams = <DeviceDetailParams>{
-                        start: new Date(time1),
-                        stop: new Date(time2),
-                        // devEUI: this.devEUI,
-                        //limit: 5,
-                        payloadType: PayloadType.ARF8084BA,
-                        order: Order.asc,
-                        publisher: this.sliderId,
-                    }
-
-                    this.sensorsSharedService.loadStatisticsData(devicedetailParams);
+                    
+                    // let devicedetailParams = <DeviceDetailParams>{
+                    //     start: new Date(time1),
+                    //     stop: new Date(time2),
+                    //     // devEUI: this.devEUI,
+                    //     //limit: 5,
+                    //     payloadType: PayloadType.ARF8084BA,
+                    //     order: Order.asc,
+                    //     publisher: this.sliderId,
+                    // }
+                    this.sensorsSharedService.publishEvent(
+                        Events.statisSlider, 
+                        {statisType: this.statisType, startDate : new Date(time1), endDate:  new Date(time2)},
+                        "SliderStatisComponent.slideStop");
                 }
             });
 
