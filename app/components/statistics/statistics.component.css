@@ -6,8 +6,8 @@
   width:  590px;
   height: 407px !important;
 
-  margin-left: -400px;
-  margin-top: 14px;
+  /*margin-left: -400px;
+  margin-top: 14px;*/
 
   border-radius: 4px 4px 4px 4px;
   -moz-border-radius: 4px 4px 4px 4px;
@@ -34,11 +34,11 @@
   box-shadow: 0px 0px 10px 4px rgba(0,0,0,0.19);
 }
 
-/*.statListIco {
-  margin-left: 5px;
-  margin-top: 3px;
-  position: relative;
-}*/
+.statListIco {
+      margin-left: -8px;
+    margin-top: -3px;
+  /*position: relative;*/
+}
 
 .description {
   /*position: relative;*/
@@ -52,7 +52,12 @@
   margin-right: 5px;
   margin-top: 5px;
   top: -27px;*/
+  color: #337ab7;
   z-index: 5;
+}
+
+#statButtonArrow {
+  color: #337ab7;
 }
 
 #hiddenButton {
@@ -61,7 +66,7 @@
   background-color: white;
   border-color: white;
   height: 100%;
-  width: 100%;
+  /*width: 100%;*/
 }
 
 /*MOBILE*/
