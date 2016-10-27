@@ -1,6 +1,4 @@
 #statisticsId {
-  z-index: -1;
-
   font-family: Roboto,Arial,sans-serif; 
   background-color: white;
   width:  590px;
@@ -23,6 +21,7 @@
   margin-top: 22px;
   margin-right: 10px;
   height: 38px;
+  z-index: 15 !important;
 
   border-radius: 4px 4px 4px 4px;
   -moz-border-radius: 4px 4px 4px 4px;
@@ -40,7 +39,6 @@
 
 .description {
   color: #337ab7;
-  z-index: 5;
 }
 
 #statButtonArrow {
