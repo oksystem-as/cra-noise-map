@@ -14,8 +14,8 @@
     'ng2-dropdown':               'node_modules/ng2-dropdown',
     'moment':                     'node_modules/moment/',
     'ng2-responsive':              'node_modules/ng2-responsive',
-    'ng2-bootstrap/ng2-bootstrap': 'node_modules/ng2-bootstrap/bundles/ng2-bootstrap.umd.js'   
-
+    'ng2-bootstrap/ng2-bootstrap': 'node_modules/ng2-bootstrap/bundles/ng2-bootstrap.umd.js' ,  
+    'angular2-modal':               'node_modules/angular2-modal',
   };
   // packages tells the System loader how to load when no filename and/or no extension
   var packages = {
@@ -25,7 +25,8 @@
     'angular2-google-maps/core':  { main: 'index.js', defaultExtension: 'js' },
     'ng2-dropdown':               { main: 'index.js', defaultExtension: 'js' },
     'moment':                     { main: 'moment.js', defaultExtension: 'js' },
-    'ng2-responsive':             { main: 'index.js', defaultExtension: 'js' }
+    'ng2-responsive':             { main: 'index.js', defaultExtension: 'js' },
+    'angular2-modal':             { main: 'bundles/angular2-modal.umd.js', defaultExtension: 'js' },
   };
   // Definice angluar packages - jen definice, pridani do packages bude nize
   var ngPackageNames = [
@@ -43,7 +44,9 @@
 
 
   //packages['angular2-google-maps'].main = '/core/core.umd.js';
-
+  var plugin = 'bootstrap'; // js-native / vex
+  map[`angular2-modal/plugins/${plugin}`] = map['angular2-modal'] + '/bundles';
+  packages[`angular2-modal/plugins/${plugin}`] =  { defaultExtension: 'js', main: `angular2-modal.${plugin}.umd` };
 
   // Individual files (~300 requests):
   function packIndex(pkgName) {
@@ -57,6 +60,8 @@
   }
   // Most environments should use UMD; some (Karma) need the individual index files
   var setPackageConfig = System.packageWithIndex ? packIndex : packUmd;
+
+
 
   // Add package entries for angular packages
   ngPackageNames.forEach(setPackageConfig);

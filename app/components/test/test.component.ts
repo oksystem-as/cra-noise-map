@@ -1,5 +1,5 @@
 import { resolve } from 'dns';
-import { Component, AfterViewInit } from '@angular/core';
+import { Component, AfterViewInit, ViewContainerRef, ViewEncapsulation } from '@angular/core';
 import { ARF8084BAPayload } from '../../payloads/ARF8084BAPayload';
 import { ARF8084BAPayloadResolver } from '../../payloads/ARF8084BAPayloadResolver';
 
@@ -18,6 +18,8 @@ import { Sensor } from '../../entity/sensor';
 import { Payload, PayloadType } from '../../payloads/payload'
 import { CRaService, DeviceDetailParams, DeviceParams, Order } from '../../service/cra.service';
 
+import { Overlay } from 'angular2-modal';
+import { Modal } from 'angular2-modal/plugins/bootstrap';
 
 import 'rxjs/Rx';
 
@@ -33,8 +35,28 @@ import 'rxjs/Rx';
 })
 export class TestComponent {
 
-  constructor(private craService: CRaService) {
-    this.testCraService();
+  constructor(overlay: Overlay, vcRef: ViewContainerRef, public modal: Modal, private craService: CRaService) {
+    overlay.defaultViewContainer = vcRef;
+    this.testModalDialog()
+  }
+
+  private testModalDialog(){
+    this.modal.alert()
+        .size('lg')
+        .showClose(true)
+        .title('A simple Alert style modal window')
+        .body(`
+            <h4>Alert is a classic (title/body/footer) 1 button modal window that 
+            does not block.</h4>
+            <b>Configuration:</b>
+            <ul>
+                <li>Non blocking (click anywhere outside to dismiss)</li>
+                <li>Size large</li>
+                <li>Dismissed with default keyboard key (ESC)</li>
+                <li>Close wth button click</li>
+                <li>HTML content</li>
+            </ul>`)
+        .open();
   }
 
   private devicedetailParamsDefault = <DeviceDetailParams>{

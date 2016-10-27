@@ -22,9 +22,10 @@ import { LogoComponent } from './components/map/logo.component';
 import { LoadingComponent } from './components/loading.component';
 import { AboutAppComponent } from './components/about.app.component';
 
-
-import { HttpModule }    from '@angular/http';
-import { Logger, Options, Level  } from "angular2-logger/core"; 
+import { BootstrapModalModule } from 'angular2-modal/plugins/bootstrap';
+import { ModalModule } from 'angular2-modal';
+import { HttpModule } from '@angular/http';
+import { Logger, Options, Level } from "angular2-logger/core";
 import { DropdownModule } from "ng2-dropdown";
 import { Ng2BootstrapModule } from 'ng2-bootstrap/ng2-bootstrap';
 import { ResponsiveModule } from 'ng2-responsive';
@@ -41,8 +42,10 @@ import { Collapse } from "./directives/collapse.directive"
     DropdownModule,
     Ng2BootstrapModule,
     ResponsiveModule,
+    ModalModule.forRoot(),
+    BootstrapModalModule,
   ],
-  providers: [CRaService,{ provide: Options, useValue: { store: true, level: Level.ERROR } },  Logger],
+  providers: [CRaService, { provide: Options, useValue: { store: true, level: Level.ERROR } }, Logger],
   declarations: [
     AppComponent,
     MapComponent,
@@ -64,7 +67,7 @@ import { Collapse } from "./directives/collapse.directive"
     SliderStatisComponent,
     AboutAppComponent,
     // Collapse,
-    ],
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
