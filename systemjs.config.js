@@ -44,9 +44,9 @@
 
 
   //packages['angular2-google-maps'].main = '/core/core.umd.js';
-  var plugin = 'bootstrap'; // js-native / vex
-  map[`angular2-modal/plugins/${plugin}`] = map['angular2-modal'] + '/bundles';
-  packages[`angular2-modal/plugins/${plugin}`] =  { defaultExtension: 'js', main: `angular2-modal.${plugin}.umd` };
+  //var plugin = 'bootstrap'; // js-native / vex
+  map['angular2-modal/plugins/bootstrap'] = map['angular2-modal'] + '/bundles';
+  packages['angular2-modal/plugins/bootstrap'] =  { defaultExtension: 'js', main: 'angular2-modal.bootstrap.umd' };
 
   // Individual files (~300 requests):
   function packIndex(pkgName) {
