@@ -20,7 +20,7 @@ export class TabsStatisComponent implements AfterViewInit {
 
   public refreshSlider(data){
     //setTimeout(()=> {this.timerComponent.refreshSlider(data)}, 2000);
-    this.timerComponent.refreshSlider(data)
+    //this.timerComponent.refreshSlider(data)
   }
 
   ngAfterViewInit(): void {
