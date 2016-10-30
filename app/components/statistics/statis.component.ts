@@ -16,6 +16,9 @@ import { GroupedObservable } from 'rxjs/operator/groupBy';
 import { BehaviorSubject } from "rxjs/Rx";
 import 'rxjs/Rx';
 import { ChartsModule } from 'ng2-charts/ng2-charts';
+import { SliderStatisComponent } from './slider.component';
+import { ChartComponent } from './chart.component';
+
 
 @Component({
     selector: 'statis',
@@ -23,31 +26,20 @@ import { ChartsModule } from 'ng2-charts/ng2-charts';
     styleUrls: ['app/components/statistics/statis.component.css'],
     // encapsulation: ViewEncapsulation.Native
 })
-export class StatisComponent implements AfterViewInit {
+export class StatisComponent { //implements AfterViewInit {
+
+    @ViewChild(SliderStatisComponent)
+    private sliderStatisComponent: SliderStatisComponent;
 
     @Input()
-    public statisType: StatisType = StatisType.DAY24;
-
-    public statisType2: StatisType = StatisType.DAY6_22;
-
-    constructor(private log: Logger, private sensorsSharedService: SensorsSharedService, elementRef: ElementRef) {  }
+    statisType: string;
 
 
-    ngAfterViewInit(): void {
-        // console.log(' [ngAfterViewInit]: ', this.statisType);
-        // default
-        // let start = new Date().getTime() - DateUtils.DAY_IN_MILIS;
-        // let start2 = new Date().getTime();
-        // this.slider = new Slider('#' + this.statisId, {
-        //     ticks: [start, start2],
-        //     ticks_labels: [new Date(start).toLocaleDateString(), new Date(start2).toLocaleDateString()],
-        //     ticks_snap_bounds: 2,
-        //     formatter: function (value) {
-        //         // console.log(value)
-        //         return new Date(value).toLocaleString();
-        //     },
-        //     id: this.sliderId,
-        // });
-        // this.slider.disable();
+    constructor(private log: Logger, private sensorsSharedService: SensorsSharedService, elementRef: ElementRef) { }
+
+    
+
+    public refresh() {
+        this.sliderStatisComponent.refreshSlider();
     }
 }

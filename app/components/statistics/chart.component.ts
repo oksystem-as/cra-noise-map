@@ -22,16 +22,17 @@ import { ChartsModule } from 'ng2-charts/ng2-charts';
     selector: 'chart',
     templateUrl: 'chart.component.html',
     styleUrls: ['chart.component.css'],
-    // encapsulation: ViewEncapsulation.Native
+    encapsulation: ViewEncapsulation.None
 })
 export class ChartComponent implements AfterViewInit {
     @Input()
     public statisType: StatisType = StatisType.DAY24;
+
     private statistic: Statistics;
     private limit: number;
     private chart: Chart.LineChartInstance;
     public chartId = "chartId" + RandomUtils.getRandom();
-    public sliderId = "sliderId" + RandomUtils.getRandom();
+    // public sliderId = "sliderId" + RandomUtils.getRandom();
     private linearChartData: Chart.LineChartData = {
         labels: [],
         datasets: [{
@@ -185,14 +186,5 @@ export class ChartComponent implements AfterViewInit {
         if (!this.limit) {
             this.linearChartData.datasets.splice(1, 1);
         }
-
-        //     function handleClick(evt) {
-        //     var activeElement = this.chart.getElementAtEvent(evt) as any[];
-        //     if (activeElement && activeElement.length > 0) {
-        //         console.log(activeElement, this.chart.data.datasets[activeElement[0]._datasetIndex].data[activeElement[0]._index], this.chart.data.labels[activeElement[0]._datasetIndex]);
-        //     } else {
-        //         console.log("klikni na bod");
-        //     }
-        // }
     }
 }

@@ -1,4 +1,4 @@
-<div id="tabs" (click)="$event.preventDefault()">
+<div id="tabs">
   <!--<p>Select a tab by setting active binding to true:</p>
   <p>
     <button type="button" class="btn btn-primary btn-sm" (click)="tabs[0].active = true">Select second tab</button>
@@ -39,33 +39,14 @@
  
   <!--<p><i>Bootstrap 4 doesn't have justified classes</i></p>-->
   <!--<tabset [justified]="true">-->
-      <tabset [justified]="false">
-<!--
-    <tab *ngFor="let tabz of tabs"
-         [heading]="tabz.title"
-         [active]="tabz.active"
-         (select)="tabz.active = true"
-         (deselect)="tabz.active = false"
-         [disabled]="tabz.disabled"
-         [removable]="tabz.removable"
-         (removed)="removeTabHandler(tabz)">
-      {{tabz?.content}}
-    </tab>-->
-            
-    <!--<tab heading="Hodinový" ><chart [statisType]="0"></chart></tab>
-    <tab heading="Denní 6-22"><chart [statisType]="1"></chart></tab>
-    <tab heading="Denní 18-22"><chart [statisType]="2"></chart></tab>
-    <tab heading="Noční 22-6"><chart [statisType]="3"></chart></tab>
-    <tab heading="Denní 24h" ><chart [statisType]="4"></chart></tab>
-    <tab heading="Týdenní" ><chart [statisType]="5"></chart></tab>
-    <tab heading="Měsíční"><chart [statisType]="6"></chart></tab>-->
-    <tab heading="Hodinový" (select)="statis1.refreshSlider($event)"><statis #statis1 [statisType]="HOUR"></statis></tab>
-    <tab heading="Denní 6-22" (select)="statis2.refreshSlider($event)"><statis #statis2 [statisType]="DAY6_22"></statis></tab>
-    <tab heading="Denní 18-22" (select)="statis3.refreshSlider($event)"><statis #statis3 [statisType]="DAY18_22"></statis></tab>
-    <tab heading="Noční 22-6" (select)="statis4.refreshSlider($event)"><statis #statis4 [statisType]="NIGHT22_6"></statis></tab>
-    <tab heading="Denní 24h" (select)="statis5.refreshSlider($event)"><statis #statis5 [statisType]="DAY24"></statis></tab>
-    <tab heading="Týdenní" (select)="statis6.refreshSlider($event)"><statis #statis6 [statisType]="WEEK"></statis></tab>
-    <tab heading="Měsíční" (select)="statis7.refreshSlider($event)"><statis #statis7 [statisType]="MONTH"></statis></tab>
+  <tabset [justified]="false">       
+    <tab heading="Hodinový" (select)="statis1.refresh($event)"><statis #statis1 [statisType]="'HOUR'" ></statis></tab>
+    <tab heading="Denní 6-22" (select)="statis2.refresh($event)"><statis #statis2 [statisType]="'DAY6_22'"></statis></tab>
+    <tab heading="Denní 18-22" (select)="statis3.refresh($event)"><statis #statis3 [statisType]="'DAY18_22'"></statis></tab>
+    <tab heading="Noční 22-6" (select)="statis4.refresh($event)"><statis #statis4 [statisType]="'NIGHT22_6'"></statis></tab>
+    <tab heading="Denní 24h" (select)="statis5.refresh($event)"><statis #statis5 [statisType]="'DAY24'"></statis></tab>
+    <tab heading="Týdenní" (select)="statis6.refresh($event)"><statis #statis6 [statisType]="'WEEK'"></statis></tab>
+    <tab heading="Měsíční" (select)="statis7.refresh($event)"><statis #statis7 [statisType]="'MONTH'"></statis></tab>
   </tabset>
 
 </div>

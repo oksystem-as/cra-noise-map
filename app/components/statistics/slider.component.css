@@ -9,6 +9,6 @@ div[id*="statisSliderId"] {
 
 .statisSlider{
      width: 100% !important;
-     padding-right: 100px;
-     padding-left: 100px;
+     padding-right: 50px;
+     padding-left: 50px;
 }
