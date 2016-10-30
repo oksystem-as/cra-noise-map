@@ -25,6 +25,15 @@ export class StatisticsComponent {
     //collapse content
     public isHidden: boolean = true;
 
+    getTooltip(){
+        if(this.isHidden){
+            return "Zobrazit statistiky"
+        } 
+        return "Sbalit statistiky" 
+    }
+
+    
+
     constructor(private log: Logger, private sensorsSharedService: SensorsSharedService) {
         // zvyrazneni vybraneho
         this.sensorsSharedService.listenEventData(Events.selectSensor).subscribe(() => {

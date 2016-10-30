@@ -24,7 +24,7 @@ export class CRaService {
   private token = "kBPIDfNdSfk8fkATerBa6ct6yshdPbOX";
 
   private restProxy3 = "http://10.0.1.59:58081/"
-  private restProxy2 = "http://localhost:8080/"
+  private restProxy2 = "http://200.0.0.25:8080/"
   private device = 'device/'
   private statis = '/statistics'
 
@@ -74,7 +74,7 @@ export class CRaService {
   }
 
   private getDevicDetailUrlNew(params: DeviceDetailParams): string {
-    let url = this.restProxy2 + this.device + params.devEUI + this.statis;
+    let url = this.restProxy3 + this.device + params.devEUI + this.statis;
 
     if (params.date) {
       url += '?date=' + this.dateToString(params.date);

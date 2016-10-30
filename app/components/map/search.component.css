@@ -10,7 +10,7 @@
   -webkit-border-radius: 0px 4px 4px 0px;
 }
 
-#pac-input {
+.pac-input {
   background-color: #fff;
   font-family: Roboto; 
   font-size: 14px;
@@ -37,7 +37,7 @@
   font-weight: 300;
 }
 
-#pac-input-M {
+.pac-input-M {
   margin-left: 38px;
   top: -10px;
   position: relative;

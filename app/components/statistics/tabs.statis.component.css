@@ -1,17 +1,21 @@
- #slider3 {
-    width: 300px;
-    /* margin-bottom: 46px !important; */
-    margin-left: 40px;
-    /*margin-top: -64px;*/
+.accordion-statis-panel{
+  height: 400px;
+}
 
-    font-family: Roboto,Arial,sans-serif;
-    /*font-size: 11px;*/
-    /*font-weight: 400;*/
-  }
+.accordion-statis{
+  max-height: 400px;
+  overflow-y: auto; 
+  overflow-x: hidden;
+}
 
-/*#tabs{
-  border: solid #ddd;
-    border-width: 0px 1px 1px 1px;
-    height: 450px;
-}*/
+.accordion-statis-panel{
+  /*height: 400px;*/
+  max-height: 400px; 
+   overflow-y: auto; 
+}
   
+
+/*.accordion-content {
+  overflow-y: auto; 
+  max-height: 400px; 
+}*/
