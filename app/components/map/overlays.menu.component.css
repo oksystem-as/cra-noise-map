@@ -16,13 +16,12 @@
 }
 
 #imageBox {
-  position: relative !important;
+  /*position: relative !important;*/
   width: 38px;
   height: 38px;
 }
 
 .layerMenuIco {
-  position: relative;
   margin-top: -12px;
   margin-left: -12px;
 }

@@ -1,4 +1,4 @@
-<div id="rectangle3" >
+<div id="rectangle3" class="rect3" *hideItDevice="['mobile']">
     <!-- Chrome, Firefox, Safari, Opera -->  
     <div id="rectangle2" *hideItBrowser="['ie']">
 	<div id="rectangle">
@@ -13,3 +13,12 @@
     </div>
 </div>
 <!--<div id="rectangleIE" *hideItBrowser="['ie']" *showItBrowser="['ie']"></div>-->
+
+<div id="rectangle3" class="rect3-M" *showItDevice="['mobile']">
+    <!-- Chrome, Firefox, Safari, Opera -->  
+    <div id="rectangle2">
+	<div id="rectangle">
+	    <input id="{{sliderId}}"/>
+        </div>
+    </div>
+</div>

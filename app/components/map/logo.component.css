@@ -1,9 +1,6 @@
 .logoImage {
   z-index: 8 !important;
   height: 22px;
-  position: relative;
-  top: 24px;
-  left: 15px;
 
   border-radius: 6px 6px 0px 0px;
   -moz-border-radius: 6px 6px 0px 0px;

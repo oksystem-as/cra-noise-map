@@ -30,7 +30,7 @@ export class SliderComponent implements AfterViewInit {
             this.removeSlider();
 
             // pocet bodu na slideru    
-            let countOfpoint = 2;
+            let countOfpoint = 3;
             let aktualDate = new Date();
 
             // rozdil mezi kazdym bodem

@@ -1,4 +1,4 @@
-#baseMapLegendId {
+.standard {
   z-index: 13 !important;
   width: 38px;
   height: 38px;
@@ -37,12 +37,15 @@
 /* MOBILE */
 
 .mobile {
-  width: 38px;
-  height: 38px;
+  z-index: 13 !important;
+  margin-left: 10px;
   margin-bottom: 50px;
+  text-align: center;
+  font-family: Roboto,Arial,sans-serif;
+  font-weight: bold;
 }
 
-.legend-vertical-M {
+/*.legend-vertical-M {
   width: 100%;
   height: 100%;
 }
@@ -108,4 +111,4 @@
   padding: 0px;
   width: 395px;
   height: 7px;
-}
+}*/

@@ -6,10 +6,15 @@
 }
 
 .overlaysSearchStandard {
-  position: relative;
-  width: 38px;
   height: 38px;
   z-index: 20 !important;
+  margin-top: 23px;
+  margin-left: 10px;
+}
+
+.overlaysSearchStandard > div.logo > logo {
+  width: 100%;
+  height: 100%;
 }
 
 .overlaysSearchStandard > div > overlays-menu {
@@ -35,12 +40,9 @@
 }
 
 .overlaysSearch {
-  margin-left: 10px;
   background-color: white;
-  width: 50%;
   height: 38px;
   padding: 0px;
-  margin-top: -36px;
 
   border-radius: 4px 0px 0px 4px;
   -moz-border-radius: 4px 0px 0px 4px;
@@ -110,6 +112,11 @@
 }
 
 .logo {
+  height: 26px;
+  width: 132px;
+}
+
+.logo-M {
   height: 26px;
   width: 100px;
   margin-top: 44px;
