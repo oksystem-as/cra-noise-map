@@ -175,10 +175,10 @@ span.layerSpanBox {
   background-color: white;
   width: 210px;
   margin-top: -1px;
-  height: 1521%;
+  height: 530%;
 
   overflow-y: auto; 
-  max-height: 1521%; 
+  max-height: 530%; 
   overflow-x: auto;
   max-width: 250px;
 }
@@ -193,7 +193,7 @@ span.layerSpanBox {
 }
 
 #nav-bar-M > li {
-  height: 36px;
+  height: 100px;
 }
 
 .groupItem-M {
