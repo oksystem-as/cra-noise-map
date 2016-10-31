@@ -39,6 +39,7 @@ export class ChartComponent implements AfterViewInit {
     private linearChartData: Chart.LineChartData = {
         labels: [],
         datasets: [{
+            label: "Čidla [dB]",
             data: [],
             // jen pro odlozeni objektu Date
             dataLabels: [],

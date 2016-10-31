@@ -91,6 +91,7 @@ export class SliderComponent implements AfterViewInit {
 
             // vybran je aktulani cas (neprovede se slideStop)
             this.slider.setValue(new Date().getTime());
+            this.refreshSlider();
         });
     }
 
@@ -98,6 +99,15 @@ export class SliderComponent implements AfterViewInit {
         if (this.slider) {
             this.slider.destroy();
         }
+    }
+
+    public refreshSlider() {
+        // hotfix - nevim uplne proc, ale funguje to ...
+        setTimeout(() => {
+            if (this.slider) {
+                this.slider.relayout();
+            }
+        }, 1000)
     }
 
     ngAfterViewInit(): void {
