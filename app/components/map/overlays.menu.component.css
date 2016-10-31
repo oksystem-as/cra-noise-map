@@ -175,10 +175,10 @@ span.layerSpanBox {
   background-color: white;
   width: 210px;
   margin-top: -1px;
-  height: 530%;
+  height: 330%;
 
   overflow-y: auto; 
-  max-height: 530%; 
+  max-height: 330%; 
   overflow-x: auto;
   max-width: 250px;
 }
