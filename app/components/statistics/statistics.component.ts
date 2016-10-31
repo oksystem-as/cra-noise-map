@@ -1,4 +1,4 @@
-import { Component, AfterViewInit, ViewChild, SimpleChange, Input } from '@angular/core';
+import { Component, AfterViewInit, ViewChild, SimpleChange, Input, ChangeDetectorRef, } from '@angular/core';
 import { Logger } from "angular2-logger/core";
 /// <reference path="../../typings/globals/googlemaps/google.maps.d.ts" />
 /// <reference path="../../typings/globals/markerclustererplus/markerclustererplus.d.ts" />
@@ -34,12 +34,13 @@ export class StatisticsComponent {
 
     
 
-    constructor(private log: Logger, private sensorsSharedService: SensorsSharedService) {
+    constructor(private changeDetectorRef: ChangeDetectorRef, private log: Logger, private sensorsSharedService: SensorsSharedService) {
+
         // zvyrazneni vybraneho
         this.sensorsSharedService.listenEventData(Events.selectSensor).subscribe(() => {
             // this.selectedSensor = sensor;
             this.isHidden = false;
+            this.changeDetectorRef.detectChanges();
         });
-
     }
 }

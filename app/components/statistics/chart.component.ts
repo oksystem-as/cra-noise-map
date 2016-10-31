@@ -1,4 +1,4 @@
-import { Component, AfterViewInit, ViewChild, SimpleChange, Input, ViewEncapsulation, ElementRef } from '@angular/core';
+import { Component, AfterViewInit, ViewChild, SimpleChange, Input, ViewEncapsulation, ElementRef, ViewContainerRef } from '@angular/core';
 import { Logger } from "angular2-logger/core";
 /// <reference path="../../typings/globals/googlemaps/google.maps.d.ts" />
 /// <reference path="../../typings/globals/markerclustererplus/markerclustererplus.d.ts" />
@@ -16,6 +16,10 @@ import { GroupedObservable } from 'rxjs/operator/groupBy';
 import { BehaviorSubject } from "rxjs/Rx";
 import 'rxjs/Rx';
 import { ChartsModule } from 'ng2-charts/ng2-charts';
+
+import { Overlay } from 'angular2-modal';
+import { Modal } from 'angular2-modal/plugins/bootstrap';
+
 
 @Component({
     moduleId: module.id,
@@ -112,6 +116,7 @@ export class ChartComponent implements AfterViewInit {
 
 
     private updateChart() {
+        // console.log("updateChart");
         this.chart.update();
     }
 
@@ -176,7 +181,24 @@ export class ChartComponent implements AfterViewInit {
         }
     }
 
-    constructor(private log: Logger, private sensorsSharedService: SensorsSharedService, elementRef: ElementRef) {
+    goLarge() {
+        //let input = document.getElementById(this.chartId) as HTMLInputElement;
+        this.modal.alert()
+            .size('lg')
+            .showClose(true)
+            .title('O aplikaci')
+            .body(`
+            <h4>O společnosti OKSystem a.s.</h4>
+            <canvas id="x123654" width="800" height="500">ttt</canvas>
+            `).open();
+        
+        var canvas = <HTMLCanvasElement>document.getElementById("x123654");
+        var ctx: CanvasRenderingContext2D = canvas.getContext("2d");
+        this.chart = Chart.Line(ctx, this.dataChart);
+    }
+
+    constructor(overlay: Overlay, vcRef: ViewContainerRef, public modal: Modal, private log: Logger, private sensorsSharedService: SensorsSharedService, elementRef: ElementRef) {
+        overlay.defaultViewContainer = vcRef;
 
         sensorsSharedService.listenEventData(Events.sliderNewDate).subscribe(newDate => {
             this.mainSliderDate = DateUtils.getDayFlatDate(new Date(newDate));
@@ -195,6 +217,7 @@ export class ChartComponent implements AfterViewInit {
 
         sensorsSharedService.listenEventData(Events.statistics)
             .subscribe(sensorStatistics => {
+                console.log("sensorStatistics");
                 sensorStatistics.statistics.forEach(statis => {
                     if (statis.type === this.statisType) {
                         this.clearChartData();
