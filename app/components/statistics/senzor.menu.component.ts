@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, ViewEncapsulation, ChangeDetectorRef } from '@angular/core';
 import { Logger } from "angular2-logger/core";
 import { MapComponent } from './../map.component';
 import { SensorsSharedService, Overlay, OverlayGroup, Events } from '../sensors-shared.service';
@@ -29,7 +29,7 @@ export class SenzorMenuComponent {
     // limit:10000
   }
 
-  constructor(private log: Logger, private sensorsSharedService: SensorsSharedService) {
+  constructor(private changeDetectorRef: ChangeDetectorRef, private log: Logger, private sensorsSharedService: SensorsSharedService) {
 
     // sensorsSharedService.getStatisticsData().subscribe((sensor: Sensor) => {
     //   // provedu aktualizaci puvodniho sensoru na novy ktery obsahuje vsechny payloady
@@ -41,11 +41,13 @@ export class SenzorMenuComponent {
       .subscribe((sensorStatistics: SensorStatistics) => {
         ArrayUtils.replaceOrAddObject(this.sensors, sensorStatistics, (sen) => { return sen.devEUI === sensorStatistics.devEUI })
         this.selectedSensor = null;
+        this.changeDetectorRef.detectChanges();
       })
 
     // zvyrazneni vybraneho
     this.sensorsSharedService.listenEventData(Events.selectSensor).subscribe((sensorStatistics: SensorStatistics) => {
       this.selectedSensor = sensorStatistics;
+      this.changeDetectorRef.detectChanges();
     });
 
   }

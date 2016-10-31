@@ -111,5 +111,6 @@ export class SliderComponent implements AfterViewInit {
     }
 
     ngAfterViewInit(): void {
+        this.refreshSlider();
     }
 }
