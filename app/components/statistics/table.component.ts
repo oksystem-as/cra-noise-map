@@ -1,8 +1,21 @@
-import { ChangeDetectionStrategy, Component, AfterViewInit, ViewChild, Input, OnChanges, SimpleChanges, ChangeDetectorRef } from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  Input,
+  OnChanges,
+  PACKAGE_ROOT_URL,
+  SimpleChanges,
+  ViewChild
+} from '@angular/core';
 import { StatisComponent } from './statis.component';
 import { SensorsSharedService, Events } from '../sensors-shared.service';
 import { StatisticsUtils, StatisType } from '../../utils/statis-utils';
 
+class DataLabels {
+  data: { data: number, label: Date }[];
+}
 
 @Component({
   moduleId: module.id,
@@ -12,22 +25,48 @@ import { StatisticsUtils, StatisType } from '../../utils/statis-utils';
 })
 export class TableStatisComponent { // implements OnChanges {
 
-  data: any[] = []
-  labels: any[] = []
+  private allDataLabels: DataLabels = <DataLabels>{ data: [] };
+  private showDataLabels: DataLabels = <DataLabels>{ data: [] };
+
+  private sliderStartDate;
+  private sliderStopDate;
 
   private limit: number;
 
   @Input()
   public statisType: StatisType = StatisType.DAY24;
 
+  private refreshTableData() {
+    this.clearTableData();
+    if (this.allDataLabels) {
+      this.allDataLabels.data.forEach(data => {
+        let inInterval = true
+
+        if (this.sliderStartDate || this.sliderStopDate) {
+          inInterval = this.sliderStartDate.getTime() < data.label.getTime() && data.label.getTime() < this.sliderStopDate.getTime()
+        }
+
+        if (inInterval) {
+          this.addTableData(data.data, data.label);
+        }
+      })
+    }
+  }
+
   addTableData(data: number, date: Date) {
-    this.data.push(data);
-    this.labels.push(date.toLocaleDateString());
+    this.showDataLabels.data.push({ data: data, label: date});
+  }
+
+  getDateString(date: Date) {
+    let label = date.toLocaleDateString();
+    if (this.statisType === StatisType.HOUR) {
+      label = date.toLocaleString();
+    }
+    return label;
   }
 
   clearTableData() {
-    this.data.length = 0;
-    this.labels.length = 0;
+    this.showDataLabels.data.length = 0;
   }
 
   updateTable() {
@@ -37,18 +76,28 @@ export class TableStatisComponent { // implements OnChanges {
   constructor(private changeDetectorRef: ChangeDetectorRef, private sensorsSharedService: SensorsSharedService) {
     changeDetectorRef.detach();
 
+    sensorsSharedService.listenEventData(Events.statisSlider).subscribe(data => {
+      if (data.statisType === this.statisType) {
+        this.sliderStartDate = data.startDate;
+        this.sliderStopDate = data.endDate;
+        this.refreshTableData();
+        this.updateTable();
+      }
+    })
+
+
     var source = sensorsSharedService.listenEventData(Events.statistics)
       .subscribe(sensorStatistics => {
         this.clearTableData();
         sensorStatistics.statistics.forEach(statis => {
           if (statis.type === this.statisType) {
             statis.avgValues.forEach(value => {
-              this.addTableData(Math.round(value.avgValue), value.date);
+              this.allDataLabels.data.push({ data: Math.round(value.avgValue), label: value.date });
             })
+            this.refreshTableData();
+            this.updateTable();
           }
         });
-        this.updateTable();
-        // this.sensorsSharedService.publishEvent(Events.showMasterLoading, false);
       });
   }
 

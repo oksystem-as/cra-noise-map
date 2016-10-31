@@ -43,12 +43,17 @@ export class SliderStatisComponent { // implements OnChanges {
                 sensorStatistics.statistics.forEach(statis => {
                     if (statis.type == StatisType.HOUR) {
                         let minDate = new Date().getTime();
+                        let maxDate = new Date(1970,1,1).getTime();
                         statis.avgValues.forEach(value => {
                             if (value.date.getTime() < minDate) {
                                 minDate = value.date.getTime()
                             }
+
+                            if (value.date.getTime() > maxDate) {
+                                maxDate = value.date.getTime()
+                            }
                         })
-                        this.initSlider(new Date(minDate));
+                        this.initSlider(new Date(minDate), new Date(maxDate));
                         this.refreshSlider();
                     }
                 });
@@ -84,7 +89,7 @@ export class SliderStatisComponent { // implements OnChanges {
         }, 1)
     }
 
-    private initSlider(firstDate: Date) {
+    private initSlider(firstDate: Date, endDate: Date) {
         // this.sensorsSharedService.publishEvent(Events.sliderNewDate, firstDate);
         this.removeSlider();
         let oldDate = firstDate;
@@ -93,7 +98,7 @@ export class SliderStatisComponent { // implements OnChanges {
 
         // pocet bodu na slideru    
         let countOfpoint = 3;
-        let aktualDate = new Date();
+        let aktualDate = endDate;
 
         // rozdil mezi kazdym bodem
         let diff = (aktualDate.getTime() - oldDate.getTime()) / countOfpoint;

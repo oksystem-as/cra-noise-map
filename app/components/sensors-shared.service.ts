@@ -46,8 +46,8 @@ export class Events {
     public static loadSensor: IEvent<SensorStatistics> = { name: "loadSensor" };
     public static mapInstance: IEvent<google.maps.Map> = { name: "mapInstance" };
     public static showMasterLoading: IEvent<boolean> = { name: "showMaterLoading" };
-    public static statisSlider: IEvent<{statisType: StatisType, startDate : Date, endDate: Date}> = { name: "statisSlider" };
-    public static chartPointSelected: IEvent<{statisType: StatisType, pointDate : Date, pointValue: number}> = { name: "chartPointSelected" };
+    public static statisSlider: IEvent<{ statisType: StatisType, startDate: Date, endDate: Date }> = { name: "statisSlider" };
+    public static chartPointSelected: IEvent<{ statisType: StatisType, pointDate: Date, pointValue: number }> = { name: "chartPointSelected" };
 }
 
 export class AggregatorEvent<T> {
@@ -67,8 +67,8 @@ export class SensorsSharedService {
     private baseNoise = 30;
     private aRF8084BAPayloadResolver = new ARF8084BAPayloadResolver();
     private rHF1S001PayloadResolver = new RHF1S001PayloadResolver();
-    private location: { devEUI: string, latitude: number, name: string, longtitude: number, latitudeText: string, longtitudeText: string}[] = [
-        { devEUI: "0004A30B0019D0EA", name: "Náměstí bratří synků", latitude: 50.064227, longtitude: 14.441406, latitudeText: "50°03'51.2\"", longtitudeText: "14°26'29.1\""},
+    private location: { devEUI: string, latitude: number, name: string, longtitude: number, latitudeText: string, longtitudeText: string }[] = [
+        { devEUI: "0004A30B0019D0EA", name: "Náměstí bratří synků", latitude: 50.064227, longtitude: 14.441406, latitudeText: "50°03'51.2\"", longtitudeText: "14°26'29.1\"" },
         { devEUI: "0018B20000000336", name: "OKsystem            ", latitude: 50.052853, longtitude: 14.439492, latitudeText: "50°03'10.3\"", longtitudeText: "14°29'22.2\"" },
         { devEUI: "0018B20000000165", name: "Kongresové centrum  ", latitude: 50.062028, longtitude: 14.428990, latitudeText: "50°04'10.3\"", longtitudeText: "14°28'22.2\"" },
         { devEUI: "0018B2000000016E", name: "Třebotovská         ", latitude: 50.039161, longtitude: 14.389049, latitudeText: "50°02'10.3\"", longtitudeText: "14°25'22.2\"" },
@@ -143,8 +143,11 @@ export class SensorsSharedService {
     loadSensorsAndPublish(date?: Date) {
         console.log("SensorsSharedService.loadSensors()", date);
         let dateInt = date;
-        if(!dateInt){
+        if (!dateInt) {
             dateInt = DateUtils.getDayFlatDate(new Date())
+        } else {
+            // HOTFIX asi nejaka chyba
+            dateInt = new Date(dateInt.getTime() - DateUtils.DAY_IN_MILIS);
         }
         this.publishEvent(Events.loadSensors, this.loadSensors(dateInt, this.deviceList), "SensorsSharedService.loadSensors");
     }
@@ -154,7 +157,7 @@ export class SensorsSharedService {
 
         this.loadSensorNew(deviceDetailParams)
             .filter(data => {
-                return data != undefined && data.statistics != undefined 
+                return data != undefined && data.statistics != undefined
             }).subscribe(statistics => {
                 this.publishEvent(Events.statistics, statistics);
             });
@@ -188,16 +191,16 @@ export class SensorsSharedService {
 
     private addLocationAndDate(sensorStatistics: SensorStatistics) {
         this.location.forEach(location => {
-            if(location.devEUI === sensorStatistics.devEUI){
+            if (location.devEUI === sensorStatistics.devEUI) {
                 sensorStatistics.name = location.name;
                 sensorStatistics.latitude = location.latitude;
                 sensorStatistics.latitudeText = location.latitudeText;
                 sensorStatistics.longtitude = location.longtitude;
                 sensorStatistics.longtitudeText = location.longtitudeText;
-            } 
+            }
         })
 
-        sensorStatistics.statistics.forEach(statis =>{
+        sensorStatistics.statistics.forEach(statis => {
             statis.avgValues.forEach(value => {
                 value.date = DateUtils.parseDate(value.date);
             })
