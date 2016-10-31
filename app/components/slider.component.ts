@@ -25,6 +25,13 @@ export class SliderComponent implements AfterViewInit {
     private slider: Slider;
 
     constructor(private log: Logger, private sensorsSharedService: SensorsSharedService) {
+
+        sensorsSharedService.listenEventData(Events.sliderNewDate).subscribe(date => {
+            if (this.slider) {
+                this.slider.setValue(new Date(date).getTime());
+            }
+        });
+
         sensorsSharedService.listenEventData(Events.mapInstance).subscribe(map => {
             let oldDate = SensorsSharedService.minDateLimit;
             this.removeSlider();
@@ -69,18 +76,19 @@ export class SliderComponent implements AfterViewInit {
 
             // pokud se vybere nove datum provede se prenacteni dat s novym vychozim datem
             this.slider.on("slideStop", newDate => {
-                this.sensorsSharedService.publishEvent(Events.sliderNewDate, new Date(newDate), "SliderComponent.slideStop event");
                 let time = parseInt(newDate.toString());
                 this.log.debug("slideStop - newDate: " + newDate)
+                let date = new Date(parseInt(newDate.toString(), 10));
+                let flatDate = DateUtils.getDayFlatDate(date);
 
                 if (newDate != undefined) {
-                    // todo udelat nad exist daty
-                    this.sensorsSharedService.loadSensorsAndPublish(DateUtils.getDayFlatDate(new Date(parseInt(newDate.toString(), 10))));
+                    this.sensorsSharedService.loadSensorsAndPublish(date);
+                    this.sensorsSharedService.publishEvent(Events.sliderNewDate, flatDate, "SliderComponent.slideStop event");
                 }
             });
 
             map.controls[google.maps.ControlPosition.BOTTOM_LEFT].push(document.getElementById("rectangle3"));
-            
+
             // vybran je aktulani cas (neprovede se slideStop)
             this.slider.setValue(new Date().getTime());
         });

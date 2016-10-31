@@ -28,7 +28,10 @@ export class ChartComponent implements AfterViewInit {
     @Input()
     public statisType: StatisType = StatisType.DAY24;
 
+    private mainSliderDate = DateUtils.getDayFlatDate(new Date());
     private statistic: Statistics;
+    private sliderStartDate;
+    private sliderStopDate;
     private limit: number;
     private chart: Chart.LineChartInstance;
     public chartId = "chartId" + RandomUtils.getRandom();
@@ -43,7 +46,7 @@ export class ChartComponent implements AfterViewInit {
             borderWidth: 2,
             borderColor: "#FF7E99",
             backgroundColor: "rgba(255, 71, 108, 0.2)",
-            pointBorderColor: "white",
+            pointBorderColor: [],
             pointBorderWidth: 1,
             // borderColor: "#FF7E99",
         }
@@ -92,7 +95,7 @@ export class ChartComponent implements AfterViewInit {
         options: this.globalOptions
     }
 
-    pointClick (sensorsSharedService, evt, chartElement: any[]) {
+    pointClick(sensorsSharedService, evt, chartElement: any[]) {
         if (chartElement && chartElement.length > 0) {
             let date = this.chart.data.datasets[chartElement[0]._datasetIndex].dataLabels[chartElement[0]._index] as Date;
             let value = this.chart.data.datasets[chartElement[0]._datasetIndex].data[chartElement[0]._index];
@@ -100,7 +103,7 @@ export class ChartComponent implements AfterViewInit {
             this.sensorsSharedService.publishEvent(Events.sliderNewDate, date, "ChartComponent.pointClick");
             this.sensorsSharedService.loadSensorsAndPublish(DateUtils.getDayFlatDate(date));
             // console.log(chartElement, value, date);
-        } 
+        }
         // else {
         //     console.log("klikni na bod");
         // }
@@ -111,23 +114,53 @@ export class ChartComponent implements AfterViewInit {
         this.chart.update();
     }
 
+    private refreshChartData() {
+        this.clearChartData();
+        if (this.statistic) {
+            this.statistic.avgValues.forEach(statis => {
+                let inInterval = true
+
+                if (this.sliderStartDate || this.sliderStopDate) {
+                    inInterval = this.sliderStartDate.getTime() < statis.date.getTime() && statis.date.getTime() < this.sliderStopDate.getTime()
+                }
+
+                if (inInterval) {
+                    this.addChartData(Math.round(statis.avgValue), statis.date);
+                }
+            })
+        }
+    }
+
     private addChartData(data: number, date: Date) {
         // console.log(' [updateChart]: ', data, date);
         let dataset = this.dataChart.data.datasets[0];
         let datasetLine = this.dataChart.data.datasets[1];
         let labels = this.dataChart.data.labels;
+        let backColList = (dataset.pointBackgroundColor as string[]);
+        let borderColList = (dataset.pointBorderColor as string[]);
+
         dataset.data.push(data);
         dataset.dataLabels.push(date);
         labels.push(date.toLocaleDateString());
+
         if (this.limit) {
             if (data > this.limit) {
-                (dataset.pointBackgroundColor as string[]).push("#FF7E99");
+                backColList.push("#FF7E99");
             } else {
-                (dataset.pointBackgroundColor as string[]).push("rgb(108, 216, 106)");
+                backColList.push("rgb(108, 216, 106)");
             }
             datasetLine.data.push(this.limit);
+        } else {
+            backColList.push("rgb(108, 216, 106)");
+        }
+
+        if (this.compareSliderPointDates(this.mainSliderDate, date)) {
+            borderColList.push("#0989C9");
+        } else {
+            borderColList.push("white");
         }
     }
+
 
 
     private clearChartData() {
@@ -136,6 +169,7 @@ export class ChartComponent implements AfterViewInit {
             let labels = this.dataChart.data.labels;
             dataset.data.length = 0;
             (dataset.pointBackgroundColor as string[]).length = 0;
+            (dataset.pointBorderColor as string[]).length = 0;
             labels.length = 0;
             dataset.dataLabels.length = 0;
         }
@@ -143,30 +177,29 @@ export class ChartComponent implements AfterViewInit {
 
     constructor(private log: Logger, private sensorsSharedService: SensorsSharedService, elementRef: ElementRef) {
 
-        sensorsSharedService.listenEventData(Events.statisSlider).subscribe(data => {
-            // console.log("ChartComponent listen statisSlider", data);
-            if (data.statisType === this.statisType) {
-                // console.log("ChartComponent listen statisSlider je tam", data);
-                this.clearChartData();
-                this.statistic.avgValues.forEach(statis => {
-                    // console.log("ChartComponent listen statisSlider statis ", statis);
-                    if (data.startDate.getTime() < statis.date.getTime() && statis.date.getTime() < data.endDate.getTime()) {
-                        this.addChartData(Math.round(statis.avgValue), statis.date);
-                    }
+        sensorsSharedService.listenEventData(Events.sliderNewDate).subscribe(newDate => {
+            this.mainSliderDate = DateUtils.getDayFlatDate(new Date(newDate));
+            this.refreshChartData();
+            this.updateChart();
+        });
 
-                })
+        sensorsSharedService.listenEventData(Events.statisSlider).subscribe(data => {
+            if (data.statisType === this.statisType) {
+                this.sliderStartDate = data.startDate;
+                this.sliderStopDate = data.endDate;
+                this.refreshChartData();
                 this.updateChart();
             }
         })
 
         sensorsSharedService.listenEventData(Events.statistics)
             .subscribe(sensorStatistics => {
-
-                // console.log(sensorStatistics)
                 sensorStatistics.statistics.forEach(statis => {
                     if (statis.type === this.statisType) {
                         this.clearChartData();
                         this.statistic = statis;
+                        this.sliderStartDate = undefined;
+                        this.sliderStopDate = undefined;
                         statis.avgValues.forEach(value => {
                             this.addChartData(Math.round(value.avgValue), value.date);
                         })
@@ -175,6 +208,30 @@ export class ChartComponent implements AfterViewInit {
                 this.updateChart();
                 this.sensorsSharedService.publishEvent(Events.showMasterLoading, false);
             });
+    }
+
+    /**
+     * porovna vybrany den hlavniho slideru s bodem v grafu 
+     */
+    private compareSliderPointDates(mainSliderDate: Date, pointDate: Date) {
+        switch (this.statisType) {
+            case StatisType.DAY6_22:
+            case StatisType.DAY18_22:
+            case StatisType.NIGHT22_6:
+            case StatisType.DAY24:
+            case StatisType.HOUR:
+                let flatDateDPoint = DateUtils.getDayFlatDate(new Date(pointDate));
+                let flatDateDSlider = DateUtils.getDayFlatDate(new Date(this.mainSliderDate));
+                return flatDateDSlider.getTime() === flatDateDPoint.getTime()
+            case StatisType.WEEK:
+                let flatDateWPoint = DateUtils.getWeekFlatDate(new Date(pointDate));
+                let flatDateWSlider = DateUtils.getWeekFlatDate(new Date(this.mainSliderDate));
+                return flatDateWSlider.getTime() === flatDateWPoint.getTime()
+            case StatisType.MONTH:
+                let flatDateMPoint = DateUtils.getMonthFlatDate(new Date(pointDate));
+                let flatDateMSlider = DateUtils.getMonthFlatDate(new Date(this.mainSliderDate));
+                return flatDateMSlider.getTime() === flatDateMPoint.getTime()
+        }
     }
 
     ngAfterViewInit(): void {
