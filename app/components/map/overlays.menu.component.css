@@ -6,7 +6,7 @@
 }
 
 #overlayGroup {
-  z-index: 15 !important;
+  z-index: 25 !important;
   font-family: Roboto,Arial,sans-serif;
   font-size: 11px;
   opacity: .94;

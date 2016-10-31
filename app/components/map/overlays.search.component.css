@@ -110,16 +110,6 @@
   position: relative;
 }
 
-#overlaysSearchId > div.logo > logo > a {
-  width: 100%;
-  height: 100%;
-}
-
-.logo {
-  height: 26px;
-  width: 132px;
-}
-
 .logo-M {
   height: 26px;
   width: 100px;
