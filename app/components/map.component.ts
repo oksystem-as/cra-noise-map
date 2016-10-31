@@ -175,9 +175,9 @@ export class MapComponent implements AfterViewInit {
 
   private addNewDataListener() {
 
-    this.sensorsSharedService.listenEventData(Events.showMasterLoading).subscribe(showLoading => {
-      this.showLoading = showLoading;
-    });
+    // this.sensorsSharedService.listenEventData(Events.showMasterLoading).subscribe(showLoading => {
+    //   this.showLoading = showLoading;
+    // });
 
     // this.sensorsSharedService.listenEventData(Events.sliderNewDate).subscribe(data => {
     //   this.sliderNewDate = data;
@@ -317,7 +317,7 @@ export class MapComponent implements AfterViewInit {
     marker.showData = showData //sensor.showData;
 
     marker.addListener('click', () => {
-      this.sensorsSharedService.publishEvent(Events.showMasterLoading, true);
+      // this.sensorsSharedService.publishEvent(Events.showMasterLoading, true);
       this.sensorsSharedService.publishEvent(Events.selectSensor, marker.sensor, "MapComponent.markerClick");
       // this.devicedetailParamsDefault.devEUI = marker.sensor.devEUI;
       // this.devicedetailParamsDefault.payloadType = marker.sensor.payloadType;

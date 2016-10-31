@@ -206,7 +206,7 @@ export class ChartComponent implements AfterViewInit {
                     }
                 });
                 this.updateChart();
-                this.sensorsSharedService.publishEvent(Events.showMasterLoading, false);
+                // this.sensorsSharedService.publishEvent(Events.showMasterLoading, false);
             });
     }
 
