@@ -18,11 +18,7 @@
 }
 
 .logoImage-M {
-  z-index: -1;
   height: 19px;
-  position: relative;
-  top: 15px;
-  left: 0.5;
   opacity: 0.96;
 
   border-radius: 6px 6px 0px 0px;
