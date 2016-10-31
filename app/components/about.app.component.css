@@ -10,7 +10,7 @@
 }
 
 .aboutApp {
-  margin-top: 22px;
+  margin-top: 10px;
   width: 38px;
   height: 38px;
   margin-right: 10px;
@@ -19,7 +19,6 @@
 /*MOBILE*/
 .aboutAppMobile {
   z-index: 16 !important;
-  margin-top: 14px;
   width: 38px;
   height: 38px;
 }

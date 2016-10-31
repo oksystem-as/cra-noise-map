@@ -1,23 +1,20 @@
 <!--STANDARD-->
 <div id="overlaysSearchId" class="overlaysSearchStandard" *hideItDevice="['mobile']">
+    <div class="logo">
+      <logo></logo>
+    </div>
     <div class="overlaysSearch">
         <overlays-menu></overlays-menu>
         <span class="separator"></span>
         <search></search>
     </div>
-    <div class="logo">
-      <logo></logo>
-    </div>
 </div>
 <!--MOBILE-->
 <div id="overlaysSearchId" class="overlaysSearchMobile" *showItDevice="['mobile']">
     <div class="mobileTop">
-        <!--<span class="upperBar">-->
-            <overlays-menu></overlays-menu>   
-            <span class="separator-M"></span>
-            <search></search>
-            <!--<span class="separator-M"></span>-->
-        <!--</span>-->
+        <overlays-menu></overlays-menu>   
+        <span class="separator-M"></span>
+        <search></search>
     </div>
     <div class="logo-M">
         <logo class="okLogoM"></logo>
