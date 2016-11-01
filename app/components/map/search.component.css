@@ -1,42 +1,8 @@
-.controls {
-  border: 1px solid transparent;
-  border-radius: 2px 0px 0px 2px;
-  box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  height: 38px;
-  outline: none;
-  border-radius: 0px 4px 4px 0px;
-  -moz-border-radius: 0px 4px 4px 0px;
-  -webkit-border-radius: 0px 4px 4px 0px;
-}
-
 .pac-input {
-  background-color: #fff;
-  font-family: Roboto; 
-  font-size: 14px;
-  font-weight: 300;
-  padding: 0 1px 0 8px;
-  text-overflow: ellipsis;
-  opacity: 0.95;
-  width: 190px;
+  width: 200px;
 }
 
-.pac-container {
-  font-family: Roboto;
-}
-
-#type-selector {
-  color: #fff;
-  background-color: #4d90fe;
-  padding: 5px 11px 0px 11px;
-}
-
-#type-selector label {
-  font-family: Roboto;
-  font-size: 13px;
-  font-weight: 300;
-}
-
+/*
 .pac-input-M {
   position: relative;
   background-color: #fff;
@@ -47,4 +13,4 @@
   text-overflow: ellipsis;
   width: 180px;
   height: 36px;
-}
+}*/
