@@ -22,8 +22,6 @@ import { LogoComponent } from './components/map/logo.component';
 import { LoadingComponent } from './components/loading.component';
 import { AboutAppComponent } from './components/about.app.component';
 
-import { BootstrapModalModule } from 'angular2-modal/plugins/bootstrap';
-import { ModalModule } from 'angular2-modal';
 import { HttpModule } from '@angular/http';
 import { Logger, Options, Level } from "angular2-logger/core";
 import { DropdownModule } from "ng2-dropdown";
@@ -32,6 +30,7 @@ import { ResponsiveModule } from 'ng2-responsive';
 
 import { CRaService } from './service/cra.service';
 import { Collapse } from "./directives/collapse.directive"
+import { ModalModule } from 'ng2-bootstrap/ng2-bootstrap';
 
 @NgModule({
   imports: [
@@ -42,10 +41,13 @@ import { Collapse } from "./directives/collapse.directive"
     DropdownModule,
     Ng2BootstrapModule,
     ResponsiveModule,
-    ModalModule.forRoot(),
-    BootstrapModalModule,
+    ModalModule,
   ],
-  providers: [CRaService, { provide: Options, useValue: { store: true, level: Level.ERROR } }, Logger],
+  providers: [
+    CRaService,
+    { provide: Options, useValue: { store: true, level: Level.ERROR } },
+    Logger
+  ],
   declarations: [
     AppComponent,
     MapComponent,

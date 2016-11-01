@@ -1,11 +1,7 @@
-<div id="tabs" *hideItDevice="['mobile']">
-    <canvas id="{{chartId}}" width="570" height="200" style=" margin-left: 10px; padding-top: 10px; padding-right: 10px;"></canvas>
-    <!--<button type="button" class="btn btn-default " (click)="goLarge()"> 
-            <span class="glyphicon glyphicon-stats" aria-hidden="true"></span>
-    </button>-->
-    
-    <!--<canvas  id="{{chartId}}" width="800" height="500" style=" margin-left: 10px; padding-top: 10px; padding-right: 10px;"></canvas>-->
+
+<div id="tabs" class="chartDesktop" *hideItDevice="['mobile']">
+    <canvas id="{{chartId}}" style=" margin-left: 10px; padding-top: 10px; padding-right: 10px;"></canvas>
 </div>
-<div id="tabs" *showItDevice="['mobile']">
-    <canvas id="{{chartId}}" width="330" height="200" style="padding-top: 5px; padding-right: 5px;"></canvas>
+<div id="tabs" class="chartMobile" *showItDevice="['mobile']">
+    <canvas id="{{chartId}}" style="padding-top: 5px; padding-right: 5px;"></canvas>
 </div>

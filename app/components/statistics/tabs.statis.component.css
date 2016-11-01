@@ -1,8 +1,8 @@
-.accordion-statis-panel{
+/*.accordion-statis-panel{
   height: 400px;
-}
+}*/
 
-.accordion-statis{
+/*.accordion-statis{
   max-height: 400px;
   overflow-y: auto; 
   overflow-x: hidden;
@@ -10,9 +10,9 @@
 
 .accordion-statis-panel{
   /*height: 400px;*/
-  max-height: 400px; 
-   overflow-y: auto; 
-}
+  /*max-height: 400px; 
+   overflow-y: auto; */
+/*}*/
   
 /*.accordion-content {
   overflow-y: auto; 

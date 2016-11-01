@@ -17,10 +17,6 @@ import { BehaviorSubject } from "rxjs/Rx";
 import 'rxjs/Rx';
 import { ChartsModule } from 'ng2-charts/ng2-charts';
 
-import { Overlay } from 'angular2-modal';
-import { Modal } from 'angular2-modal/plugins/bootstrap';
-
-
 @Component({
     moduleId: module.id,
     selector: 'chart',
@@ -90,8 +86,8 @@ export class ChartComponent implements AfterViewInit {
         legend: {
             display: false,
         },
-        maintainAspectRatio: true,
-        responsive: false,
+        // maintainAspectRatio: true,
+        responsive: true,
         onClick: this.pointClick.bind(this, this.sensorsSharedService),
     }
 
@@ -181,24 +177,7 @@ export class ChartComponent implements AfterViewInit {
         }
     }
 
-    // goLarge() {
-    //     //let input = document.getElementById(this.chartId) as HTMLInputElement;
-    //     this.modal.alert()
-    //         .size('lg')
-    //         .showClose(true)
-    //         .title('O aplikaci')
-    //         .body(`
-    //         <h4>O společnosti OKSystem a.s.</h4>
-    //         <canvas id="x123654" width="800" height="500">ttt</canvas>
-    //         `).open();
-        
-    //     var canvas = <HTMLCanvasElement>document.getElementById("x123654");
-    //     var ctx: CanvasRenderingContext2D = canvas.getContext("2d");
-    //     this.chart = Chart.Line(ctx, this.dataChart);
-    // }
-
-    constructor(overlay: Overlay, vcRef: ViewContainerRef, public modal: Modal, private log: Logger, private sensorsSharedService: SensorsSharedService, elementRef: ElementRef) {
-        // overlay.defaultViewContainer = vcRef;
+    constructor(private log: Logger, private sensorsSharedService: SensorsSharedService, elementRef: ElementRef) {
 
         sensorsSharedService.listenEventData(Events.sliderNewDate).subscribe(newDate => {
             this.mainSliderDate = DateUtils.getDayFlatDate(new Date(newDate));

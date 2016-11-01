@@ -27,7 +27,7 @@
 <div id="tabs" *showItDevice="['mobile']" class="accordion-statis">
 	<accordion [closeOthers]="true" >
 		<accordion-group heading="Hodinový" [isOpen]="false" (click)="statis1.refresh($event)">
-			<div class="accordion-statis-panel" style=" overflow: scroll;">
+			<div class="accordion-statis-panel">
 				<statis #statis1 [statisType]="'HOUR'"></statis>
 			</div>
 		</accordion-group>
