@@ -24,13 +24,17 @@ import { AboutAppComponent } from './components/about.app.component';
 
 import { HttpModule } from '@angular/http';
 import { Logger, Options, Level } from "angular2-logger/core";
-import { DropdownModule } from "ng2-dropdown";
-import { Ng2BootstrapModule } from 'ng2-bootstrap/ng2-bootstrap';
+// import { DropdownModule } from "ng2-dropdown";
+
 import { ResponsiveModule } from 'ng2-responsive';
 
 import { CRaService } from './service/cra.service';
 import { Collapse } from "./directives/collapse.directive"
+
+import { Ng2BootstrapModule } from 'ng2-bootstrap/ng2-bootstrap';
 import { ModalModule } from 'ng2-bootstrap/ng2-bootstrap';
+import { CarouselModule } from 'ng2-bootstrap/ng2-bootstrap';
+import { DropdownModule } from 'ng2-bootstrap/ng2-bootstrap';
 
 @NgModule({
   imports: [
@@ -42,6 +46,7 @@ import { ModalModule } from 'ng2-bootstrap/ng2-bootstrap';
     Ng2BootstrapModule,
     ResponsiveModule,
     ModalModule,
+    CarouselModule,
   ],
   providers: [
     CRaService,

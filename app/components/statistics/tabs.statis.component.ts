@@ -1,7 +1,7 @@
-import { ChangeDetectionStrategy, Component,AfterViewInit, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, AfterViewInit, ViewChild } from '@angular/core';
 import { StatisComponent } from './statis.component';
+import { StatisticsUtils, Statistics, Statistic, SensorStatistics, StatisType } from '../../utils/statis-utils';
 
- 
 @Component({
     moduleId: module.id,
     selector: 'tabs-statis',
@@ -10,4 +10,14 @@ import { StatisComponent } from './statis.component';
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TabsStatisComponent {
+    private statisTypeList: StatisType[] = [StatisType.HOUR, StatisType.DAY6_22, StatisType.DAY18_22, StatisType.NIGHT22_6, StatisType.DAY24, StatisType.WEEK, StatisType.MONTH];
+    selectedStatisType: StatisType = StatisType.HOUR;
+
+    setSelectedStatisType(statisType: StatisType) {
+        this.selectedStatisType = statisType;
+    }
+
+    getName(statisType: StatisType) {
+        return StatisticsUtils.getNameForStatisType(statisType);
+    }
 }

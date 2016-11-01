@@ -24,42 +24,61 @@
 	</tabset>
 </div>
 
-<div id="tabs" *showItDevice="['mobile']" class="accordion-statis">
-	<accordion [closeOthers]="true" >
-		<accordion-group heading="Hodinový" [isOpen]="false" (click)="statis1.refresh($event)">
-			<div class="accordion-statis-panel">
-				<statis #statis1 [statisType]="'HOUR'"></statis>
-			</div>
-		</accordion-group>
-		<accordion-group heading="Denní 6-22" (click)="statis2.refresh($event)">
-			<div class="accordion-statis-panel">
-				<statis #statis2 [statisType]="'DAY6_22'"></statis>
-			</div>
-		</accordion-group>
-		<accordion-group heading="Denní 18-22" (click)="statis3.refresh($event)">
-			<div class="accordion-statis-panel">
-				<statis #statis3 [statisType]="'DAY18_22'"></statis>
-			</div>
-		</accordion-group>
-		<accordion-group heading="Noční 22-6" (click)="statis4.refresh($event)">
-			<div class="accordion-statis-panel">
-				<statis #statis4 [statisType]="'NIGHT22_6'"></statis>
-			</div>
-		</accordion-group>
-		<accordion-group heading="Denní 24h" (click)="statis5.refresh($event)">
-			<div class="accordion-statis-panel">
-				<statis #statis5 [statisType]="'DAY24'"></statis>
-			</div>
-		</accordion-group>
-		<accordion-group heading="Týdenní" (click)="statis6.refresh($event)">
-			<div class="accordion-statis-panel">
-				<statis #statis6 [statisType]="'WEEK'"></statis>
-			</div>
-		</accordion-group>
-		<accordion-group heading="Měsíční" (click)="statis7.refresh($event)">
-			<div class="accordion-statis-panel">
-				<statis #statis7 [statisType]="'MONTH'"></statis>
-			</div>
-		</accordion-group>
-	</accordion>
+<div id="tabs" *showItDevice="['mobile']" class="statis-button">
+	<div (click)="$event.preventDefault()">
+		<div class="btn-group statis-button" dropdown>
+			<button id="single-button" type="button" class="btn btn-primary statis-button" dropdownToggle>
+				{{getName(selectedStatisType)}}
+				<span class="caret"></span>
+			</button>
+			<ul dropdownMenu role="menu" aria-labelledby="single-button" class="statis-button">
+				<li role="menuitem" *ngFor="let statisType of statisTypeList"><a class="dropdown-item" href="#" (click)="setSelectedStatisType(statisType)">{{getName(statisType)}}</a></li>
+			</ul>
+		</div>
+	</div>
+
+	<div *ngFor="let statisType of statisTypeList">
+		<div [hidden]="selectedStatisType != statisType">
+			<statis [statisType]="statisType"></statis>
+		</div>
+	</div>
+
+
+	<!--<accordion [closeOthers]="true">
+	<accordion-group heading="Hodinový" [isOpen]="false" (click)="statis1.refresh($event)">
+		<div class="accordion-statis-panel">
+			<statis #statis1 [statisType]="'HOUR'"></statis>
+		</div>
+	</accordion-group>
+	<accordion-group heading="Denní 6-22" (click)="statis2.refresh($event)">
+		<div class="accordion-statis-panel">
+			<statis #statis2 [statisType]="'DAY6_22'"></statis>
+		</div>
+	</accordion-group>
+	<accordion-group heading="Denní 18-22" (click)="statis3.refresh($event)">
+		<div class="accordion-statis-panel">
+			<statis #statis3 [statisType]="'DAY18_22'"></statis>
+		</div>
+	</accordion-group>
+	<accordion-group heading="Noční 22-6" (click)="statis4.refresh($event)">
+		<div class="accordion-statis-panel">
+			<statis #statis4 [statisType]="'NIGHT22_6'"></statis>
+		</div>
+	</accordion-group>
+	<accordion-group heading="Denní 24h" (click)="statis5.refresh($event)">
+		<div class="accordion-statis-panel">
+			<statis #statis5 [statisType]="'DAY24'"></statis>
+		</div>
+	</accordion-group>
+	<accordion-group heading="Týdenní" (click)="statis6.refresh($event)">
+		<div class="accordion-statis-panel">
+			<statis #statis6 [statisType]="'WEEK'"></statis>
+		</div>
+	</accordion-group>
+	<accordion-group heading="Měsíční" (click)="statis7.refresh($event)">
+		<div class="accordion-statis-panel">
+			<statis #statis7 [statisType]="'MONTH'"></statis>
+		</div>
+	</accordion-group>
+</accordion>-->
 </div>

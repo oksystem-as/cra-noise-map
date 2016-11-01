@@ -169,6 +169,8 @@ export class SliderStatisComponent { // implements OnChanges {
                 }
             });
 
+        this.refreshSlider();
+
         // pokud se vybere nove datum provede se prenacteni dat s novym vychozim datem
         this.slider.on("slideStop", newDate => {
             // z duvoudu moznosti pouziti debounceTime

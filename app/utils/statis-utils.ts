@@ -37,12 +37,24 @@ export class Statistic {
     avgValue: number;
 }
 
- 
+
 
 /**
  * utility pro vypocet statistik
  */
 export class StatisticsUtils {
+
+    public static getNameForStatisType(statisType: StatisType): string {
+        switch (statisType) {
+            case StatisType.DAY6_22: return "Hodinový"
+            case StatisType.DAY18_22: return "Denní 6-22"
+            case StatisType.NIGHT22_6: return "Denní 18-22"
+            case StatisType.DAY24: return "Noční 22-6"
+            case StatisType.HOUR: return "Denní 24h"
+            case StatisType.WEEK: return "Týdenní"
+            case StatisType.MONTH: return "Měsíční"
+        }
+    }
 
     private static limits: { statisType: StatisType, limit: number }[] = [
         { statisType: StatisType.HOUR, limit: undefined },
@@ -53,14 +65,14 @@ export class StatisticsUtils {
         { statisType: StatisType.WEEK, limit: undefined },
         { statisType: StatisType.MONTH, limit: undefined },
     ]
-    
+
     /**
      * k zadanemu statisType vraci definovany limit hluku
      */
-    public static getLimit(statisType: StatisType): number{
+    public static getLimit(statisType: StatisType): number {
         for (var index = 0; index < this.limits.length; index++) {
             var limitInt = this.limits[index];
-             if( limitInt.statisType === statisType){
+            if (limitInt.statisType === statisType) {
                 return limitInt.limit;
             }
         }
