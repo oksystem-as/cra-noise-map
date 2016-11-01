@@ -1,27 +1,20 @@
-<div id="senzorMenuId" *hideItDevice="['mobile']" class="senzorDropMenu">
-  <ul class="nav navbar-nav">
-    <li class="dropdown" dropdown>
-      <a *ngIf="selectedSensor == undefined" class="dropdown dropdown-toggle" dropdown-open data-toggle="dropdown" role="button"
-        aria-haspopup="true" aria-expanded="false" id="senzor-button-down">
-        <img class="senzorListIcoDown" src="..\app\images\senzor.png">
-        <span class="description">Vyberte čidlo</span>
-        <span class="glyphicon glyphicon-menu-down" id="senzorListArrowDown"></span>
-      </a>
-      <a *ngIf="selectedSensor != undefined" class=" dropdown dropdown-toggle" dropdown-open data-toggle="dropdown" role="button"
-        aria-haspopup="true" aria-expanded="false" id="senzor-button-up">
-        <img class="senzorListIcoUp" src="..\app\images\senzor.png">
-        <span class="selectedSenzorName">{{selectedSensor.name}}</span>
-        <span class="glyphicon glyphicon-menu-down" id="senzorListArrowUp"></span></a>
-      <ul class="dropdown-menu">
-        <!--dropdown-not-closable-zone-->
-        <li *ngFor="let sensor of sensors, let ndx = index">
-          <a data-placement="left" (click)="onClick(sensor)" [class.bold-sensor]="isSensorOnMap(sensor)" [class.gray-sensor]="!isSensorOnMap(sensor)" 
-            [class.red-sensor]="isSensorSelected(sensor)">{{sensor.name}}</a>
-        </li>
-      </ul>
-    </li>
-  </ul>
+<div id="senzorMenuId" *hideItDevice="['mobile']" class="senzor-button">
+	<div (click)="$event.preventDefault()">
+		<div class="btn-group senzor-button" dropdown>
+			<button id="single-button" type="button" class="btn btn-default senzor-button" dropdownToggle>
+        <!--<img class="senzorListIcoDown" src="..\app\images\senzor.png">-->
+        <span class="glyphicon glyphicon-dashboard" aria-hidden="true"></span>
+        <span *ngIf="selectedSensor == undefined">Vyberte čidlo</span>
+				<span *ngIf="selectedSensor != undefined">{{selectedSensor.name}}</span>
+				<span class="caret"></span>
+			</button>
+			<ul dropdownMenu role="menu" aria-labelledby="single-button" class="senzor-button">
+				<li role="menuitem" *ngFor="let sensor of sensors, let ndx = index"><a class="dropdown-item" href="#" (click)="onClick(sensor)">{{sensor.name}}</a></li>
+			</ul>
+		</div>
+	</div>
 </div>
+
 
 <div id="senzorMenuId" *showItDevice="['mobile']" class="senzorDropMenu-M">
     <ul class="nav navbar-nav" id="navBar-M">
