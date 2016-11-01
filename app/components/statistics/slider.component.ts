@@ -150,7 +150,7 @@ export class SliderStatisComponent { // implements OnChanges {
 
         this.sliderEvent.asObservable()
             .filter(data => { return data != undefined; })
-            .debounceTime(1000)
+            // .debounceTime(1000)
             .subscribe(newDate => {
                 //this.sliderEvent.next(newDate);
                 let time1 = parseInt(newDate[0].toString());
