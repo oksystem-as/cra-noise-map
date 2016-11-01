@@ -1,4 +1,14 @@
-.overlaysSearchMobile {
+#overlaysSearchId {
+  position: absolute;
+  left: 10px;
+  top: 10px;
+
+  /*border-radius: 4px 4px 4px 4px;
+  -moz-border-radius: 4px 4px 4px 4px;
+  -webkit-border-radius: 4px 4px 4px 4px;*/
+}
+
+/*.overlaysSearchMobile {
   z-index: 15 !important;
   height: 36px;
   height: 0px;
@@ -115,4 +125,4 @@
   height: 26px;
   width: 100px;
   margin-top: 37px;
-}
+}*/
