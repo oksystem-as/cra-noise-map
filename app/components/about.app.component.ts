@@ -24,7 +24,6 @@ export class AboutAppComponent {
     if (this.isMobileIntrenal == undefined) {
       throw "isMobileIntrenal neni definovan";
     }
-    this.log.debug("isMobile: ", this.isMobileIntrenal);
-    return this.isMobile;
+    return this.isMobileIntrenal;
   }
 }
