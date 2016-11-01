@@ -46,11 +46,11 @@ export class StatisticsUtils {
 
     public static getNameForStatisType(statisType: StatisType): string {
         switch (statisType) {
-            case StatisType.DAY6_22: return "Hodinový"
-            case StatisType.DAY18_22: return "Denní 6-22"
-            case StatisType.NIGHT22_6: return "Denní 18-22"
-            case StatisType.DAY24: return "Noční 22-6"
-            case StatisType.HOUR: return "Denní 24h"
+            case StatisType.HOUR: return "Hodinový"
+            case StatisType.DAY6_22: return "Denní 6-22"
+            case StatisType.DAY18_22: return "Denní 18-22"
+            case StatisType.NIGHT22_6: return "Noční 22-6"
+            case StatisType.DAY24: return "Denní 24h"
             case StatisType.WEEK: return "Týdenní"
             case StatisType.MONTH: return "Měsíční"
         }

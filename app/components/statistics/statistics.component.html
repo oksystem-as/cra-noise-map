@@ -14,28 +14,25 @@
 
 <!--MOBILE-->
 <div id="statisticsButtonId" class="statMobile" *showItDevice="['mobile']">
-	<button type="button" class="btn btn-default statBootstrMobile statisButtonM" (click)="lgModal.show()"> 
+	<button type="button" class="btn btn-default statBootstrMobile statisButtonM" (click)="lgModal.show()" > 
             <img class="statListIcoM" src="..\app\images\graph.png">    
     </button>
 
- 
-<div bsModal #lgModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" (click)="lgModal.hide()" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-        <h4 class="modal-title">Large modal</h4>
-      </div>
-      <div class="modal-body">
-        <tabs-statis></tabs-statis>
-      </div>
-    </div>
-  </div>
-</div>
-<!--
-	<div id="statisticsId" class="statisticsMobile" [collapse]="isHidden">
-		<tabs-statis></tabs-statis>
-	</div>-->
+
+	<div bsModal #lgModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" (onShown)="onOpen()" >
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" (click)="lgModal.hide()" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 class="modal-title">Výběr statistik</h4>
+				</div>
+				<div class="modal-body">
+					<tabs-statis></tabs-statis>
+				</div>
+			</div>
+		</div>
+	</div>
+  
 </div>

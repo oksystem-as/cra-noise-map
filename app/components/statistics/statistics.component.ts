@@ -32,15 +32,18 @@ export class StatisticsComponent {
         return "Sbalit statistiky" 
     }
 
-    
-
     constructor(private changeDetectorRef: ChangeDetectorRef, private log: Logger, private sensorsSharedService: SensorsSharedService) {
 
         // zvyrazneni vybraneho
         this.sensorsSharedService.listenEventData(Events.selectSensor).subscribe(() => {
             // this.selectedSensor = sensor;
             this.isHidden = false;
-            this.changeDetectorRef.detectChanges();
+            // this.changeDetectorRef.detectChanges();
         });
     }
+    
+    onOpen(){
+        this.sensorsSharedService.publishEvent(Events.refreshStatisSlider, undefined);
+    }
+
 }

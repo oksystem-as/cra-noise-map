@@ -87,7 +87,7 @@ export class ChartComponent implements AfterViewInit {
             display: false,
         },
         // maintainAspectRatio: true,
-        responsive: false,
+        responsive: true,
         onClick: this.pointClick.bind(this, this.sensorsSharedService),
     }
 
