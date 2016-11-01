@@ -54,7 +54,7 @@ export class MapComponent implements AfterViewInit {
       mapTypeControl: true,
       mapTypeControlOptions: {
         style: google.maps.MapTypeControlStyle.DROPDOWN_MENU,
-        position: google.maps.ControlPosition.LEFT_CENTER,
+        position: google.maps.ControlPosition.RIGHT_CENTER,
         mapTypeIds: [google.maps.MapTypeId.ROADMAP, google.maps.MapTypeId.SATELLITE, google.maps.MapTypeId.HYBRID, google.maps.MapTypeId.TERRAIN]
       },
       zoomControl: true,
