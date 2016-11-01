@@ -28,18 +28,11 @@ import { ChartComponent } from './chart.component';
 })
 export class StatisComponent { //implements AfterViewInit {
 
-    @ViewChild(SliderStatisComponent)
-    private sliderStatisComponent: SliderStatisComponent;
+    // @ViewChild(SliderStatisComponent)
+    // private sliderStatisComponent: SliderStatisComponent;
 
     @Input()
     statisType: string;
 
-
     constructor(private log: Logger, private sensorsSharedService: SensorsSharedService, elementRef: ElementRef) { }
-
-    
-
-    public refresh() {
-        this.sliderStatisComponent.refreshSlider();
-    }
 }

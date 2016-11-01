@@ -47,6 +47,7 @@ export class Events {
     public static mapInstance: IEvent<google.maps.Map> = { name: "mapInstance" };
     public static showMasterLoading: IEvent<boolean> = { name: "showMaterLoading" };
     public static statisSlider: IEvent<{ statisType: StatisType, startDate: Date, endDate: Date }> = { name: "statisSlider" };
+    public static refreshStatisSlider: IEvent<StatisType> = { name: "refreshStatisSlider" };
     public static chartPointSelected: IEvent<{ statisType: StatisType, pointDate: Date, pointValue: number }> = { name: "chartPointSelected" };
 }
 

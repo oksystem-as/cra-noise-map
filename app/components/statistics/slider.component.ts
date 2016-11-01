@@ -34,16 +34,23 @@ export class SliderStatisComponent { // implements OnChanges {
     @Input()
     public statisType: StatisType = StatisType.DAY24;
 
-    constructor( private log: Logger, private sensorsSharedService: SensorsSharedService, elementRef: ElementRef) {
+    constructor(private changeDetectorRef: ChangeDetectorRef, private log: Logger, private sensorsSharedService: SensorsSharedService, elementRef: ElementRef) {
         // changeDetectorRef.detach(); private changeDetectorRef: ChangeDetectorRef,
-        var source = sensorsSharedService.listenEventData(Events.statistics)
+
+        sensorsSharedService.listenEventData(Events.refreshStatisSlider).subscribe((statisType: StatisType) => {
+            if (this.statisType === statisType || statisType === undefined) {
+                this.refreshSlider();
+            }
+        });
+
+        sensorsSharedService.listenEventData(Events.statistics)
             .subscribe(sensorStatistics => {
                 // this.clearChartAndTable();
                 // console.log(statistics)
                 sensorStatistics.statistics.forEach(statis => {
                     if (statis.type == StatisType.HOUR) {
                         let minDate = new Date().getTime();
-                        let maxDate = new Date(1970,1,1).getTime();
+                        let maxDate = new Date(1970, 1, 1).getTime();
                         statis.avgValues.forEach(value => {
                             if (value.date.getTime() < minDate) {
                                 minDate = value.date.getTime()
@@ -152,7 +159,7 @@ export class SliderStatisComponent { // implements OnChanges {
                 // this.log.debug("slideStop - " + newDate)
 
                 if (newDate != undefined) {
-                    
+
                     // let devicedetailParams = <DeviceDetailParams>{
                     //     start: new Date(time1),
                     //     stop: new Date(time2),
@@ -163,8 +170,8 @@ export class SliderStatisComponent { // implements OnChanges {
                     //     publisher: this.sliderId,
                     // }
                     this.sensorsSharedService.publishEvent(
-                        Events.statisSlider, 
-                        {statisType: this.statisType, startDate : new Date(time1), endDate:  new Date(time2)},
+                        Events.statisSlider,
+                        { statisType: this.statisType, startDate: new Date(time1), endDate: new Date(time2) },
                         "SliderStatisComponent.slideStop");
                 }
             });
