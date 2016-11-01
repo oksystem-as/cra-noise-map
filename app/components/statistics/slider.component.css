@@ -11,4 +11,5 @@ div[id*="statisSliderId"] {
      width: 100% !important;
      padding-right: 50px;
      padding-left: 50px;
+     padding-bottom: 10px;
 }

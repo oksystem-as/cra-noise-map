@@ -6,12 +6,18 @@
 }
 
 /*MOBILE*/
-/*.aboutAppMobile {
-  z-index: 16 !important;
-  width: 38px;
-  height: 38px;
+.aboutAppMobile {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+
 }
 
+.aboutAppMobileButton{
+  padding: 9px;
+}
+
+/*
 .aboutAppButtonM {
   width: 100%;
   height: 100%;

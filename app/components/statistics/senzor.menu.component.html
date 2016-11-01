@@ -1,37 +1,26 @@
 <div id="senzorMenuId" *hideItDevice="['mobile']" class="senzor-button">
 	<div (click)="$event.preventDefault()">
-		<div class="btn-group senzor-button" dropdown>
-			<button id="single-button" type="button" class="btn btn-default senzor-button" dropdownToggle>
+		<div class="btn-group" dropdown>
+			<button id="single-button" type="button" class="btn btn-default " dropdownToggle>
         <!--<img class="senzorListIcoDown" src="..\app\images\senzor.png">-->
         <span class="glyphicon glyphicon-dashboard" aria-hidden="true"></span>
         <span *ngIf="selectedSensor == undefined">Vyberte čidlo</span>
 				<span *ngIf="selectedSensor != undefined">{{selectedSensor.name}}</span>
 				<span class="caret"></span>
 			</button>
-			<ul dropdownMenu role="menu" aria-labelledby="single-button" class="senzor-button">
-				<li role="menuitem" *ngFor="let sensor of sensors, let ndx = index"><a class="dropdown-item" href="#" (click)="onClick(sensor)">{{sensor.name}}</a></li>
+			<ul dropdownMenu role="menu" aria-labelledby="single-button">
+				<li role="menuitem" *ngFor="let sensor of sensors, let ndx = index"><a class="dropdown-item" href="#" (click)="onClick(sensor)" 
+        [class.red-sensor]="isSensorSelected(sensor)" [class.bold-sensor]="isSensorOnMap(sensor)">{{sensor.name}}</a></li>
 			</ul>
 		</div>
 	</div>
 </div>
 
 
-<div id="senzorMenuId" *showItDevice="['mobile']" class="senzorDropMenu-M">
-    <ul class="nav navbar-nav" id="navBar-M">
-      <li class="dropdown" dropdown>
-        <a class="dropdown dropdown-toggle" dropdown-open data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" id="menu-button-M">
-          <img class="senzorListIco-M" src="..\app\images\senzor.png"">
-        </a>
-        <ul class="dropdown-menu">
-        <!--dropdown-not-closable-zone-->
-          <li *ngFor="let sensor of sensors, let ndx = index">
-            <a data-placement="left" (click)="onClick(sensor)" [class.bold-sensor]="isSensorOnMap(sensor)" [class.gray-sensor]="!isSensorOnMap(sensor)"
-               [class.red-sensor]="isSensorSelected(sensor)">{{sensor.name}}
-            </a>
-          </li>
-        </ul>
-      </li>
-    </ul>
+<div id="senzorMenuId" *showItDevice="['mobile']" class="senzor-button-mobile">
+	<button id="single-button" type="button" class="btn btn-default">
+        <span class="glyphicon glyphicon-dashboard" aria-hidden="true"></span>
+			</button>
 </div>
 
 

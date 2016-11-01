@@ -52,12 +52,13 @@ export class SenzorMenuComponent {
 
   }
 
-  private isSensorOnMap(sensor: Sensor): boolean {
-    return sensor.showData;
+  private isSensorOnMap(sensor: SensorStatistics): boolean {
+    // return sensor.showData;
+    return false;
   }
 
 
-  private isSensorSelected(sensor: Sensor): boolean {
+  private isSensorSelected(sensor: SensorStatistics): boolean {
     if (this.selectedSensor != undefined) {
       if (sensor.devEUI === this.selectedSensor.devEUI) {
         return true;
@@ -66,7 +67,7 @@ export class SenzorMenuComponent {
     return false;
   }
 
-  private onClickAnim(sensor: Sensor) {
+  private onClickAnim(sensor: SensorStatistics) {
     // this.sensorsSharedService.setAnimationSensor(sensor);
     // this.sensorsSharedService.publishEvent(Events.runAnimation, sensor, "MenuComponent.onClickAnim");
   }

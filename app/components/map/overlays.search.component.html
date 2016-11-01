@@ -1,5 +1,5 @@
 <!--STANDARD-->
-<div id="overlaysSearchId" class="form-group has-success has-feedback overlaysSearchStandard" *hideItDevice="['mobile']">
+<div class="form-group has-success has-feedback overlaysSearchStandard overlaysSearchDesktop" *hideItDevice="['mobile']">
     <div class="input-group">
         <span class="input-group-addon"><logo></logo></span>
         <search></search>
@@ -7,13 +7,9 @@
 </div>
 
 <!--MOBILE-->
-<div id="overlaysSearchId" class="overlaysSearchMobile" *showItDevice="['mobile']">
-    <div class="mobileTop">
-        <overlays-menu></overlays-menu>   
-        <span class="separator-M"></span>
-        <search></search>
-    </div>
-    <div class="logo-M">
-        <logo class="okLogoM"></logo>
-    </div>
+<div class="form-group has-success has-feedback overlaysSearchStandard overlaysSearchMobile" *showItDevice="['mobile']">
+    <div class="input-group">
+        <span class="input-group-addon smallBorder"><logo></logo></span>
+        <search></search>       
+    </div>  
 </div>

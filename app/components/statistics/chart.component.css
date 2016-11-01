@@ -3,11 +3,14 @@
     margin-top: 10px;
 }*/
 
-/*.chartDesktop{
-    width: 100%;
+.chartDesktop{
+     margin-left: 10px; 
+     padding-top: 12px; 
+     padding-right: 12px;
+    /*width: 100%;*/
     /*height: 400px;*/
     /*background-color: red;*/
-/*}*/
+}
 
 /*.chartMobile{*/
     /*width: 100%;*/
