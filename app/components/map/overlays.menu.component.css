@@ -4,3 +4,33 @@
   right: 418px;
   top: 10px;
 }
+
+.layerTextLegend {
+  text-align: left;
+  position: relative;
+  font-size: 11px;
+  color: silver;
+}
+
+.layerLegend {
+  border-right: 0px;
+  border-left: 0px;
+  border-bottom: 0px;
+  border-top: 1px lightgray;
+  border-style: solid;
+  width: 100%;
+  position: relative;
+  padding-left: 7px;
+  padding-top: 4px;
+}
+
+.layerHeader {
+  font-weight: 600;
+  font-size: larger;
+  margin-left: 7px;
+}
+
+.position { 
+  float: left;
+  width: 20px;
+}
