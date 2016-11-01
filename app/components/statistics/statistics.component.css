@@ -11,3 +11,24 @@
   right: 78px;
   top: 10px;
 }
+
+.desktopButton{
+    float: right;
+}
+.statisticsDesktop{
+    width: 590px;
+    height: 442px !important;
+    background-color: white;
+
+    margin: 36px -103px 0;
+    font-size: 11px ;
+    
+    background-color: #fff;
+    -webkit-background-clip: padding-box;
+    background-clip: padding-box;
+    border: 1px solid #ccc;
+    border: 1px solid rgba(0,0,0,.15);
+    border-radius: 4px;
+    -webkit-box-shadow: 0 6px 12px rgba(0,0,0,.175);
+    box-shadow: 0 6px 12px rgba(0,0,0,.175);
+}

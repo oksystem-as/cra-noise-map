@@ -1,10 +1,10 @@
 ﻿<!--STANDARD-->
 <div id="statisticsButtonId" class="statStandard" *hideItDevice="['mobile']">
-	<button type="button" class="btn btn-default hiddenButton" (click)="isHidden = !isHidden" [class.hiddenButton]="isHidden" [class.visibleButton]="!isHidden">         
+	<button type="button" class="btn btn-default desktopButton" (click)="isHidden = !isHidden"  (click)="onOpen()" [class.active]="!isHidden">         
           <!--<img class="statListIco" src="..\app\images\graph.png">-->
           <span class="glyphicon glyphicon-signal" aria-hidden="true"></span>
           <span class="description">Statistiky čidla</span>
-          <span class="glyphicon" [class.glyphicon-menu-down]="isHidden" [class.glyphicon-menu-up]="!isHidden" aria-hidden="true" id="statButtonArrow"></span> 
+		  <span class="caret"></span>
     </button>
 
 	<div id="statisticsId" class="statisticsDesktop" [collapse]="isHidden">

@@ -1,5 +1,9 @@
 <div id="tabs" *hideItDevice="['mobile']">
 	<tabset [justified]="false">
+		<tab heading="{{getName(statisType)}}" *ngFor="let statisType of statisTypeList" (select)="setSelectedStatisType(statisType)">
+			<statis [statisType]="statisType"></statis>
+		</tab>
+<!--
 		<tab heading="Hodinový" (select)="statis1.refresh($event)">
 			<statis #statis1 [statisType]="'HOUR'"></statis>
 		</tab>
@@ -20,7 +24,7 @@
 		</tab>
 		<tab heading="Měsíční" (select)="statis7.refresh($event)">
 			<statis #statis7 [statisType]="'MONTH'"></statis>
-		</tab>
+		</tab>-->
 	</tabset>
 </div>
 

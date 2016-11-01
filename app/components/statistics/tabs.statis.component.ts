@@ -25,5 +25,4 @@ export class TabsStatisComponent {
     getName(statisType: StatisType) {
         return StatisticsUtils.getNameForStatisType(statisType);
     }
-
 }
