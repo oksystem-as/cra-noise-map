@@ -313,7 +313,7 @@ export class MapComponent implements AfterViewInit {
 
     return new google.maps.InfoWindow({
       content: "<div class='info-window'>" + text + "</div>",
-      disableAutoPan: true,
+      disableAutoPan: false,
     });
   }
 
@@ -353,7 +353,9 @@ export class MapComponent implements AfterViewInit {
     marker.addListener('mouseout', () => {
       marker.setIcon(this.decorateAsNotSelectedPerm(marker.getIcon(), marker.isPermSelected));
       if (marker.showData) {
-        infoWin.close();
+        setTimeout(() => {
+          infoWin.close();
+        }, 2000);
       }
     });
 
