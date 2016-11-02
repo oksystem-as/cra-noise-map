@@ -54,7 +54,7 @@
 			  <span class="position" *ngIf="overlay.position>0">{{overlay.position}}</span>
 			  <span class="position" *ngIf!="overlay.position>0">&nbsp; &nbsp;</span>
 			  <label class="overlayItem">
-				  <input type="checkbox" class="layerChBox" [(ngModel)]="overlay.checked" value={{overlay.value}} (ngModelChange)="onChkboxClick(overlay)"> 
+				  <input type="checkbox" class="layerChBox mobileChBox" [(ngModel)]="overlay.checked" value={{overlay.value}} (ngModelChange)="onChkboxClick(overlay)"> 
 				  {{overlay.text}} 
 			  </label>
 			</div>
