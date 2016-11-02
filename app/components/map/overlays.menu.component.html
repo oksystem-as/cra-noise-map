@@ -46,29 +46,26 @@
           </button>
 		  <h4 class="modal-title">Vyberte mapovou vrstvu</h4>
 		</div>
+		
 		<div class="modal-body">
-		  <ul class="layer-button list-unstyled">
-			<template ngFor let-overlayGroup [ngForOf]="overlayGroups" let-i="index" [ngForTrackBy]="trackByFn">
-			  <li role="menuitem"> <span class="layerHeader">{{overlayGroup.name}}</span></li>
-			  <li role="menuitem" *ngFor="let overlay of overlayGroup.overlays">
-				<a class="dropdown-item" href="#">
-			    <span class="groupItemSpan"> 
-                  <span class="position" *ngIf="overlay.position>0">{{overlay.position}}</span>
-				  <span class="position" *ngIf!="overlay.position>0">&nbsp; &nbsp;</span>
-				  <input type="checkbox" class="layerChBox" [(ngModel)]="overlay.checked" value={{overlay.value}} (ngModelChange)="onChkboxClick(overlay)"/>
-				  <span class="layerText">{{overlay.text}}</span>
-				</span>
-				</a>
-			  </li>
-			</template>
-			<br>
-			<li role="menuitem" class="layerLegend">
+		  <div class="layerHeader" *ngFor="let overlayGroup of overlayGroups, let ndx = index">
+			<label>{{overlayGroup.name}}</label>
+		    <div class="checkbox" *ngFor="let overlay of overlayGroup.overlays"> 
+			  <span class="position" *ngIf="overlay.position>0">{{overlay.position}}</span>
+			  <span class="position" *ngIf!="overlay.position>0">&nbsp; &nbsp;</span>
+			  <label> 
+				  <input type="checkbox" class="layerChBox" [(ngModel)]="overlay.checked" value={{overlay.value}} (ngModelChange)="onChkboxClick(overlay)"> 
+				  {{overlay.text}} 
+			  </label>
+			</div>
+		  </div>
+			  
+			<div role="menuitem" class="layerLegend">
 			  <span class="layerTextLegend">
                 Ln = Hlukový indikátor pro noc<br>
                 Ldvn = Hlukový indikátor pro den, večer a noc
               </span>
-			</li>
-		  </ul>
+			</div>
 		</div>
 	  </div>
 	</div>

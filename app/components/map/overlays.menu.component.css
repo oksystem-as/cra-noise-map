@@ -37,3 +37,7 @@
   float: left;
   width: 20px;
 }
+
+label {
+  width: 80%;
+}
