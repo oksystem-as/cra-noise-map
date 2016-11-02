@@ -43,13 +43,28 @@ export class MapComponent implements AfterViewInit {
     this.initControlsLayout()
     this.addNewDataListener();
     this.sensorsSharedService.loadSensorsAndPublish();
+    this.addMapDomListener();
   }
+
+  private addMapDomListener() {
+    google.maps.event.addDomListener(this.map, 'idle', function () {
+      var controlElement = document.getElementsByClassName("gm-style-mtc") as any;
+      // controlElement[0].classList.remove("bottom");
+      // controlElement[0].classList.remove("right");
+      controlElement[0].style.left = "0px";
+      controlElement[0].style.top = "43px";
+      controlElement[0].style.right = null;
+      controlElement[0].style.bottom = null; //474px
+      controlElement[0].style.height = "30px";
+    });
+  }
+
 
   private initMap() {
     this.map = new google.maps.Map(document.getElementById(this.mapId), {
       zoom: 12,
       //center: { lat: 50.053942, lng: 14.437404 }, // OKsystem
-      center: { lat:  50.064227, lng: 14.441406 }, // nam brat. synk
+      center: { lat: 50.064227, lng: 14.441406 }, // nam brat. synk
       mapTypeId: google.maps.MapTypeId.ROADMAP,
       mapTypeControl: true,
       mapTypeControlOptions: {
@@ -143,7 +158,7 @@ export class MapComponent implements AfterViewInit {
     // this.map.controls[google.maps.ControlPosition.TOP_RIGHT].push(document.getElementById('statisticsButtonId'));
     // this.map.controls[google.maps.ControlPosition.TOP_RIGHT].push(document.getElementById('senzorMenuId'));
     // this.map.controls[google.maps.ControlPosition.RIGHT_TOP].push(document.getElementById('statisticsId'));
-    
+
     // this.map.controls[google.maps.ControlPosition.TOP_LEFT].push(document.getElementById('overlaysSearchId'));
     // this.map.controls[google.maps.ControlPosition.LEFT_BOTTOM].push(document.getElementById('baseMapLegendId'));
     // this.map.controls[google.maps.ControlPosition.TOP_CENTER].push(document.getElementById('loadingOnMap'));
@@ -266,8 +281,8 @@ export class MapComponent implements AfterViewInit {
         // je v rozmezi hodiny od vybraneho data
         // sensor.showData = DateUtils.isBetween_dayIntervalFromMidnight(payload.createdAt, this.sliderNewDate);
       });
-      if(!foundDAY24){    
-         this.createMarker(sensor.latitude, sensor.longtitude, null, null, sensor, false);
+      if (!foundDAY24) {
+        this.createMarker(sensor.latitude, sensor.longtitude, null, null, sensor, false);
       }
       // }
 
@@ -292,10 +307,10 @@ export class MapComponent implements AfterViewInit {
       " <table class='table table-striped point-statis-table'> " + //class='table table-striped'
       " <thead><tr><th>Interval měření</th><th>hodnota</th></tr></thead>";
 
-      sensor.statistics.forEach(statistis => {
-         text += " <tr><th>" + StatisticsUtils.getNameForStatisType(statistis.type) + "</th><td> "+ Math.round(statistis.avgValues[0].avgValue) + "dB</td> ";
-      })
-     
+    sensor.statistics.forEach(statistis => {
+      text += " <tr><th>" + StatisticsUtils.getNameForStatisType(statistis.type) + "</th><td> " + Math.round(statistis.avgValues[0].avgValue) + "dB</td> ";
+    })
+
     return new google.maps.InfoWindow({
       content: "<div class='info-window'>" + text + "</div>",
       disableAutoPan: true,
@@ -322,7 +337,7 @@ export class MapComponent implements AfterViewInit {
       // this.devicedetailParamsDefault.devEUI = marker.sensor.devEUI;
       // this.devicedetailParamsDefault.payloadType = marker.sensor.payloadType;
       // this.devicedetailParamsDefault.publisher = "markerItem"
-      this.sensorsSharedService.loadStatisticsData(<DeviceDetailParams>{devEUI: marker.sensor.devEUI, publisher: "markerItem"});
+      this.sensorsSharedService.loadStatisticsData(<DeviceDetailParams>{ devEUI: marker.sensor.devEUI, publisher: "markerItem" });
     });
 
     marker.addListener('mouseover', () => {
