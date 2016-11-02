@@ -19,14 +19,14 @@
   text-align: left;
   position: relative;
   font-size: 11px;
-  color: silver;
+  color: darkgray;
 }
 
 .layerTextLegendMobile {
   text-align: left;
   position: relative;
   font-size: 13px;
-  color: silver;
+  color: darkgray;
 }
 
 .layerLegend {
@@ -38,7 +38,7 @@
   border-right: 0px;
   border-left: 0px;
   border-bottom: 0px;
-  border-top: 1px lightgray;
+  border-top: 1px darkgray;
   border-style: solid;
   width: 100%;
   position: relative;
