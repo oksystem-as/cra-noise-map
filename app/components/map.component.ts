@@ -293,7 +293,7 @@ export class MapComponent implements AfterViewInit {
       " <thead><tr><th>Interval měření</th><th>hodnota</th></tr></thead>";
 
       sensor.statistics.forEach(statistis => {
-         text += " <tr><th>" + statistis.type + "</th><td> "+ Math.round(statistis.avgValues[0].avgValue) + "dB</td> ";
+         text += " <tr><th>" + StatisticsUtils.getNameForStatisType(statistis.type) + "</th><td> "+ Math.round(statistis.avgValues[0].avgValue) + "dB</td> ";
       })
      
     return new google.maps.InfoWindow({

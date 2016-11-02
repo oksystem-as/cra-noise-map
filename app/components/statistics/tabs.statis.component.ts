@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, AfterViewInit, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, AfterViewInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { StatisComponent } from './statis.component';
 import { StatisticsUtils, Statistics, Statistic, SensorStatistics, StatisType } from '../../utils/statis-utils';
 import { SensorsSharedService, Events } from '../sensors-shared.service';
@@ -9,6 +9,7 @@ import { SensorsSharedService, Events } from '../sensors-shared.service';
     templateUrl: 'tabs.statis.component.html',
     styleUrls: ['tabs.statis.component.css'],
     changeDetection: ChangeDetectionStrategy.OnPush,
+    encapsulation: ViewEncapsulation.None,
 })
 export class TabsStatisComponent {
     private statisTypeList: StatisType[] = [StatisType.HOUR, StatisType.DAY6_22, StatisType.DAY18_22, StatisType.NIGHT22_6, StatisType.DAY24, StatisType.WEEK, StatisType.MONTH];
