@@ -14,7 +14,7 @@ class DataLabels {
   templateUrl: 'table.component.html',
   styleUrls: ['table.component.css'],
 })
-export class TableStatisComponent { // implements OnChanges {
+export class TableStatisComponent { 
 
   private allDataLabels: DataLabels = <DataLabels>{ data: [] };
   private showDataLabels: DataLabels = <DataLabels>{ data: [] };
@@ -27,7 +27,6 @@ export class TableStatisComponent { // implements OnChanges {
 
   @Input()
   public statisType: StatisType = StatisType.DAY24;
-  
 
   constructor(private changeDetectorRef: ChangeDetectorRef, private sensorsSharedService: SensorsSharedService) {
     changeDetectorRef.detach();
@@ -38,12 +37,12 @@ export class TableStatisComponent { // implements OnChanges {
     });
 
     sensorsSharedService.listenEventData(Events.statisSlider).subscribe(data => {
-      if (data.statisType === this.statisType) {
+      // if (data.statisType === this.statisType) { // pozadavek na globallni nastaveni
         this.sliderStartDate = data.startDate;
         this.sliderStopDate = data.endDate;
         this.refreshTableData();
         this.updateTable();
-      }
+      // }
     })
 
     sensorsSharedService.listenEventData(Events.statistics)
@@ -63,6 +62,11 @@ export class TableStatisComponent { // implements OnChanges {
 
   ngAfterViewInit(): void {
     this.limit = StatisticsUtils.getLimit(this.statisType);
+  }
+
+  private onRowClick(label: Date){
+      this.sensorsSharedService.publishEvent(Events.sliderNewDate, label, "TableStatisComponent.rowClick");
+      this.sensorsSharedService.loadSensorsAndPublish(DateUtils.getDayFlatDate(label));
   }
 
   private refreshTableData() {
@@ -106,4 +110,7 @@ export class TableStatisComponent { // implements OnChanges {
     return StatisticsUtils.compareSliderPointDates(this.mainSliderDate, label, this.statisType);
   }
 
+  offLimit( data: number){
+    return this.limit != undefined && data > this.limit
+  }
 }

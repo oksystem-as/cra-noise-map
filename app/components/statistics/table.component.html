@@ -1,19 +1,18 @@
-<div class="table-div ">
-	<table class="statis-table table table-striped table-condensed">
-		<thead>
-			<tr>
-				<th>datum</th>
-				<th>hodnota</th>
-			</tr>
-		</thead>
-		<tbody>
-			<tr *ngFor="let data of showDataLabels.data, let ndx = index" 
-			[class.offLimit]="limit != undefined && data.data > limit" 
-			[class.underLimit]="limit == undefined || data.data <= limit" 
-			[class.info]="isChoosen(data.label)" >
-				<th>{{getDateString(data.label)}}</th>
-				<td>{{data.data}}</td>
-			</tr>
-		</tbody>
-	</table>
-</div>
+<table class="statis-table table table-striped table-condensed">
+	<thead>
+		<tr>
+			<th>datum</th>
+			<th>hodnota</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr *ngFor="let data of showDataLabels.data, let ndx = index" 
+		[class.offLimit]="offLimit(data.data)" 
+		[class.underLimit]="!offLimit(data.data)" 
+		[class.info]="isChoosen(data.label)"
+		(click)="onRowClick(data.label)" >
+			<th>{{getDateString(data.label)}}</th>
+			<td>{{data.data}}</td>
+		</tr>
+	</tbody>
+</table>

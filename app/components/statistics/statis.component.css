@@ -1,9 +1,17 @@
- /*#statis {
-   z-index: 18 !important;
- }*/
+.chartDesktop{
+  margin-left: 10px;    
+  padding-top: 12px; 
+  padding-right: 12px;
+}
 
- .chartDesktop{
-     margin-left: 10px;    
-     padding-top: 12px; 
-     padding-right: 12px;
- }
+.tableDesktop {
+  overflow-y: scroll;
+  height:150px;
+}
+
+.sliderDesktop{
+  width: 100% !important;
+  padding-right: 50px;
+  padding-left: 50px;
+  padding-bottom: 10px;
+}

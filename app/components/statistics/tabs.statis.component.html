@@ -1,4 +1,5 @@
-<div id="tabs" *hideItDevice="['mobile']" class="nav-link-desktop">
+<!--DESKTOP-->
+<div *hideItDevice="['mobile']" class="nav-link-desktop">
 	<tabset [justified]="false">
 		<tab heading="{{getName(statisType)}}" *ngFor="let statisType of statisTypeList" (select)="setSelectedStatisType(statisType)">
 			<statis [statisType]="statisType"></statis>
@@ -6,7 +7,8 @@
 	</tabset>
 </div>
 
-<div id="tabs" *showItDevice="['mobile']" >
+<!--MOBILE-->
+<div *showItDevice="['mobile']" >
 	<div (click)="$event.preventDefault()" >
 		<div class="btn-group statis-menu-mobile" dropdown >
 			<button id="single-button" type="button" class="btn btn-primary statis-menu-mobile" dropdownToggle>

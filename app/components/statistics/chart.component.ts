@@ -185,12 +185,12 @@ export class ChartComponent implements AfterViewInit {
         });
 
         sensorsSharedService.listenEventData(Events.statisSlider).subscribe(data => {
-            if (data.statisType === this.statisType) {
+            // if (data.statisType === this.statisType) { // pozadavek na globallni nastaveni
                 this.sliderStartDate = data.startDate;
                 this.sliderStopDate = data.endDate;
                 this.refreshChartData();
                 this.updateChart();
-            }
+            // }
         })
 
         sensorsSharedService.listenEventData(Events.statistics)
