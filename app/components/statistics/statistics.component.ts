@@ -41,7 +41,9 @@ export class StatisticsComponent {
         // zvyrazneni vybraneho
         this.sensorsSharedService.listenEventData(Events.selectSensor).subscribe(() => {
             this.isHidden = false;
-            this.lgModal.show();
+            if (this.lgModal) {
+                this.lgModal.show();
+            }
         });
     }
 

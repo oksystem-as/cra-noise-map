@@ -34,8 +34,7 @@ export class ChartComponent implements AfterViewInit {
     private sliderStopDate;
     private limit: number;
     private chart: Chart.LineChartInstance;
-    public chartId = "chartId" + RandomUtils.getRandom();
-    // public sliderId = "sliderId" + RandomUtils.getRandom();
+    private chartId = "chartId" + RandomUtils.getRandom();
     private linearChartData: Chart.LineChartData = {
         labels: [],
         datasets: [{
@@ -156,7 +155,7 @@ export class ChartComponent implements AfterViewInit {
             backColList.push("rgb(108, 216, 106)");
         }
 
-        if (this.compareSliderPointDates(this.mainSliderDate, date)) {
+        if (StatisticsUtils.compareSliderPointDates(this.mainSliderDate, date, this.statisType)) {
             borderColList.push("#0989C9");
         } else {
             borderColList.push("white");
@@ -216,26 +215,26 @@ export class ChartComponent implements AfterViewInit {
     /**
      * porovna vybrany den hlavniho slideru s bodem v grafu 
      */
-    private compareSliderPointDates(mainSliderDate: Date, pointDate: Date) {
-        switch (this.statisType) {
-            case StatisType.DAY6_22:
-            case StatisType.DAY18_22:
-            case StatisType.NIGHT22_6:
-            case StatisType.DAY24:
-            case StatisType.HOUR:
-                let flatDateDPoint = DateUtils.getDayFlatDate(new Date(pointDate));
-                let flatDateDSlider = DateUtils.getDayFlatDate(new Date(this.mainSliderDate));
-                return flatDateDSlider.getTime() === flatDateDPoint.getTime()
-            case StatisType.WEEK:
-                let flatDateWPoint = DateUtils.getWeekFlatDate(new Date(pointDate));
-                let flatDateWSlider = DateUtils.getWeekFlatDate(new Date(this.mainSliderDate));
-                return flatDateWSlider.getTime() === flatDateWPoint.getTime()
-            case StatisType.MONTH:
-                let flatDateMPoint = DateUtils.getMonthFlatDate(new Date(pointDate));
-                let flatDateMSlider = DateUtils.getMonthFlatDate(new Date(this.mainSliderDate));
-                return flatDateMSlider.getTime() === flatDateMPoint.getTime()
-        }
-    }
+    // private compareSliderPointDates(mainSliderDate: Date, pointDate: Date) {
+    //     switch (this.statisType) {
+    //         case StatisType.DAY6_22:
+    //         case StatisType.DAY18_22:
+    //         case StatisType.NIGHT22_6:
+    //         case StatisType.DAY24:
+    //         case StatisType.HOUR:
+    //             let flatDateDPoint = DateUtils.getDayFlatDate(new Date(pointDate));
+    //             let flatDateDSlider = DateUtils.getDayFlatDate(new Date(this.mainSliderDate));
+    //             return flatDateDSlider.getTime() === flatDateDPoint.getTime()
+    //         case StatisType.WEEK:
+    //             let flatDateWPoint = DateUtils.getWeekFlatDate(new Date(pointDate));
+    //             let flatDateWSlider = DateUtils.getWeekFlatDate(new Date(this.mainSliderDate));
+    //             return flatDateWSlider.getTime() === flatDateWPoint.getTime()
+    //         case StatisType.MONTH:
+    //             let flatDateMPoint = DateUtils.getMonthFlatDate(new Date(pointDate));
+    //             let flatDateMSlider = DateUtils.getMonthFlatDate(new Date(this.mainSliderDate));
+    //             return flatDateMSlider.getTime() === flatDateMPoint.getTime()
+    //     }
+    // }
 
     ngAfterViewInit(): void {
         var canvas = <HTMLCanvasElement>document.getElementById(this.chartId);

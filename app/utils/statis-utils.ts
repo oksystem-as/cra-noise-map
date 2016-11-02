@@ -44,6 +44,27 @@ export class Statistic {
  */
 export class StatisticsUtils {
 
+    public static compareSliderPointDates(mainSliderDate: Date, pointDate: Date, statisType: StatisType): boolean {
+        switch (statisType) {
+            case StatisType.DAY6_22:
+            case StatisType.DAY18_22:
+            case StatisType.NIGHT22_6:
+            case StatisType.DAY24:
+            case StatisType.HOUR:
+                let flatDateDPoint = DateUtils.getDayFlatDate(new Date(pointDate));
+                let flatDateDSlider = DateUtils.getDayFlatDate(new Date(mainSliderDate));
+                return flatDateDSlider.getTime() === flatDateDPoint.getTime()
+            case StatisType.WEEK:
+                let flatDateWPoint = DateUtils.getWeekFlatDate(new Date(pointDate));
+                let flatDateWSlider = DateUtils.getWeekFlatDate(new Date(mainSliderDate));
+                return flatDateWSlider.getTime() === flatDateWPoint.getTime()
+            case StatisType.MONTH:
+                let flatDateMPoint = DateUtils.getMonthFlatDate(new Date(pointDate));
+                let flatDateMSlider = DateUtils.getMonthFlatDate(new Date(mainSliderDate));
+                return flatDateMSlider.getTime() === flatDateMPoint.getTime()
+        }
+    }
+
     public static getNameForStatisType(statisType: StatisType): string {
         switch (statisType) {
             case StatisType.HOUR: return "Hodinový"

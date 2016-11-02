@@ -1,13 +1,12 @@
+  .table-div {
+    overflow-y: scroll;
+    height:150px;
+  }
+
  .statis-table {
     font-size: 11px;
     font-weight: 400;
-    /* margin-bottom: 46px !important; */
-    /*margin-left: 40px;*/
-    /*margin-top: -64px;*/
-
     font-family: Roboto,Arial,sans-serif;
-    /*font-size: 11px;*/
-    /*font-weight: 400;*/
   }
 
   .offLimit{

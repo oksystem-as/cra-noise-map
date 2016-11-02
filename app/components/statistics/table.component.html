@@ -1,5 +1,5 @@
-<!--<div style="overflow-y: scroll; height:150px;">
-	<table class="statis-table table table-striped">
+<div class="table-div ">
+	<table class="statis-table table table-striped table-condensed">
 		<thead>
 			<tr>
 				<th>datum</th>
@@ -7,28 +7,10 @@
 			</tr>
 		</thead>
 		<tbody>
-
-			<tr *ngFor="let label of labels, let ndx = index" [class.offLimit]="limit != undefined && data[ndx] > limit" [class.underLimit]="limit == undefined || data[ndx] <= limit" >
-				<th>{{label}}</th>
-				<td>{{data[ndx]}}</td>
-			</tr>
-		</tbody>
-	</table>
-</div>-->
-
-
-<div style="overflow-y: scroll; height:150px;">
-	<table class="statis-table table table-striped">
-		<!--<li *ngFor="let sensor of sensors, let ndx = index" ><a (click)="onClick(sensor)">{{sensor.devEUI}}</a></li>-->
-		<thead>
-			<tr>
-				<th>datum</th>
-				<th>hodnota</th>
-			</tr>
-		</thead>
-		<tbody>
-
-			<tr *ngFor="let data of showDataLabels.data, let ndx = index" [class.offLimit]="limit != undefined && data.data > limit" [class.underLimit]="limit == undefined || data.data <= limit" >
+			<tr *ngFor="let data of showDataLabels.data, let ndx = index" 
+			[class.offLimit]="limit != undefined && data.data > limit" 
+			[class.underLimit]="limit == undefined || data.data <= limit" 
+			[class.info]="isChoosen(data.label)" >
 				<th>{{getDateString(data.label)}}</th>
 				<td>{{data.data}}</td>
 			</tr>

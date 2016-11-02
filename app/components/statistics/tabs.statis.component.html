@@ -6,14 +6,14 @@
 	</tabset>
 </div>
 
-<div id="tabs" *showItDevice="['mobile']" class="statis-menu-button">
-	<div (click)="$event.preventDefault()">
-		<div class="btn-group statis-button" dropdown>
-			<button id="single-button" type="button" class="btn btn-primary statis-button" dropdownToggle>
+<div id="tabs" *showItDevice="['mobile']" >
+	<div (click)="$event.preventDefault()" >
+		<div class="btn-group statis-menu-mobile" dropdown >
+			<button id="single-button" type="button" class="btn btn-primary statis-menu-mobile" dropdownToggle>
 				{{getName(selectedStatisType)}}
 				<span class="caret"></span>
 			</button>
-			<ul dropdownMenu role="menu" aria-labelledby="single-button" class="statis-button">
+			<ul dropdownMenu role="menu" aria-labelledby="single-button" class="statis-menu-mobile">
 				<li role="menuitem" *ngFor="let statisType of statisTypeList"><a class="dropdown-item" href="#" (click)="setSelectedStatisType(statisType)">{{getName(statisType)}}</a></li>
 			</ul>
 		</div>

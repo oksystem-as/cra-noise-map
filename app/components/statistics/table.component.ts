@@ -1,17 +1,8 @@
-import {
-  AfterViewInit,
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  Input,
-  OnChanges,
-  PACKAGE_ROOT_URL,
-  SimpleChanges,
-  ViewChild
-} from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnChanges, PACKAGE_ROOT_URL, SimpleChanges, ViewChild } from '@angular/core';
 import { StatisComponent } from './statis.component';
 import { SensorsSharedService, Events } from '../sensors-shared.service';
-import { StatisticsUtils, StatisType } from '../../utils/statis-utils';
+import { ObjectUtils, RandomUtils, DateUtils } from '../../utils/utils';
+import { StatisticsUtils, StatisType, SensorStatistics, Statistics } from '../../utils/statis-utils';
 
 class DataLabels {
   data: { data: number, label: Date }[];
@@ -32,9 +23,47 @@ export class TableStatisComponent { // implements OnChanges {
   private sliderStopDate;
 
   private limit: number;
+  private mainSliderDate: Date;
 
   @Input()
   public statisType: StatisType = StatisType.DAY24;
+  
+
+  constructor(private changeDetectorRef: ChangeDetectorRef, private sensorsSharedService: SensorsSharedService) {
+    changeDetectorRef.detach();
+
+    sensorsSharedService.listenEventData(Events.sliderNewDate).subscribe(newDate => {
+      this.mainSliderDate = DateUtils.getDayFlatDate(new Date(newDate));
+      this.updateTable();
+    });
+
+    sensorsSharedService.listenEventData(Events.statisSlider).subscribe(data => {
+      if (data.statisType === this.statisType) {
+        this.sliderStartDate = data.startDate;
+        this.sliderStopDate = data.endDate;
+        this.refreshTableData();
+        this.updateTable();
+      }
+    })
+
+    sensorsSharedService.listenEventData(Events.statistics)
+      .subscribe(sensorStatistics => {
+        this.clearTableData();
+        sensorStatistics.statistics.forEach(statis => {
+          if (statis.type === this.statisType) {
+            statis.avgValues.forEach(value => {
+              this.allDataLabels.data.push({ data: Math.round(value.avgValue), label: value.date });
+            })
+            this.refreshTableData();
+            this.updateTable();
+          }
+        });
+      });
+  }
+
+  ngAfterViewInit(): void {
+    this.limit = StatisticsUtils.getLimit(this.statisType);
+  }
 
   private refreshTableData() {
     this.clearTableData();
@@ -54,7 +83,7 @@ export class TableStatisComponent { // implements OnChanges {
   }
 
   addTableData(data: number, date: Date) {
-    this.showDataLabels.data.push({ data: data, label: date});
+    this.showDataLabels.data.push({ data: data, label: date });
   }
 
   getDateString(date: Date) {
@@ -73,35 +102,8 @@ export class TableStatisComponent { // implements OnChanges {
     this.changeDetectorRef.detectChanges();
   }
 
-  constructor(private changeDetectorRef: ChangeDetectorRef, private sensorsSharedService: SensorsSharedService) {
-    changeDetectorRef.detach();
-
-    sensorsSharedService.listenEventData(Events.statisSlider).subscribe(data => {
-      if (data.statisType === this.statisType) {
-        this.sliderStartDate = data.startDate;
-        this.sliderStopDate = data.endDate;
-        this.refreshTableData();
-        this.updateTable();
-      }
-    })
-
-
-    var source = sensorsSharedService.listenEventData(Events.statistics)
-      .subscribe(sensorStatistics => {
-        this.clearTableData();
-        sensorStatistics.statistics.forEach(statis => {
-          if (statis.type === this.statisType) {
-            statis.avgValues.forEach(value => {
-              this.allDataLabels.data.push({ data: Math.round(value.avgValue), label: value.date });
-            })
-            this.refreshTableData();
-            this.updateTable();
-          }
-        });
-      });
+  isChoosen(label: Date) {
+    return StatisticsUtils.compareSliderPointDates(this.mainSliderDate, label, this.statisType);
   }
 
-  ngAfterViewInit(): void {
-    this.limit = StatisticsUtils.getLimit(this.statisType);
-  }
 }
