@@ -8,20 +8,23 @@
         </span>
     </div>
     <!--Vertical-->
-    <span *hideItBrowser="['ie']">
+    <!--<span *hideItBrowser="['ie']">-->
       <!-- Chrome, Firefox, Safari, Opera --> 
       <div *ngIf="showVertical" class="legend-vertical">
           <div class="legendText" *ngFor="let legend of legends" [style.background]="legend.color" [style.color]="legend.colorText"
-            tooltip="Hluk naměřený v DB" tooltipPopupDelay="1500" tooltipPlacement="right" tooltipClass="tooltip-legend">{{legend.valueText}}</div>
+            tooltip="Hluk naměřený v DB" tooltipPopupDelay="1500" tooltipPlacement="right" tooltipClass="tooltip-legend">
+            <span *hideItBrowser="['ie']">{{legend.valueText}}</span>
+            <span *showItBrowser="['ie']" class="legendTextIE">{{legend.valueText}}</span>
+          </div>
       </div>
-    </span>
+    <!--</span>-->
     <!-- Internet Explorer -->
-    <span *showItBrowser="['ie']">
+    <!--<span *showItBrowser="['ie']">
           <div *ngIf="showVertical" class="legend-vertical-ie">
             <div class="legendText" *ngFor="let legend of legends" [style.background]="legend.color" [style.color]="legend.colorText"
               tooltip="Hluk naměřený v DB" tooltipPopupDelay="1500" tooltipPlacement="right" tooltipClass="tooltip-legend">{{legend.valueText}}</div>
           </div>
-    </span>
+    </span>-->
 </div>
 
 

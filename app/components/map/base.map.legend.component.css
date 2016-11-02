@@ -26,6 +26,10 @@
   border: 0px solid #000000;
 }
 
+.legendTextIE {
+  font-size: 12px;
+}
+
 /*.legend-vertical {
   margin-left: 11px;
   margin-top: -188px; 
