@@ -59,6 +59,7 @@
 }
 
 .position { 
+  font-weight: normal;
   float: left;
   width: 20px;
 }
@@ -73,5 +74,5 @@
 }
 
 .mobileChBox {
-  top: -3px;
+  top: -1px;
 }
