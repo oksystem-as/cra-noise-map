@@ -74,7 +74,7 @@ export class CRaService {
   }
 
   private getDevicDetailUrlNew(params: DeviceDetailParams): string {
-    let url = this.restProxy2 + this.device + params.devEUI + this.statis;
+    let url = this.restProxy3 + this.device + params.devEUI + this.statis;
 
     if (params.date) {
       url += '?date=' + this.dateToString(params.date);
