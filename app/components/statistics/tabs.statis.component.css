@@ -1,24 +1,8 @@
-/*.accordion-statis-panel{
-  height: 400px;
-}*/
-
-/*.accordion-statis{
-  max-height: 400px;
-  overflow-y: auto; 
-  overflow-x: hidden;
+.statis-menu-button{
+    width: 100%;
 }
 
-.accordion-statis-panel{
-  /*height: 400px;*/
-  /*max-height: 400px; 
-   overflow-y: auto; */
-/*}*/
-  
-/*.accordion-content {
-  overflow-y: auto; 
-  max-height: 400px; 
-}*/
-
-.statis-button{
-    width: 100%;
+.nav-link-desktop .nav-link {
+  /*background-color: red;*/
+  padding: 10px 12px;
 }

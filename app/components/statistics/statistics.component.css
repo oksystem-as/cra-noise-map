@@ -14,8 +14,9 @@
     position: absolute;
     right: 10px;
     top: 46px;
-    width: 590px;
+    width: 577px;
     height: 452px;
+    padding-top: 2px;
 
     font-size: 11px ;
     background-color: #fff;

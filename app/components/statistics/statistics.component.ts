@@ -15,6 +15,7 @@ import { GroupedObservable } from 'rxjs/operator/groupBy';
 import { BehaviorSubject } from "rxjs/Rx";
 import 'rxjs/Rx';
 import { ChartsModule } from 'ng2-charts/ng2-charts';
+import { ModalDirective } from 'ng2-bootstrap/ng2-bootstrap';
 
 @Component({
     selector: 'statistics',
@@ -23,26 +24,28 @@ import { ChartsModule } from 'ng2-charts/ng2-charts';
 })
 export class StatisticsComponent {
     //collapse content
-    public isHidden: boolean = true;
+    private isHidden: boolean = true;
 
-    getTooltip(){
-        if(this.isHidden){
+    @ViewChild('lgModal')
+    private lgModal: ModalDirective;
+
+    getTooltip() {
+        if (this.isHidden) {
             return "Zobrazit statistiky"
-        } 
-        return "Sbalit statistiky" 
+        }
+        return "Sbalit statistiky"
     }
 
-    constructor(private changeDetectorRef: ChangeDetectorRef, private log: Logger, private sensorsSharedService: SensorsSharedService) {
+    constructor(private log: Logger, private sensorsSharedService: SensorsSharedService) {
 
         // zvyrazneni vybraneho
         this.sensorsSharedService.listenEventData(Events.selectSensor).subscribe(() => {
-            // this.selectedSensor = sensor;
             this.isHidden = false;
-            // this.changeDetectorRef.detectChanges();
+            this.lgModal.show();
         });
     }
-    
-    onOpen(){
+
+    onOpen() {
         this.sensorsSharedService.publishEvent(Events.refreshStatisSlider, undefined);
     }
 
