@@ -48,20 +48,20 @@
 		</div>
 		
 		<div class="modal-body">
-		  <div class="layerHeader" *ngFor="let overlayGroup of overlayGroups, let ndx = index">
-			<label>{{overlayGroup.name}}</label>
+		  <div class="layerHeaderMobile" *ngFor="let overlayGroup of overlayGroups, let ndx = index">
+			<label class="group">{{overlayGroup.name}}</label>
 		    <div class="checkbox" *ngFor="let overlay of overlayGroup.overlays"> 
 			  <span class="position" *ngIf="overlay.position>0">{{overlay.position}}</span>
 			  <span class="position" *ngIf!="overlay.position>0">&nbsp; &nbsp;</span>
-			  <label> 
+			  <label class="overlayItem">
 				  <input type="checkbox" class="layerChBox" [(ngModel)]="overlay.checked" value={{overlay.value}} (ngModelChange)="onChkboxClick(overlay)"> 
 				  {{overlay.text}} 
 			  </label>
 			</div>
 		  </div>
 			  
-			<div role="menuitem" class="layerLegend">
-			  <span class="layerTextLegend">
+			<div role="menuitem" class="layerLegendMobile">
+			  <span class="layerTextLegendMobile">
                 Ln = Hlukový indikátor pro noc<br>
                 Ldvn = Hlukový indikátor pro den, večer a noc
               </span>

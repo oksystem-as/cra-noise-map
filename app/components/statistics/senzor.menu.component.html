@@ -31,11 +31,9 @@
 		  <h4 class="modal-title">Vyberte čidlo</h4>
 		</div>
 		<div class="modal-body">
-		  <ul list-unstyled>
-		    <li role="menuitem" *ngFor="let sensor of sensors, let ndx = index">
-			  <a (click)="onClick(sensor)" [class.red-sensor]="isSensorSelected(sensor)" [class.bold-sensor]="isSensorOnMap(sensor)">{{sensor.name}}</a>
-		    </li>
-		  </ul>	
+		  <label class="senzorItem" (click)="onClick(sensor)" [class.red-sensor]="isSensorSelected(sensor)" [class.bold-sensor]="isSensorOnMap(sensor)" *ngFor="let sensor of sensors, let ndx = index">{{sensor.name}}
+			<!--<a (click)="onClick(sensor)" [class.red-sensor]="isSensorSelected(sensor)" [class.bold-sensor]="isSensorOnMap(sensor)">{{sensor.name}}</a>-->
+		  </label>	  
 		</div>
 	  </div>
 	</div>
