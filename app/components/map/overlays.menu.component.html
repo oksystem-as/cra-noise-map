@@ -47,7 +47,7 @@
 		  <h4 class="modal-title">Vyberte mapovou vrstvu</h4>
 		</div>
 		<div class="modal-body">
-		  <ul class="layer-button">
+		  <ul class="layer-button list-unstyled">
 			<template ngFor let-overlayGroup [ngForOf]="overlayGroups" let-i="index" [ngForTrackBy]="trackByFn">
 			  <li role="menuitem"> <span class="layerHeader">{{overlayGroup.name}}</span></li>
 			  <li role="menuitem" *ngFor="let overlay of overlayGroup.overlays">
