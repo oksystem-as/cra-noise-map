@@ -107,11 +107,6 @@ export class MapComponent implements AfterViewInit {
       center: { lat: 50.064227, lng: 14.441406 }, // nam brat. synk
       mapTypeId: google.maps.MapTypeId.ROADMAP,
       mapTypeControl: false,
-      // mapTypeControlOptions: {
-      //   style: google.maps.MapTypeControlStyle.HORIZONTAL_BAR,
-      //   position: google.maps.ControlPosition.BOTTOM_RIGHT,
-      //   mapTypeIds: [google.maps.MapTypeId.ROADMAP, google.maps.MapTypeId.SATELLITE, google.maps.MapTypeId.HYBRID, google.maps.MapTypeId.TERRAIN]
-      // },
       zoomControl: false,
       scaleControl: false,
       streetViewControl: false,
@@ -125,34 +120,25 @@ export class MapComponent implements AfterViewInit {
       //center: { lat: 50.053942, lng: 14.437404 }, // OKsystem
       center: { lat: 50.064227, lng: 14.441406 }, // nam brat. synk
       mapTypeId: google.maps.MapTypeId.ROADMAP,
-      mapTypeControl: false,
-      // mapTypeControlOptions: {
-      //   style: google.maps.MapTypeControlStyle.DROPDOWN_MENU,
-      //   position: google.maps.ControlPosition.LEFT_TOP,
-      //   mapTypeIds: [google.maps.MapTypeId.ROADMAP, google.maps.MapTypeId.SATELLITE, google.maps.MapTypeId.HYBRID, google.maps.MapTypeId.TERRAIN]
-      // },
-
+      mapTypeControl: true,
       mapTypeControlOptions: {
-        style: google.maps.MapTypeControlStyle.HORIZONTAL_BAR,
-        position: google.maps.ControlPosition.RIGHT_BOTTOM,
-        mapTypeIds: [google.maps.MapTypeId.ROADMAP, google.maps.MapTypeId.SATELLITE]
-      },
-      overviewMapControl: true,
-      zoomControl: true,
-      zoomControlOptions: {
-        style: google.maps.ZoomControlStyle.SMALL,
+        style: google.maps.MapTypeControlStyle.DEFAULT,
         position: google.maps.ControlPosition.RIGHT_BOTTOM
-      },
-      scaleControl: true,
-      streetViewControl: true,
-      streetViewControlOptions: {
+    },
+    zoomControl: true,
+    zoomControlOptions: {
         position: google.maps.ControlPosition.RIGHT_BOTTOM
-      },
-    });
+    },
+    scaleControl: true,
+    streetViewControl: true,
+    streetViewControlOptions: {
+        position: google.maps.ControlPosition.RIGHT_BOTTOM
     }
+  });
     
     this.sensorsSharedService.publishEvent(Events.mapInstance, this.map, "MapComponent.initMap");
   }
+}
 
   private initNoiseOverlay() {
     this.noiseMapType = new google.maps.ImageMapType({
