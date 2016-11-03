@@ -35,6 +35,7 @@ import { Ng2BootstrapModule } from 'ng2-bootstrap/ng2-bootstrap';
 import { ModalModule } from 'ng2-bootstrap/ng2-bootstrap';
 import { CarouselModule } from 'ng2-bootstrap/ng2-bootstrap';
 import { DropdownModule } from 'ng2-bootstrap/ng2-bootstrap';
+import { ReversePipe } from './pipes/reverse.pipe';
 
 @NgModule({
   imports: [
@@ -54,6 +55,7 @@ import { DropdownModule } from 'ng2-bootstrap/ng2-bootstrap';
     Logger
   ],
   declarations: [
+    ReversePipe,
     AppComponent,
     MapComponent,
     TestComponent,
