@@ -195,7 +195,6 @@ export class ChartComponent implements AfterViewInit {
 
         sensorsSharedService.listenEventData(Events.statistics)
             .subscribe(sensorStatistics => {
-                console.log("sensorStatistics");
                 sensorStatistics.statistics.forEach(statis => {
                     if (statis.type === this.statisType) {
                         this.clearChartData();

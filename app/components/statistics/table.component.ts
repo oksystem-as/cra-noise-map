@@ -40,6 +40,7 @@ export class TableStatisComponent {
       // if (data.statisType === this.statisType) { // pozadavek na globallni nastaveni
         this.sliderStartDate = data.startDate;
         this.sliderStopDate = data.endDate;
+        this.clearShowTableData();
         this.refreshTableData();
         this.updateTable();
       // }
@@ -47,7 +48,7 @@ export class TableStatisComponent {
 
     sensorsSharedService.listenEventData(Events.statistics)
       .subscribe(sensorStatistics => {
-        this.clearTableData();
+        this.clearAllTableData();
         sensorStatistics.statistics.forEach(statis => {
           if (statis.type === this.statisType) {
             statis.avgValues.forEach(value => {
@@ -70,7 +71,6 @@ export class TableStatisComponent {
   }
 
   private refreshTableData() {
-    this.clearTableData();
     if (this.allDataLabels) {
       this.allDataLabels.data.forEach(data => {
         let inInterval = true
@@ -98,8 +98,13 @@ export class TableStatisComponent {
     return label;
   }
 
-  clearTableData() {
+  clearShowTableData() {
     this.showDataLabels.data.length = 0;
+  }
+
+  clearAllTableData() {
+    this.showDataLabels.data.length = 0;
+    this.allDataLabels.data.length = 0;
   }
 
   updateTable() {

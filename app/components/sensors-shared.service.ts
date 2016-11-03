@@ -148,7 +148,8 @@ export class SensorsSharedService {
             dateInt = DateUtils.getDayFlatDate(new Date())
         } else {
             // HOTFIX asi nejaka chyba
-            dateInt = new Date(dateInt.getTime() - DateUtils.DAY_IN_MILIS);
+            // dateInt = new Date(dateInt.getTime() - DateUtils.DAY_IN_MILIS);
+            dateInt = new Date(dateInt.getTime());
         }
         this.publishEvent(Events.loadSensors, this.loadSensors(dateInt, this.deviceList), "SensorsSharedService.loadSensors");
     }
