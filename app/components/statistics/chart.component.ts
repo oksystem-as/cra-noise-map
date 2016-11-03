@@ -182,9 +182,10 @@ export class ChartComponent implements AfterViewInit {
             this.refreshChartData();
             this.updateChart();
         });
-        
+
         sensorsSharedService.listenEventData(Events.statisticsDialog)
-            .combineLatest(
+//            .combineLatest
+            .withLatestFrom(
             sensorsSharedService.listenEventData(Events.statisticsTab),
             sensorsSharedService.listenEventData(Events.statistics))
             .subscribe(data => {
