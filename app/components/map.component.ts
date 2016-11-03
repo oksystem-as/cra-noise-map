@@ -33,6 +33,7 @@ export class MapComponent implements AfterViewInit {
   private noiseMapType: google.maps.ImageMapType;
   private sliderNewDate: Date = SensorsSharedService.minDateLimit;
   private showLoading = false;
+  private selectedSensor: SensorStatistics;
 
   constructor(private log: Logger, private sensorsSharedService: SensorsSharedService) {
   }
@@ -189,15 +190,6 @@ export class MapComponent implements AfterViewInit {
   }
 
   private addNewDataListener() {
-
-    // this.sensorsSharedService.listenEventData(Events.showMasterLoading).subscribe(showLoading => {
-    //   this.showLoading = showLoading;
-    // });
-
-    // this.sensorsSharedService.listenEventData(Events.sliderNewDate).subscribe(data => {
-    //   this.sliderNewDate = data;
-    // });
-
     this.sensorsSharedService.listenEventData(Events.mapOverlays).debounceTime(1500).filter((overlayGroup: OverlayGroup[]) => {
       return overlayGroup != undefined && overlayGroup.length > 0
     }).subscribe((overlayGroup: OverlayGroup[]) => {
@@ -258,34 +250,22 @@ export class MapComponent implements AfterViewInit {
     this.sensorsSharedService.listenEventData(Events.loadSensor).filter((sensor: SensorStatistics) => {
       return sensor != undefined && sensor.statistics != undefined //&& sensor.statistics.length > 0
     }).subscribe((sensor: SensorStatistics) => {
-      // console.log("New sensor event (Events.loadSensor): ", sensor)
       this.removeMarkers(sensor.devEUI);
-      // odstranim predchozi markery
-      //this.removeMarkers();
-      // this.removeHeatMap();
-
-      var i = 1;
-
-      // if (sensor.payloads[0] != undefined) {
-      //   console.log(sensor.payloads[0].createdAt.toLocaleString());
-      // }
-      // if (sensor.payloadType == PayloadType.ARF8084BA) {
-      // sensor.showData = false;
       let foundDAY24 = false;
+      let selected = false;
+      if (this.selectedSensor) {
+        selected = this.selectedSensor.devEUI === sensor.devEUI
+      }
       sensor.statistics.forEach((statistics: Statistics) => {
         if (statistics.type === StatisType.DAY24) {
           foundDAY24 = true;
           var infowindow = this.createInfoWindow(sensor, statistics.avgValues[0].avgValue, statistics.avgValues[0].date);
-          this.createMarker(sensor.latitude, sensor.longtitude, infowindow, statistics.avgValues[0].avgValue, sensor, true);
+          this.createMarker(sensor.latitude, sensor.longtitude, infowindow, statistics.avgValues[0].avgValue, sensor, true, selected);
         }
-        // je v rozmezi hodiny od vybraneho data
-        // sensor.showData = DateUtils.isBetween_dayIntervalFromMidnight(payload.createdAt, this.sliderNewDate);
       });
       if (!foundDAY24) {
-        this.createMarker(sensor.latitude, sensor.longtitude, null, null, sensor, false);
+        this.createMarker(sensor.latitude, sensor.longtitude, null, null, sensor, false, selected);
       }
-      // }
-
     });
   }
 
@@ -313,11 +293,14 @@ export class MapComponent implements AfterViewInit {
 
     return new google.maps.InfoWindow({
       content: "<div class='info-window'>" + text + "</div>",
-      disableAutoPan: false,
+      disableAutoPan: true,
+      // zIndex: 10000000,
+      // pixelOffset: new google.maps.Size(200,200,"px","px"),
+      //position: { lat: sensor.latitude+400, lng: sensor.longtitude },
     });
   }
 
-  private createMarker(latitude: number, longtitude: number, infoWin: google.maps.InfoWindow, value: number, sensor: SensorStatistics, showData: boolean): google.maps.Marker {
+  private createMarker(latitude: number, longtitude: number, infoWin: google.maps.InfoWindow, value: number, sensor: SensorStatistics, showData: boolean, selecteSensor: boolean): google.maps.Marker {
     var marker: any = new google.maps.Marker({
       position: new google.maps.LatLng(latitude, longtitude),
       map: this.map,
@@ -328,15 +311,12 @@ export class MapComponent implements AfterViewInit {
     });
 
     marker.sensor = sensor;
-    marker.isPermSelected = false;
+    marker.isPermSelected = selecteSensor;
     marker.showData = showData //sensor.showData;
 
     marker.addListener('click', () => {
-      // this.sensorsSharedService.publishEvent(Events.showMasterLoading, true);
+      this.selectedSensor = marker.sensor
       this.sensorsSharedService.publishEvent(Events.selectSensor, marker.sensor, "MapComponent.markerClick");
-      // this.devicedetailParamsDefault.devEUI = marker.sensor.devEUI;
-      // this.devicedetailParamsDefault.payloadType = marker.sensor.payloadType;
-      // this.devicedetailParamsDefault.publisher = "markerItem"
       this.sensorsSharedService.loadStatisticsData(<DeviceDetailParams>{ devEUI: marker.sensor.devEUI, publisher: "markerItem" });
     });
 
@@ -353,11 +333,15 @@ export class MapComponent implements AfterViewInit {
     marker.addListener('mouseout', () => {
       marker.setIcon(this.decorateAsNotSelectedPerm(marker.getIcon(), marker.isPermSelected));
       if (marker.showData) {
-        setTimeout(() => {
-          infoWin.close();
-        }, 2000);
+        // setTimeout(() => {
+        infoWin.close();
+        // }, 2000);
       }
     });
+
+    if (selecteSensor) {
+      marker.setIcon(this.decorateAsNotSelectedPerm(marker.getIcon(), true));
+    }
 
     this.markersMap.set(sensor.devEUI, marker);
     return marker;

@@ -40,7 +40,7 @@ export class SenzorMenuComponent {
     this.sensorsSharedService.listenEventData(Events.loadSensor).filter((sensor) => { return sensor != undefined })
       .subscribe((sensorStatistics: SensorStatistics) => {
         ArrayUtils.replaceOrAddObject(this.sensors, sensorStatistics, (sen) => { return sen.devEUI === sensorStatistics.devEUI })
-        this.selectedSensor = null;
+        // this.selectedSensor = null;
         this.changeDetectorRef.detectChanges();
       })
 
