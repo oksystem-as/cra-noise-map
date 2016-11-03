@@ -16,6 +16,7 @@ import { BehaviorSubject } from "rxjs/Rx";
 import 'rxjs/Rx';
 import { ChartsModule } from 'ng2-charts/ng2-charts';
 import { ModalDirective } from 'ng2-bootstrap/ng2-bootstrap';
+import { StatisticsUtils, StatisType, SensorStatistics, Statistics } from '../../utils/statis-utils';
 
 @Component({
     selector: 'statistics',
@@ -25,6 +26,7 @@ import { ModalDirective } from 'ng2-bootstrap/ng2-bootstrap';
 export class StatisticsComponent {
     //collapse content
     private isHidden: boolean = true;
+    private selectedSensor: SensorStatistics;
 
     @ViewChild('lgModal')
     private lgModal: ModalDirective;
@@ -36,10 +38,12 @@ export class StatisticsComponent {
         return "Sbalit statistiky"
     }
 
-    constructor(private log: Logger, private sensorsSharedService: SensorsSharedService) {
+    constructor(private changeDetectorRef: ChangeDetectorRef, private log: Logger, private sensorsSharedService: SensorsSharedService) {
 
         // zvyrazneni vybraneho
-        this.sensorsSharedService.listenEventData(Events.selectSensor).subscribe(() => {
+        this.sensorsSharedService.listenEventData(Events.selectSensor).subscribe((selectedSensor: SensorStatistics) => {
+            this.selectedSensor = selectedSensor;
+            changeDetectorRef.detectChanges();
             this.isHidden = false;
             if (this.lgModal) {
                 this.lgModal.show();
@@ -49,6 +53,13 @@ export class StatisticsComponent {
 
     onOpen() {
         this.sensorsSharedService.publishEvent(Events.refreshStatisSlider, undefined);
+    }
+
+    getSensorName():string {
+        if (this.selectedSensor){
+            return this.selectedSensor.name;
+        }
+        return ""
     }
 
 }

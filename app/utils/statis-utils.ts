@@ -30,6 +30,9 @@ export class SensorStatistics {
 export class Statistics {
     type: StatisType;
     avgValues: Statistic[];
+    isComplete:string;
+    // pocet hodnot z daneho cidla
+    count:number;
 }
 
 export class Statistic {
