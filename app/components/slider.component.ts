@@ -72,6 +72,7 @@ export class SliderComponent implements AfterViewInit {
                 },
                 id: "mainSlider",
                 range: false,
+                tooltip:"always",
             });
 
             // pokud se vybere nove datum provede se prenacteni dat s novym vychozim datem
