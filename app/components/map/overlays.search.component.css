@@ -2,6 +2,7 @@
   position: absolute;
   left: 10px;
   top: 10px;
+  z-index: 5;
   width: 400px;
 }
 
@@ -9,7 +10,7 @@
   position: absolute;
   left: 10px;
   top: 10px;
-   /*width: 100%;*/
+  z-index: 5;
   margin-right: 95px;
 }
 
