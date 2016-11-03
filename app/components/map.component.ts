@@ -14,6 +14,7 @@ import { Payload, PayloadType } from '../payloads/payload';
 import { SensorsSharedService, Overlay, Events, OverlayGroup } from './sensors-shared.service';
 import { CRaService, DeviceDetailParams, DeviceParams, Order } from '../service/cra.service';
 import { SensorStatistics, Statistic, Statistics, StatisticsUtils, StatisType } from '../utils/statis-utils';
+import { ResponsiveState } from 'ng2-responsive';
 
 import { ARF8084BAPayload } from '../payloads/ARF8084BAPayload';
 import { RHF1S001Payload } from '../payloads/RHF1S001Payload';
@@ -34,8 +35,23 @@ export class MapComponent implements AfterViewInit {
   private sliderNewDate: Date = SensorsSharedService.minDateLimit;
   private showLoading = false;
   private selectedSensor: SensorStatistics;
+  private isMobileIntrenal : boolean;
 
-  constructor(private log: Logger, private sensorsSharedService: SensorsSharedService) {
+  constructor(private log: Logger, private sensorsSharedService: SensorsSharedService, responsiveState: ResponsiveState) {
+     if (log != undefined) {
+    this.log.debug("responsiveState: ", responsiveState);
+    }
+    
+    responsiveState.deviceObserver.subscribe(device => {
+       this.isMobileIntrenal = device === "mobile";
+    })
+  }
+
+  isMobile() {
+    if (this.isMobileIntrenal == undefined) {
+      throw "isMobileIntrenal neni definovan";
+    }
+    return this.isMobileIntrenal;
   }
 
   ngAfterViewInit(): void {
@@ -47,22 +63,87 @@ export class MapComponent implements AfterViewInit {
     this.addMapDomListener();
   }
 
+  // ngAfterViewChecked(): void {
+  //   this.addMapDomListener();
+  // }
+
   private addMapDomListener() {
-    google.maps.event.addDomListener(this.map, 'idle', function () {
+    if (this.isMobile()) {
+      google.maps.event.addDomListener(this.map, 'idle', function () { //idle
+      var controlElement = document.getElementsByClassName("gm-style-mtc") as any;
+        controlElement[0].style.top = "79px !important";
+        controlElement[0].style.right = "23px !important";
+        controlElement[0].style.left = null;
+        controlElement[0].style.bottom = null;
+        // controlElement[0].style.height = "38px !important";
+        // controlElement[0].style.width = "72px !important";
+    });
+
+
+
+    //   google.maps.event.addDomListener(this.map, 'bounds_changed', function () { 
+    //      var controlElement = document.getElementsByClassName("gm-style-mtc") as any;
+    //      controlElement[0].style.left = null;
+    //     controlElement[0].style.top = "79px !important";
+    //     controlElement[0].style.right = "0px !important";;
+    //     controlElement[0].style.bottom = null;
+    //     controlElement[0].style.height = "38px !important";
+    //     controlElement[0].style.width = "72px !important";
+    //   });
+
+    //   google.maps.event.addDomListener(this.map, 'resize', function () { 
+    //      var controlElement = document.getElementsByClassName("gm-style-mtc") as any;
+    //      controlElement[0].style.left = null;
+    //     controlElement[0].style.top = "79px !important";
+    //     controlElement[0].style.right = "0px !important";;
+    //     controlElement[0].style.bottom = null;
+    //     controlElement[0].style.height = "38px !important";
+    //     controlElement[0].style.width = "72px !important";
+    //   });
+      
+/*
+      var controlElementDiv = document.getElementsByClassName("gm-style-mtc > div:nth-child(1)") as any;
+      controlElementDiv[0].style.height = "33px !important";
+
+      var controlElementDivOption = document.getElementsByClassName("gm-style-mtc > div:nth-child(2)") as any;
+      controlElementDivOption[0].style.top = "86% !important";*/
+
+
+      // GOOGLE STREET gmnoprint gm-bundled-control gm-bundled-control-on-bottom
+   
+      google.maps.event.addDomListener(this.map, 'idle', function () {
+        var controlGoogleStreet = document.getElementsByClassName("gm-bundled-control-on-bottom") as any;
+        controlGoogleStreet[0].style.left = null;
+        controlGoogleStreet[0].style.top = null;
+        controlGoogleStreet[0].style.right = "28px";
+        controlGoogleStreet[0].style.bottom = "93px"; 
+        controlGoogleStreet[0].style.position = "absolute";
+    });
+
+//     google.maps.event.addListener(this.map, 'idle', function() {
+//    var idleTimeout = window.setTimeout(onIdle, timeout);
+//    google.maps.event.addListenerOnce(this.map, 'bounds_changed', function() {
+//      window.clearTimeout(idleTimeout);
+//    });
+// });
+    } else {
+       google.maps.event.addDomListener(this.map, 'idle', function () {
       var controlElement = document.getElementsByClassName("gm-style-mtc") as any;
       // controlElement[0].classList.remove("bottom");
       // controlElement[0].classList.remove("right");
       controlElement[0].style.left = "0px";
       controlElement[0].style.top = "43px";
       controlElement[0].style.right = null;
-      controlElement[0].style.bottom = null; //474px
+      controlElement[0].style.bottom = null; 
       controlElement[0].style.height = "30px";
     });
   }
+}
 
 
   private initMap() {
-    this.map = new google.maps.Map(document.getElementById(this.mapId), {
+    if (this.isMobile()) {
+      this.map = new google.maps.Map(document.getElementById(this.mapId), {
       zoom: 12,
       //center: { lat: 50.053942, lng: 14.437404 }, // OKsystem
       center: { lat: 50.064227, lng: 14.441406 }, // nam brat. synk
@@ -70,7 +151,26 @@ export class MapComponent implements AfterViewInit {
       mapTypeControl: true,
       mapTypeControlOptions: {
         style: google.maps.MapTypeControlStyle.DROPDOWN_MENU,
-        position: google.maps.ControlPosition.RIGHT_BOTTOM,
+        position: google.maps.ControlPosition.LEFT_TOP,
+        mapTypeIds: [google.maps.MapTypeId.ROADMAP, google.maps.MapTypeId.SATELLITE, google.maps.MapTypeId.HYBRID, google.maps.MapTypeId.TERRAIN]
+      },
+      zoomControl: false,
+      scaleControl: false,
+      streetViewControl: true,
+      streetViewControlOptions: {
+        position: google.maps.ControlPosition.RIGHT_BOTTOM
+      },
+    });
+    } else {
+      this.map = new google.maps.Map(document.getElementById(this.mapId), {
+      zoom: 12,
+      //center: { lat: 50.053942, lng: 14.437404 }, // OKsystem
+      center: { lat: 50.064227, lng: 14.441406 }, // nam brat. synk
+      mapTypeId: google.maps.MapTypeId.ROADMAP,
+      mapTypeControl: true,
+      mapTypeControlOptions: {
+        style: google.maps.MapTypeControlStyle.DROPDOWN_MENU,
+        position: google.maps.ControlPosition.LEFT_TOP,
         mapTypeIds: [google.maps.MapTypeId.ROADMAP, google.maps.MapTypeId.SATELLITE, google.maps.MapTypeId.HYBRID, google.maps.MapTypeId.TERRAIN]
       },
       zoomControl: true,
@@ -84,6 +184,8 @@ export class MapComponent implements AfterViewInit {
         position: google.maps.ControlPosition.RIGHT_BOTTOM
       },
     });
+    }
+    
     this.sensorsSharedService.publishEvent(Events.mapInstance, this.map, "MapComponent.initMap");
   }
 
