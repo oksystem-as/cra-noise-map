@@ -55,14 +55,14 @@
 
     <!--Vertical-->
     <div class="legend-vertical-M" *ngIf="showVertical">
-	    <button type="button" class="btn btn-default legendButtonMobile" (click)="isHidden = !isHidden">         
-            <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>
+	    <!--<button type="button" class="btn btn-default legendButtonMobile" (click)="isHidden = !isHidden">         -->
+            <!--<span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>
         </button>
 
-	    <div [collapse]="isHidden">
+	    <div [collapse]="isHidden">-->
             <div class="legendText-M" *ngFor="let legend of legends" [style.background]="legend.color" [style.color]="legend.colorText">
                 {{legend.valueTextMobile}}
             </div>
-	    </div>
+	    <!--</div>-->
     </div>
 </div>

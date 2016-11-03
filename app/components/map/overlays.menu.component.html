@@ -7,15 +7,22 @@
 				<span class="caret"></span>
 			</button>
 			<ul id="overlayGroup" dropdownMenu role="menu" aria-labelledby="single-button" class="layer-button">
+				
+				<!--<li class="mapSection"> <span class="layerMainHeader">Mapové podklady</span></li>
+				  <li><a> <label class="layerText"> <input type="checkbox" class="roadChBox" (click)="onRoadMapClick()"> Roadmapa	</label> </a></li>
+					<li><a> <label class="layerText"> <input type="checkbox" class="roadChBox" (click)="onSatelliteMapClick()"> Satelitní mapa	</label> </a></li>
+					<li><a> <label class="layerText"> <input type="checkbox" class="roadChBox" (click)="onTerrainMapClick()"> Terénní mapa	</label> </a></li>-->
+
+				<!--<li class="mapSection"> <span class="layerMainHeader">Hlukové mapové vrstvy</span></li>-->
 				<template ngFor let-overlayGroup [ngForOf]="overlayGroups" let-i="index" [ngForTrackBy]="trackByFn">
 					<li role="menuitem"> <span class="layerHeader">{{overlayGroup.name}}</span></li>
 					<li role="menuitem" *ngFor="let overlay of overlayGroup.overlays">
 						<a class="dropdown-item" href="#">
 							<span class="groupItemSpan"> 
-              <span class="position" *ngIf="overlay.position>0">{{overlay.position}}</span>
-							<span class="position" *ngIf!="overlay.position>0">&nbsp; &nbsp;</span>
-							<input type="checkbox" class="layerChBox" [(ngModel)]="overlay.checked" value={{overlay.value}} (ngModelChange)="onChkboxClick(overlay)"/>
-							<span class="layerText">{{overlay.text}}</span>
+                <span class="position" *ngIf="overlay.position>0">{{overlay.position}}</span>
+							  <span class="position" *ngIf!="overlay.position>0">&nbsp; &nbsp;</span>
+							  <input type="checkbox" class="layerChBox" [(ngModel)]="overlay.checked" value={{overlay.value}} (ngModelChange)="onChkboxClick(overlay)"/>
+							  <span class="layerText">{{overlay.text}}</span>
 							</span>
 						</a>
 					</li>
@@ -44,7 +51,7 @@
 		  <button type="button" class="close" (click)="lgModal.hide()" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
-		  <h4 class="modal-title">Vyberte mapovou vrstvu</h4>
+		  <h4 class="modal-title">Vyberte mapové vrstvy</h4>
 		</div>
 		
 		<div class="modal-body">
