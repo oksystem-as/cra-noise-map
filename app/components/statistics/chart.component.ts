@@ -11,9 +11,8 @@ import { StatisticsUtils, StatisType, SensorStatistics, Statistics } from '../..
 import { ARF8084BAPayload } from '../../payloads/ARF8084BAPayload';
 import { RHF1S001Payload } from '../../payloads/RHF1S001Payload';
 import { CRaService, DeviceDetailParams, DeviceParams, Order } from '../../service/cra.service';
-import { Observable } from 'rxjs/Observable';
 import { GroupedObservable } from 'rxjs/operator/groupBy';
-import { BehaviorSubject } from "rxjs/Rx";
+import { BehaviorSubject, Observable } from 'rxjs/Rx';
 import 'rxjs/Rx';
 import { ChartsModule } from 'ng2-charts/ng2-charts';
 
@@ -184,16 +183,38 @@ export class ChartComponent implements AfterViewInit {
             this.updateChart();
         });
 
+        // sensorsSharedService.listenEventData(Events.statisticsTab)
+        //     .combineLatest(sensorsSharedService.listenEventData(Events.statistics))
+        //     .subscribe(data => {
+        //         console.log("az ted ", data, this.statisType);
+        //         if (data[0] === this.statisType) {
+        //             console.log("je to moje ");
+        //             data[1].statistics.forEach(statis => {
+        //                 if (statis.type === this.statisType) {
+        //                     this.clearChartData();
+        //                     this.statistic = statis;
+        //                     this.sliderStartDate = undefined;
+        //                     this.sliderStopDate = undefined;
+        //                     statis.avgValues.forEach(value => {
+        //                         this.addChartData(Math.round(value.avgValue), value.date);
+        //                     })
+        //                 }
+        //             });
+        //             this.updateChart();
+        //         }
+        //     })
+
+
         sensorsSharedService.listenEventData(Events.statisSlider).subscribe(data => {
             // if (data.statisType === this.statisType) { // pozadavek na globallni nastaveni
-                this.sliderStartDate = data.startDate;
-                this.sliderStopDate = data.endDate;
-                this.refreshChartData();
-                this.updateChart();
+            this.sliderStartDate = data.startDate;
+            this.sliderStopDate = data.endDate;
+            this.refreshChartData();
+            this.updateChart();
             // }
         })
 
-        sensorsSharedService.listenEventData(Events.statistics)
+        sensorsSharedService.listenEventData(Events.statistics).delay(200)
             .subscribe(sensorStatistics => {
                 sensorStatistics.statistics.forEach(statis => {
                     if (statis.type === this.statisType) {
@@ -210,7 +231,7 @@ export class ChartComponent implements AfterViewInit {
                 // this.sensorsSharedService.publishEvent(Events.showMasterLoading, false);
             });
     }
-
+    // 
     /**
      * porovna vybrany den hlavniho slideru s bodem v grafu 
      */

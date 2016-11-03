@@ -20,7 +20,8 @@ export class TabsStatisComponent {
 
     setSelectedStatisType(statisType: StatisType) {
         this.selectedStatisType = statisType;
-        this.sensorsSharedService.publishEvent(Events.refreshStatisSlider, statisType);
+        this.sensorsSharedService.publishEvent(Events.refreshStatisSlider, statisType,  "TabsStatisComponent.setSelectedStatisType");
+        this.sensorsSharedService.publishEvent(Events.statisticsTab, statisType, "TabsStatisComponent.setSelectedStatisType");
     }
 
     getName(statisType: StatisType) {

@@ -49,6 +49,9 @@ export class Events {
     public static statisSlider: IEvent<{ statisType: StatisType, startDate: Date, endDate: Date }> = { name: "statisSlider" };
     public static refreshStatisSlider: IEvent<StatisType> = { name: "refreshStatisSlider" };
     public static chartPointSelected: IEvent<{ statisType: StatisType, pointDate: Date, pointValue: number }> = { name: "chartPointSelected" };
+
+    public static statisticsDialog: IEvent<string> = { name: "statisticsDialog" };
+    public static statisticsTab: IEvent<StatisType> = { name: "statisticsTab" };
 }
 
 export class AggregatorEvent<T> {

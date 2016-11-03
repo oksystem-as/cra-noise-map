@@ -52,7 +52,8 @@ export class StatisticsComponent {
     }
 
     onOpen() {
-        this.sensorsSharedService.publishEvent(Events.refreshStatisSlider, undefined);
+        this.sensorsSharedService.publishEvent(Events.refreshStatisSlider, undefined, "StatisticsComponent.onOpen");
+        this.sensorsSharedService.publishEvent(Events.statisticsDialog, "dialogIsOpened", "StatisticsComponent.onOpen" )
     }
 
     getSensorName():string {
