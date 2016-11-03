@@ -14,7 +14,7 @@ class DataLabels {
   templateUrl: 'table.component.html',
   styleUrls: ['table.component.css'],
 })
-export class TableStatisComponent { 
+export class TableStatisComponent {
 
   private allDataLabels: DataLabels = <DataLabels>{ data: [] };
   private showDataLabels: DataLabels = <DataLabels>{ data: [] };
@@ -38,11 +38,11 @@ export class TableStatisComponent {
 
     sensorsSharedService.listenEventData(Events.statisSlider).subscribe(data => {
       // if (data.statisType === this.statisType) { // pozadavek na globallni nastaveni
-        this.sliderStartDate = data.startDate;
-        this.sliderStopDate = data.endDate;
-        this.clearShowTableData();
-        this.refreshTableData();
-        this.updateTable();
+      this.sliderStartDate = data.startDate;
+      this.sliderStopDate = data.endDate;
+      this.clearShowTableData();
+      this.refreshTableData();
+      this.updateTable();
       // }
     })
 
@@ -65,9 +65,9 @@ export class TableStatisComponent {
     this.limit = StatisticsUtils.getLimit(this.statisType);
   }
 
-  private onRowClick(label: Date){
-      this.sensorsSharedService.publishEvent(Events.sliderNewDate, label, "TableStatisComponent.rowClick");
-      this.sensorsSharedService.loadSensorsAndPublish(DateUtils.getDayFlatDate(label));
+  private onRowClick(label: Date) {
+    this.sensorsSharedService.publishEvent(Events.sliderNewDate, label, "TableStatisComponent.rowClick");
+    this.sensorsSharedService.loadSensorsAndPublish(DateUtils.getDayFlatDate(label));
   }
 
   private refreshTableData() {
@@ -76,7 +76,7 @@ export class TableStatisComponent {
         let inInterval = true
 
         if (this.sliderStartDate || this.sliderStopDate) {
-          inInterval = this.sliderStartDate.getTime() < data.label.getTime() && data.label.getTime() < this.sliderStopDate.getTime()
+          inInterval = this.sliderStartDate.getTime() <= data.label.getTime() && data.label.getTime() <= this.sliderStopDate.getTime()
         }
 
         if (inInterval) {
@@ -103,6 +103,8 @@ export class TableStatisComponent {
   }
 
   clearAllTableData() {
+    this.sliderStartDate = null;
+    this.sliderStopDate = null;
     this.showDataLabels.data.length = 0;
     this.allDataLabels.data.length = 0;
   }
@@ -115,7 +117,7 @@ export class TableStatisComponent {
     return StatisticsUtils.compareSliderPointDates(this.mainSliderDate, label, this.statisType);
   }
 
-  offLimit( data: number){
+  offLimit(data: number) {
     return this.limit != undefined && data > this.limit
   }
 }
