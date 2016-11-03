@@ -38,7 +38,7 @@ export class SliderComponent implements AfterViewInit {
 
             // pocet bodu na slideru    
             let countOfpoint = 3;
-            let aktualDate = new Date();
+            let aktualDate = DateUtils.getDayFlatDate(new Date());
 
             // rozdil mezi kazdym bodem
             let diff = (aktualDate.getTime() - oldDate.getTime()) / countOfpoint;
@@ -54,8 +54,9 @@ export class SliderComponent implements AfterViewInit {
             for (var index = 1; index < countOfpoint; index++) {
                 pom = new Date(oldDate.getTime() + index * diff);
                 // dalsi body
-                ticks.push(pom.getTime());
-                ticks_labels.push(pom.toLocaleDateString());
+                let flatDate = DateUtils.getDayFlatDate(new Date(pom.getTime()));
+                ticks.push(flatDate.getTime());
+                ticks_labels.push(flatDate.toLocaleDateString());
             }
 
             // definice posledniho bodu
@@ -65,7 +66,7 @@ export class SliderComponent implements AfterViewInit {
             this.slider = new Slider('#' + this.sliderId, {
                 ticks: ticks,
                 ticks_labels: ticks_labels,
-                ticks_snap_bounds: diff / 24,
+                ticks_snap_bounds: diff / 36,
                 // definice zobrazeni datoveho modelu uzivateli v tooltipu 
                 formatter: function (value) {
                     return new Date(value).toLocaleDateString();
