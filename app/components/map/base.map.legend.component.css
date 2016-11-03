@@ -53,17 +53,28 @@
 /* MOBILE */
 .mobile {
   position: absolute;
-  bottom: 77px;
-  left: 10px;
-
+  top: 130px;
+  right: 10px;
   z-index: 13 !important;
+}
+
+.legend-vertical-M {
+  position: absolute;
+  right: 0px;
+  top: 0px;
+  /*right: 10px;
+  top: 89px;*/
+}
+
+.legendButtonMobile {
+  padding: 9px;
 }
 
 .legendText-M {
   text-align: center;
   font-family: Roboto,Arial,sans-serif;
   font-weight: bold;
-  width: 40px;
+  /*width: 33px;*/
   height: 15px;
   font-size: 11;
 
@@ -75,4 +86,8 @@
   -moz-border-radius: 4px 4px 4px 4px;
   -webkit-border-radius: 4px 4px 4px 4px;
   border: 0px solid #000000;
+}
+
+.mobile > div > div {
+  margin-top: 10px;
 }

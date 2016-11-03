@@ -62,22 +62,86 @@ export class MapComponent implements AfterViewInit {
     this.addMapDomListener();
   }
 
+  // ngAfterViewChecked(): void {
+  //   this.addMapDomListener();
+  // }
+
   private addMapDomListener() {
-    google.maps.event.addDomListener(this.map, 'idle', function () {
+    if (this.isMobile()) {
+      google.maps.event.addDomListener(this.map, 'idle', function () { //idle
+      var controlElement = document.getElementsByClassName("gm-style-mtc") as any;
+        controlElement[0].style.top = "79px !important";
+        controlElement[0].style.right = "23px !important";
+        controlElement[0].style.left = null;
+        controlElement[0].style.bottom = null;
+        // controlElement[0].style.height = "38px !important";
+        // controlElement[0].style.width = "72px !important";
+    });
+
+
+
+    //   google.maps.event.addDomListener(this.map, 'bounds_changed', function () { 
+    //      var controlElement = document.getElementsByClassName("gm-style-mtc") as any;
+    //      controlElement[0].style.left = null;
+    //     controlElement[0].style.top = "79px !important";
+    //     controlElement[0].style.right = "0px !important";;
+    //     controlElement[0].style.bottom = null;
+    //     controlElement[0].style.height = "38px !important";
+    //     controlElement[0].style.width = "72px !important";
+    //   });
+
+    //   google.maps.event.addDomListener(this.map, 'resize', function () { 
+    //      var controlElement = document.getElementsByClassName("gm-style-mtc") as any;
+    //      controlElement[0].style.left = null;
+    //     controlElement[0].style.top = "79px !important";
+    //     controlElement[0].style.right = "0px !important";;
+    //     controlElement[0].style.bottom = null;
+    //     controlElement[0].style.height = "38px !important";
+    //     controlElement[0].style.width = "72px !important";
+    //   });
+      
+/*
+      var controlElementDiv = document.getElementsByClassName("gm-style-mtc > div:nth-child(1)") as any;
+      controlElementDiv[0].style.height = "33px !important";
+
+      var controlElementDivOption = document.getElementsByClassName("gm-style-mtc > div:nth-child(2)") as any;
+      controlElementDivOption[0].style.top = "86% !important";*/
+
+
+      // GOOGLE STREET gmnoprint gm-bundled-control gm-bundled-control-on-bottom
+   
+      google.maps.event.addDomListener(this.map, 'idle', function () {
+        var controlGoogleStreet = document.getElementsByClassName("gm-bundled-control-on-bottom") as any;
+        controlGoogleStreet[0].style.left = null;
+        controlGoogleStreet[0].style.top = null;
+        controlGoogleStreet[0].style.right = "28px";
+        controlGoogleStreet[0].style.bottom = "93px"; 
+        controlGoogleStreet[0].style.position = "absolute";
+    });
+
+//     google.maps.event.addListener(this.map, 'idle', function() {
+//    var idleTimeout = window.setTimeout(onIdle, timeout);
+//    google.maps.event.addListenerOnce(this.map, 'bounds_changed', function() {
+//      window.clearTimeout(idleTimeout);
+//    });
+// });
+    } else {
+       google.maps.event.addDomListener(this.map, 'idle', function () {
       var controlElement = document.getElementsByClassName("gm-style-mtc") as any;
       // controlElement[0].classList.remove("bottom");
       // controlElement[0].classList.remove("right");
-      controlElement[0].style.left = "0px !important";
-      controlElement[0].style.top = "43px !important";
+      controlElement[0].style.left = "0px";
+      controlElement[0].style.top = "43px";
       controlElement[0].style.right = null;
-      controlElement[0].style.bottom = null;
-      controlElement[0].style.height = "30px !important";
+      controlElement[0].style.bottom = null; 
+      controlElement[0].style.height = "30px";
     });
   }
+}
 
 
   private initMap() {
-    if (!this.isMobile()) {
+    if (this.isMobile()) {
       this.map = new google.maps.Map(document.getElementById(this.mapId), {
       zoom: 12,
       //center: { lat: 50.053942, lng: 14.437404 }, // OKsystem

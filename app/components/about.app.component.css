@@ -6,14 +6,13 @@
 }
 
 /*MOBILE*/
-.aboutAppMobile {
+/*.aboutAppMobile {
   position: absolute;
   right: 10px;
   top: 10px;
+}*/
 
-}
-
-.aboutAppMobileButton{
+.aboutAppMobileButton {
   padding: 9px;
 }
 

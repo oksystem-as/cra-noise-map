@@ -44,7 +44,7 @@
                     <li class="legendGroupItem">
                         <span class="legendText-M" *ngFor="let legend of legends" [style.background]="legend.color" [style.color]="legend.colorText"
                             tooltip="Hluk naměřený v DB" tooltipPopupDelay="1500" tooltipPlacement="top" tooltipClass="tooltip-legend">  
-                                <span>{{legend.valueText}}</span>
+                                <span>{{legend.valueTextMobile}}</span>
                         </span>
                     </li>
                 </ul>
@@ -52,9 +52,17 @@
         </ul>
     </div>
 
+
     <!--Vertical-->
-    <div *ngIf="showVertical" class="legend-vertical-M">
-        <div class="legendText-M" *ngFor="let legend of legends" [style.background]="legend.color" [style.color]="legend.colorText"
-            tooltip="Hluk naměřený v DB" tooltipPopupDelay="1500" tooltipPlacement="right" tooltipClass="tooltip-legend">{{legend.valueText}}</div>
+    <div class="legend-vertical-M" *ngIf="showVertical">
+	    <button type="button" class="btn btn-default legendButtonMobile" (click)="isHidden = !isHidden">         
+            <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>
+        </button>
+
+	    <div [collapse]="isHidden">
+            <div class="legendText-M" *ngFor="let legend of legends" [style.background]="legend.color" [style.color]="legend.colorText">
+                {{legend.valueTextMobile}}
+            </div>
+	    </div>
     </div>
 </div>

@@ -23,7 +23,13 @@ import { ChartsModule } from 'ng2-charts/ng2-charts';
 })
 export class BaseMapLegendComponent {
     private legends: ColorLegend[] = ColorUtils.colorValueMap;
+    //collapse content
+    private isHidden: boolean = true;
     
     @Input()
     private showVertical: boolean = true;
+
+    constructor (private log: Logger, private sensorsSharedService: SensorsSharedService) {
+      this.isHidden = true;
+    }
 }

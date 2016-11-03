@@ -17,8 +17,8 @@
 .rect3-M {
     z-index: 12;
     position: relative;
-    width: 109%;
-    padding-right: 88px;
+    width: 100%;
+    padding-right: 18px;
     margin-left: -67px;
     padding-bottom: 17px;
 }
