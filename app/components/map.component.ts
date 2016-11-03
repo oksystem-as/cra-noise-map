@@ -14,6 +14,7 @@ import { Payload, PayloadType } from '../payloads/payload';
 import { SensorsSharedService, Overlay, Events, OverlayGroup } from './sensors-shared.service';
 import { CRaService, DeviceDetailParams, DeviceParams, Order } from '../service/cra.service';
 import { SensorStatistics, Statistic, Statistics, StatisticsUtils, StatisType } from '../utils/statis-utils';
+import { ResponsiveState } from 'ng2-responsive';
 
 import { ARF8084BAPayload } from '../payloads/ARF8084BAPayload';
 import { RHF1S001Payload } from '../payloads/RHF1S001Payload';
@@ -33,8 +34,23 @@ export class MapComponent implements AfterViewInit {
   private noiseMapType: google.maps.ImageMapType;
   private sliderNewDate: Date = SensorsSharedService.minDateLimit;
   private showLoading = false;
+  private isMobileIntrenal : boolean;
 
-  constructor(private log: Logger, private sensorsSharedService: SensorsSharedService) {
+  constructor(private log: Logger, private sensorsSharedService: SensorsSharedService, responsiveState: ResponsiveState) {
+     if (log != undefined) {
+    this.log.debug("responsiveState: ", responsiveState);
+    }
+    
+    responsiveState.deviceObserver.subscribe(device => {
+       this.isMobileIntrenal = device === "mobile";
+    })
+  }
+
+  isMobile() {
+    if (this.isMobileIntrenal == undefined) {
+      throw "isMobileIntrenal neni definovan";
+    }
+    return this.isMobileIntrenal;
   }
 
   ngAfterViewInit(): void {
@@ -51,17 +67,18 @@ export class MapComponent implements AfterViewInit {
       var controlElement = document.getElementsByClassName("gm-style-mtc") as any;
       // controlElement[0].classList.remove("bottom");
       // controlElement[0].classList.remove("right");
-      controlElement[0].style.left = "0px";
-      controlElement[0].style.top = "43px";
+      controlElement[0].style.left = "0px !important";
+      controlElement[0].style.top = "43px !important";
       controlElement[0].style.right = null;
-      controlElement[0].style.bottom = null; //474px
-      controlElement[0].style.height = "30px";
+      controlElement[0].style.bottom = null;
+      controlElement[0].style.height = "30px !important";
     });
   }
 
 
   private initMap() {
-    this.map = new google.maps.Map(document.getElementById(this.mapId), {
+    if (!this.isMobile()) {
+      this.map = new google.maps.Map(document.getElementById(this.mapId), {
       zoom: 12,
       //center: { lat: 50.053942, lng: 14.437404 }, // OKsystem
       center: { lat: 50.064227, lng: 14.441406 }, // nam brat. synk
@@ -69,7 +86,26 @@ export class MapComponent implements AfterViewInit {
       mapTypeControl: true,
       mapTypeControlOptions: {
         style: google.maps.MapTypeControlStyle.DROPDOWN_MENU,
-        position: google.maps.ControlPosition.RIGHT_BOTTOM,
+        position: google.maps.ControlPosition.LEFT_TOP,
+        mapTypeIds: [google.maps.MapTypeId.ROADMAP, google.maps.MapTypeId.SATELLITE, google.maps.MapTypeId.HYBRID, google.maps.MapTypeId.TERRAIN]
+      },
+      zoomControl: false,
+      scaleControl: false,
+      streetViewControl: true,
+      streetViewControlOptions: {
+        position: google.maps.ControlPosition.RIGHT_BOTTOM
+      },
+    });
+    } else {
+      this.map = new google.maps.Map(document.getElementById(this.mapId), {
+      zoom: 12,
+      //center: { lat: 50.053942, lng: 14.437404 }, // OKsystem
+      center: { lat: 50.064227, lng: 14.441406 }, // nam brat. synk
+      mapTypeId: google.maps.MapTypeId.ROADMAP,
+      mapTypeControl: true,
+      mapTypeControlOptions: {
+        style: google.maps.MapTypeControlStyle.DROPDOWN_MENU,
+        position: google.maps.ControlPosition.LEFT_TOP,
         mapTypeIds: [google.maps.MapTypeId.ROADMAP, google.maps.MapTypeId.SATELLITE, google.maps.MapTypeId.HYBRID, google.maps.MapTypeId.TERRAIN]
       },
       zoomControl: true,
@@ -83,6 +119,8 @@ export class MapComponent implements AfterViewInit {
         position: google.maps.ControlPosition.RIGHT_BOTTOM
       },
     });
+    }
+    
     this.sensorsSharedService.publishEvent(Events.mapInstance, this.map, "MapComponent.initMap");
   }
 
