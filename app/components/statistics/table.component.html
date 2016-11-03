@@ -6,7 +6,8 @@
 		</tr>
 	</thead>
 	<tbody>
-		<tr *ngFor="let data of showDataLabels.data | reverse"
+		<!--| reverse-->
+		<tr *ngFor="let data of showDataLabels.data.slice().reverse() "
 		[class.offLimit]="offLimit(data.data)" 
 		[class.underLimit]="!offLimit(data.data)" 
 		[class.info]="isChoosen(data.label)"

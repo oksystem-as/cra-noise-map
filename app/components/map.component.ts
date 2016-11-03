@@ -35,15 +35,15 @@ export class MapComponent implements AfterViewInit {
   private sliderNewDate: Date = SensorsSharedService.minDateLimit;
   private showLoading = false;
   private selectedSensor: SensorStatistics;
-  private isMobileIntrenal : boolean;
+  private isMobileIntrenal: boolean;
 
   constructor(private log: Logger, private sensorsSharedService: SensorsSharedService, responsiveState: ResponsiveState) {
-     if (log != undefined) {
-    this.log.debug("responsiveState: ", responsiveState);
+    if (log != undefined) {
+      this.log.debug("responsiveState: ", responsiveState);
     }
-    
+
     responsiveState.deviceObserver.subscribe(device => {
-       this.isMobileIntrenal = device === "mobile";
+      this.isMobileIntrenal = device === "mobile";
     })
   }
 
@@ -70,7 +70,7 @@ export class MapComponent implements AfterViewInit {
   private addMapDomListener() {
     if (this.isMobile()) {
       google.maps.event.addDomListener(this.map, 'idle', function () { //idle
-      var controlElement = document.getElementsByClassName("gm-style-mtc") as any;
+        var controlElement = document.getElementsByClassName("gm-style-mtc") as any;
         controlElement[0].style.top = "79px";
         controlElement[0].style.right = "23px";
         controlElement[0].style.left = null;
@@ -81,64 +81,64 @@ export class MapComponent implements AfterViewInit {
         controlGoogleStreet[0].style.left = null;
         controlGoogleStreet[0].style.top = null;
         controlGoogleStreet[0].style.right = "28px";
-        controlGoogleStreet[0].style.bottom = "93px"; 
+        controlGoogleStreet[0].style.bottom = "93px";
         controlGoogleStreet[0].style.position = "absolute";
       });
     } else {
-       google.maps.event.addDomListener(this.map, 'idle', function () {
-      var controlElement = document.getElementsByClassName("gm-style-mtc") as any;
-      // controlElement[0].classList.remove("bottom");
-      // controlElement[0].classList.remove("right");
-      controlElement[0].style.left = "0px";
-      controlElement[0].style.top = "43px";
-      controlElement[0].style.right = null;
-      controlElement[0].style.bottom = null; 
-      controlElement[0].style.height = "30px";
-    });
+      google.maps.event.addDomListener(this.map, 'idle', function () {
+        var controlElement = document.getElementsByClassName("gm-style-mtc") as any;
+        // controlElement[0].classList.remove("bottom");
+        // controlElement[0].classList.remove("right");
+        controlElement[0].style.left = "0px";
+        controlElement[0].style.top = "43px";
+        controlElement[0].style.right = null;
+        controlElement[0].style.bottom = null;
+        controlElement[0].style.height = "30px";
+      });
+    }
   }
-}
 
 
   private initMap() {
     if (this.isMobile()) {
       this.map = new google.maps.Map(document.getElementById(this.mapId), {
-      zoom: 12,
-      //center: { lat: 50.053942, lng: 14.437404 }, // OKsystem
-      center: { lat: 50.064227, lng: 14.441406 }, // nam brat. synk
-      mapTypeId: google.maps.MapTypeId.ROADMAP,
-      mapTypeControl: false,
-      zoomControl: false,
-      scaleControl: false,
-      streetViewControl: false,
-      // streetViewControlOptions: {
-      //   position: google.maps.ControlPosition.RIGHT_BOTTOM
-      // },
-    });
+        zoom: 12,
+        //center: { lat: 50.053942, lng: 14.437404 }, // OKsystem
+        center: { lat: 50.064227, lng: 14.441406 }, // nam brat. synk
+        mapTypeId: google.maps.MapTypeId.ROADMAP,
+        mapTypeControl: false,
+        zoomControl: false,
+        scaleControl: false,
+        streetViewControl: false,
+        // streetViewControlOptions: {
+        //   position: google.maps.ControlPosition.RIGHT_BOTTOM
+        // },
+      });
     } else {
       this.map = new google.maps.Map(document.getElementById(this.mapId), {
-      zoom: 12,
-      //center: { lat: 50.053942, lng: 14.437404 }, // OKsystem
-      center: { lat: 50.064227, lng: 14.441406 }, // nam brat. synk
-      mapTypeId: google.maps.MapTypeId.ROADMAP,
-      mapTypeControl: true,
-      mapTypeControlOptions: {
-        style: google.maps.MapTypeControlStyle.DEFAULT,
-        position: google.maps.ControlPosition.RIGHT_BOTTOM
-    },
-    zoomControl: true,
-    zoomControlOptions: {
-        position: google.maps.ControlPosition.RIGHT_BOTTOM
-    },
-    scaleControl: true,
-    streetViewControl: true,
-    streetViewControlOptions: {
-        position: google.maps.ControlPosition.RIGHT_BOTTOM
+        zoom: 12,
+        //center: { lat: 50.053942, lng: 14.437404 }, // OKsystem
+        center: { lat: 50.064227, lng: 14.441406 }, // nam brat. synk
+        mapTypeId: google.maps.MapTypeId.ROADMAP,
+        mapTypeControl: true,
+        mapTypeControlOptions: {
+          style: google.maps.MapTypeControlStyle.DEFAULT,
+          position: google.maps.ControlPosition.RIGHT_BOTTOM
+        },
+        zoomControl: true,
+        zoomControlOptions: {
+          position: google.maps.ControlPosition.RIGHT_BOTTOM
+        },
+        scaleControl: true,
+        streetViewControl: true,
+        streetViewControlOptions: {
+          position: google.maps.ControlPosition.RIGHT_BOTTOM
+        }
+      });
     }
-  });
     
     this.sensorsSharedService.publishEvent(Events.mapInstance, this.map, "MapComponent.initMap");
   }
-}
 
   private initNoiseOverlay() {
     this.noiseMapType = new google.maps.ImageMapType({
