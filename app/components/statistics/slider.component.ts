@@ -24,7 +24,7 @@ import { ChartsModule } from 'ng2-charts/ng2-charts';
     styleUrls: ['slider.component.css'],
     encapsulation: ViewEncapsulation.None
 })
-export class SliderStatisComponent { // implements OnChanges {
+export class SliderStatisComponent {
     public sliderId = "sliderId" + RandomUtils.getRandom();
     public sliderIdInternal = "statisSliderId" + RandomUtils.getRandom();
     private slider;
@@ -34,8 +34,13 @@ export class SliderStatisComponent { // implements OnChanges {
     @Input()
     public statisType: StatisType = StatisType.DAY24;
 
-    constructor(private changeDetectorRef: ChangeDetectorRef, private log: Logger, private sensorsSharedService: SensorsSharedService, elementRef: ElementRef) {
-        // changeDetectorRef.detach(); private changeDetectorRef: ChangeDetectorRef,
+    constructor(private log: Logger, private sensorsSharedService: SensorsSharedService, elementRef: ElementRef) {
+        
+         sensorsSharedService.listenEventData(Events.statisSlider).subscribe(data => {
+            if (data.statisType !== this.statisType) { // pozadavek na globallni nastaveni
+                this.slider.setValue([data.startDate.getTime(), data.endDate.getTime()]);
+            }
+        })
 
         sensorsSharedService.listenEventData(Events.refreshStatisSlider).subscribe((statisType: StatisType) => {
             if (this.statisType === statisType || statisType === undefined) {
@@ -45,9 +50,8 @@ export class SliderStatisComponent { // implements OnChanges {
 
         sensorsSharedService.listenEventData(Events.statistics)
             .subscribe(sensorStatistics => {
-                // this.clearChartAndTable();
-                // console.log(statistics)
                 sensorStatistics.statistics.forEach(statis => {
+                    // kazda instance dostane stejny list a berem jen hranice z HOUR statistik  
                     if (statis.type == StatisType.HOUR) {
                         let minDate = new Date().getTime();
                         let maxDate = new Date(1970, 1, 1).getTime();
@@ -64,19 +68,7 @@ export class SliderStatisComponent { // implements OnChanges {
                         this.refreshSlider();
                     }
                 });
-                // this.sensorsSharedService.publishEvent(Events.showMasterLoading, false);
             });
-    }
-
-    // ngOnChanges(changes: SimpleChanges) {
-    //     console.log("ngOnChanges ", changes);
-    //     this.refreshSlider();
-    //     // this.changeDetectorRef.detectChanges();
-    // }
-
-    ngAfterViewInit(): void {
-        // this.initSlider(new Date(2016, 1.1));
-        // this.refreshSlider();
     }
 
     private removeSlider() {
@@ -97,7 +89,7 @@ export class SliderStatisComponent { // implements OnChanges {
     }
 
     private initSlider(firstDate: Date, endDate: Date) {
-        // this.sensorsSharedService.publishEvent(Events.sliderNewDate, firstDate);
+
         this.removeSlider();
         let oldDate = firstDate;
 
@@ -122,7 +114,6 @@ export class SliderStatisComponent { // implements OnChanges {
         for (var index = 1; index < countOfpoint; index++) {
             let time = oldDate.getTime() + index * diff;
             pom = new Date(time);
-            // console.log(time, pom);
             // dalsi body
             ticks.push(pom.getTime());
             ticks_labels.push(pom.toLocaleDateString());
@@ -132,9 +123,6 @@ export class SliderStatisComponent { // implements OnChanges {
         ticks.push(aktualDate.getTime());
         ticks_labels.push(aktualDate.toLocaleDateString());
 
-        // console.log(ticks);
-        // console.log(ticks_labels);
-        // let elem = this.elementRef.nativeElement.shadowRoot.querySelector('#' + this.statisId);
         this.slider = new Slider('#' + this.sliderId, {
             ticks: ticks,
             ticks_labels: ticks_labels,
@@ -152,23 +140,11 @@ export class SliderStatisComponent { // implements OnChanges {
             .filter(data => { return data != undefined; })
             // .debounceTime(1000)
             .subscribe(newDate => {
-                //this.sliderEvent.next(newDate);
+
                 let time1 = parseInt(newDate[0].toString());
                 let time2 = parseInt(newDate[1].toString());
-                // this.selectedDate = this.slider.getValue();
-                // this.log.debug("slideStop - " + newDate)
 
                 if (newDate != undefined) {
-
-                    // let devicedetailParams = <DeviceDetailParams>{
-                    //     start: new Date(time1),
-                    //     stop: new Date(time2),
-                    //     // devEUI: this.devEUI,
-                    //     //limit: 5,
-                    //     payloadType: PayloadType.ARF8084BA,
-                    //     order: Order.asc,
-                    //     publisher: this.sliderId,
-                    // }
                     this.sensorsSharedService.publishEvent(
                         Events.statisSlider,
                         { statisType: this.statisType, startDate: new Date(time1), endDate: new Date(time2) },
