@@ -64,7 +64,7 @@ export class SliderStatisComponent {
                                 maxDate = value.date.getTime()
                             }
                         })
-                        this.initSlider(new Date(minDate), new Date(maxDate));
+                        this.initSlider(DateUtils.getDayFlatDate(new Date(minDate)), DateUtils.getMidnight(new Date(maxDate)));
                         this.refreshSlider();
                     }
                 });
