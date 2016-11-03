@@ -48,27 +48,27 @@ export class SliderStatisComponent {
             }
         });
 
-        sensorsSharedService.listenEventData(Events.statistics)
-            .subscribe(sensorStatistics => {
-                sensorStatistics.statistics.forEach(statis => {
-                    // kazda instance dostane stejny list a berem jen hranice z HOUR statistik  
-                    if (statis.type == StatisType.HOUR) {
-                        let minDate = new Date().getTime();
-                        let maxDate = new Date(1970, 1, 1).getTime();
-                        statis.avgValues.forEach(value => {
-                            if (value.date.getTime() < minDate) {
-                                minDate = value.date.getTime()
-                            }
+        // sensorsSharedService.listenEventData(Events.statistics)
+        //     .subscribe(sensorStatistics => {
+        //         sensorStatistics.statistics.forEach(statis => {
+        //             // kazda instance dostane stejny list a berem jen hranice z HOUR statistik  
+        //             if (statis.type == StatisType.HOUR) {
+        //                 let minDate = new Date().getTime();
+        //                 let maxDate = new Date(1970, 1, 1).getTime();
+        //                 statis.avgValues.forEach(value => {
+        //                     if (value.date.getTime() < minDate) {
+        //                         minDate = value.date.getTime()
+        //                     }
 
-                            if (value.date.getTime() > maxDate) {
-                                maxDate = value.date.getTime()
-                            }
-                        })
-                        this.initSlider(DateUtils.getDayFlatDate(new Date(minDate)), DateUtils.getMidnight(new Date(maxDate)));
-                        this.refreshSlider();
-                    }
-                });
-            });
+        //                     if (value.date.getTime() > maxDate) {
+        //                         maxDate = value.date.getTime()
+        //                     }
+        //                 })
+        //                 this.initSlider(DateUtils.getDayFlatDate(new Date(minDate)), DateUtils.getMidnight(new Date(maxDate)));
+        //                 this.refreshSlider();
+        //             }
+        //         });
+        //     });
     }
 
     private removeSlider() {

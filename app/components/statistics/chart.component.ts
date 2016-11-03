@@ -214,22 +214,22 @@ export class ChartComponent implements AfterViewInit {
             // }
         })
 
-        sensorsSharedService.listenEventData(Events.statistics).delay(200)
-            .subscribe(sensorStatistics => {
-                sensorStatistics.statistics.forEach(statis => {
-                    if (statis.type === this.statisType) {
-                        this.clearChartData();
-                        this.statistic = statis;
-                        this.sliderStartDate = undefined;
-                        this.sliderStopDate = undefined;
-                        statis.avgValues.forEach(value => {
-                            this.addChartData(Math.round(value.avgValue), value.date);
-                        })
-                    }
-                });
-                this.updateChart();
-                // this.sensorsSharedService.publishEvent(Events.showMasterLoading, false);
-            });
+        // sensorsSharedService.listenEventData(Events.statistics).delay(200)
+        //     .subscribe(sensorStatistics => {
+        //         sensorStatistics.statistics.forEach(statis => {
+        //             if (statis.type === this.statisType) {
+        //                 this.clearChartData();
+        //                 this.statistic = statis;
+        //                 this.sliderStartDate = undefined;
+        //                 this.sliderStopDate = undefined;
+        //                 statis.avgValues.forEach(value => {
+        //                     this.addChartData(Math.round(value.avgValue), value.date);
+        //                 })
+        //             }
+        //         });
+        //         this.updateChart();
+        //         // this.sensorsSharedService.publishEvent(Events.showMasterLoading, false);
+        //     });
     }
     // 
     /**
