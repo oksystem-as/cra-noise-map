@@ -15,23 +15,24 @@
  padding: 9px;
 }
 
+#overlayGroup {
+  width: 237px;
+}
+
 .layerTextLegend {
   text-align: left;
   position: relative;
   font-size: 11px;
-  color: darkgray;
 }
 
 .layerTextLegendMobile {
   text-align: left;
   position: relative;
   font-size: 13px;
-  color: darkgray;
 }
 
 .layerLegend {
   padding-left: 7px;
-  padding-top: 4px;
 }
 
 .layerLegendMobile {
