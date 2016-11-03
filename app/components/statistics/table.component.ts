@@ -46,19 +46,19 @@ export class TableStatisComponent {
       // }
     })
 
-    // sensorsSharedService.listenEventData(Events.statistics)
-    //   .subscribe(sensorStatistics => {
-    //     this.clearAllTableData();
-    //     sensorStatistics.statistics.forEach(statis => {
-    //       if (statis.type === this.statisType) {
-    //         statis.avgValues.forEach(value => {
-    //           this.allDataLabels.data.push({ data: Math.round(value.avgValue), label: value.date });
-    //         })
-    //         this.refreshTableData();
-    //         this.updateTable();
-    //       }
-    //     });
-    //   });
+    sensorsSharedService.listenEventData(Events.statistics).delay(200)
+      .subscribe(sensorStatistics => {
+        this.clearAllTableData();
+        sensorStatistics.statistics.forEach(statis => {
+          if (statis.type === this.statisType) {
+            statis.avgValues.forEach(value => {
+              this.allDataLabels.data.push({ data: Math.round(value.avgValue), label: value.date });
+            })
+            this.refreshTableData();
+            this.updateTable();
+          }
+        });
+      });
   }
 
   ngAfterViewInit(): void {
