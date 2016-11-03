@@ -182,27 +182,29 @@ export class ChartComponent implements AfterViewInit {
             this.refreshChartData();
             this.updateChart();
         });
-
-        // sensorsSharedService.listenEventData(Events.statisticsTab)
-        //     .combineLatest(sensorsSharedService.listenEventData(Events.statistics))
-        //     .subscribe(data => {
-        //         console.log("az ted ", data, this.statisType);
-        //         if (data[0] === this.statisType) {
-        //             console.log("je to moje ");
-        //             data[1].statistics.forEach(statis => {
-        //                 if (statis.type === this.statisType) {
-        //                     this.clearChartData();
-        //                     this.statistic = statis;
-        //                     this.sliderStartDate = undefined;
-        //                     this.sliderStopDate = undefined;
-        //                     statis.avgValues.forEach(value => {
-        //                         this.addChartData(Math.round(value.avgValue), value.date);
-        //                     })
-        //                 }
-        //             });
-        //             this.updateChart();
-        //         }
-        //     })
+        
+        sensorsSharedService.listenEventData(Events.statisticsDialog)
+            .combineLatest(
+            sensorsSharedService.listenEventData(Events.statisticsTab),
+            sensorsSharedService.listenEventData(Events.statistics))
+            .subscribe(data => {
+                console.log("az ted ", data, this.statisType);
+                if (data[1] === this.statisType) {
+                    console.log("je to moje ");
+                    data[2].statistics.forEach(statis => {
+                        if (statis.type === this.statisType) {
+                            this.clearChartData();
+                            this.statistic = statis;
+                            this.sliderStartDate = undefined;
+                            this.sliderStopDate = undefined;
+                            statis.avgValues.forEach(value => {
+                                this.addChartData(Math.round(value.avgValue), value.date);
+                            })
+                        }
+                    });
+                    this.updateChart();
+                }
+            })
 
 
         sensorsSharedService.listenEventData(Events.statisSlider).subscribe(data => {
