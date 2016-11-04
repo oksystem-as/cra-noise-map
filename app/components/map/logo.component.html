@@ -2,13 +2,19 @@
 	<img class="logoImage" src="..\app\images\OKsystem-logo-sm.png">
 </a>
 
-<a href="http://www.oksystem.com/cz/" class="okhome-M" target="_blank">
+<a href="http://www.oksystem.com/cz/" class="okhome-M" target="_blank" *showItDevice="['mobile']">
+        <img class="logoImage" src="..\app\images\OK1.png">
+</a>
 
-	<img class="logoImage" src="..\app\images\OKsystem-logo-sm.png" *responsive="{
+<!--<a href="http://www.oksystem.com/cz/" class="okhome-M" target="_blank">
+        <img class="logoImage" src="..\app\images\OKsystem-logo-sm.png" [hidden]="isLandscape()">
+        <img class="logoImage" src="..\app\images\OK1.png" [hidden]="!isLandscape()">
+
+	<!--<img class="logoImage" src="..\app\images\OKsystem-logo-sm.png" *responsive="{
         orientation:['landscape'],
         device: ['mobile']}">
 
 	<img class="logoImage-M" src="..\app\images\OK1.png" *responsive="{
         orientation:['portrait'],
-        device: ['mobile']}">
-</a>
+        device: ['mobile']}">-->
+<!--</a>-->
