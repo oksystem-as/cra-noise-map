@@ -7,7 +7,16 @@
 .tableDesktop {
   overflow-y: scroll;
   height:150px;
+   margin-left: 20px;
+  margin-right: 20px;
 }
+
+/*.tableMobileLandscape {
+  overflow-y: scroll;
+  height:150px;
+  margin-left: 20px;
+  margin-right: 20px;
+}*/
 
 .sliderDesktop{
   width: 100% !important;

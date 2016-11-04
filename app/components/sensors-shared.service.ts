@@ -72,7 +72,7 @@ export class SensorsSharedService {
     private aRF8084BAPayloadResolver = new ARF8084BAPayloadResolver();
     private rHF1S001PayloadResolver = new RHF1S001PayloadResolver();
     private location: { devEUI: string, latitude: number, name: string, longtitude: number, latitudeText: string, longtitudeText: string }[] = [
-        { devEUI: "0004A30B0019D0EA", name: "Náměstí bratří synků", latitude: 50.064227, longtitude: 14.441406, latitudeText: "50°03'51.2\"", longtitudeText: "14°26'29.1\"" },
+        { devEUI: "0004A30B0019D0EA", name: "Náměstí Bratří Synků", latitude: 50.064227, longtitude: 14.441406, latitudeText: "50°03'51.2\"", longtitudeText: "14°26'29.1\"" },
         { devEUI: "0018B20000000336", name: "OKsystem            ", latitude: 50.052853, longtitude: 14.439492, latitudeText: "50°03'10.3\"", longtitudeText: "14°29'22.2\"" },
         { devEUI: "0018B20000000165", name: "Kongresové centrum  ", latitude: 50.062028, longtitude: 14.428990, latitudeText: "50°04'10.3\"", longtitudeText: "14°28'22.2\"" },
         { devEUI: "0018B2000000016E", name: "Třebotovská         ", latitude: 50.039161, longtitude: 14.389049, latitudeText: "50°02'10.3\"", longtitudeText: "14°25'22.2\"" },
