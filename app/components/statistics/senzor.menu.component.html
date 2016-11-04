@@ -16,26 +16,41 @@
 </div>
 
 <div id="senzorMenuId" *showItDevice="['mobile']" class="senzor-button-mobile">
-	<button id="single-button" (click)="lgModal.show()" type="button" class="btn btn-default"> 
+	<div *ngIf="!showInStatisticsMenu">
+		<button id="single-button" (click)="lgModal.show()" type="button" class="btn btn-default"> 
   	<span class="glyphicon glyphicon-dashboard" aria-hidden="true"></span>
   </button>
 
-	<div bsModal #lgModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-		<div class="modal-dialog modal-lg">
-			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="close" (click)="lgModal.hide()" aria-label="Close">
+		<div bsModal #lgModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+			<div class="modal-dialog modal-lg">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" (click)="lgModal.hide()" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
-					<h4 class="modal-title">Vyberte čidlo</h4>
-				</div>
-				<div class="modal-body">
-					<label class="senzorItem" (click)="onClick(sensor)" (click)="lgModal.hide()" [class.red-sensor]="isSensorSelected(sensor)" [class.bold-sensor]="isSensorOnMap(sensor)"
-						*ngFor="let sensor of sensors, let ndx = index">{{sensor.name}}
+						<h4 class="modal-title">Vyberte čidlo</h4>
+					</div>
+					<div class="modal-body">
+						<label class="senzorItem" (click)="onClick(sensor)" (click)="lgModal.hide()" [class.red-sensor]="isSensorSelected(sensor)"
+							[class.bold-sensor]="isSensorOnMap(sensor)" *ngFor="let sensor of sensors, let ndx = index">{{sensor.name}}
 			<!--<a (click)="onClick(sensor)" [class.red-sensor]="isSensorSelected(sensor)" [class.bold-sensor]="isSensorOnMap(sensor)">{{sensor.name}}</a>-->
 		  </label>
+					</div>
 				</div>
 			</div>
 		</div>
 	</div>
+</div>
+
+<div *ngIf="showInStatisticsMenu" class="senzor-dropdown-mobile">
+		<div class="btn-group statis-menu-mobile" dropdown>
+			<button id="single-button" type="button" class="btn btn-primary statis-menu-mobile" dropdownToggle>
+				<span *ngIf="selectedSensor == undefined">Vyberte čidlo</span>
+				<span *ngIf="selectedSensor != undefined">{{selectedSensor.name}}</span>
+				<span class="caret"></span>
+			</button>
+			<ul dropdownMenu role="menu" aria-labelledby="single-button" class="statis-menu-mobile">
+				<li role="menuitem" *ngFor="let sensor of sensors, let ndx = index"><a class="dropdown-item" href="#" (click)="onClick(sensor)" [class.red-sensor]="isSensorSelected(sensor)" [class.bold-sensor]="isSensorOnMap(sensor)">{{sensor.name}}</a></li>
+			</ul>
+		</div>
 </div>

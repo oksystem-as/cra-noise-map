@@ -15,6 +15,9 @@ import { StatisticsUtils, Statistics, Statistic, SensorStatistics } from '../../
 })
 
 export class SenzorMenuComponent {
+  @Input()
+  private showInStatisticsMenu: boolean = false;
+
   private sensors: SensorStatistics[] = [];
   // private sensorsAnimate: Sensor[] = [];
   private selectedSensor: SensorStatistics;
