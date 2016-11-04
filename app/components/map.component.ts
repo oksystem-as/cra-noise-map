@@ -273,16 +273,16 @@ export class MapComponent implements AfterViewInit {
       this.markersMap.forEach((marker, key) => {
         // console.log("getSelectedSensor foundc ", key, marker);
         if (key === sensor.devEUI) {
-          // marker.setAnimation(google.maps.Animation.BOUNCE);
-          // marker.setIcon(this.decorateAsPermSelected(marker.getIcon()));
-          // marker.isPermSelected = true;
+          marker.setAnimation(google.maps.Animation.BOUNCE);
+          marker.setIcon(this.decorateAsPermSelected(marker.getIcon()));
+          marker.isPermSelected = true;
 
-          // setTimeout(() => {
-          //   marker.setAnimation(null);
-          // }, 500);
+          setTimeout(() => {
+            marker.setAnimation(null);
+          }, 500);
 
-          // var latLng = marker.getPosition(); // returns LatLng object
-          // this.map.panTo(latLng); // setCenter takes a LatLng object
+          var latLng = marker.getPosition(); // returns LatLng object
+          this.map.panTo(latLng); // setCenter takes a LatLng object
           // console.log("getSelectedSensor found ", marker);
         } else {
           marker.isPermSelected = false;
