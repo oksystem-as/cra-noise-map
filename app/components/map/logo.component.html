@@ -2,8 +2,11 @@
     <img class="logoImage" src="..\app\images\OKsystem-logo-sm.png">
 </a>
 
-
 <a href="http://www.oksystem.com/cz/" class="okhome-M" target="_blank" *showItDevice="['mobile']">
-    <img *isLandscape class="logoImage" src="..\app\images\OKsystem-logo-sm.png">
-    <img *isPortrait class="logoImage-M" src="..\app\images\OK1.png">
+    <div *isPortrait>
+        <img  class="logoImage-M" src="..\app\images\OK1.png">
+    </div>
+    <div *isLandscape>
+        <img class="logoImage" src="..\app\images\OKsystem-logo-sm.png">
+    </div>
 </a>
