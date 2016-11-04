@@ -280,7 +280,8 @@ export class MapComponent implements AfterViewInit {
           setTimeout(() => {
             marker.setAnimation(null);
           }, 500);
-
+          
+          this.selectedSensor = marker.sensor
           var latLng = marker.getPosition(); // returns LatLng object
           this.map.panTo(latLng); // setCenter takes a LatLng object
           // console.log("getSelectedSensor found ", marker);

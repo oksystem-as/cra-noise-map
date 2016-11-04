@@ -43,8 +43,8 @@ export class StatisticsComponent {
         // zvyrazneni vybraneho
         this.sensorsSharedService.listenEventData(Events.selectSensor).subscribe((selectedSensor: SensorStatistics) => {
             this.selectedSensor = selectedSensor;
-            changeDetectorRef.detectChanges();
             this.isHidden = false;
+            changeDetectorRef.detectChanges();
             if (this.lgModal) {
                 this.lgModal.show();
             }
