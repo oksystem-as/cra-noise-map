@@ -23,6 +23,10 @@
   box-shadow: 0 6px 12px rgba(0,0,0,.175);
 }
 
+.statisContentDesktopOverflow{
+  overflow-x:hidden;
+}
+
 /*MOBILE*/
 .statMobile {
   position: absolute;
@@ -32,4 +36,12 @@
 
 .statMobile .btn{
  padding: 9px;
+}
+
+.focus{
+  outline: 5px auto -webkit-focus-ring-color;
+  outline-offset: -2px;
+  color: #333;
+  background-color: #d4d4d4;
+  border-color: #8c8c8c;
 }
