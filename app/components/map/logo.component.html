@@ -1,12 +1,14 @@
 <a href="http://www.oksystem.com/cz/" class="okhome" target="_blank" *hideItDevice="['mobile']">
-    <img class="logoImage" src="..\app\images\OKsystem-logo-sm.png">
+	<img class="logoImage" src="..\app\images\OKsystem-logo-sm.png">
 </a>
 
-<a href="http://www.oksystem.com/cz/" class="okhome-M" target="_blank" *showItDevice="['mobile']">
-    <div *isPortrait>
-        <img  class="logoImage-M" src="..\app\images\OK1.png">
-    </div>
-    <div *isLandscape>
-        <img class="logoImage" src="..\app\images\OKsystem-logo-sm.png">
-    </div>
+<a href="http://www.oksystem.com/cz/" class="okhome-M" target="_blank">
+
+	<img class="logoImage" src="..\app\images\OKsystem-logo-sm.png" *responsive="{
+        orientation:['landscape'],
+        device: ['mobile']}">
+
+	<img class="logoImage-M" src="..\app\images\OK1.png" *responsive="{
+        orientation:['portrait'],
+        device: ['mobile']}">
 </a>
