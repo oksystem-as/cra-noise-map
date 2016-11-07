@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule, ApplicationRef } from '@angular/core';
+import { NgModule, ApplicationRef, ErrorHandler } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AppComponent } from './components/app.component';
@@ -37,6 +37,20 @@ import { CarouselModule } from 'ng2-bootstrap/ng2-bootstrap';
 import { DropdownModule } from 'ng2-bootstrap/ng2-bootstrap';
 import { ReversePipe } from './pipes/reverse.pipe';
 
+import Raven = require('raven-js');
+
+Raven
+  .config('https://69322a4765c24abfa3ef6245331b4b43@sentry.io/112562', {
+    tags: { git_commit: 'v0.1-RC3-SNAPSHOT' }
+  })
+  .install();
+
+class RavenErrorHandler implements ErrorHandler {
+  handleError(err: any): void {
+    Raven.captureException(err.originalError);
+  }
+}
+
 @NgModule({
   imports: [
     BrowserModule,
@@ -52,7 +66,8 @@ import { ReversePipe } from './pipes/reverse.pipe';
   providers: [
     CRaService,
     { provide: Options, useValue: { store: true, level: Level.ERROR } },
-    Logger
+    Logger,
+    { provide: ErrorHandler, useClass: RavenErrorHandler }
   ],
   declarations: [
     ReversePipe,

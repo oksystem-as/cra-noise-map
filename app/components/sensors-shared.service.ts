@@ -19,6 +19,8 @@ import { Sensor } from '../entity/sensor';
 import { DateUtils, MonthList } from '../utils/utils';
 import { StatisticsUtils, Statistics, Statistic, SensorStatistics, StatisType } from '../utils/statis-utils';
 
+import Raven = require('raven-js');
+
 export class OverlayGroup {
     overlays: Overlay[];
     name: string;
@@ -91,6 +93,10 @@ export class SensorsSharedService {
         // zobrazeni informaci z event aggregatoru
         this.eventAggregator.subscribe((data) => {
             log.debug("[Event published] type: [", data.type, "], publisher: [", data.publisher, "] data: ", data.data);
+            // Raven.captureMessage('Event published', {
+            //   extra: { data: data },
+            //   level: 'info' // one of 'info', 'warning', or 'error'
+            // });
         });
 
         // propojeni nacteni vsech senzoru a publish nacteni jednoho sensoru (na oboji je mozne si zaregistrovat posluchace)
