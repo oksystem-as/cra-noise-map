@@ -30,12 +30,14 @@ export class MapComponent implements AfterViewInit {
   private mapId = "map"
   public map: google.maps.Map;
   private markersMap: Map<string, any> = new Map<string, any>();
+  private currCenter;
   private overlayGroup: OverlayGroup[];
   private noiseMapType: google.maps.ImageMapType;
   private sliderNewDate: Date = SensorsSharedService.minDateLimit;
   private showLoading = false;
   private selectedSensor: SensorStatistics;
   private isMobileIntrenal: boolean;
+  private isPortraitInternal: boolean;
 
   constructor(private log: Logger, private sensorsSharedService: SensorsSharedService, responsiveState: ResponsiveState) {
     if (log != undefined) {
@@ -44,7 +46,17 @@ export class MapComponent implements AfterViewInit {
 
     responsiveState.deviceObserver.subscribe(device => {
       this.isMobileIntrenal = device === "mobile";
-    })
+    });
+
+    responsiveState.orientationObserver.subscribe(orientation => {
+      this.isPortraitInternal = orientation === "portrait";
+      // log.debug("zmena orientace: ", orientation);
+      // if (this.map != undefined && this.currCenter != undefined) {
+      //   google.maps.event.trigger(this.map, 'resize');
+      //   log.debug("volam resize");
+      //   this.map.setCenter(this.currCenter);
+      // }
+    });
   }
 
   isMobile() {
@@ -60,6 +72,7 @@ export class MapComponent implements AfterViewInit {
     this.initControlsLayout()
     this.addNewDataListener();
     this.sensorsSharedService.loadSensorsAndPublish();
+    this.centerChangeListener();
     // this.addMapDomListener();
   }
 
@@ -280,7 +293,7 @@ export class MapComponent implements AfterViewInit {
           setTimeout(() => {
             marker.setAnimation(null);
           }, 500);
-          
+
           this.selectedSensor = marker.sensor
           var latLng = marker.getPosition(); // returns LatLng object
           this.map.panTo(latLng); // setCenter takes a LatLng object
@@ -321,6 +334,47 @@ export class MapComponent implements AfterViewInit {
         this.createMarker(sensor.latitude, sensor.longtitude, null, null, sensor, false, selected);
       }
     });
+  }
+
+  private calculateCenter() {
+    this.currCenter = this.map.getCenter();
+  }
+
+  private setMapCenter() {
+    this.map.setCenter(this.currCenter);
+  }
+
+  private centerChangeListener() {
+    // if (this.map != undefined) {
+    //   google.maps.event.addListener(this.map, 'center_changed', function () {
+    //     if (this.map != undefined && this.map.getCenter != undefined) {
+    //       this.currCenter = this.map.getCenter();
+    //     }
+    //   });
+    
+//     google.maps.event.addDomListener(this.map, 'center_changed', function () {
+//       this.currCenter  = this.map.getCenter();
+//     });
+
+//     google.maps.event.addDomListener(this.map, 'bounds_changed', function () {
+//       if (this.currCenter) {
+//         this.map.setCenter(this.currCenter);
+//     }
+//     this.currCenter = null;
+// });
+    // }
+
+    // Add an event listener that calculates center on idle  
+  google.maps.event.addDomListener(this.map, 'idle', () => {
+     if (this.map != undefined) {
+     this.calculateCenter();
+    }
+  });
+  // Add an event listener that calculates center on resize  
+
+  google.maps.event.addDomListener(window, 'resize', () => {
+    this.setMapCenter();
+  });
   }
 
   private removeMarkers(devEUI: string) {
@@ -372,7 +426,7 @@ export class MapComponent implements AfterViewInit {
       // this.sensorsSharedService.publishEvent(Events.showMasterLoading, true);
       this.selectedSensor = marker.sensor
       this.map.panTo(marker.getPosition()); // setCenter takes a LatLng object
-      
+
       // marker.setAnimation(google.maps.Animation.BOUNCE);
       marker.setIcon(this.decorateAsPermSelected(marker.getIcon()));
       marker.isPermSelected = true;
@@ -382,8 +436,8 @@ export class MapComponent implements AfterViewInit {
       // }, 500);
 
       // setTimeout(() => {
-        this.sensorsSharedService.publishEvent(Events.selectSensor, marker.sensor, "MapComponent.markerClick");
-           setTimeout(() => {
+      this.sensorsSharedService.publishEvent(Events.selectSensor, marker.sensor, "MapComponent.markerClick");
+      setTimeout(() => {
         this.sensorsSharedService.loadStatisticsData(<DeviceDetailParams>{ devEUI: marker.sensor.devEUI, publisher: "markerItem" });
       }, 500);
     });
