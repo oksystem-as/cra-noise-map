@@ -21,6 +21,7 @@ import { OverlaysSearchComponent } from './components/map/overlays.search.compon
 import { LogoComponent } from './components/map/logo.component';
 import { LoadingComponent } from './components/loading.component';
 import { AboutAppComponent } from './components/about.app.component';
+import { ControlsComponent } from './components/controls.component';
 
 import { HttpModule } from '@angular/http';
 import { Logger, Options, Level } from "angular2-logger/core";
@@ -90,6 +91,7 @@ class RavenErrorHandler implements ErrorHandler {
     SenzorMenuComponent,
     SliderStatisComponent,
     AboutAppComponent,
+    ControlsComponent,
     // Collapse,
   ],
   bootstrap: [AppComponent]
