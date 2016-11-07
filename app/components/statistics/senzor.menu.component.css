@@ -11,7 +11,7 @@
 }
 
 
-.senzor-button {
+/*.senzor-button {
   position: absolute;
   right: 410px;
   top: 10px;
@@ -21,7 +21,7 @@
   position: absolute;
   right: 50px;
   top: 50px;
-}
+}*/
 
 .senzor-button-mobile .btn {
   padding: 9px;
