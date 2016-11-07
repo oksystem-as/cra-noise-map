@@ -75,21 +75,50 @@ export class ChartComponent implements AfterViewInit {
                 }
             }],
             // xAxes: [{
-            //     ticks: {
-            //         callback: function on(evt: any) {
-            //             console.log("tiscks", evt);
-            //             return evt.toLocaleDateString();
-            //         }
-            //     }
+            // //     ticks: {
+            // //         callback: function on(evt: any) {
+            // //             console.log("tiscks", evt);
+            // //             return evt.toLocaleDateString();
+            // //         }
+            // //     }
+            //     beforeTickToLabelConversion: (data: any) => {
+            //          console.log("beforeTickToLabelConversion ", data);
+            //         // if(this.statisType === StatisType.HOUR){
+            //         //     let data[0].xlabel
+            //         //     console.log("custom tooltip1", data);
+            //         //     return "tit";    
+            //         // } 
+            //         return "test";},
             // }]
         },
         defaultColor: "blue",
-        legend: {
+        legend: { 
             display: false,
         },
         // maintainAspectRatio: true,
         responsive: true,
         onClick: this.pointClick.bind(this, this.sensorsSharedService),
+        // tooltips: {
+        //     // custom: (data) => {console.log("custom tooltip", data);  return "nic moc";},
+        //     callbacks: {
+        //         title:  (data: any) => {
+        //             // if(this.statisType === StatisType.HOUR){
+        //             //     let data[0].xlabel
+        //             //     console.log("custom tooltip1", data);
+        //             //     return "tit";    
+        //             // } 
+        //             return data[0].xlabel;},
+        //         footer: (data: any) => {
+
+        //             console.log("custom tooltip2", data);  
+        //             return "foot";},
+        //         label : (data: any) => {
+
+        //             console.log("custom tooltip3", data);  
+        //             return "label";},
+                
+        //     }
+        // }
     }
 
     private dataChart = {
