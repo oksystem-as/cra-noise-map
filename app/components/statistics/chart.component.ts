@@ -153,7 +153,7 @@ export class ChartComponent implements AfterViewInit {
                 let inInterval = true
 
                 if (this.sliderStartDate || this.sliderStopDate) {
-                    inInterval = this.sliderStartDate.getTime() < statis.date.getTime() && statis.date.getTime() < this.sliderStopDate.getTime()
+                    inInterval = this.sliderStartDate.getTime() <= statis.date.getTime() && statis.date.getTime() <= this.sliderStopDate.getTime()
                 }
 
                 if (inInterval) {
