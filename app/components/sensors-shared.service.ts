@@ -85,8 +85,9 @@ export class SensorsSharedService {
         { devEUI: "0018B20000000335", name: "Na petynce          ", latitude: 50.089150, longtitude: 14.377480, latitudeText: "50°09'10.3\"", longtitudeText: "14°27'22.2\"" },
     ]
 
-
-    private deviceList = ["0004A30B0019D0EA", "0018B20000000165", "0018B20000000336", "0018B2000000016E", "0018B20000000337", "0018B2000000033C", "0018B2000000033A", "0018B20000000339", "0018B20000000335",]
+    // MOCK + real
+    private deviceList = ["0004A30B0019D0EB", "0004A30B0019D0EC", "0004A30B0019D0ED", "0004A30B0019D0EE", "0004A30B0019D0EF", "0004A30B0019D0EA"]
+    // GPS private deviceList = ["0004A30B0019D0EA", "0018B20000000165", "0018B20000000336", "0018B2000000016E", "0018B20000000337", "0018B2000000033C", "0018B2000000033A", "0018B20000000339", "0018B20000000335",]
     // private deviceList = ["0004A30B0019D0EA"];
 
     constructor(private log: Logger, private craService: CRaService) {
