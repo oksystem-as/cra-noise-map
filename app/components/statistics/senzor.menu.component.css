@@ -10,9 +10,13 @@
   color: gray;
 }
 
+/*.senzor-button > div {
+  float: right;
+}*/
 
 .senzor-button {
-  margin-left: -444px;
+  float: left;
+  margin-right: 10px;
 }
 
 .senzor-button-mobile {

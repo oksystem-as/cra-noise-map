@@ -2,6 +2,7 @@
   position: absolute;
   right: 10px;
   top: 10px;
+  /*display: inline;*/
 }
 
 .controlsMobile {
@@ -9,3 +10,22 @@
   right: 9px;
   top: 10px;
 }
+
+div.inline { float:left; }
+
+.senzor {
+  /*float: right;*/
+  margin-right: 10px;
+}
+
+.statistics {
+  margin-right: 10px;
+}
+
+.overlaysMenu {
+  margin-right: 10px;
+}
+
+/*.aboutApp {
+  margin-right: 10px;
+}*/

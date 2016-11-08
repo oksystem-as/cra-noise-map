@@ -50,7 +50,10 @@ export class MapComponent implements AfterViewInit {
 
     responsiveState.orientationObserver.subscribe(orientation => {
       this.isPortraitInternal = orientation === "portrait";
-      // log.debug("zmena orientace: ", orientation);
+      log.debug("zmena orientace: ", orientation);
+      if (this.map != undefined) {
+        this.calculateCenter();
+      }
       // if (this.map != undefined && this.currCenter != undefined) {
       //   google.maps.event.trigger(this.map, 'resize');
       //   log.debug("volam resize");
@@ -342,6 +345,7 @@ export class MapComponent implements AfterViewInit {
 
   private setMapCenter() {
     this.map.setCenter(this.currCenter);
+    //this.map.panTo(this.currCenter);
   }
 
   private centerChangeListener() {
@@ -365,11 +369,11 @@ export class MapComponent implements AfterViewInit {
     // }
 
     // Add an event listener that calculates center on idle  
-  google.maps.event.addDomListener(this.map, 'idle', () => {
-     if (this.map != undefined) {
-     this.calculateCenter();
-    }
-  });
+  // google.maps.event.addDomListener(this.map, 'idle', () => {
+  //    if (this.map != undefined) {
+  //    this.calculateCenter();
+  //   }
+  // });
   // Add an event listener that calculates center on resize  
 
   google.maps.event.addDomListener(window, 'resize', () => {
