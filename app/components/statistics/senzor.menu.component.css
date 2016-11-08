@@ -11,17 +11,14 @@
 }
 
 
-/*.senzor-button {
-  position: absolute;
-  right: 410px;
-  top: 10px;
+.senzor-button {
+  margin-left: -444px;
 }
 
 .senzor-button-mobile {
-  position: absolute;
-  right: 50px;
-  top: 50px;
-}*/
+  margin-left: -43px;
+  margin-top: 8px;
+}
 
 .senzor-button-mobile .btn {
   padding: 9px;

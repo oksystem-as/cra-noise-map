@@ -1,13 +1,9 @@
 <a href="http://www.oksystem.com/cz/" class="okhome" target="_blank" *hideItDevice="['mobile']">
-	<img class="logoImage" src="..\app\images\OKsystem-logo-sm.png">
+	<img *showItBootstrap="['xl','lg','md']" class="logoImage" src="..\app\images\OKsystem-logo-sm.png">
+        <img *hideItBootstrap="['xl','lg','md']" class="logoImage" src="../app/images/OK1.png">
 </a>
 
 <a href="http://www.oksystem.com/cz/" class="okhome" target="_blank" *showItDevice="['mobile']">
-        <div *ngIf="isPortrait()">
-                <img class="logoImage" src="../app/images/OK1.png">
-        </div>
-
-        <div *ngIf="!isPortrait()">
-                <img class="logoImage" src="..\app\images\OKsystem-logo-sm.png">
-        </div>
+        <img *showItBootstrap="['xl','lg','md','sm']" class="logoImage" src="..\app\images\OKsystem-logo-sm.png">
+        <img *hideItBootstrap="['xl','lg','md','sm']" class="logoImage" src="../app/images/OK1.png">
 </a>

@@ -1,1 +1,9 @@
-<input id="pac-input" class="controls form-control pac-input" type="text" placeholder="Vyhledat místo" aria-describedby="inputGroupSuccess1Status">
+<div *hideItDevice="['mobile']">
+    <input *showItBootstrap="['xl','lg','md']" id="pac-input" class="controls form-control pac-input" type="text" placeholder="Vyhledat místo" aria-describedby="inputGroupSuccess1Status">
+    <input *hideItBootstrap="['xl','lg','md']" id="pac-input" class="controls form-control pac-input-small" type="text" placeholder="Vyhledat místo" aria-describedby="inputGroupSuccess1Status">
+</div>
+
+<div *showItDevice="['mobile']">
+    <input *showItBootstrap="['xl','lg','md','sm']" id="pac-input" class="controls form-control pac-input" type="text" placeholder="Vyhledat místo" aria-describedby="inputGroupSuccess1Status">
+    <input *hideItBootstrap="['xl','lg','md','sm']" id="pac-input" class="controls form-control pac-input-small" type="text" placeholder="Vyhledat místo" aria-describedby="inputGroupSuccess1Status">
+</div>

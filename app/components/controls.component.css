@@ -1,5 +1,11 @@
-#controlsId {
+.controlsDesktop {
   position: absolute;
   right: 10px;
+  top: 10px;
+}
+
+.controlsMobile {
+  position: absolute;
+  right: 9px;
   top: 10px;
 }

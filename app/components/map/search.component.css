@@ -1,7 +1,12 @@
 .pac-input {
-  /*width: 200px;*/
-    border-top-right-radius: 4px !important;
-    border-bottom-right-radius: 4px !important;
+  border-top-right-radius: 4px !important;
+  border-bottom-right-radius: 4px !important;
+}
+
+.pac-input-small {
+  width: 192px;
+  border-top-right-radius: 4px !important;
+  border-bottom-right-radius: 4px !important;
 }
 
 /*

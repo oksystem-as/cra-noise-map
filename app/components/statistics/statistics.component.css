@@ -1,8 +1,7 @@
-/*.statisMenuButtonDesktop {
-  position: absolute;
-  right: 256px;
-  top: 10px;
-}*/
+.statisMenuButtonDesktop {
+  margin-top: -34px;
+  margin-left: -298px;
+}
 
 .statisContentDesktop {
   position: absolute;
@@ -28,11 +27,9 @@
 }
 
 /*MOBILE*/
-/*.statMobile {
-  position: absolute;
-  right: 10px;
-  top: 50px;
-}*/
+.statMobile {
+  margin-top: -34px;
+}
 
 .statMobile .btn{
  padding: 9px;

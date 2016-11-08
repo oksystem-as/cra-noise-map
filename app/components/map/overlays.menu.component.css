@@ -1,15 +1,12 @@
 /*STANDARD VERSION*/
-/*.overlaysMenuDesktop {
-  position: absolute;
-  right: 112px;
-  top: 10px;
-}*/
-/*
+.overlaysMenuDesktop {
+  margin-left: -144px;
+  margin-top: -34px;
+}
+
 .overlaysMenuMobile {
-  position: absolute;
-  right: 50px;
-  top: 10px;
-}*/
+  margin-left: -43px;
+}
 
 .overlaysMenuMobile .btn{
  padding: 9px;
