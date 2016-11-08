@@ -10,7 +10,7 @@ import { StatisticsUtils, StatisType, SensorStatistics, Statistics } from '../..
 
 import { ARF8084BAPayload } from '../../payloads/ARF8084BAPayload';
 import { RHF1S001Payload } from '../../payloads/RHF1S001Payload';
-import { CRaService, DeviceDetailParams, DeviceParams, Order } from '../../service/cra.service';
+import { CRaService, DeviceDetailParams, Order } from '../../service/cra.service';
 import { GroupedObservable } from 'rxjs/operator/groupBy';
 import { BehaviorSubject, Observable } from 'rxjs/Rx';
 import 'rxjs/Rx';

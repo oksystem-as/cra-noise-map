@@ -15,6 +15,18 @@
   width: 180px;
 }
 
-body {
-  /*font-family: Roboto,Arial,sans-serif !important;*/
+@media screen and (orientation:portrait)
+{
+   .showOnLandscape
+   {  
+      display: none;
+   }
+}
+
+@media screen and (orientation:landscape)
+{
+   .showOnPortrait
+   {
+      display: none;
+   }
 }

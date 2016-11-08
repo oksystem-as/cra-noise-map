@@ -1,9 +1,9 @@
 <a href="http://www.oksystem.com/cz/" class="okhome" target="_blank" *hideItDevice="['mobile']">
 	<img *showItBootstrap="['xl','lg','md']" class="logoImage" src="..\app\images\OKsystem-logo-sm.png">
-        <img *hideItBootstrap="['xl','lg','md']" class="logoImage" src="../app/images/OK1.png">
+        <img *showItBootstrap="['sm','xs']" class="logoImage" src="../app/images/OK1.png">
 </a>
 
 <a href="http://www.oksystem.com/cz/" class="okhome" target="_blank" *showItDevice="['mobile']">
-        <img *showItBootstrap="['xl','lg','md','sm']" class="logoImage" src="..\app\images\OKsystem-logo-sm.png">
-        <img *hideItBootstrap="['xl','lg','md','sm']" class="logoImage" src="../app/images/OK1.png">
+        <img class="logoImage showOnLandscape" src="..\app\images\OKsystem-logo-sm.png">
+        <img class="logoImage showOnPortrait" src="../app/images/OK1.png"> 
 </a>

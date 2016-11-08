@@ -10,7 +10,9 @@
   top: 10px;
 }
 
-div.inline { float:left; }
+div.inline { 
+  float:left; 
+}
 
 .senzor {
   margin-right: 10px;
@@ -22,6 +24,23 @@ div.inline { float:left; }
 
 .overlaysMenu {
   margin-right: 10px;
+}
+
+.overlaysMenuMobile {
+  margin-left: -43px;
+}
+
+.aboutAppMobile {
+  /*margin-left: -43px;*/
+}
+
+.senzorMenuMobile {
+  margin-left: -43px;
+  margin-top: 8px;
+}
+
+.statisticsMobile {
+  margin-top: -34px;
 }
 
 /*.aboutApp {

@@ -7,7 +7,7 @@ import { SensorsSharedService, Events } from './sensors-shared.service';
 
 import { ARF8084BAPayload } from '../payloads/ARF8084BAPayload';
 import { RHF1S001Payload } from '../payloads/RHF1S001Payload';
-import { CRaService, DeviceDetailParams, DeviceParams, Order } from '../service/cra.service';
+import { CRaService, DeviceDetailParams, Order } from '../service/cra.service';
 import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from "rxjs/Rx";
 import 'rxjs/Rx';

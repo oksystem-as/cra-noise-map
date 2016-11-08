@@ -9,7 +9,7 @@ import { ObjectUtils, RandomUtils, ColorUtils, ColorLegend } from '../../utils/u
 
 import { ARF8084BAPayload } from '../../payloads/ARF8084BAPayload';
 import { RHF1S001Payload } from '../../payloads/RHF1S001Payload';
-import { CRaService, DeviceDetailParams, DeviceParams, Order } from '../../service/cra.service';
+import { CRaService, DeviceDetailParams, Order } from '../../service/cra.service';
 import { Observable } from 'rxjs/Observable';
 import { GroupedObservable } from 'rxjs/operator/groupBy';
 import { BehaviorSubject } from "rxjs/Rx";

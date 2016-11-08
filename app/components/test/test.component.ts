@@ -16,7 +16,7 @@ import { ArrayUtils, MonthList, ObjectUtils } from '../../utils/utils';
 import { StatisticsUtils, StatisType } from '../../utils/statis-utils';
 import { Sensor } from '../../entity/sensor';
 import { Payload, PayloadType } from '../../payloads/payload'
-import { CRaService, DeviceDetailParams, DeviceParams, Order } from '../../service/cra.service';
+import { CRaService, DeviceDetailParams, Order } from '../../service/cra.service';
 
 
 import 'rxjs/Rx';
@@ -37,19 +37,19 @@ export class TestComponent {
   }
 
 
-  private devicedetailParamsDefault = <DeviceDetailParams>{
-    start: new Date(2014, 1, 11),
-    //stop: new Date("2016-09-22"),
-    order: Order.asc,
-    limit: 10000,
-    devEUI: "0004A30B0019D0EA",
-  }
+  // private devicedetailParamsDefault = <DeviceDetailParams>{
+  //   start: new Date(2014, 1, 11),
+  //   //stop: new Date("2016-09-22"),
+  //   order: Order.asc,
+  //   limit: 10000,
+  //   devEUI: "0004A30B0019D0EA",
+  // }
 
-  private testCraService(){
-   this.craService.getDeviceDetailNew(this.devicedetailParamsDefault).subscribe(val => {
-      console.log("getDeviceDetailNew", val)
-    });
-  }
+  // private testCraService(){
+  //  this.craService.getDeviceDetailNew(this.devicedetailParamsDefault).subscribe(val => {
+  //     console.log("getDeviceDetailNew", val)
+  //   });
+  // }
 
   private deSenseNoisePayloadResolverTest() {
     let payload = "0aff880cd2a1d8"

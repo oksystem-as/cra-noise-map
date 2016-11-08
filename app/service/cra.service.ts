@@ -24,16 +24,9 @@ export class CRaService {
   constructor(private log: Logger, private http: Http) { }
 
   getDeviceDetailNew(params: DeviceDetailParams): Observable<SensorStatistics> {
-    // var devEUI = params.devEUI;
-    // var payloadType =  params.payloadType;
-    // var publisher = params.publisher;
-    // this.log.debug("CRaService.getDeviceDetail() init. ", params);
     return this.http.get(this.getDevicDetailUrlNew(params)).
       map(response => {
-        // this.log.debug("CRaService.getDeviceDetail() return ", response.json());
         let deviceDetail = response.json() as SensorStatistics
-        // deviceDetail.devEUI = devEUI;
-        // deviceDetail.publisher = publisher;
         return deviceDetail
       })
       .catch(this.handleErrorObservable);
@@ -84,28 +77,6 @@ export enum Order {
 }
 
 export class DeviceDetailParams {
-  // kdo zapricinil nacteni - napr pro reload jen pro konkretni graf
-  publisher: string;
-
-  payloadType: PayloadType;
-
   devEUI: string;
-
   date: Date
-
-  //Omezení počtu vypsaných záznamů. Hodnota musí být přirozeným číslem (1,2,3…N).
-  limit: number;
-
-  //Posunutí prvního vypsaného záznamu o N záznamů. Hodnota musí být nezáporné celé číslo (0,1,2,3…N)
-  offset: number
-
-  //Řazení záznamů dle časového razítka. Povolené hodnoty jsou asc nebo desc
-  order: Order;
-
-  // Omezení výpisu zpráv od konkrétního data. Formát 2016-01-01T01:50:50. Zprávy jsou ukládány v časovém pásmu Europe/Prague.
-  start: Date
-
-  // Omezení výpisu zpráv do konkrétního data. Formát 2016-01-01T01:50:50. Zprávy jsou ukládány v časovém pásmu Europe/Prague.
-  stop: Date
-
 }

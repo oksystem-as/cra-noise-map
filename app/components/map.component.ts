@@ -12,7 +12,7 @@ import { Scheduler } from "rxjs/Scheduler";
 import { Sensor } from '../entity/sensor';
 import { Payload, PayloadType } from '../payloads/payload';
 import { SensorsSharedService, Overlay, Events, OverlayGroup } from './sensors-shared.service';
-import { CRaService, DeviceDetailParams, DeviceParams, Order } from '../service/cra.service';
+import { CRaService, DeviceDetailParams, Order } from '../service/cra.service';
 import { SensorStatistics, Statistic, Statistics, StatisticsUtils, StatisType } from '../utils/statis-utils';
 import { ResponsiveState } from 'ng2-responsive';
 
@@ -442,7 +442,7 @@ export class MapComponent implements AfterViewInit {
       // setTimeout(() => {
       this.sensorsSharedService.publishEvent(Events.selectSensor, marker.sensor, "MapComponent.markerClick");
       setTimeout(() => {
-        this.sensorsSharedService.loadStatisticsData(<DeviceDetailParams>{ devEUI: marker.sensor.devEUI, publisher: "markerItem" });
+        this.sensorsSharedService.loadStatisticsData(<DeviceDetailParams>{ devEUI: marker.sensor.devEUI });
       }, 500);
     });
 
@@ -525,12 +525,5 @@ export class MapComponent implements AfterViewInit {
       fillOpacity: 0.8,
       strokeWeight: 2,
     };
-  }
-
-  private devicedetailParamsDefault = <DeviceDetailParams>{
-    start: new Date(2014, 1, 11),
-    //stop: new Date("2016-09-22"),
-    order: Order.asc,
-    limit: 10000
   }
 }
