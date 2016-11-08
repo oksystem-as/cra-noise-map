@@ -5,9 +5,9 @@
 
 .aboutAppMobileButton {
   padding: 9px;
+  margin-top: -34px;
 }
 
-.aboutAppButton {
-  /*padding: 0px;*/
-  margin: 0px;
+.aboutAppSmallButton {
+  padding: 9px;
 }

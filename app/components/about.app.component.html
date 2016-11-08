@@ -6,8 +6,8 @@
 		O webu
    </button>
 
-   <button (click)="lgModal.show()" type="button" class="btn btn-default aboutAppButton aboutAppMobileButton" *hideItBootstrap="['xl','lg','md']">
-	   <!--[class.aboutAppButton]="!isMobile()" [class.aboutAppMobileButton]="isMobile() -->
+   <button (click)="lgModal.show()" type="button" class="btn btn-default aboutAppButton aboutAppSmallButton" *hideItBootstrap="['xl','lg','md']" [class.aboutAppSmallButton]="!isMobile()" [class.aboutAppMobileButton]="isMobile()">
+	   <!-- -->
         <!--<img class="aboutAppIcoDown" src="..\app\images\question.png">-->
 		<span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span>
    </button>
