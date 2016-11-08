@@ -23,7 +23,7 @@ export class CRaService {
   private deviceDetailBaseUrl = 'message/get/'
   private token = "kBPIDfNdSfk8fkATerBa6ct6yshdPbOX";
 
-  private restProxy3 = "http://10.0.1.59:58082/"
+  private restProxy3 = "http://10.0.1.59:58081/"
   private restProxy2 = "http://200.0.0.25:8080/"
   private device = 'device/'
   private statis = '/statistics'
