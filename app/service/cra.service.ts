@@ -10,52 +10,18 @@ import 'rxjs/add/operator/toPromise';
 import { BehaviorSubject } from "rxjs/Rx";
 import { Observable } from "rxjs/Observable";
 import { Payload, PayloadType } from '../payloads/payload';
+import { Config } from '../config';
 
 @Injectable()
 export class CRaService {
-  // sklada se: kde jsem + /api pro proxy middleware a pote url na CRa
-  // private gpsSensorsUrl = window.location.href + 'api' + '/device/get/GPSinCars?token=kBPIDfNdSfk8fkATerBa6ct6yshdPbOX&limit=10'
-  // private personsUrl = window.location.href + 'api' + '/message/get/4786E6ED00350042?token=kBPIDfNdSfk8fkATerBa6ct6yshdPbOX&limit=10'
-  // private restProxy = "http://hndocker.oksystem.local:58080/"
-  private restProxy = "http://10.0.1.59:58080/"
-  private devApiPrefix = 'api/'
-  private deviceBaseUrl = 'device/get/'
-  private deviceDetailBaseUrl = 'message/get/'
-  private token = "kBPIDfNdSfk8fkATerBa6ct6yshdPbOX";
-
-  private restProxy3 = "http://10.0.1.59:58081/"
-  private restProxy2 = "http://200.0.0.25:8080/"
-  private device = 'device/'
-  private statis = '/statistics'
+  private restProxy = Config.serverURL + ":" + Config.serverPort + "/"  
+  private useServerProxy = Config.useServerProxy;
+  // pokud URL obsahuje na zacatku api/ presmeruje se na serveru url jinam
+  private useServerApiProxy = Config.useServerProxy;
+  private statisUrl = Config.statisURL;
+  private serverApiProxy = "api/";
 
   constructor(private log: Logger, private http: Http) { }
-
-  // getDevices(params: DeviceParams): Observable<Devices> {
-  //   this.log.debug("PersonService.getDevices()");
-  //   return this.http.get(this.getDeviceUrl(params)). 
-  //     map(response => {
-  //       this.log.debug("PersonService.getDevices() return ", response.json());
-  //       return response.json() as Devices
-  //     })
-  //     .catch(this.handleErrorObservable);
-  // }
-
-  // getDeviceDetail(params: DeviceDetailParams): Observable<DeviceDetail> {
-  //   var devEUI = params.devEUI;
-  //   var payloadType =  params.payloadType;
-  //   var publisher = params.publisher;
-  //   // this.log.debug("CRaService.getDeviceDetail() init. ", params);
-  //   return this.http.get(this.getDevicDetailUrl(params)).
-  //      map(response => {
-  //       // this.log.debug("CRaService.getDeviceDetail() return ", response.json());
-  //       let deviceDetail = response.json() as DeviceDetail
-  //       deviceDetail.payloadType = payloadType;
-  //       deviceDetail.devEUI = devEUI;
-  //       deviceDetail.publisher = publisher;
-  //       return deviceDetail
-  //     })
-  //     .catch(this.handleErrorObservable);
-  // }
 
   getDeviceDetailNew(params: DeviceDetailParams): Observable<SensorStatistics> {
     // var devEUI = params.devEUI;
@@ -74,8 +40,14 @@ export class CRaService {
   }
 
   private getDevicDetailUrlNew(params: DeviceDetailParams): string {
-    let url = this.restProxy3 + this.device + params.devEUI + this.statis;
-
+    let url;
+   
+    if(this.useServerProxy){
+         url = this.restProxy + this.serverApiProxy + this.statisUrl.replace("{devEUI}", params.devEUI);
+    } else {
+         url = this.restProxy + this.statisUrl.replace("{devEUI}", params.devEUI);
+    }
+    
     if (params.date) {
       url += '?date=' + this.dateToString(params.date);
     }
@@ -83,47 +55,6 @@ export class CRaService {
     this.log.debug("CRaService.getDevicDetailUrlNew() " + url)
     return url
   }
-
-  // private getDevicDetailUrl(params: DeviceDetailParams): string {
-  //   //  let url = window.location.href + this.devApiPrefix + this.deviceDetailBaseUrl + params.devEUI + '?token=' + this.token;
-  //   let url = this.restProxy + this.deviceDetailBaseUrl + params.devEUI + '?token=' + this.token;
-
-  //   if (params.limit) {
-  //     url += '&limit=' + params.limit;
-  //   }
-
-  //   if (params.offset) {
-  //     url += '&offset=' + params.offset;
-  //   }
-
-  //   if (params.order) {
-  //     url += '&order=' + params.order;
-  //   }
-
-  //   if (params.start) {
-  //     url += '&start=' + this.dateToString(params.start);
-  //   }
-
-  //   if (params.stop) {
-  //     url += '&stop=' + this.dateToString(params.stop);
-  //   }
-  //   this.log.debug("CRaService.getDevicDetailUrl() " +  url )
-  //   return url
-  // }
-
-  // private getDeviceUrl(params: DeviceParams): string {
-  //   let url = this.restProxy + this.deviceBaseUrl + params.projectName + '?token=' + this.token;
-
-  //   if (params.limit) {
-  //     url += '&limit=' + params.limit;
-  //   }
-
-  //   if (params.offset) {
-  //     url += '&offset=' + params.offset;
-  //   }
-  //   this.log.debug("device url " + url)
-  //   return url
-  // }
 
   private handleErrorObservable(error: any) {
     // In a real world app, we might use a remote logging infrastructure
@@ -145,18 +76,6 @@ export class CRaService {
       + "T" + ("0" + d.getHours()).slice(-2) + ":" + ("0" + d.getMinutes()).slice(-2) + ":" + ("0" + d.getSeconds()).slice(-2);
     return datestring;
   }
-}
-
-export class DeviceParams {
-  //Slouží k autorizaci requestu a je unikátní pro každý soutěžní team. Pro jeho vygenerování kontaktujte ČRa.
-  //token: string;
-  projectName: string;
-
-  //Omezení počtu vypsaných záznamů. Hodnota musí být přirozeným číslem (1,2,3…N).
-  limit: number;
-
-  //Posunutí prvního vypsaného záznamu o N záznamů. Hodnota musí být nezáporné celé číslo (0,1,2,3…N)
-  offset: number
 }
 
 export enum Order {
