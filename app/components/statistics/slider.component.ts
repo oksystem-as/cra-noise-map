@@ -147,7 +147,7 @@ export class SliderStatisComponent {
                 if (newDate != undefined) {
                     this.sensorsSharedService.publishEvent(
                         Events.statisSlider,
-                        { statisType: this.statisType, startDate: new Date(time1), endDate: new Date(time2) },
+                        { statisType: this.statisType, startDate: DateUtils.getDayFlatDate(new Date(time1)), endDate: DateUtils.getDayFlatDate(new Date(time2)) },
                         "SliderStatisComponent.slideStop");
                 }
             });
