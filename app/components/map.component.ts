@@ -48,18 +48,13 @@ export class MapComponent implements AfterViewInit {
       this.isMobileIntrenal = device === "mobile";
     });
 
-    responsiveState.orientationObserver.subscribe(orientation => {
-      this.isPortraitInternal = orientation === "portrait";
-      log.debug("zmena orientace: ", orientation);
-      if (this.map != undefined) {
-        this.calculateCenter();
-      }
-      // if (this.map != undefined && this.currCenter != undefined) {
-      //   google.maps.event.trigger(this.map, 'resize');
-      //   log.debug("volam resize");
-      //   this.map.setCenter(this.currCenter);
-      // }
-    });
+    // responsiveState.orientationObserver.subscribe(orientation => {
+    //   this.isPortraitInternal = orientation === "portrait";
+    //   log.debug("zmena orientace: ", orientation);
+    //   if (this.map != undefined) {
+    //     this.calculateCenter();
+    //   }
+    // });
   }
 
   isMobile() {
@@ -349,12 +344,12 @@ export class MapComponent implements AfterViewInit {
   }
 
   private centerChangeListener() {
-    // if (this.map != undefined) {
-    //   google.maps.event.addListener(this.map, 'center_changed', function () {
-    //     if (this.map != undefined && this.map.getCenter != undefined) {
-    //       this.currCenter = this.map.getCenter();
-    //     }
-    //   });
+    if (this.map != undefined) {
+      google.maps.event.addListener(this.map, 'dragend', function () {
+        if (this.map != undefined && this.map.getCenter != undefined) {
+          this.calculateCenter();
+        }
+      });
     
 //     google.maps.event.addDomListener(this.map, 'center_changed', function () {
 //       this.currCenter  = this.map.getCenter();

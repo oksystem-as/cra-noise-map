@@ -1,18 +1,16 @@
 <!------------------------------------------------------- DESKTOP, TABLET, SMART TV -------------------------------------------------------->
 <div id="baseMapLegendId" class="standard" *showItDevice="['desktop','tablet','smarttv']">
     <!--Horizontal-->
-    <div *ngIf="!showVertical" class="legend-horizontal">
-        <span class="legendText" *ngFor="let legend of legends" [style.background]="legend.color" [style.color]="legend.colorText"
-            tooltip="Hluk naměřený v DB" tooltipPopupDelay="1500" tooltipPlacement="top" tooltipClass="tooltip-legend">  
-                <span>{{legend.valueText}}</span>
+    <div *ngIf="!showVertical" class="legend-horizontal" tooltip="Hluk naměřený v DB" tooltipPopupDelay="1500" tooltipPlacement="top" tooltipClass="tooltip-legend">
+        <span class="legendText" *ngFor="let legend of legends" [style.background]="legend.color" [style.color]="legend.colorText">  
+            <span>{{legend.valueText}}</span>
         </span>
     </div>
     <!--Vertical-->
     <!--<span *hideItBrowser="['ie']">-->
       <!-- Chrome, Firefox, Safari, Opera --> 
-      <div *ngIf="showVertical" class="legend-vertical">
-          <div class="legendText" *ngFor="let legend of legends" [style.background]="legend.color" [style.color]="legend.colorText"
-            tooltip="Hluk naměřený v DB" tooltipPopupDelay="1500" tooltipPlacement="right" tooltipClass="tooltip-legend">
+      <div *ngIf="showVertical" class="legend-vertical" tooltip="Hluk naměřený v DB" tooltipPopupDelay="1500" tooltipPlacement="right" tooltipClass="tooltip-legend">
+          <div class="legendText" *ngFor="let legend of legends" [style.background]="legend.color" [style.color]="legend.colorText">
             <span *hideItBrowser="['ie']">{{legend.valueText}}</span>
             <span *showItBrowser="['ie']" class="legendTextIE">{{legend.valueText}}</span>
           </div>

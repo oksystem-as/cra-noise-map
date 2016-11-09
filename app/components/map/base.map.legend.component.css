@@ -3,8 +3,6 @@
   position: absolute;
   bottom: 24px;
   left: 10px;
-
-  z-index: 13 !important;
 }
 
 .legendText {
@@ -29,26 +27,6 @@
 .legendTextIE {
   font-size: 12px;
 }
-
-/*.legend-vertical {
-  margin-left: 11px;
-  margin-top: -188px; 
-  width: 100%;
-  height: 100%;
-}*/
-/*
-.legend-vertical-ie {
-  margin-left: 11px;
-  margin-top: -197px; 
-  width: 100%;
-  height: 100%;
-}*/
-
-/*.legend-horizontal {
-  margin-left: 10px;
-  width: 100%;
-  height: 100%;
-}*/
 
 /* MOBILE */
 .mobile {
