@@ -4,12 +4,19 @@
 }
 
 .noiseLabelSmall-p {
-  margin-top: -3px;
-  margin-bottom: 9px;
-  width: 100%;
+  margin-top: 3px;
+  margin-bottom: 11px;
+  width: 190px;
 }
 
 .noiseLabelSmall-l {
-  margin-top: -3px;
-  margin-right: 9px; 
+  margin-top: 1px;
+  margin-right: 9px;
+  width: 190; 
+}
+
+.noiseLabelMedium {
+  width: 173px;
+  margin-right: 5px;
+  margin-top: 2px;
 }

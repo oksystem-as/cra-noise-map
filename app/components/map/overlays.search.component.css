@@ -14,7 +14,7 @@
   position: absolute;
   left: 10px;
   top: 10px;
-  width: 67%;
+  width: 170px;
 }
 
 .overlaysSearchMobileLandscape {
@@ -30,6 +30,11 @@
 .overlaysSearchMobileLandscape > search {
   margin-right: 15px;
   max-width: 220px;
+}
+
+.overlaysSearchDesktop > .small > search {
+  margin-right: 15px;
+  max-width: 180px;
 }
 
 .smallBorder{

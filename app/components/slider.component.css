@@ -5,31 +5,38 @@
     font-weight: 400;
 }
 
-.rect3 {
-    /*z-index: 12;*/
-    position: relative;
-    width:100%;
-    padding-right: 135px;
-    left: 76px;
-    padding-bottom: 17px; 
-}
-
-.rect3-M-Landscape {
-    z-index: 12;
-    position: relative;
-    width: 92%;
-    padding-right: 18px;
-    margin-left: -23px;
-    padding-bottom: 17px;
-}
-
-.rect3-M-Portrait {
+@media screen and (orientation:portrait)
+{
+   .rect3-M
+   {  
     z-index: 12;
     position: relative;
     width: 100%;
     padding-right: 18px;
     margin-left: -67px;
+    padding-bottom: 17px; 
+   }
+}
+
+@media screen and (orientation:landscape)
+{
+   .rect3-M
+   {
+    z-index: 12;
+    position: relative;
+    width: 100%;
+    padding-right: 62px;
+    margin-left: -24px;
     padding-bottom: 17px;
+   }
+}
+
+.rect3 {
+    position: relative;
+    width:100%;
+    padding-right: 135px;
+    left: 76px;
+    padding-bottom: 17px; 
 }
 
 #rectangle2 {

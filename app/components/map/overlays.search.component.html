@@ -1,7 +1,12 @@
 <!--STANDARD-->
 <div class="overlaysSearchDesktop" *hideItDevice="['mobile']">
-    <noise-label style="float: left"></noise-label>
-    <search style="float: left"></search>
+    <span class="big" *showItBootstrap="['xl','lg','md']">
+        <search></search>
+    </span>
+    <span class="small" *showItBootstrap="['sm','xs']">
+        <search></search>
+    </span>
+    <noise-label ></noise-label>
 </div>
 
 <!--MOBILE PORTRAIT-->

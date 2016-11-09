@@ -1,13 +1,3 @@
-/*STANDARD VERSION*/
-.overlaysMenuDesktop {
-  /*margin-left: -144px;
-  margin-top: -34px;*/
-}
-
-.overlaysMenuMobile {
-  /*margin-left: -43px;*/
-}
-
 .overlaysMenuMobile .btn{
  padding: 9px;
 }
@@ -48,19 +38,6 @@
   font-weight: bold;
   margin-left: 7px;
 }
-
-/*.layerMainHeader {
-  font-weight: bold;
-  color: cornflowerblue;
-  width: 100%;
-  text-align: center;
-}
-
-.mapSection {
-  width: 100%;
-  margin-top: 5px;
-  margin-bottom: 10px;
-}*/
 
 .layerHeaderMobile {
   font-weight: bold;
