@@ -4,20 +4,7 @@
 }
 
 .pac-input-small {
-  width: 192px;
+  max-width: 192px;
   border-top-right-radius: 4px !important;
   border-bottom-right-radius: 4px !important;
 }
-
-/*
-.pac-input-M {
-  position: relative;
-  background-color: #fff;
-  font-family: Roboto;
-  font-size: 14px;
-  font-weight: 300;
-  padding: 0 1px 0 8px;
-  text-overflow: ellipsis;
-  width: 180px;
-  height: 36px;
-}*/
