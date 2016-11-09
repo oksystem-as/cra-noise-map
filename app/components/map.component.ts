@@ -340,16 +340,15 @@ export class MapComponent implements AfterViewInit {
 
   private setMapCenter() {
     this.map.setCenter(this.currCenter);
-    //this.map.panTo(this.currCenter);
   }
 
   private centerChangeListener() {
-    if (this.map != undefined) {
-      google.maps.event.addListener(this.map, 'dragend', function () {
-        if (this.map != undefined && this.map.getCenter != undefined) {
-          this.calculateCenter();
-        }
-      });
+    // if (this.map != undefined) {
+    //   google.maps.event.addListener(this.map, 'dragend', function () {
+    //     if (this.map != undefined && this.map.getCenter != undefined) {
+    //       this.calculateCenter();
+    //     }
+    //   });
     
 //     google.maps.event.addDomListener(this.map, 'center_changed', function () {
 //       this.currCenter  = this.map.getCenter();
@@ -371,9 +370,9 @@ export class MapComponent implements AfterViewInit {
   // });
   // Add an event listener that calculates center on resize  
 
-  google.maps.event.addDomListener(window, 'resize', () => {
-    this.setMapCenter();
-  });
+  // google.maps.event.addDomListener(window, 'resize', () => {
+  //   this.setMapCenter();
+  // });
   }
 
   private removeMarkers(devEUI: string) {
