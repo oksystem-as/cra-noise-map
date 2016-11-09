@@ -72,8 +72,13 @@ export class ChartComponent implements AfterViewInit {
             yAxes: [{
                 ticks: {
                     beginAtZero: true
-                }
+                },
+                scaleLabel: {
+                    display: true,
+                    labelString: 'intenzita hluku [dB]' 
+                },
             }],
+
             // xAxes: [{
             // //     ticks: {
             // //         callback: function on(evt: any) {
@@ -92,7 +97,7 @@ export class ChartComponent implements AfterViewInit {
             // }]
         },
         defaultColor: "blue",
-        legend: { 
+        legend: {
             display: false,
         },
         // maintainAspectRatio: true,
@@ -116,7 +121,7 @@ export class ChartComponent implements AfterViewInit {
 
         //             console.log("custom tooltip3", data);  
         //             return "label";},
-                
+
         //     }
         // }
     }
