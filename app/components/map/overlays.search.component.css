@@ -23,6 +23,15 @@
   top: 10px;
 }
 
+.overlaysSearchMobileLandscape * { 
+  float: right; 
+}
+
+.overlaysSearchMobileLandscape > search {
+  margin-right: 15px;
+  max-width: 220px;
+}
+
 .smallBorder{
   padding: 6px;
 }
