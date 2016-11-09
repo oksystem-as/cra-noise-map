@@ -6,9 +6,17 @@
   width: 400px;
 }
 
-.overlaysSearchMobile {
+.overlaysSearchMobilePortrait {
   position: absolute;
   left: 10px;
+  top: 10px;
+  z-index: 5;
+  margin-right: 95px;
+}
+
+.overlaysSearchMobileLandscape {
+  position: absolute;
+  left: 50px;
   top: 10px;
   z-index: 5;
   margin-right: 95px;
@@ -17,122 +25,3 @@
 .smallBorder{
   padding: 6px;
 }
-
-/*.overlaysSearchMobile {
-  z-index: 15 !important;
-  height: 36px;
-  height: 0px;
-  width: 0px;
-}
-
-.overlaysSearchStandard {
-  z-index: 15 !important;
-  height: 38px;
-  margin-top: -2px;
-  margin-left: 10px;
-}
-
-.overlaysSearchStandard > div.logo > logo {
-  width: 100%;
-  height: 100%;
-}
-
-.logo {
-  z-index: 20 !important;
-  padding-top: 7px;
-}
-
-.overlaysSearchStandard > div > overlays-menu {
-  width: 38px !important;
-  height: 38px !important;
-  position: relative;
-  top: 0px;
-  left: 0px;
-  z-index: 20 !important;
-}
-
-.overlaysSearchStandard > div > search {
-  padding-left: 40px;
-  position: relative;
-  top: -38px;
-}
-
-.overlaysSearchStandard > div {
-  border-radius: 4px 4px 4px 4px;
-  -moz-border-radius: 4px 4px 4px 4px;
-  -webkit-border-radius: 4px 4px 4px 4px;
-  border: 0px solid #000000;
-}
-
-.overlaysSearch {
-  z-index: 5;
-  background-color: white;
-  height: 38px;
-  padding: 0px;
-
-  border-radius: 4px 0px 0px 4px;
-  -moz-border-radius: 4px 0px 0px 4px;
-  -webkit-border-radius: 4px 0px 0px 4px;
-  border: 0px solid #000000;
-
-  -webkit-box-shadow: 0px 0px 10px 4px rgba(0,0,0,0.19);
-  -moz-box-shadow: 0px 0px 10px 4px rgba(0,0,0,0.19);
-  box-shadow: 0px 0px 10px 4px rgba(0,0,0,0.19); 
-}
-
-.separator {
-  border-right: 1px lightgray;
-  border-left: 0px;
-  border-bottom: 0px;
-  border-top: 0px;
-  border-style: solid;
-  width: 1px;
-  padding-top: 5px;
-  padding-bottom: 5px;
-  position: relative;
-  top: -38px;
-  left: 38px;
-}
-
-.overlaysSearchMobile {
-  height: 36px;
-  width: 100%;
-}
-
-.mobileTop {
-  width: 100%;
-  height: 0px;
-}
-
-.navbar-nav > li > a {
-  height: 38px;
-}
-
-.separator-M {
-  border-right: 1px lightgray;
-  border-left: 0px;
-  border-bottom: 0px;
-  border-top: 0px;
-  border-style: solid;
-  width: 1px;
-  height: 30px;
-  padding-top: 5px;
-  padding-bottom: 5px;
-  top: -36px;
-  left: 37px;
-  position: relative;
-}
-
-#overlaysSearchId > div.mobileTop > search {
-  height: 38px;
-  top: -35px;
-  left: 38px;
-  width: 45%;
-  position: relative;
-}
-
-.logo-M {
-  height: 26px;
-  width: 100px;
-  margin-top: 37px;
-}*/
