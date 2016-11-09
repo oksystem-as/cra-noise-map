@@ -1,4 +1,4 @@
-<!------------------------------------------------------- DESKTOP, TABLET, SMART TV -------------------------------------------------------->
+<!-- ----------------------------------------------------- DESKTOP, TABLET, SMART TV ------------------------------------------------------ -->
 <div id="baseMapLegendId" class="standard" *showItDevice="['desktop','tablet','smarttv']">
     <!--Horizontal-->
     <div *ngIf="!showVertical" class="legend-horizontal" tooltip="Hluk naměřený v DB" tooltipPopupDelay="1500" tooltipPlacement="top" tooltipClass="tooltip-legend">
@@ -26,7 +26,7 @@
 </div>
 
 
-<!------------------------------------------------------- MOBILE ------------------------------------------------------->
+<!-- ----------------------------------------------------- MOBILE ----------------------------------------------------- -->
 <div id="baseMapLegendId" class="mobile" *showItDevice="['mobile']">
     <!--Horizontal-->
     <div *ngIf="!showVertical" class="legend-horizontal-M">
@@ -52,7 +52,15 @@
 
 
     <!--Vertical-->
-    <div class="legend-vertical-M" *ngIf="showVertical">
+    <div *ngIf="showVertical">
+        <div class="legend-vertical-M-P showOnPortrait">
+            <div class="legendText-M" *ngFor="let legend of legends" [style.background]="legend.color" [style.color]="legend.colorText">
+                {{legend.valueTextMobile}}
+            </div>
+        </div>
+    </div>
+
+    <div class="legend-vertical-M-L showOnLandscape" *ngIf="showVertical">
 	    <!--<button type="button" class="btn btn-default legendButtonMobile" (click)="isHidden = !isHidden">         -->
             <!--<span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>
         </button>

@@ -14,7 +14,16 @@
     padding-bottom: 17px; 
 }
 
-.rect3-M {
+.rect3-M-Landscape {
+    z-index: 12;
+    position: relative;
+    width: 92%;
+    padding-right: 18px;
+    margin-left: -23px;
+    padding-bottom: 17px;
+}
+
+.rect3-M-Portrait {
     z-index: 12;
     position: relative;
     width: 100%;

@@ -35,10 +35,16 @@
   left: 42px;
 }
 
-.legend-vertical-M {
+.legend-vertical-M-P {
   position: absolute;
   right: 0px;
   top: 0px;
+}
+
+.legend-vertical-M-L {
+  position: absolute;
+  right: 0px;
+  top: 53px;
 }
 
 .legendButtonMobile {
