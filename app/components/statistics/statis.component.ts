@@ -15,7 +15,6 @@ import { Observable } from 'rxjs/Observable';
 import { GroupedObservable } from 'rxjs/operator/groupBy';
 import { BehaviorSubject } from "rxjs/Rx";
 import 'rxjs/Rx';
-import { ChartsModule } from 'ng2-charts/ng2-charts';
 import { SliderStatisComponent } from './slider.component';
 import { ChartComponent } from './chart.component';
 
