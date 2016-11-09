@@ -1,4 +1,4 @@
-.chartDesktop{
+.chartDesktop {
   margin-left: 10px;    
   padding-top: 12px; 
   padding-right: 12px;
@@ -6,9 +6,9 @@
 
 .tableDesktop {
   overflow-y: scroll;
-  height:150px;
-   margin-left: 20px;
+  margin-left: 20px;
   margin-right: 20px;
+  height:150px;
 }
 
 /*.tableMobileLandscape {
@@ -18,7 +18,7 @@
   margin-right: 20px;
 }*/
 
-.sliderDesktop{
+.sliderDesktop {
   width: 100% !important;
   padding-right: 50px;
   padding-left: 50px;
