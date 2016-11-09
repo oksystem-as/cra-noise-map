@@ -394,7 +394,7 @@ declare namespace Chart {
     afterUpdate?:                 (scale: Scale) => void; // Check required
     // @formatter:on
     gridLines?: Array<ScaleGridLinesOptions>;
-    scaleLabel?: Array<ScaleLabelOptions>;
+    scaleLabel?: ScaleLabelOptions | Array<ScaleLabelOptions>;
     ticks?: ScaleTickOptions | Array<ScaleTickOptions>;
     reverse?: boolean;
   }

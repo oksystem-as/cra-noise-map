@@ -38,12 +38,13 @@ import { ModalModule } from 'ng2-bootstrap/ng2-bootstrap';
 import { CarouselModule } from 'ng2-bootstrap/ng2-bootstrap';
 import { DropdownModule } from 'ng2-bootstrap/ng2-bootstrap';
 import { ReversePipe } from './pipes/reverse.pipe';
+import { Version } from './version';
 
 import Raven = require('raven-js');
 
 Raven
   .config('https://69322a4765c24abfa3ef6245331b4b43@sentry.io/112562', {
-    tags: { git_commit: 'v0.1-RC3-SNAPSHOT' }
+    tags: { git_commit: Version.version }
   })
   .install();
 

@@ -66,7 +66,7 @@ export class SliderComponent implements AfterViewInit {
             this.slider = new Slider('#' + this.sliderId, {
                 ticks: ticks,
                 ticks_labels: ticks_labels,
-                ticks_snap_bounds: diff / 36,
+                //ticks_snap_bounds: diff / 36,
                 // definice zobrazeni datoveho modelu uzivateli v tooltipu 
                 formatter: function (value) {
                     return new Date(value).toLocaleDateString();
