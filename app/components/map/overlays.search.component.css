@@ -3,25 +3,30 @@
   left: 10px;
   top: 10px;
   z-index: 0;
-  width: 400px;
+  max-width: 550px;
+}
+
+.overlaysSearchDesktop * { 
+  float: right; 
 }
 
 .overlaysSearchMobilePortrait {
   position: absolute;
   left: 10px;
   top: 10px;
-  z-index: 5;
-  margin-right: 95px;
+  width: 67%;
 }
 
 .overlaysSearchMobileLandscape {
   position: absolute;
-  left: 50px;
+  left: 10px;
   top: 10px;
-  z-index: 5;
-  margin-right: 95px;
 }
 
 .smallBorder{
   padding: 6px;
+}
+
+.overlaysSearchDesktop > search {
+  width: 240px;
 }

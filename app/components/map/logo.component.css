@@ -1,7 +1,11 @@
-.logoImage {
-  height: 20px;
+#okSystemLogo {
+  position: absolute;
+  bottom: 72px;
+  left: 77px;
 }
 
-.logoImage-M {
-  height: 19px;
-}  
+#okSystemLogo-M {
+  position: absolute;
+  bottom: 66px;
+  left: 52px;
+}

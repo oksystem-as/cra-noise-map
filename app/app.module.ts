@@ -22,6 +22,7 @@ import { LogoComponent } from './components/map/logo.component';
 import { LoadingComponent } from './components/loading.component';
 import { AboutAppComponent } from './components/about.app.component';
 import { ControlsComponent } from './components/controls.component';
+import { NoiseLabelComponent } from './components/map/noise.map.label.component';
 
 import { HttpModule } from '@angular/http';
 import { Logger, Options, Level } from "angular2-logger/core";
@@ -92,6 +93,7 @@ class RavenErrorHandler implements ErrorHandler {
     SliderStatisComponent,
     AboutAppComponent,
     ControlsComponent,
+    NoiseLabelComponent,
     // Collapse,
   ],
   bootstrap: [AppComponent]

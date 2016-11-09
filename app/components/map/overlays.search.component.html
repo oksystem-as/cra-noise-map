@@ -1,23 +1,17 @@
 <!--STANDARD-->
-<div class="form-group has-success has-feedback overlaysSearchDesktop" *hideItDevice="['mobile']">
-    <div class="input-group">
-        <span class="input-group-addon"><logo></logo></span>
-        <search></search>
-    </div>  
+<div class="overlaysSearchDesktop" *hideItDevice="['mobile']">
+    <noise-label style="float: left"></noise-label>
+    <search style="float: left"></search>
 </div>
 
 <!--MOBILE PORTRAIT-->
-<div class="form-group has-success has-feedback overlaysSearchMobilePortrait showOnPortrait" *showItDevice="['mobile']">
-    <div class="input-group">
-        <span class="input-group-addon"><logo></logo></span>
-        <search></search>       
-    </div>  
+<div class="overlaysSearchMobilePortrait showOnPortrait" *showItDevice="['mobile']">
+    <noise-label></noise-label>
+    <search></search>       
 </div>
 
-<!--MOBILE LANDSCAPE     overlaysSearchMobileLandscape -->
-<div class="form-group has-success has-feedback overlaysSearchMobilePortrait showOnLandscape" *showItDevice="['mobile']">
-    <div class="input-group">
-        <span class="input-group-addon"><logo></logo></span>
-        <search></search>       
-    </div>  
+<!--MOBILE LANDSCAPE-->
+<div class="overlaysSearchMobileLandscape showOnLandscape" *showItDevice="['mobile']">
+    <noise-label></noise-label>
+    <search></search>       
 </div>
