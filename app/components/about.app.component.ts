@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, Input, ViewEncapsulation, ViewContainerRef } from '@angular/core';
 import { ResponsiveState } from 'ng2-responsive';
+import { Version } from '../version';
 
 @Component({
   selector: 'about-app',
@@ -8,6 +9,7 @@ import { ResponsiveState } from 'ng2-responsive';
 })
 export class AboutAppComponent {
   private isMobileIntrenal: boolean;
+  private appVersion = Version.version;
 
   constructor(responsiveState: ResponsiveState) {
     responsiveState.deviceObserver.subscribe(device => {
