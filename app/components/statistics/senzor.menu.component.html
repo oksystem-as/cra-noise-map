@@ -1,11 +1,17 @@
 <div id="senzorMenuId" *hideItDevice="['mobile']" class="senzor-button" tooltip="Výběr čidla" tooltipPopupDelay="1500" tooltipPlacement="bottom">
 	<div class="btn-group" dropdown>
-		<button id="single-button" type="button" class="btn btn-default dropDownButton" dropdownToggle>
-       		<span class="glyphicon glyphicon-dashboard" aria-hidden="true"></span>
-       		<span *ngIf="selectedSensor == undefined">Vyberte čidlo</span>
+
+		<button *showItBootstrap="['sm','xs']" id="single-button" type="button" class="btn btn-default dropDownButton smallBtn" dropdownToggle>
+			<span class="glyphicon glyphicon-dashboard" aria-hidden="true"></span>
+		</button>
+
+		<button *showItBootstrap="['xl','lg', 'md']" id="single-button" type="button" class="btn btn-default dropDownButton" dropdownToggle>
+			<span class="glyphicon glyphicon-dashboard" aria-hidden="true"></span>
+			<span *ngIf="selectedSensor == undefined">Vyberte čidlo</span>
 			<span *ngIf="selectedSensor != undefined">{{selectedSensor.name}}</span>
 			<span class="caret"></span>
 		</button>
+
 		<ul dropdownMenu role="menu" aria-labelledby="single-button">
 			<li role="menuitem" *ngFor="let sensor of sensors, let ndx = index"><a class="dropdown-item" href="#" (click)="onClick(sensor)" [class.red-sensor]="isSensorSelected(sensor)" [class.bold-sensor]="isSensorOnMap(sensor)">{{sensor.name}}</a></li>
 		</ul>

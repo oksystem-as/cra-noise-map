@@ -1,22 +1,16 @@
 <!--STANDARD-->
 <div class="overlaysSearchDesktop" *hideItDevice="['mobile']">
-    <span class="big" *showItBootstrap="['xl','lg','md']">
-        <search></search>
-    </span>
-    <span class="small" *showItBootstrap="['sm','xs']">
-        <search></search>
-    </span>
     <noise-label ></noise-label>
+    <div class="big overlaysSearchDesktopSearch" *showItBootstrap="['xl','lg']">
+        <search></search>
+    </div>
+    <div class="small overlaysSearchDesktopSearch" *showItBootstrap="['md','sm','xs']">
+        <search></search>
+    </div>
 </div>
 
-<!--MOBILE PORTRAIT-->
-<div class="overlaysSearchMobilePortrait showOnPortrait" *showItDevice="['mobile']">
+<!--MOBILE -->
+<div class="overlaysSearchMobile" *showItDevice="['mobile']">
     <noise-label></noise-label>
-    <search></search>       
-</div>
-
-<!--MOBILE LANDSCAPE-->
-<div class="overlaysSearchMobileLandscape showOnLandscape" *showItDevice="['mobile']">
-    <search></search>   
-    <noise-label></noise-label>
+    <div class="overlaysSearchMobileLandscapeSearch"><search></search></div>    
 </div>
