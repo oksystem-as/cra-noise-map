@@ -10,12 +10,17 @@ import { SensorsSharedService, Overlay, OverlayGroup, Events } from '../sensors-
 })
 
 export class SearchComponent {
+
+    private searchBoxInternal: google.maps.places.SearchBox;
+
     constructor(private log: Logger, private sensorsSharedService: SensorsSharedService) {
         sensorsSharedService.listenEventData(Events.mapInstance).subscribe(map => {
             if (map != undefined) {
                 var input = document.getElementById('pac-input') as HTMLInputElement;
                 var searchBox = new google.maps.places.SearchBox(input);
                 var markers = [];
+
+                this.searchBoxInternal = searchBox;
 
                 // Bias the SearchBox results towards current map's viewport.
                 map.addListener('bounds_changed', () => {
@@ -72,5 +77,9 @@ export class SearchComponent {
                 });
             }
         });
+    }
+
+    private startSearch() {
+        google.maps.event.trigger(this.searchBoxInternal, 'place_changed');
     }
 }
