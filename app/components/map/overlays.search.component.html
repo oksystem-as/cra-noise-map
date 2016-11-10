@@ -1,10 +1,7 @@
 <!--STANDARD-->
 <div class="overlaysSearchDesktop" *hideItDevice="['mobile']">
     <noise-label ></noise-label>
-    <div class="big overlaysSearchDesktopSearch" *showItBootstrap="['xl','lg']">
-        <search></search>
-    </div>
-    <div class="small overlaysSearchDesktopSearch" *showItBootstrap="['md','sm','xs']">
+    <div class="big overlaysSearchDesktopSearch" [class.big]="isBig()" [class.small]="!isBig()">
         <search></search>
     </div>
 </div>
