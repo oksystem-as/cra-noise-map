@@ -13,6 +13,14 @@
   font-size: 11px;
 }
 
+.dropdown-item {
+  padding: 0;
+}
+
+.menuOverlayItem {
+  padding-left: 10px;
+}
+
 .layerTextLegendMobile {
   text-align: left;
   position: relative;
@@ -24,15 +32,23 @@
 }
 
 .layerText {
-  padding-left: 8px;
+  padding-left: 10px;
+  top: -3px;
+  position: relative;
 }
 
 .desktopChBox {
   padding-top: 5px;
 }
 
-#overlayGroup > li:nth-child > a > span.layerText {
-  margin-top: 1px;
+a {
+  color: black;
+  text-decoration: none;  
+}
+
+a:hover {
+  color: black;
+  text-decoration: none;
 }
 
 .layerLegendMobile {
@@ -49,7 +65,11 @@
 
 .layerHeader {
   font-weight: bold;
-  margin-left: 7px;
+  margin-left: 9px;
+}
+
+.oneGroupeItem {
+  padding-bottom: 7px;
 }
 
 .layersMapHeading {
