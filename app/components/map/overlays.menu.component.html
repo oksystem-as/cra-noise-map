@@ -11,7 +11,7 @@ tooltip="Výběr mapové vrstvy" tooltipPopupDelay="1500" tooltipPlacement="bott
 				<span class="caret"></span>
 			</button>
 			<ul id="overlayGroup" dropdownMenu role="menu" aria-labelledby="single-button" class="layer-button">
-				<li class="layersMapHeading"><span>Strategická hluková mapa</span></li>
+				<li class="layersMapHeading"><span>Strategická hluková mapa za rok 2008</span></li>
 				<template ngFor let-overlayGroup [ngForOf]="overlayGroups" let-i="index" [ngForTrackBy]="trackByFn">
 					<div class="oneGroupeItem">
 						<li role="menuitem"> <span class="layerHeader">{{overlayGroup.name}}</span></li>
@@ -56,7 +56,7 @@ tooltip="Výběr mapové vrstvy" tooltipPopupDelay="1500" tooltipPlacement="bott
 		</div>
 		
 		<div class="modal-body">
-			<span class="layersMapHeading">Strategická hluková mapa</span>
+			<span class="layersMapHeading">Strategická hluková mapa za rok 2008</span>
 		  <div class="layerHeaderMobile" *ngFor="let overlayGroup of overlayGroups, let ndx = index">
 			<label class="group">{{overlayGroup.name}}</label>
 		    <div class="checkbox" *ngFor="let overlay of overlayGroup.overlays"> 
