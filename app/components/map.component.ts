@@ -227,6 +227,7 @@ export class MapComponent implements AfterViewInit {
     // this.map.controls[google.maps.ControlPosition.TOP_LEFT].push(document.getElementById('overlaysSearchId'));
     // this.map.controls[google.maps.ControlPosition.LEFT_BOTTOM].push(document.getElementById('baseMapLegendId'));
     // this.map.controls[google.maps.ControlPosition.TOP_CENTER].push(document.getElementById('loadingOnMap'));
+    this.map.controls[google.maps.ControlPosition.LEFT_BOTTOM].push(document.getElementById('okSystemLogo'));
   }
 
 

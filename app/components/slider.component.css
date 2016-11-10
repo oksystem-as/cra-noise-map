@@ -5,13 +5,6 @@
     font-weight: 400;
 }
 
-#rectangle3 {
-    overflow-x: hidden;
-    position: absolute;
-    left: 76px;
-    bottom: 0px;
-}
-
 @media screen and (orientation:portrait)
 {
    .rect3-M
@@ -37,11 +30,6 @@
     width: calc(100% - 135px);
     left: 76px;
     padding-bottom: 17px; 
-}
-
-#mainSlider > div.tooltip.tooltip-main.top.in > div.tooltip-inner {
-    position: fixed;
-    margin-left: -40px;
 }
 
 #rectangle2 {

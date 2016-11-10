@@ -1,11 +1,9 @@
-#okSystemLogo {
-  position: absolute;
-  bottom: 72px;
-  left: 77px;
+.okhome {
+  margin-left: 76px;
+  margin-bottom: 5px;
 }
 
-#okSystemLogo-M {
-  position: absolute;
-  bottom: 66px;
-  left: 52px;
+.okhome-M {
+  margin-left: 52px;
+  margin-bottom: 0px;
 }

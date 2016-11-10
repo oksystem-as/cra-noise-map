@@ -89,7 +89,7 @@ export class SliderComponent implements AfterViewInit {
                 }
             });
 
-            // map.controls[google.maps.ControlPosition.BOTTOM_LEFT].push(document.getElementById("rectangle3"));
+            map.controls[google.maps.ControlPosition.BOTTOM_LEFT].push(document.getElementById("rectangle3"));
 
             // vybran je aktulani cas (neprovede se slideStop)
             this.slider.setValue(new Date().getTime());
