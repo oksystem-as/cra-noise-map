@@ -4,6 +4,7 @@ import { Logger } from "angular2-logger/core";
 /// <reference path="../../typings/globals/googlemaps/google.maps.d.ts" />
 /// <reference path="../../typings/globals/markerclustererplus/markerclustererplus.d.ts" />
 import { SensorsSharedService, Events } from './sensors-shared.service';
+import { ResponsiveState, ResponsiveConfig } from 'ng2-responsive';
 
 import { ARF8084BAPayload } from '../payloads/ARF8084BAPayload';
 import { RHF1S001Payload } from '../payloads/RHF1S001Payload';
@@ -23,12 +24,19 @@ import 'rxjs/Rx';
 export class SliderComponent implements AfterViewInit {
     private sliderId = "sliderInput"
     private slider: Slider;
+    private isBigInternal: boolean;
+    private xl: string = "xl";
+    private lg: string = "lg";
 
-    constructor(private log: Logger, private sensorsSharedService: SensorsSharedService) {
+    constructor(private log: Logger, private sensorsSharedService: SensorsSharedService, responsiveState: ResponsiveState) {
 
-        sensorsSharedService.listenEventData(Events.sliderNewDate).subscribe(date => {
-            if (this.slider) {
-                this.slider.setValue(new Date(date).getTime());
+        responsiveState.elementoObservar.subscribe(width => {
+            this.isBigInternal = width === this.xl || width === this.lg;
+        });
+
+        sensorsSharedService.listenEvent(Events.sliderNewDate).subscribe(date => {
+            if (this.slider && date.publisher !== "SliderComponent.slideStop event") {
+                this.slider.setValue(new Date(date.data).getTime());
             }
         });
 
@@ -36,9 +44,14 @@ export class SliderComponent implements AfterViewInit {
             let oldDate = SensorsSharedService.minDateLimit;
             this.removeSlider();
 
-            // pocet bodu na slideru    
-            let countOfpoint = 3;
-            let aktualDate = DateUtils.getDayFlatDate(new Date());
+            // pocet bodu na slideru 
+            let countOfpoint = 2;   
+            if (this.isBigInternal) {
+              countOfpoint = 6;
+            }
+            
+            // let aktualDate = DateUtils.getDayFlatDate(new Date());
+            let aktualDate = new Date();
 
             // rozdil mezi kazdym bodem
             let diff = (aktualDate.getTime() - oldDate.getTime()) / countOfpoint;
@@ -54,7 +67,9 @@ export class SliderComponent implements AfterViewInit {
             for (var index = 1; index < countOfpoint; index++) {
                 pom = new Date(oldDate.getTime() + index * diff);
                 // dalsi body
-                let flatDate = DateUtils.getDayFlatDate(new Date(pom.getTime()));
+                let flatDate = new Date(pom.getTime());
+                // let flatDate = DateUtils.getDayFlatDate(new Date(pom.getTime()));
+                // flatDate.setHours(6);
                 ticks.push(flatDate.getTime());
                 ticks_labels.push(flatDate.toLocaleDateString());
             }
@@ -66,14 +81,15 @@ export class SliderComponent implements AfterViewInit {
             this.slider = new Slider('#' + this.sliderId, {
                 ticks: ticks,
                 ticks_labels: ticks_labels,
-                //ticks_snap_bounds: diff / 36,
+                // ticks_snap_bounds: diff / 36,
                 // definice zobrazeni datoveho modelu uzivateli v tooltipu 
                 formatter: function (value) {
                     return new Date(value).toLocaleDateString();
+                    // return DateUtils.getDayFlatDate(new Date(value)).toLocaleDateString();
                 },
                 id: "mainSlider",
                 range: false,
-                tooltip:"always",
+                tooltip: "always",
             });
 
             // pokud se vybere nove datum provede se prenacteni dat s novym vychozim datem
