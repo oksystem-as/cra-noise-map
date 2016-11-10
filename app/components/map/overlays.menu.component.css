@@ -4,6 +4,7 @@
 
 #overlayGroup {
   width: 237px;
+  font-size: 11px !important;
 }
 
 .layerTextLegend {
@@ -20,6 +21,18 @@
 
 .layerLegend {
   padding-left: 7px;
+}
+
+.layerText {
+  padding-left: 8px;
+}
+
+.desktopChBox {
+  padding-top: 5px;
+}
+
+#overlayGroup > li:nth-child > a > span.layerText {
+  margin-top: 1px;
 }
 
 .layerLegendMobile {
@@ -39,6 +52,14 @@
   margin-left: 7px;
 }
 
+.layersMapHeading {
+  text-align: center;
+  font-weight: 600;
+  padding-top: 5px;
+  padding-bottom: 10px;
+  font-size: 13px;
+}
+
 .layerHeaderMobile {
   font-weight: bold;
   margin-left: 7px;
@@ -50,6 +71,7 @@
   font-weight: normal;
   float: left;
   width: 20px;
+  padding-top: 3px;
 }
 
 .overlayItem {

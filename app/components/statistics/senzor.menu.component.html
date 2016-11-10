@@ -12,7 +12,7 @@
 			<span class="caret"></span>
 		</button>
 
-		<ul dropdownMenu role="menu" aria-labelledby="single-button">
+		<ul dropdownMenu role="menu" aria-labelledby="single-button" class="senzorDropdownMenu">
 			<li role="menuitem" *ngFor="let sensor of sensors, let ndx = index"><a class="dropdown-item" href="#" (click)="onClick(sensor)" [class.red-sensor]="isSensorSelected(sensor)" [class.bold-sensor]="isSensorOnMap(sensor)">{{sensor.name}}</a></li>
 		</ul>
 	</div>

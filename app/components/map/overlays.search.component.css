@@ -7,37 +7,29 @@
 }
 
 .small  {
-  width: calc(100% - 166px);
-      margin-top: -28px;
-    margin-left: 186px;
+  width: calc(100% - 275px);
+  margin-top: -28px;
+  margin-left: 186px;
 }
 
 .big  {
-  width: calc(100% - 106px);
-    margin-top: -33px;
-  margin-left: 251px;
-}
-
-/*.overlaysSearchDesktopSearch{
+  width: calc(100% - 225px);
   margin-top: -33px;
   margin-left: 251px;
-}*/
-
-
-.overlaysSearchDesktop > search {
-  width: 240px;
 }
 
-.smallBorder{
+.smallBorder {
   padding: 6px;
+  border-radius: 0px 4px 4px 0px;
+  -moz-border-radius: 0px 4px 4px 0px;
+  -webkit-border-radius: 0px 4px 4px 0px;
 }
-
 
 .overlaysSearchMobile {
   position: absolute;
   left: 10px;
   top: 10px;
-  width: calc(100% - 106px)
+  width: calc(100% - 108px)
 }
 
 @media screen and (orientation:landscape)

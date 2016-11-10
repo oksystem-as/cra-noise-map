@@ -11,16 +11,15 @@ tooltip="Výběr mapové vrstvy" tooltipPopupDelay="1500" tooltipPlacement="bott
 				<span class="caret"></span>
 			</button>
 			<ul id="overlayGroup" dropdownMenu role="menu" aria-labelledby="single-button" class="layer-button">
+				<li class="layersMapHeading"><span>Strategická hluková mapa</span></li>
 				<template ngFor let-overlayGroup [ngForOf]="overlayGroups" let-i="index" [ngForTrackBy]="trackByFn">
 					<li role="menuitem"> <span class="layerHeader">{{overlayGroup.name}}</span></li>
 					<li role="menuitem" *ngFor="let overlay of overlayGroup.overlays">
 						<a class="dropdown-item" href="#">
-							<span class="groupItemSpan"> 
-                <span class="position" *ngIf="overlay.position>0">{{overlay.position}}</span>
-							  <span class="position" *ngIf!="overlay.position>0">&nbsp; &nbsp;</span>
-							  <input type="checkbox" class="layerChBox" [(ngModel)]="overlay.checked" value={{overlay.value}} (ngModelChange)="onChkboxClick(overlay)"/>
-							  <span class="layerText">{{overlay.text}}</span>
-							</span>
+              <span class="position" *ngIf="overlay.position>0">{{overlay.position}}</span>
+							<span class="position" *ngIf!="overlay.position>0">&nbsp; &nbsp;</span>
+							<input type="checkbox" class="layerChBox desktopChBox" [(ngModel)]="overlay.checked" value={{overlay.value}} (ngModelChange)="onChkboxClick(overlay)"/>
+							<span class="layerText">{{overlay.text}}</span>
 						</a>
 					</li>
 				</template>
@@ -55,6 +54,7 @@ tooltip="Výběr mapové vrstvy" tooltipPopupDelay="1500" tooltipPlacement="bott
 		</div>
 		
 		<div class="modal-body">
+			<span class="layersMapHeading">Strategická hluková mapa</span>
 		  <div class="layerHeaderMobile" *ngFor="let overlayGroup of overlayGroups, let ndx = index">
 			<label class="group">{{overlayGroup.name}}</label>
 		    <div class="checkbox" *ngFor="let overlay of overlayGroup.overlays"> 
