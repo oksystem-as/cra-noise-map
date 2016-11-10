@@ -1,0 +1,58 @@
+<div id="aboutAppId" class="aboutApp" tooltip="O aplikaci" tooltipPopupDelay="1500" tooltipPlacement="bottom">
+	<button (click)="lgModal.show()" type="button" class="btn btn-default aboutAppButton" *showItBootstrap="['xl','lg']">
+		<!--[class.aboutAppButton]="!isMobile()" [class.aboutAppMobileButton]="isMobile()" -->
+		<span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span>
+		O webu
+   </button>
+
+   <button (click)="lgModal.show()" type="button" class="btn btn-default aboutAppButton aboutAppSmallButton" *showItBootstrap="['md','sm','xs']" [class.aboutAppSmallButton]="!isMobile()" [class.aboutAppMobileButton]="isMobile()">
+		<span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span>
+   </button>
+
+	<div bsModal #lgModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close aboutAppButton" (click)="lgModal.hide()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+					<h4 class="modal-title">O společnosti OKSystem a.s.</h4>
+				</div>
+				<div class="modal-body">
+					<p>OKsystem je česká softwarová společnost s mezinárodní působností. Na trhu informačních technologií jsme již od roku
+						1990. Naše programy používají desítky tisíc uživatelů v soukromém sektoru i veřejné správě. Máme zákazníky zejména
+						v České republice a dodáváme inovativní software i v Evropě a USA.</p>
+					<p>Více informací naleznete na http://www.oksystem.com/cz/</p>
+
+					<br>
+					<br>
+
+					<h4>Aplikace "Hlukové mapy"</h4>
+
+					<b>Aplikace se skládá z:</b>
+					<ul>
+						<li>Google mapy a jejích ovládacích prvků.</li>
+						<li>Komponenty pro výběr vrstvy hlukové mapy.</li>
+						<li>Legendy mapy.</li>
+						<li>Komponenty pro výběr čidla.</li>
+						<li>Komponenty pro zobrazení grafů a statistik vybraného čidla.</li>
+						<li>Komponenty slider, která umožňuje vybrat datum měření čidla.</li>
+					</ul>
+
+					<br>
+
+					<h4>Aplikace podporuje nejnovější verze prohlížečů:</h4>
+					<ul>
+						<li>Google Chrome</li>
+						<li>Opera</li>
+						<li>Safari</li>
+						<li>Firefox</li>
+						<li>Internet Explorer</li>
+						<li>Edge</li>
+					</ul>
+					verze aplikace: {{appVersion}}
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
