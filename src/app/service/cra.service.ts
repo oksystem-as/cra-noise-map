@@ -14,12 +14,11 @@ import { Config } from '../config';
 
 @Injectable()
 export class CRaService {
-  private restProxy = Config.serverURL + ":" + Config.serverPort + "/"  
-  private useServerProxy = Config.useServerProxy;
+  private restApi = Config.restApiURL + ":" + Config.restApiPort + "/"  
+  private useProxyRestApi = Config.useProxyRestApi;
   // pokud URL obsahuje na zacatku api/ presmeruje se na serveru url jinam
-  private useServerApiProxy = Config.useServerProxy;
   private statisUrl = Config.statisURL;
-  private serverApiProxy = "api/";
+  // private serverApiProxy = "api/";
 
   constructor(private log: Logger, private http: Http) { }
 
@@ -35,10 +34,10 @@ export class CRaService {
   private getDevicDetailUrlNew(params: DeviceDetailParams): string {
     let url;
    
-    if(this.useServerProxy){
-         url = this.restProxy + this.serverApiProxy + this.statisUrl.replace("{devEUI}", params.devEUI);
+    if(this.useProxyRestApi){
+         url = window.location.href  + this.statisUrl.replace("{devEUI}", params.devEUI);
     } else {
-         url = this.restProxy + this.statisUrl.replace("{devEUI}", params.devEUI);
+         url = this.restApi + this.statisUrl.replace("{devEUI}", params.devEUI);
     }
     
     if (params.date) {
