@@ -6,10 +6,10 @@
 }
 
 #rectangle3 {
+    overflow-x: hidden;
     position: absolute;
     left: 76px;
     bottom: 0px;
-    overflow-x: hidden;
 }
 
 @media screen and (orientation:portrait)
@@ -34,10 +34,14 @@
 
 .rect3 {
     position: absolute;
-    width:100%;
-    padding-right: 135px;
+    width: calc(100% - 135px);
     left: 76px;
     padding-bottom: 17px; 
+}
+
+#mainSlider > div.tooltip.tooltip-main.top.in > div.tooltip-inner {
+    position: fixed;
+    margin-left: -40px;
 }
 
 #rectangle2 {
@@ -60,7 +64,6 @@
   }
 
 #rectangle2IE {
-    /*z-index: 11;*/
     padding-right: 36px;
     padding-left: 46px;
     padding-top: 2px;
