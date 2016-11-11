@@ -7,7 +7,7 @@
 }
 
 .small  {
-  width: calc(100% - 285px);
+  width: calc(100% - 300px);
   margin-top: -28px;
   margin-left: 186px;
 }
@@ -38,4 +38,10 @@
     margin-top: -29px;
     margin-left: 196px;
   }
+}
+
+.small-firefox {
+    width: calc(100% - 230px);
+    margin-top: -28px;
+    margin-left: 186px;
 }

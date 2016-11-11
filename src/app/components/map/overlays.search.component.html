@@ -1,7 +1,7 @@
 <!--STANDARD-->
 <div class="overlaysSearchDesktop" *hideItDevice="['mobile']">
     <noise-label ></noise-label>
-    <div class="big overlaysSearchDesktopSearch" [class.big]="isBig()" [class.small]="!isBig()">
+    <div class="big overlaysSearchDesktopSearch" [class.big]="isBig()" [class.small]="!isFirefox() && !isBig()" [class.small-firefox]="isFirefox() && !isBig()">
         <search></search>
     </div>
 </div>
