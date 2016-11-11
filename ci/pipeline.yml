@@ -132,7 +132,7 @@ resources:
   type: github-release
   source:
     user: oksystem-as
-    repository: cra-noise-statis-server
+    repository: cra-noise-map
     access_token: {{ghtoken}}    
 
 jobs:
