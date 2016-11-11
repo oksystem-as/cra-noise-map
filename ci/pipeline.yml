@@ -1,0 +1,201 @@
+resources:
+- name: alpine-node
+  type: docker-image
+  source:
+    repository: mhart/alpine-node
+    tag: 6.7.0
+- name: registry-snapshot
+  type: docker-image
+  source:
+    repository: hndocker.oksystem.local:40003/iot/cra-noise-map
+    username: {{username}}
+    password: {{password}}
+    tag: snapshot
+    ca_certs:
+    - domain: hndocker.oksystem.local:443
+      cert: | 
+        -----BEGIN CERTIFICATE-----
+        MIIDXjCCAkYCCQCeUULdHyEEdjANBgkqhkiG9w0BAQUFADBxMQswCQYDVQQGEwJD
+        WjEXMBUGA1UECAwOQ3plY2ggUmVwdWJsaWMxDzANBgNVBAcMBlByYWd1ZTEWMBQG
+        A1UECgwNT0tzeXN0ZW0gYS5zLjEgMB4GA1UEAwwXaG5kb2NrZXIub2tzeXN0ZW0u
+        bG9jYWwwHhcNMTYwNzA4MDgxMjAxWhcNMjYwNzA2MDgxMjAxWjBxMQswCQYDVQQG
+        EwJDWjEXMBUGA1UECAwOQ3plY2ggUmVwdWJsaWMxDzANBgNVBAcMBlByYWd1ZTEW
+        MBQGA1UECgwNT0tzeXN0ZW0gYS5zLjEgMB4GA1UEAwwXaG5kb2NrZXIub2tzeXN0
+        ZW0ubG9jYWwwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQDB0zGAka/W
+        jMvOLutiKDE8MXw2KI5ulAx6wgo4juPwQ2UPQx+Oh3EFJ3czuXL4C3MwQnnryqD7
+        62XJe1qIuisj5NcUeHNWW+bj6bZyPmRi3bCsmIZky42mShTrVm1wtcwfNZykvyer
+        tbkPfoN6NCDXErOzqMfo+yhRssIhQe9WyB78idJeywX2iE/ur+X9l2Oy91l65yIQ
+        //qebcHqN8QDtB9Hk7T31SqK/+mZN/Qnjw5VASofE3McpOGeHA7xUF1dQ4E8CCA5
+        srWisSDoJUZEvS5SrzdBGF2szMK0G7ZVxhHkWmUHlgN5dxjGNH7lS2DC6sX7H+Vf
+        mh/iSPRbLPiFAgMBAAEwDQYJKoZIhvcNAQEFBQADggEBAJgZJEKZMtqpcxEhOELU
+        VmM5HpsG++Q+oTQzmM0HZeYRAJ6nSkCa7aN6WJHblv3Kew6/9kgum9U2szc3/Ouc
+        hmO/Hw/hGt7gssrIt6yFe0a0oXhwbFnN6KM1xtek9zwkXnHxV2fOBro77+sGJkQ9
+        Y50RRNYROSEgsndO9xSQa8yfqgwfGy9orQwP6SBDsY8fT9KuZza5CiwZ0utig9l7
+        HaRynY3jm7/K1Du5xLjZ/+Hoji76vjAqogIJv/FXFrqXjcJMt1bZcrkxPsZfWHgg
+        uMOUZV4WjEv+MCo3sVavPgtS9oscZw9hVlMBAcF42L/F1CkdAT1g0BIaj8gw7U9N
+        pMI=
+        -----END CERTIFICATE-----
+    - domain: hndocker.oksystem.local:40003
+      cert: | 
+        -----BEGIN CERTIFICATE-----
+        MIIDXjCCAkYCCQCeUULdHyEEdjANBgkqhkiG9w0BAQUFADBxMQswCQYDVQQGEwJD
+        WjEXMBUGA1UECAwOQ3plY2ggUmVwdWJsaWMxDzANBgNVBAcMBlByYWd1ZTEWMBQG
+        A1UECgwNT0tzeXN0ZW0gYS5zLjEgMB4GA1UEAwwXaG5kb2NrZXIub2tzeXN0ZW0u
+        bG9jYWwwHhcNMTYwNzA4MDgxMjAxWhcNMjYwNzA2MDgxMjAxWjBxMQswCQYDVQQG
+        EwJDWjEXMBUGA1UECAwOQ3plY2ggUmVwdWJsaWMxDzANBgNVBAcMBlByYWd1ZTEW
+        MBQGA1UECgwNT0tzeXN0ZW0gYS5zLjEgMB4GA1UEAwwXaG5kb2NrZXIub2tzeXN0
+        ZW0ubG9jYWwwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQDB0zGAka/W
+        jMvOLutiKDE8MXw2KI5ulAx6wgo4juPwQ2UPQx+Oh3EFJ3czuXL4C3MwQnnryqD7
+        62XJe1qIuisj5NcUeHNWW+bj6bZyPmRi3bCsmIZky42mShTrVm1wtcwfNZykvyer
+        tbkPfoN6NCDXErOzqMfo+yhRssIhQe9WyB78idJeywX2iE/ur+X9l2Oy91l65yIQ
+        //qebcHqN8QDtB9Hk7T31SqK/+mZN/Qnjw5VASofE3McpOGeHA7xUF1dQ4E8CCA5
+        srWisSDoJUZEvS5SrzdBGF2szMK0G7ZVxhHkWmUHlgN5dxjGNH7lS2DC6sX7H+Vf
+        mh/iSPRbLPiFAgMBAAEwDQYJKoZIhvcNAQEFBQADggEBAJgZJEKZMtqpcxEhOELU
+        VmM5HpsG++Q+oTQzmM0HZeYRAJ6nSkCa7aN6WJHblv3Kew6/9kgum9U2szc3/Ouc
+        hmO/Hw/hGt7gssrIt6yFe0a0oXhwbFnN6KM1xtek9zwkXnHxV2fOBro77+sGJkQ9
+        Y50RRNYROSEgsndO9xSQa8yfqgwfGy9orQwP6SBDsY8fT9KuZza5CiwZ0utig9l7
+        HaRynY3jm7/K1Du5xLjZ/+Hoji76vjAqogIJv/FXFrqXjcJMt1bZcrkxPsZfWHgg
+        uMOUZV4WjEv+MCo3sVavPgtS9oscZw9hVlMBAcF42L/F1CkdAT1g0BIaj8gw7U9N
+        pMI=
+        -----END CERTIFICATE-----
+- name: registry-release
+  type: docker-image
+  source:
+    repository: hndocker.oksystem.local:40003/iot/cra-noise-map
+    username: {{username}}
+    password: {{password}}
+    ca_certs:
+    - domain: hndocker.oksystem.local:443
+      cert: | 
+        -----BEGIN CERTIFICATE-----
+        MIIDXjCCAkYCCQCeUULdHyEEdjANBgkqhkiG9w0BAQUFADBxMQswCQYDVQQGEwJD
+        WjEXMBUGA1UECAwOQ3plY2ggUmVwdWJsaWMxDzANBgNVBAcMBlByYWd1ZTEWMBQG
+        A1UECgwNT0tzeXN0ZW0gYS5zLjEgMB4GA1UEAwwXaG5kb2NrZXIub2tzeXN0ZW0u
+        bG9jYWwwHhcNMTYwNzA4MDgxMjAxWhcNMjYwNzA2MDgxMjAxWjBxMQswCQYDVQQG
+        EwJDWjEXMBUGA1UECAwOQ3plY2ggUmVwdWJsaWMxDzANBgNVBAcMBlByYWd1ZTEW
+        MBQGA1UECgwNT0tzeXN0ZW0gYS5zLjEgMB4GA1UEAwwXaG5kb2NrZXIub2tzeXN0
+        ZW0ubG9jYWwwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQDB0zGAka/W
+        jMvOLutiKDE8MXw2KI5ulAx6wgo4juPwQ2UPQx+Oh3EFJ3czuXL4C3MwQnnryqD7
+        62XJe1qIuisj5NcUeHNWW+bj6bZyPmRi3bCsmIZky42mShTrVm1wtcwfNZykvyer
+        tbkPfoN6NCDXErOzqMfo+yhRssIhQe9WyB78idJeywX2iE/ur+X9l2Oy91l65yIQ
+        //qebcHqN8QDtB9Hk7T31SqK/+mZN/Qnjw5VASofE3McpOGeHA7xUF1dQ4E8CCA5
+        srWisSDoJUZEvS5SrzdBGF2szMK0G7ZVxhHkWmUHlgN5dxjGNH7lS2DC6sX7H+Vf
+        mh/iSPRbLPiFAgMBAAEwDQYJKoZIhvcNAQEFBQADggEBAJgZJEKZMtqpcxEhOELU
+        VmM5HpsG++Q+oTQzmM0HZeYRAJ6nSkCa7aN6WJHblv3Kew6/9kgum9U2szc3/Ouc
+        hmO/Hw/hGt7gssrIt6yFe0a0oXhwbFnN6KM1xtek9zwkXnHxV2fOBro77+sGJkQ9
+        Y50RRNYROSEgsndO9xSQa8yfqgwfGy9orQwP6SBDsY8fT9KuZza5CiwZ0utig9l7
+        HaRynY3jm7/K1Du5xLjZ/+Hoji76vjAqogIJv/FXFrqXjcJMt1bZcrkxPsZfWHgg
+        uMOUZV4WjEv+MCo3sVavPgtS9oscZw9hVlMBAcF42L/F1CkdAT1g0BIaj8gw7U9N
+        pMI=
+        -----END CERTIFICATE-----
+    - domain: hndocker.oksystem.local:40003
+      cert: | 
+        -----BEGIN CERTIFICATE-----
+        MIIDXjCCAkYCCQCeUULdHyEEdjANBgkqhkiG9w0BAQUFADBxMQswCQYDVQQGEwJD
+        WjEXMBUGA1UECAwOQ3plY2ggUmVwdWJsaWMxDzANBgNVBAcMBlByYWd1ZTEWMBQG
+        A1UECgwNT0tzeXN0ZW0gYS5zLjEgMB4GA1UEAwwXaG5kb2NrZXIub2tzeXN0ZW0u
+        bG9jYWwwHhcNMTYwNzA4MDgxMjAxWhcNMjYwNzA2MDgxMjAxWjBxMQswCQYDVQQG
+        EwJDWjEXMBUGA1UECAwOQ3plY2ggUmVwdWJsaWMxDzANBgNVBAcMBlByYWd1ZTEW
+        MBQGA1UECgwNT0tzeXN0ZW0gYS5zLjEgMB4GA1UEAwwXaG5kb2NrZXIub2tzeXN0
+        ZW0ubG9jYWwwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQDB0zGAka/W
+        jMvOLutiKDE8MXw2KI5ulAx6wgo4juPwQ2UPQx+Oh3EFJ3czuXL4C3MwQnnryqD7
+        62XJe1qIuisj5NcUeHNWW+bj6bZyPmRi3bCsmIZky42mShTrVm1wtcwfNZykvyer
+        tbkPfoN6NCDXErOzqMfo+yhRssIhQe9WyB78idJeywX2iE/ur+X9l2Oy91l65yIQ
+        //qebcHqN8QDtB9Hk7T31SqK/+mZN/Qnjw5VASofE3McpOGeHA7xUF1dQ4E8CCA5
+        srWisSDoJUZEvS5SrzdBGF2szMK0G7ZVxhHkWmUHlgN5dxjGNH7lS2DC6sX7H+Vf
+        mh/iSPRbLPiFAgMBAAEwDQYJKoZIhvcNAQEFBQADggEBAJgZJEKZMtqpcxEhOELU
+        VmM5HpsG++Q+oTQzmM0HZeYRAJ6nSkCa7aN6WJHblv3Kew6/9kgum9U2szc3/Ouc
+        hmO/Hw/hGt7gssrIt6yFe0a0oXhwbFnN6KM1xtek9zwkXnHxV2fOBro77+sGJkQ9
+        Y50RRNYROSEgsndO9xSQa8yfqgwfGy9orQwP6SBDsY8fT9KuZza5CiwZ0utig9l7
+        HaRynY3jm7/K1Du5xLjZ/+Hoji76vjAqogIJv/FXFrqXjcJMt1bZcrkxPsZfWHgg
+        uMOUZV4WjEv+MCo3sVavPgtS9oscZw9hVlMBAcF42L/F1CkdAT1g0BIaj8gw7U9N
+        pMI=
+        -----END CERTIFICATE-----        
+- name: source
+  type: git
+  source:
+    uri: https://github.com/oksystem-as/cra-noise-map.git
+    username: {{username}}
+    password: {{password}}
+    branch: master
+
+- name: version
+  type: semver
+  source:
+    driver: git
+    uri: https://github.com/oksystem-as/cra-noise-map.git
+    branch: master
+    file: version
+    username: {{username}}
+    password: {{password}}    
+- name: gh-release
+  type: github-release
+  source:
+    user: oksystem-as
+    repository: cra-noise-statis-server
+    access_token: {{ghtoken}}    
+
+jobs:
+- name: build
+  plan:
+  - get: source
+    trigger: true  
+  - task: build
+    file: source/ci/tasks/build.yml            
+  - put: registry-snapshot
+    params:
+      build: binaries 
+    attempts: 3
+- name: release
+  plan:
+  - aggregate:
+    - get: source
+      passed: [build]
+    - get: version
+      trigger: true
+  - task: build
+    file: source/ci/tasks/build.yml
+  - task: package
+    file: source/ci/tasks/package.yml                    
+  - put: registry-release
+    params:
+      build: binaries
+      tag: version/version
+      tag_as_latest: true
+    attempts: 3
+  - put: source
+    params:
+      repository: source
+      only_tag: true
+      tag: version/version
+  - put: gh-release
+    params:
+      name: version/version
+      tag: version/version
+      globs:
+      - package/cra-noise-map.tar.gz    
+- name: major
+  serial_groups: [ version ]
+  plan:
+    - put: version
+      params: { bump: major, pre: rc }
+- name: minor
+  serial_groups: [ version ]
+  plan:
+    - put: version
+      params: { bump: minor, pre: rc }
+- name: patch
+  serial_groups: [ version ]
+  plan:
+    - put: version
+      params: { bump: patch, pre: rc }
+- name: final
+  serial_groups: [ version ]
+  plan:
+    - put: version
+      params: { bump: final }
+- name: rc
+  serial_groups: [ version ]
+  plan:
+    - put: version
+      params: { pre: rc }
