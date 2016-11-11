@@ -1,7 +1,8 @@
 <!--STANDARD-->
-<div class="overlaysSearchDesktop" *hideItDevice="['mobile']">
+<div class="overlaysSearchDesktop" *hideItDevice="['mobile']" [class.overlaysSearchDesktop]="isExtraLarge() || isLarge()" [class.overlaysSearchDesktop-small]="isSmall() || isExtraSmall() || isMedium()">
     <noise-label ></noise-label>
-    <div class="big overlaysSearchDesktopSearch" [class.big]="isBig()" [class.small]="!isFirefox() && !isBig()" [class.small-firefox]="isFirefox() && !isBig()">
+    <!--<div class="big overlaysSearchDesktopSearch" [class.big]="isExtraLarge()" [class.small]="!isFirefox() && !isExtraLarge()" [class.small-firefox]="isFirefox() && !isExtraLarge()">-->
+    <div class="overlaysSearchDesktopSearch big" [class.small]="isExtraSmall() || isSmall() || isMedium()" [class.small-firefox]="isFirefox() && (isExtraSmall() || isSmall() || isMedium())">
         <search></search>
     </div>
 </div>

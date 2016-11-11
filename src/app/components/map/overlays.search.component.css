@@ -3,17 +3,25 @@
   left: 10px;
   top: 10px;
   z-index: 0;
-  max-width: 550px;
+  max-width: 500px;
+}
+
+.overlaysSearchDesktop-small {
+  position: absolute;
+  left: 10px;
+  top: 10px;
+  z-index: 0;
+  max-width: 420px;
 }
 
 .small  {
-  width: calc(100% - 300px);
-  margin-top: -28px;
-  margin-left: 186px;
+  /*width: calc(100% - 186px);*/
+  margin-top: -28px !important;
+  margin-left: 181px !important;
 }
 
 .big  {
-  width: calc(100% - 225px);
+  /*width: calc(100% - 225px);*/
   margin-top: -33px;
   margin-left: 251px;
 }
