@@ -8,4 +8,5 @@ npm install
 ls -l
 cp -R ./dist/. ../binaries/
 cp ./start.bat ../binaries/
+cp ./Dockerfile ../binaries/
 ls -l ../binaries/
