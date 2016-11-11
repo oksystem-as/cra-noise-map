@@ -44,11 +44,11 @@ export class SliderComponent implements AfterViewInit {
             this.removeSlider();
 
             // pocet bodu na slideru 
-            let countOfpoint = 2;   
+            let countOfpoint = 2;
             if (this.isBigInternal) {
-              countOfpoint = 6;
+                countOfpoint = 6;
             }
-            
+
             // let aktualDate = DateUtils.getDayFlatDate(new Date());
             let aktualDate = new Date();
 
@@ -109,6 +109,10 @@ export class SliderComponent implements AfterViewInit {
             // vybran je aktulani cas (neprovede se slideStop)
             this.slider.setValue(new Date().getTime());
             this.refreshSlider();
+
+            google.maps.event.addDomListener(map, 'idle',  () => {
+               this.refreshSlider();
+            });
         });
     }
 
