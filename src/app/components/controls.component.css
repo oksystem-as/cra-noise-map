@@ -10,10 +10,6 @@
   top: 10px;
 }
 
-div.inline { 
-  float:left; 
-}
-
 .senzor {
   margin-right: 10px;
 }
@@ -31,7 +27,7 @@ div.inline {
 }
 
 .aboutAppMobile {
-  /*margin-left: -43px;*/
+  margin-top: -34px;
 }
 
 .senzorMenuMobile {
