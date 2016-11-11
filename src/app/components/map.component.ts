@@ -506,7 +506,7 @@ export class MapComponent implements AfterViewInit {
       path: google.maps.SymbolPath.CIRCLE,
       scale: 12,
       strokeColor: '#444',
-      fillColor: ColorUtils.getColor(value),
+      fillColor: ColorUtils.getColor(Math.round(value)),
       fillOpacity: 0.8,
       strokeWeight: 2,
     };
