@@ -220,6 +220,7 @@ export class MapComponent implements AfterViewInit {
   }
 
   initControlsLayout() {
+    this.map.controls[google.maps.ControlPosition.LEFT_BOTTOM].push(document.getElementById('okSystemLogo')); 
     // this.map.controls[google.maps.ControlPosition.TOP_RIGHT].push(document.getElementById('aboutAppId'));
     // this.map.controls[google.maps.ControlPosition.TOP_RIGHT].push(document.getElementById('statisticsButtonId'));
     // this.map.controls[google.maps.ControlPosition.TOP_RIGHT].push(document.getElementById('senzorMenuId'));

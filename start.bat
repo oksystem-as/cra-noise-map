@@ -1,2 +1,4 @@
 @ECHO OFF
-npm run prod_start
+call npm install --production
+cd dist
+call http-server . -p 8079

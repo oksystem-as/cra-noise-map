@@ -35,7 +35,7 @@ export class CRaService {
     let url;
    
     if(this.useProxyRestApi){
-         url = window.location.href  + this.statisUrl.replace("{devEUI}", params.devEUI);
+         url = window.location.origin + "/" + this.statisUrl.replace("{devEUI}", params.devEUI);
     } else {
          url = this.restApi + this.statisUrl.replace("{devEUI}", params.devEUI);
     }
