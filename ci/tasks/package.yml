@@ -1,0 +1,24 @@
+platform: linux
+
+image_resource:
+  type: docker-image
+  source: {repository: node,
+           tag: onbuild           
+          }
+
+inputs:
+- name: binaries
+
+outputs:
+- name: package
+
+run:
+    path: sh
+    args:
+      - -exc
+      - |
+        pwd
+        ls -l
+        tar -czvf package/cra-noise-map.tar.gz binaries
+        ls -l package
+        tar -tvf package/cra-noise-map.tar.gz
