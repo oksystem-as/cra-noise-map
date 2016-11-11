@@ -1,3 +1,3 @@
 export class  Version {
-    public static version = "1.0.5"
+    public static version = "1.0.6"
 }
