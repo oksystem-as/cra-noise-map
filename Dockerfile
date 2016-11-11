@@ -10,5 +10,5 @@ RUN ls -l
 
 RUN npm install http-server --global
 
-EXPOSE 8079
+EXPOSE 8080
 CMD [ "http-server", "." ]
