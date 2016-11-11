@@ -10,6 +10,10 @@
   top: 10px;
 }
 
+div.inline { 
+  float:left; 
+}
+
 .senzor {
   margin-right: 10px;
 }
@@ -23,7 +27,7 @@
 }
 
 .overlaysMenuMobile {
-  margin-left: -43px;
+  margin-left: -49px;
 }
 
 .aboutAppMobile {
@@ -31,7 +35,7 @@
 }
 
 .senzorMenuMobile {
-  margin-left: -43px;
+  margin-left: -49px;
   margin-top: 8px;
 }
 
