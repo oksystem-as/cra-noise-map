@@ -1,7 +1,7 @@
 {
   "name": "cra-noise-map",
-  "version": "1.0.0",
-  "license": "ISC",
+  "version": "1.0.7",
+  "license": "GNU GPL",
   "angular-cli": {},
   "scripts": {
     "start": "ng serve",
