@@ -27,18 +27,19 @@ import { ObjectUtils, ColorUtils, DateUtils } from '../utils/utils';
   encapsulation: ViewEncapsulation.None
 })
 export class MapComponent implements AfterViewInit {
-  private height = "100vh";
+  // private height = "92vh"; land ios
+  // private height = "94vh"; potr ios
   private mapId = "map"
   public map: google.maps.Map;
   private markersMap: Map<string, any> = new Map<string, any>();
   private currCenter;
   private overlayGroup: OverlayGroup[];
   private noiseMapType: google.maps.ImageMapType;
-  private sliderNewDate: Date = SensorsSharedService.minDateLimit;
-  private showLoading = false;
+  // private sliderNewDate: Date = SensorsSharedService.minDateLimit;
+  // private showLoading = false;
   private selectedSensor: SensorStatistics;
   private isMobileIntrenal: boolean;
-  private isPortraitInternal: boolean;
+  // private isPortraitInternal: boolean;
 
   constructor(private log: Logger, private sensorsSharedService: SensorsSharedService, responsiveState: ResponsiveState) {
     if (log != undefined) {

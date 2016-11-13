@@ -10,37 +10,9 @@
 .point-statis-table {
     font-size: 11px;
     font-weight: 400;
-    /* margin-bottom: 46px !important; */
-    /*margin-left: 40px;*/
-    /*margin-top: -64px;*/
-
     font-family: Roboto,Arial,sans-serif;
-    /*font-size: 11px;*/
-    /*font-weight: 400;*/
 }
-  /*#floating-panel {
-    position: absolute;
-    top: 10px;
-    left: 25%;
-    z-index: 5;
-    background-color: #fff;
-    padding: 5px;
-    border: 1px solid #999;
-    text-align: center;
-    font-family: 'Roboto','sans-serif';
-    line-height: 30px;
-    padding-left: 10px;
-  }
-  #floating-panel {
-    background-color: #fff;
-    border: 1px solid #999;
-    left: 25%;
-    padding: 5px;
-    position: absolute;
-    top: 10px;
-    z-index: 5;
-  }*/
 
-  .gm-style-iw + div {
-    display: none;
-  }
+.gm-style-iw + div {
+   display: none;
+}
