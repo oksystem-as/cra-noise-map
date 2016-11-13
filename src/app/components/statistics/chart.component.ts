@@ -147,6 +147,7 @@ export class ChartComponent implements AfterViewInit {
     private updateChart() {
         // console.log("updateChart");
         this.chart.update();
+        this.sensorsSharedService.publishEvent(Events.showMasterLoading, false);
     }
 
     private refreshChartData() {
@@ -221,13 +222,13 @@ export class ChartComponent implements AfterViewInit {
         //         sensorsSharedService.listenEventData(Events.statisticsDialog).delay(200)
         // //            .combineLatest
         //             .withLatestFrom(
-        //             sensorsSharedService.listenEventData(Events.statisticsTab),
+        //             // sensorsSharedService.listenEventData(Events.statisticsTab),
         //             sensorsSharedService.listenEventData(Events.statistics))
         //             .subscribe(data => {
         //                 console.log("az ted ", data, this.statisType);
-        //                 if (data[1] === this.statisType) {
+        //                 // if (data[1] === this.statisType) {
         //                     console.log("je to moje ");
-        //                     data[2].statistics.forEach(statis => {
+        //                     data[1].statistics.forEach(statis => {
         //                         if (statis.type === this.statisType) {
         //                             this.clearChartData();
         //                             this.statistic = statis;
@@ -239,7 +240,7 @@ export class ChartComponent implements AfterViewInit {
         //                         }
         //                     });
         //                     this.updateChart();
-        //                 }
+        //                 // }
         //             })
 
 
@@ -252,7 +253,7 @@ export class ChartComponent implements AfterViewInit {
             // }
         })
 
-        sensorsSharedService.listenEventData(Events.statistics).delay(200)
+        sensorsSharedService.listenEventData(Events.statistics).delay(400)
             .subscribe(sensorStatistics => {
                 sensorStatistics.statistics.forEach(statis => {
                     if (statis.type === this.statisType) {

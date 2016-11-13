@@ -55,6 +55,7 @@ export class SenzorMenuComponent {
   }
 
   private onClick(sensor: SensorStatistics) {
+    this.sensorsSharedService.publishEvent(Events.showMasterLoading, true);
     this.selectedSensor = sensor;
     this.sensorsSharedService.publishEvent(Events.selectSensor, sensor, "MenuComponent.onClick")
     this.sensorsSharedService.loadStatisticsData(<DeviceDetailParams>{devEUI: sensor.devEUI});

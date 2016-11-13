@@ -45,7 +45,7 @@ export class TableStatisComponent {
       // }
     })
 
-    sensorsSharedService.listenEventData(Events.statistics).delay(200)
+    sensorsSharedService.listenEventData(Events.statistics).delay(300)
       .subscribe(sensorStatistics => {
         this.clearAllTableData();
         sensorStatistics.statistics.forEach(statis => {

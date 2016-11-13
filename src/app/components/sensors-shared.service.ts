@@ -173,6 +173,7 @@ export class SensorsSharedService {
             .filter(data => {
                 return data != undefined && data.statistics != undefined
             }).subscribe(statistics => {
+                // this.publishEvent(Events.showMasterLoading, false);
                 this.publishEvent(Events.statistics, statistics);
             });
     }

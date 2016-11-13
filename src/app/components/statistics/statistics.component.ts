@@ -25,7 +25,6 @@ import { StatisticsUtils, StatisType, SensorStatistics, Statistics } from '../..
 export class StatisticsComponent {
     //collapse content
     private isHidden: boolean = true;
-    private selectedSensor: SensorStatistics;
 
     @ViewChild('lgModal')
     private lgModal: ModalDirective;
@@ -39,27 +38,43 @@ export class StatisticsComponent {
 
     constructor(private changeDetectorRef: ChangeDetectorRef, private log: Logger, private sensorsSharedService: SensorsSharedService) {
 
-        // zvyrazneni vybraneho
-        this.sensorsSharedService.listenEventData(Events.selectSensor).subscribe((selectedSensor: SensorStatistics) => {
-            this.selectedSensor = selectedSensor;
-            this.isHidden = false;
-            changeDetectorRef.detectChanges();
-            if (this.lgModal) {
-                this.lgModal.show();
+        let obsSelSensor = this.sensorsSharedService.listenEventData(Events.selectSensor);
+        let obsShowLoading = this.sensorsSharedService.listenEventData(Events.showMasterLoading);
+
+        Observable.combineLatest(obsSelSensor, obsShowLoading).subscribe((data) => {
+            if (this.isMobile()) {
+                // zkoncil loading
+                if (data[1] === false) {
+                    this.lgModal.show();
+                }
+            } else {
+                if (data[1] === false && this.isHidden) {
+                    this.isHidden = false;
+                    changeDetectorRef.detectChanges();
+                    this.onOpen();
+                }
             }
         });
+
+        // zvyrazneni vybraneho
+        // this.sensorsSharedService.listenEventData(Events.selectSensor).subscribe((selectedSensor: SensorStatistics) => {
+        //     // this.selectedSensor = selectedSensor;
+        //     this.isHidden = false;
+        //     changeDetectorRef.detectChanges();
+        //     if (this.lgModal) {
+        //         this.lgModal.show();
+        //     }
+        // });
+    }
+
+    private isMobile() {
+        return this.lgModal !== undefined;
     }
 
     onOpen() {
         this.sensorsSharedService.publishEvent(Events.refreshStatisSlider, undefined, "StatisticsComponent.onOpen");
-        this.sensorsSharedService.publishEvent(Events.statisticsDialog, "dialogIsOpened", "StatisticsComponent.onOpen" )
+        this.sensorsSharedService.publishEvent(Events.statisticsDialog, "dialogIsOpened", "StatisticsComponent.onOpen")
     }
 
-    getSensorName():string {
-        if (this.selectedSensor){
-            return this.selectedSensor.name;
-        }
-        return ""
-    }
-
+    
 }
