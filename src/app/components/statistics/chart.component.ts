@@ -147,7 +147,6 @@ export class ChartComponent implements AfterViewInit {
     private updateChart() {
         // console.log("updateChart");
         this.chart.update();
-        this.sensorsSharedService.publishEvent(Events.showMasterLoading, false);
     }
 
     private refreshChartData() {
@@ -267,7 +266,7 @@ export class ChartComponent implements AfterViewInit {
                     }
                 });
                 this.updateChart();
-                // this.sensorsSharedService.publishEvent(Events.showMasterLoading, false);
+                this.sensorsSharedService.publishEvent(Events.showMasterLoading, false);
             });
     }
     // 
