@@ -1,6 +1,6 @@
 {
   "name": "cra-noise-map",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "license": "GNU GPL",
   "angular-cli": {},
   "scripts": {
@@ -9,8 +9,9 @@
     "test": "ng test",
     "pree2e": "webdriver-manager update",
     "e2e": "protractor",
-    "prod_start": "npm install --production && npm run prod_httpserver",
-    "prod_httpserver": "./node_modules/.bin/http-server ./dist -p 8079"
+    "prod":  "npm run build_prod && npm run start_prod",
+    "start_prod": "./node_modules/.bin/http-server ./dist -p 8079",
+    "build_prod": "rmdir /Q /S dist && ng build -prod"
   },
   "private": true,
   "dependencies": {

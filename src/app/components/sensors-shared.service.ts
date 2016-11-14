@@ -70,9 +70,6 @@ export class SensorsSharedService {
     private eventAggregator: Subject<AggregatorEvent<any>> = new Subject<AggregatorEvent<any>>();
 
     // ------------ TEST DATA ------------
-    private baseNoise = 30;
-    private aRF8084BAPayloadResolver = new ARF8084BAPayloadResolver();
-    private rHF1S001PayloadResolver = new RHF1S001PayloadResolver();
     private location: { devEUI: string, latitude: number, name: string, longtitude: number, latitudeText: string, longtitudeText: string }[] = [
         // MOCK
 
@@ -95,6 +92,11 @@ export class SensorsSharedService {
     //  private deviceList = ["0004A30B0019D0EA", "0004A30B0019B046", "0004A30B0019B1CA"]
     // GPS private deviceList = ["0004A30B0019D0EA", "0018B20000000165", "0018B20000000336", "0018B2000000016E", "0018B20000000337", "0018B2000000033C", "0018B2000000033A", "0018B20000000339", "0018B20000000335",]
     // private deviceList = ["0004A30B0019D0EA"];
+    private baseTimePerform;   
+
+    private resetBaseTimer(){
+        this.baseTimePerform = performance.now();
+    }
 
     constructor(private log: Logger, private craService: CRaService) {
         // zobrazeni informaci z event aggregatoru
