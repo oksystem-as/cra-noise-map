@@ -1,8 +1,22 @@
-.aboutAppMobileButton {
-  /*padding: 9px;*/
-  /*margin-top: -34px;*/
+.showOnDesktop{
+    width:70%;
+    height:445px;
 }
 
-/*.aboutAppSmallButton {
-  padding: 9px;
-}*/
+@media screen and (orientation:portrait)
+{
+   .showOnMobileLandPotrait
+   {  
+      width:100%;
+      height:245px;
+   }
+}
+
+@media screen and (orientation:landscape)
+{
+   .showOnMobileLandPotrait
+   {
+      width:100%;
+      height:445px;
+   }
+}

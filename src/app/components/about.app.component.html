@@ -53,7 +53,8 @@
 							<li>Ve spodní části mapy je posuvník definující datum a čas hodnot zobrazených v tooltipu čidla.</li>
 						</ul>	
 					<p>Více viz. instruktážní video:</p>
-						<iframe id="ytplayer" type="text/html" src="https://www.youtube.com/embed/aT-Tc_rrIKs?autoplay=0" frameborder="0"></iframe>
+						<iframe  *hideItDevice="['mobile']"  id="ytplayer" type="text/html" src="https://www.youtube.com/embed/aT-Tc_rrIKs?autoplay=0" frameborder="0" class="showOnDesktop"></iframe>
+						<iframe  *showItDevice="['mobile']"  id="ytplayer" type="text/html" src="https://www.youtube.com/embed/aT-Tc_rrIKs?autoplay=0" frameborder="0" class="showOnMobileLandPotrait"></iframe>
 					<br>
 					<br>
 					<br>
