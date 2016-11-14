@@ -9,9 +9,9 @@
     "test": "ng test",
     "pree2e": "webdriver-manager update",
     "e2e": "protractor",
-    "prod":  "npm run build_prod && npm run start_prod",
-    "start_prod": "./node_modules/.bin/http-server ./dist -p 8079",
-    "build_prod": "rmdir /Q /S dist && ng build -prod"
+    "prod": "npm run prod_build && npm run prod_start",
+    "prod_start": "./node_modules/.bin/http-server ./dist -p 8079",
+    "prod_build": "rmdir /Q /S dist && ng build -prod"
   },
   "private": true,
   "dependencies": {
@@ -31,7 +31,6 @@
     "bootstrap-slider": "9.2.0",
     "chart.js": "2.2.2",
     "core-js": "2.4.1",
-    "http-server": "0.9.0",
     "ng2-bootstrap": "1.1.14",
     "ng2-responsive": "0.4.6",
     "raven-js": "3.8.0",
@@ -41,6 +40,7 @@
     "zone.js": "0.6.23"
   },
   "devDependencies": {
+    "http-server": "0.9.0",
     "@types/bootstrap-slider": "4.8.32",
     "@types/google-maps": "3.1.28",
     "@types/jasmine": "2.2.30",
