@@ -42,10 +42,17 @@
 
 @media screen and (min-aspect-ratio: 13/9)
 {
-  .overlaysSearchMobileLandscapeSearch {
+  .overlaysSearchMobileCont {
     margin-top: -29px;
     margin-left: 196px;
   }
+}
+
+@media screen and (max-aspect-ratio: 13/9) { 
+  .overlaysSearchMobileCont {
+    margin-top: 12px;
+    /*margin-left: 196px;*/
+  } 
 }
 
 .small-firefox {
