@@ -40,7 +40,7 @@
   width: calc(100% - 118px)
 }
 
-@media screen and (orientation:landscape)
+@media screen and (min-aspect-ratio: 13/9)
 {
   .overlaysSearchMobileLandscapeSearch {
     margin-top: -29px;
