@@ -423,7 +423,7 @@ export class MapComponent implements AfterViewInit {
     marker.isPermSelected = selecteSensor;
     marker.showData = showData //sensor.showData;
 
-    marker.addListener('click', () => {
+    marker.addListener('mousedown', () => {
       this.sensorsSharedService.publishEvent(Events.showMasterLoading, true);
       this.selectedSensor = marker.sensor
       this.map.panTo(marker.getPosition()); // setCenter takes a LatLng object
