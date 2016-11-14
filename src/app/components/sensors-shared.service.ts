@@ -80,17 +80,18 @@ export class SensorsSharedService {
         { devEUI: "0004A30B0019D0ED", name: "Třebotovská         ", latitude: 50.039161, longtitude: 14.389049, latitudeText: "50°02'10.3\"", longtitudeText: "14°25'22.2\"" },
         { devEUI: "0004A30B0019D0EE", name: "Trhanovské náměstí  ", latitude: 50.051616, longtitude: 14.525933, latitudeText: "50°05'10.3\"", longtitudeText: "14°20'22.2\"" },
         { devEUI: "0004A30B0019D0EF", name: "Světovova           ", latitude: 50.105831, longtitude: 14.474953, latitudeText: "50°03'10.3\"", longtitudeText: "14°23'22.2\"" },
-        // real
+        // real 
         { devEUI: "0004A30B0019D0EA", name: "Náměstí Bratří Synků", latitude: 50.064227, longtitude: 14.441406, latitudeText: "50°03'51.2\"", longtitudeText: "14°26'29.1\"" },
         { devEUI: "0004A30B0019B046", name: "ČRa Skokanská       ", latitude: 50.079866, longtitude: 14.376207, latitudeText: "50°04'47.5\"", longtitudeText: "14°22'34.4\"" },
-        { devEUI: "0004A30B0019B1CA", name: "Ulice Bělohorská    ", latitude: 50.081764, longtitude: 14.354317, latitudeText: "50°04'54.4\"", longtitudeText: "14°21'15.5\"" },
+        { devEUI: "0004A30B0019B1CA", name: "Ulice Bělohorská    ", latitude: 50.084542, longtitude: 14.376329, latitudeText: "50°04'54.4\"", longtitudeText: "14°21'15.5\"" },
         // { devEUI: "0018B2000000033A", name: "U Roztockého háje   ", latitude: 50.142034, longtitude: 14.391308, latitudeText: "50°04'10.3\"", longtitudeText: "14°22'22.2\"" },
         // { devEUI: "0018B20000000339", name: "K točné             ", latitude: 49.966399, longtitude: 14.442805, latitudeText: "50°08'10.3\"", longtitudeText: "14°21'22.2\"" },
         // { devEUI: "0018B20000000335", name: "Na petynce          ", latitude: 50.089150, longtitude: 14.377480, latitudeText: "50°09'10.3\"", longtitudeText: "14°27'22.2\"" },
     ]
 
     // MOCK + real
-    private deviceList = ["0004A30B0019D0EB", "0004A30B0019D0EC", "0004A30B0019D0ED", "0004A30B0019D0EE", "0004A30B0019D0EF", "0004A30B0019D0EA", "0004A30B0019B046", "0004A30B0019B1CA"]
+    // private deviceList = ["0004A30B0019D0EB", "0004A30B0019D0EC", "0004A30B0019D0ED", "0004A30B0019D0EE", "0004A30B0019D0EF", "0004A30B0019D0EA", "0004A30B0019B046", "0004A30B0019B1CA"]
+     private deviceList = ["0004A30B0019D0EA", "0004A30B0019B046", "0004A30B0019B1CA"]
     // GPS private deviceList = ["0004A30B0019D0EA", "0018B20000000165", "0018B20000000336", "0018B2000000016E", "0018B20000000337", "0018B2000000033C", "0018B2000000033A", "0018B20000000339", "0018B20000000335",]
     // private deviceList = ["0004A30B0019D0EA"];
 
