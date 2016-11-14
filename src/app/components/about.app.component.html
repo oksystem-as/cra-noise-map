@@ -14,35 +14,51 @@
 			<div class="modal-content">
 				<div class="modal-header">
 					<button type="button" class="close aboutAppButton" (click)="lgModal.hide()" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-					<h4 class="modal-title">O společnosti OKSystem a.s.</h4>
+          				<span aria-hidden="true">&times;</span>
+        			</button>
+					<h4 class="modal-title">Aplikace "<strong>Hlukové mapy</strong>"</h4>
 				</div>
 				<div class="modal-body">
-					<p>OKsystem je česká softwarová společnost s mezinárodní působností. Na trhu informačních technologií jsme již od roku
-						1990. Naše programy používají desítky tisíc uživatelů v soukromém sektoru i veřejné správě. Máme zákazníky zejména
-						v České republice a dodáváme inovativní software i v Evropě a USA.</p>
-					<p>Více informací naleznete na <a href="http://www.oksystem.cz">http://www.oksystem.cz</a></p>
-					<br>
-					<iframe id="ytplayer" type="text/html" src="https://www.youtube.com/embed/aT-Tc_rrIKs?autoplay=0" frameborder="0"></iframe>
-					<br>
-					<br>
-
-					<h4>Aplikace "Hlukové mapy"</h4>
-
-					<b>Aplikace se skládá z:</b>
+					<p>Cílem aplikace je vizualizace hlukové zátěže na konkrétním místě. Zátěže jsou vypočítané na základě modelů <strong>strategických hlukových map</strong> a dlouhodobě <strong>měřených údajů</strong> ze sítě hlukových čidel.</p>
+					<p> Z měřených údajů vypočítává hlukovou zátěž v území v hodnotách:</p>
 					<ul>
-						<li>Google mapy a jejích ovládacích prvků.</li>
-						<li>Komponenty pro výběr vrstvy hlukové mapy.</li>
-						<li>Legendy mapy.</li>
-						<li>Komponenty pro výběr čidla.</li>
-						<li>Komponenty pro zobrazení grafů a statistik vybraného čidla.</li>
-						<li>Komponenty slider, která umožňuje vybrat datum měření čidla.</li>
+						<li>hodinový průměr</li>
+						<li>celodenní průměr</li>
+						<li>průměr den – 6-22hod</li>
+						<li>průměr noc – 22-6hod</li>
+						<li>průměr večer 18-22hod</li>
+						<li>průměrná týdenní expozice</li>
+						<li>průměrná měsíční expozice</li>
 					</ul>
-
+					Tyto údaje jsou vhodné jak pro <strong>laickou</strong>, ale i pro <strong>odbornou</strong> veřejnost. 
 					<br>
-
-					<h4>Aplikace podporuje nejnovější verze prohlížečů:</h4>
+					<br>
+					<p>Aktuální seznam on-line čidel (přesnost +/- 3dB):</p>
+						<ul>
+							<li>nám. Bratří Synků </li>
+							<li>ulice Bělohorská</li>
+							<li>ČRa Skokanská</li>
+						</ul>
+						Ostatní zobrazovaná čidla jsou testovací a obsahují uměle generované testovací hodnoty.	
+					<br>
+					<br>
+					<h4>Ovládání aplikace:</h4>
+					<p>Aplikace využívá google mapy a přebírá plně ovládání těchto map včetně vyhledávání v území a přepínání podkladových map.</p>
+					<p>Do map je navíc doplněna funkčnost:</p>
+						<ul>
+							<li><strong>Vyberte čidlo:</strong> výběr on-line čidel dle umístění</li>
+							<li><strong>Statistiky čidla:</strong> zobrazení údajů statistik měření v grafu a tabulce
+								<!--<li>Ve spodní části okna je zobrazen posuvník, který umožňuje časové omezení hodnot zobrazených v grafu a tabulce.</li>-->
+							</li>
+							<li><strong>Výběr vrstev:</strong> možnost doplnění podkladových strategických hlukových map</li>
+							<li>Ve spodní části mapy je posuvník definující datum a čas hodnot zobrazených v tooltipu čidla.</li>
+						</ul>	
+					<p>Více viz. instruktážní video:</p>
+						<iframe id="ytplayer" type="text/html" src="https://www.youtube.com/embed/aT-Tc_rrIKs?autoplay=0" frameborder="0"></iframe>
+					<br>
+					<br>
+					<br>
+					<h4>Aplikace je k dispozici pro webové prohlížeče pro PC a mobilní telefony:</h4>
 					<ul>
 						<li>Google Chrome</li>
 						<li>Opera</li>
@@ -51,6 +67,24 @@
 						<li>Internet Explorer</li>
 						<li>Edge</li>
 					</ul>
+					<br>
+					<br>
+					<h4>Kontakty:</h4>
+					<p>Vývoj aplikace byl zajištěn vývojovým týmem společnosti OKsystem a.s.<br></p>
+					<p>Na Pankráci 125<br>
+						140 21 Praha 4<br>
+						<br>
+						T: +420 236 072 111<br>
+						E: info@oksystem.cz<br>
+					</p>
+					<p><a href="http://www.oksystem.cz">www.oksystem.cz</a></p>
+					<br>
+					<br>
+					<h4>O společnosti OKsystem a.s.</h4>
+					<p>OKsystem je česká softwarová společnost s mezinárodní působností. Na trhu informačních technologií jsme již od roku 1990. Naše programy používají desítky tisíc uživatelů v soukromém sektoru i veřejné správě. Máme zákazníky zejména v České republice a dodáváme inovativní software i v Evropě a USA.</p>
+					<br>
+					<p>Více informací naleznete na <a href="http://www.oksystem.com/cz/">www.oksystem.cz</a></p>
+					<br>
 					verze aplikace: {{appVersion}}
 				</div>
 			</div>
