@@ -20,8 +20,16 @@
 					<h4 class="modal-title">Aplikace "<strong>Hlukové mapy</strong>"</h4>
 				</div>
 				<div class="modal-body">
-					<p>Cílem aplikace je vizualizace hlukové zátěže na konkrétním místě. Zátěže jsou vypočítané na základě modelů <strong>strategických hlukových map</strong> a dlouhodobě <strong>měřených údajů</strong> ze sítě hlukových čidel.</p>
-					<p> Z měřených údajů vypočítává hlukovou zátěž v území v hodnotách:</p>
+					<p>Aplikace umožňuje vizualizaci hlukové zátěže na konkrétním místě a je určena pro laickou i odbornou veřejnost. 
+					   Kombinuje údaje ze sítě on-line hlukových čidel (v technologii <a href="https://www.lora-alliance.org/" target="_blank">LoRaWAN</a>) a data strategických hlukových map.</p>
+					<p>Čidla měří hluk s přesností +/- 3dB. Aktuálně jsou umístěna v těchto lokalitách:</p>
+						<ul>
+							<li>nám. Bratří Synků </li>
+							<li>ulice Bělohorská</li>
+							<li>ČRa Skokanská</li>
+						</ul>
+					<p>Ostatní zobrazovaná čidla jsou fiktivní a generují testovací hodnoty. Dále jsou k dispozici podkladové strategické hlukové mapy (z roku 2007, zdroj ČÚZK).</p> 
+					<p>Lze tak snadno sledovat statistiky hlukové zátěže na vybraném místě. Ze získaných údajů jsou vypočítávány:</p>
 					<ul>
 						<li>hodinový průměr</li>
 						<li>celodenní průměr</li>
@@ -31,43 +39,35 @@
 						<li>průměrná týdenní expozice</li>
 						<li>průměrná měsíční expozice</li>
 					</ul>
-					Tyto údaje jsou vhodné jak pro <strong>laickou</strong>, ale i pro <strong>odbornou</strong> veřejnost. 
 					<br>
 					<br>
-					<p>Aktuální seznam on-line čidel (přesnost +/- 3dB):</p>
+					<h4>Práce s aplikací:</h4>
+					<p>Využity jsou google mapy, včetně jejich ovládání, vyhledávání v území a přepínání podkladových map.</p>
+					<p>V základním zobrazení je na mapě vidět síť hlukových čidel barevně odlišených (viz legenda v levém spodním rohu) dle průměrného denního hluku (24 h) pro aktuální datum a časová osa umožňující změnu data. Pokud pro zvolené datum nejsou k dispozici úplná data pro vypočtení denního průměru, pak je čidlo šedé.</p>
+					<p>Funkčnost pro zobrazení statistik:</p>
 						<ul>
-							<li>nám. Bratří Synků </li>
-							<li>ulice Bělohorská</li>
-							<li>ČRa Skokanská</li>
-						</ul>
-						Ostatní zobrazovaná čidla jsou testovací a obsahují uměle generované testovací hodnoty.	
-					<br>
-					<br>
-					<h4>Ovládání aplikace:</h4>
-					<p>Aplikace využívá google mapy a přebírá plně ovládání těchto map včetně vyhledávání v území a přepínání podkladových map.</p>
-					<p>Do map je navíc doplněna funkčnost:</p>
-						<ul>
-							<li><strong>Vyberte čidlo:</strong> výběr on-line čidel dle umístění</li>
-							<li><strong>Statistiky čidla:</strong> zobrazení údajů statistik měření v grafu a tabulce</li>
-							<ul><li>Ve spodní části okna je zobrazen posuvník, který umožňuje časové omezení hodnot zobrazených v grafu a tabulce.</li></ul>
-							<li><strong>Výběr vrstev:</strong> možnost doplnění podkladových strategických hlukových map</li>
-							<li>Ve spodní části mapy je posuvník definující datum a čas hodnot zobrazených v tooltipu čidla.</li>
+							<li><strong>Vyberte čidlo:</strong> Slouží k výběru konkrétního čidla dle umístění (čidlo lze alternativně vybrat kliknutím na něj v mapě).</li>
+							<li><strong>Statistiky čidla:</strong> zobrazení údajů statistik měření v grafu a tabulce.</li>
+								<ul>
+									<li>Pod grafem je zobrazen posuvník, který lze použít pro filtrování zobrazených hodnot v grafu a tabulce dle času.</li>
+									<li>Výběrem naměřené hodnoty zobrazované v grafu (případně v tabulce) lze změnit datum na časové ose základní mapy a tím zobrazit k tomuto datu průměrné denní hodnoty všech čidel viditelných na mapě.</li>
+									<li>V případě statistiky „Denní 6h-22h“ a „Noční 22h-6h“ se v grafu zobrazuje hygienická norma (zelená čára). Naměřené hodnoty splňující hygienické normy jsou zobrazeny zeleně, nadlimitní hodnoty jsou zobrazeny červeně.</li>
+								</ul>
+							<li><strong>Výběr vrstev:</strong> Slouží k zobrazení podkladových strategických hlukových map z roku 2007 (železnice, silnice, Ostrava, Brno, Praha, letiště Ruzyně) (zdroj: ČÚZK).</li>
 						</ul>	
 					<p>Více viz. instruktážní video:</p>
 						<iframe  *hideItDevice="['mobile']"  id="ytplayer" type="text/html" src="https://www.youtube.com/embed/aT-Tc_rrIKs?autoplay=0" frameborder="0" class="showOnDesktop" allowfullscreen="allowfullscreen" mozallowfullscreen="mozallowfullscreen" msallowfullscreen="msallowfullscreen" oallowfullscreen="oallowfullscreen" webkitallowfullscreen="webkitallowfullscreen"></iframe>
 						<iframe  *showItDevice="['mobile']"  id="ytplayer" type="text/html" src="https://www.youtube.com/embed/aT-Tc_rrIKs?autoplay=0" frameborder="0" class="showOnMobileLandPotrait" allowfullscreen="allowfullscreen" mozallowfullscreen="mozallowfullscreen" msallowfullscreen="msallowfullscreen" oallowfullscreen="oallowfullscreen" webkitallowfullscreen="webkitallowfullscreen"></iframe>
 						<p>Pokud se video nezobrazuje správně, je k dispozici <a href="https://www.youtube.com/watch?v=aT-Tc_rrIKs" target="_blank">zde</a>.</p> 
 					<br>
-					<br>
-					<br>
-					<h4>Aplikace je k dispozici pro webové prohlížeče pro PC a mobilní telefony:</h4>
+					<p>Aplikace je optimalizována pro poslední verze webových prohlížečů (desktopové i mobilní verze):</p>
 					<ul>
 						<li>Google Chrome</li>
 						<li>Opera</li>
 						<li>Safari</li>
 						<li>Firefox</li>
-						<li>Internet Explorer</li>
-						<li>Edge</li>
+						<li>Internet Explorer 10, 11</li>
+						<li>Microsoft Edge</li>
 					</ul>
 					<br>
 					<br>
