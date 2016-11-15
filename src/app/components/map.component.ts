@@ -402,15 +402,48 @@ export class MapComponent implements AfterViewInit {
       "<strong>Průměrné hladiny hluku:</strong>" +
       " <table class='table table-striped point-statis-table'> " + //class='table table-striped'
       " <thead><tr><th>Interval měření</th><th>hodnota</th></tr></thead>";
-    let tip = "Tip: Kliknutím na čidlo se zobrazí detailní statistiky.";
-    sensor.statistics.forEach(statistis => {
-      text += " <tr><th>" + StatisticsUtils.getNameForStatisType(statistis.type) + "</th><td> " + Math.round(statistis.avgValues[0].avgValue) + "dB</td> ";
+    let hour; let day6; let day18; let night; let day24; let week; let month;
+    sensor.statistics.forEach(statistics => {
+      switch (statistics.type) {
+            case StatisType.HOUR: 
+              hour = "<tr><th>" + StatisticsUtils.getNameForStatisType(statistics.type) + "</th><td>" + Math.round(statistics.avgValues[0].avgValue) + " dB</td>"; 
+              break;
+            case StatisType.DAY6_22: 
+              day6 = " <tr><th>" + StatisticsUtils.getNameForStatisType(statistics.type) + "</th><td>" + Math.round(statistics.avgValues[0].avgValue) + "dB</td>";
+              break;
+            case StatisType.DAY18_22: 
+              day18 = " <tr><th>" + StatisticsUtils.getNameForStatisType(statistics.type) + "</th><td>" + Math.round(statistics.avgValues[0].avgValue) + "dB</td>";
+              break;
+            case StatisType.NIGHT22_6: 
+              night = " <tr><th>" + StatisticsUtils.getNameForStatisType(statistics.type) + "</th><td>" + Math.round(statistics.avgValues[0].avgValue) + "dB</td>";
+              break;
+            case StatisType.DAY24: 
+              day24 = " <tr><th>" + StatisticsUtils.getNameForStatisType(statistics.type) + "</th><td>" + Math.round(statistics.avgValues[0].avgValue) + "dB</td>";
+              break;
+            case StatisType.WEEK: 
+              week = " <tr><th>" + StatisticsUtils.getNameForStatisType(statistics.type) + "</th><td>" + Math.round(statistics.avgValues[0].avgValue) + "dB</td>";
+              break;
+            case StatisType.MONTH: 
+              month = " <tr><th>" + StatisticsUtils.getNameForStatisType(statistics.type) + "</th><td>" + Math.round(statistics.avgValues[0].avgValue) + "dB</td>";
+              break;
+        }
     })
+    if (hour)  text += hour; 
+    if (day6)  text += day6; 
+    if (day18) text += day18; 
+    if (night) text += night; 
+    if (day24) text += day24; 
+    if (week)  text += week; 
+    if (month) text += month; 
 
     return new google.maps.InfoWindow({
       content: "<div class='info-window'>" + 
-                text + 
-                "<br><br><p style=\"font-size: 10px;\">" + tip +"</p>" +
+                text +
+                "</table>" +
+                "<br>" +
+                "<p style=\"font-size: 10px;\">" +
+                  "Tip: Kliknutím na čidlo se zobrazí detailní statistiky." +
+                "</p>" +
                 "</div>",
       disableAutoPan: true,
       // zIndex: 10000000,
