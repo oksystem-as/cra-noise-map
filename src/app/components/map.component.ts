@@ -400,7 +400,7 @@ export class MapComponent implements AfterViewInit {
       "<strong>Datum měření hluku:</strong> " + date.toLocaleDateString() + "<br> " +
       "<strong>Průměrné hladiny hluku:</strong>" +
       " <table class='table table-striped point-statis-table'> " + //class='table table-striped'
-      " <thead><tr><th>Interval měření</th><th>hodnota</th></tr></thead>";
+      " <thead><tr><th>Období měření</th><th>Hodnota</th></tr></thead>";
     let hour; let day6; let day18; let night; let day24; let week; let month;
     sensor.statistics.forEach(statistics => {
       switch (statistics.type) {
@@ -408,22 +408,24 @@ export class MapComponent implements AfterViewInit {
               hour = "<tr><th>" + StatisticsUtils.getNameForStatisType(statistics.type) + "</th><td>" + Math.round(statistics.avgValues[0].avgValue) + " dB</td>"; 
               break;
             case StatisType.DAY6_22: 
-              day6 = " <tr><th>" + StatisticsUtils.getNameForStatisType(statistics.type) + "</th><td>" + Math.round(statistics.avgValues[0].avgValue) + "dB</td>";
+              day6 = " <tr><th>" + StatisticsUtils.getNameForStatisType(statistics.type) + "</th><td>" + Math.round(statistics.avgValues[0].avgValue) + " dB</td>";
               break;
             case StatisType.DAY18_22: 
-              day18 = " <tr><th>" + StatisticsUtils.getNameForStatisType(statistics.type) + "</th><td>" + Math.round(statistics.avgValues[0].avgValue) + "dB</td>";
+              day18 = " <tr><th>" + StatisticsUtils.getNameForStatisType(statistics.type) + "</th><td>" + Math.round(statistics.avgValues[0].avgValue) + " dB</td>";
               break;
             case StatisType.NIGHT22_6: 
-              night = " <tr><th>" + StatisticsUtils.getNameForStatisType(statistics.type) + "</th><td>" + Math.round(statistics.avgValues[0].avgValue) + "dB</td>";
+              night = " <tr><th>" + StatisticsUtils.getNameForStatisType(statistics.type) + "</th><td>" + Math.round(statistics.avgValues[0].avgValue) + " dB</td>";
               break;
             case StatisType.DAY24: 
-              day24 = " <tr style=\"background-color:" + ColorUtils.getColor(Math.round(statistics.avgValues[0].avgValue)) + "\"><th>" + StatisticsUtils.getNameForStatisType(statistics.type) + "</th><td>" + Math.round(statistics.avgValues[0].avgValue) + "dB</td>";
+              day24 = " <tr style=\"background-color:" + ColorUtils.getColor(Math.round(statistics.avgValues[0].avgValue)) + "\">" +
+              "<th style=\"color:" + ColorUtils.getColorText(Math.round(statistics.avgValues[0].avgValue)) + "\">" + StatisticsUtils.getNameForStatisType(statistics.type) + "</th>" +
+              "<td style=\"color:" + ColorUtils.getColorText(Math.round(statistics.avgValues[0].avgValue)) + "\">" + Math.round(statistics.avgValues[0].avgValue) + " dB</td>";
               break;
             case StatisType.WEEK: 
-              week = " <tr><th>" + (DateUtils.getDateMinusDays(this.sliderNewDate, 7)).toLocaleDateString() + " - " + (DateUtils.getDayFlatDate(this.sliderNewDate)).toLocaleDateString() + "</th><td>" + Math.round(statistics.avgValues[0].avgValue) + "dB</td>";
+              week = " <tr><th>" + (DateUtils.getDateMinusDays(this.sliderNewDate, 7)).toLocaleDateString() + " - " + (DateUtils.getDayFlatDate(this.sliderNewDate)).toLocaleDateString() + "</th><td>" + Math.round(statistics.avgValues[0].avgValue) + " dB</td>";
               break;
             case StatisType.MONTH: 
-              month = " <tr><th>" + (DateUtils.getDateMinusDays(this.sliderNewDate, 30)).toLocaleDateString() + " - " + (DateUtils.getDayFlatDate(this.sliderNewDate)).toLocaleDateString() + "</th><td>" + Math.round(statistics.avgValues[0].avgValue) + "dB</td>";
+              month = " <tr><th>" + (DateUtils.getDateMinusDays(this.sliderNewDate, 30)).toLocaleDateString() + " - " + (DateUtils.getDayFlatDate(this.sliderNewDate)).toLocaleDateString() + "</th><td>" + Math.round(statistics.avgValues[0].avgValue) + " dB</td>";
               break;
         }
     })
