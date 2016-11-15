@@ -35,7 +35,7 @@ export class MapComponent implements AfterViewInit {
   private currCenter;
   private overlayGroup: OverlayGroup[];
   private noiseMapType: google.maps.ImageMapType;
-  private sliderNewDate: Date = SensorsSharedService.minDateLimit;
+  private sliderNewDate: Date = new Date();
   // private showLoading = false;
   private selectedSensor: SensorStatistics;
   private isMobileIntrenal: boolean;
@@ -306,6 +306,12 @@ export class MapComponent implements AfterViewInit {
       });
     });
 
+    this.sensorsSharedService.listenEventData(Events.sliderNewDate).subscribe(date => {
+      if (date) {
+        this.sliderNewDate = DateUtils.getDayFlatDate(date);
+      }
+    });
+
     this.sensorsSharedService.listenEventData(Events.loadSensors).subscribe(() => {
       // pri kazdem reloadu se markery jakoby zresetuji  
       this.markersMap.forEach((marker, key) => {
@@ -334,12 +340,6 @@ export class MapComponent implements AfterViewInit {
       if (!foundDAY24) {
         var infowindowNan = this.createInfoWindowNan(sensor, this.sliderNewDate);
         this.createMarker(sensor.latitude, sensor.longtitude, infowindowNan, null, sensor, false, selected);
-      }
-    });
-
-    this.sensorsSharedService.listenEventData(Events.sliderNewDate).subscribe(date => {
-      if (date) {
-        this.sliderNewDate = date;
       }
     });
   }
@@ -402,13 +402,16 @@ export class MapComponent implements AfterViewInit {
       "<strong>Průměrné hladiny hluku:</strong>" +
       " <table class='table table-striped point-statis-table'> " + //class='table table-striped'
       " <thead><tr><th>Interval měření</th><th>hodnota</th></tr></thead>";
-
+    let tip = "Tip: Kliknutím na čidlo se zobrazí detailní statistiky.";
     sensor.statistics.forEach(statistis => {
       text += " <tr><th>" + StatisticsUtils.getNameForStatisType(statistis.type) + "</th><td> " + Math.round(statistis.avgValues[0].avgValue) + "dB</td> ";
     })
 
     return new google.maps.InfoWindow({
-      content: "<div class='info-window'>" + text + "</div>",
+      content: "<div class='info-window'>" + 
+                text + 
+                "<br><br><p style=\"font-size: 10px;\">" + tip +"</p>" +
+                "</div>",
       disableAutoPan: true,
       // zIndex: 10000000,
       // pixelOffset: new google.maps.Size(200,200,"px","px"),
@@ -417,11 +420,16 @@ export class MapComponent implements AfterViewInit {
   }
 
   private createInfoWindowNan(sensor: SensorStatistics, date: Date): google.maps.InfoWindow {
-    let text = "<strong>Čidlo:</strong> \"" + sensor.name + "\" <br>" +
+    let text = "<strong>Čidlo:</strong> " + sensor.name + " <br>" +
       "<strong>Datum měření hluku:</strong> " + date.toLocaleDateString() + "<br> " +
-      "Pro vybraný den nebyla nalezena žádná data";
+      "<strong>Aktuální hodnota hluku (24H):</strong> -- <br> <br>" +
+      "Pro vybraný den nejsou data úplná.";
+    let tip = "Tip: Kliknutím na čidlo se zobrazí detailní statistiky."
     return new google.maps.InfoWindow({
-      content: "<div class='info-window'>" + text + "</div>",
+      content: "<div class='info-window'>" + 
+                text + 
+                "<br><br><p style=\"font-size: 10px;\">" + tip +"</p>" +
+                "</div>",
       disableAutoPan: true,
     });
   }
