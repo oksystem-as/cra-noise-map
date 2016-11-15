@@ -35,7 +35,7 @@ export class MapComponent implements AfterViewInit {
   private currCenter;
   private overlayGroup: OverlayGroup[];
   private noiseMapType: google.maps.ImageMapType;
-  // private sliderNewDate: Date = SensorsSharedService.minDateLimit;
+  private sliderNewDate: Date = SensorsSharedService.minDateLimit;
   // private showLoading = false;
   private selectedSensor: SensorStatistics;
   private isMobileIntrenal: boolean;
@@ -221,7 +221,7 @@ export class MapComponent implements AfterViewInit {
   }
 
   initControlsLayout() {
-    this.map.controls[google.maps.ControlPosition.LEFT_BOTTOM].push(document.getElementById('okSystemLogo')); 
+    this.map.controls[google.maps.ControlPosition.LEFT_BOTTOM].push(document.getElementById('okSystemLogo'));
     // this.map.controls[google.maps.ControlPosition.TOP_RIGHT].push(document.getElementById('aboutAppId'));
     // this.map.controls[google.maps.ControlPosition.TOP_RIGHT].push(document.getElementById('statisticsButtonId'));
     // this.map.controls[google.maps.ControlPosition.TOP_RIGHT].push(document.getElementById('senzorMenuId'));
@@ -332,8 +332,14 @@ export class MapComponent implements AfterViewInit {
         }
       });
       if (!foundDAY24) {
-        var infowindowNan = this.createInfoWindowNan(sensor);
+        var infowindowNan = this.createInfoWindowNan(sensor, this.sliderNewDate);
         this.createMarker(sensor.latitude, sensor.longtitude, infowindowNan, null, sensor, false, selected);
+      }
+    });
+
+    this.sensorsSharedService.listenEventData(Events.sliderNewDate).subscribe(date => {
+      if (date) {
+        this.sliderNewDate = date;
       }
     });
   }
@@ -353,30 +359,30 @@ export class MapComponent implements AfterViewInit {
     //       this.calculateCenter();
     //     }
     //   });
-    
-//     google.maps.event.addDomListener(this.map, 'center_changed', function () {
-//       this.currCenter  = this.map.getCenter();
-//     });
 
-//     google.maps.event.addDomListener(this.map, 'bounds_changed', function () {
-//       if (this.currCenter) {
-//         this.map.setCenter(this.currCenter);
-//     }
-//     this.currCenter = null;
-// });
+    //     google.maps.event.addDomListener(this.map, 'center_changed', function () {
+    //       this.currCenter  = this.map.getCenter();
+    //     });
+
+    //     google.maps.event.addDomListener(this.map, 'bounds_changed', function () {
+    //       if (this.currCenter) {
+    //         this.map.setCenter(this.currCenter);
+    //     }
+    //     this.currCenter = null;
+    // });
     // }
 
     // Add an event listener that calculates center on idle  
-  // google.maps.event.addDomListener(this.map, 'idle', () => {
-  //    if (this.map != undefined) {
-  //    this.calculateCenter();
-  //   }
-  // });
-  // Add an event listener that calculates center on resize  
+    // google.maps.event.addDomListener(this.map, 'idle', () => {
+    //    if (this.map != undefined) {
+    //    this.calculateCenter();
+    //   }
+    // });
+    // Add an event listener that calculates center on resize  
 
-  // google.maps.event.addDomListener(window, 'resize', () => {
-  //   this.setMapCenter();
-  // });
+    // google.maps.event.addDomListener(window, 'resize', () => {
+    //   this.setMapCenter();
+    // });
   }
 
   private removeMarkers(devEUI: string) {
@@ -392,7 +398,7 @@ export class MapComponent implements AfterViewInit {
     let text =
       "<strong>Čidlo:</strong> " + sensor.name + "<br> " +
       "<strong>Datum měření hluku:</strong> " + date.toLocaleDateString() + "<br> " +
-      "<strong>Aktuální hodnota hluku:</strong> " + Math.round(dayAvgVal) + "dB<br> <br>" +
+      "<strong>Aktuální hodnota hluku (24H):</strong> " + Math.round(dayAvgVal) + "dB<br> <br>" +
       "<strong>Průměrné hladiny hluku:</strong>" +
       " <table class='table table-striped point-statis-table'> " + //class='table table-striped'
       " <thead><tr><th>Interval měření</th><th>hodnota</th></tr></thead>";
@@ -410,8 +416,10 @@ export class MapComponent implements AfterViewInit {
     });
   }
 
-  private createInfoWindowNan(sensor: SensorStatistics): google.maps.InfoWindow {
-    let text = "Pro čidlo \"<strong>" + sensor.name + "</strong>\" nebyla nalezena žádná data.";
+  private createInfoWindowNan(sensor: SensorStatistics, date: Date): google.maps.InfoWindow {
+    let text = "<strong>Čidlo:</strong> \"" + sensor.name + "\" <br>" +
+      "<strong>Datum měření hluku:</strong> " + date.toLocaleDateString() + "<br> " +
+      "Pro vybraný den nebyla nalezena žádná data";
     return new google.maps.InfoWindow({
       content: "<div class='info-window'>" + text + "</div>",
       disableAutoPan: true,
@@ -456,7 +464,7 @@ export class MapComponent implements AfterViewInit {
       marker.setIcon(this.decorateAsSelected(marker.getIcon()));
       // setTimeout(() => {
       // if (marker.showData) {
-        infoWin.open(this.map, marker);
+      infoWin.open(this.map, marker);
       // }
       // }, 2000);
 
@@ -465,9 +473,9 @@ export class MapComponent implements AfterViewInit {
     marker.addListener('mouseout', () => {
       marker.setIcon(this.decorateAsNotSelectedPerm(marker.getIcon(), marker.isPermSelected));
       // if (marker.showData) {
-        // setTimeout(() => {
-        infoWin.close();
-        // }, 2000);
+      // setTimeout(() => {
+      infoWin.close();
+      // }, 2000);
       // }
     });
 
