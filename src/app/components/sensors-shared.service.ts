@@ -70,17 +70,17 @@ export class SensorsSharedService {
     private eventAggregator: Subject<AggregatorEvent<any>> = new Subject<AggregatorEvent<any>>();
 
     // ------------ TEST DATA ------------
-    private location: { devEUI: string, latitude: number, name: string, longtitude: number, latitudeText: string, longtitudeText: string }[] = [
+    public sensorMetaData: { position: number, devEUI: string, latitude: number, name: string, longtitude: number, latitudeText: string, longtitudeText: string }[] = [
         // MOCK
-        { devEUI: "0004A30B0019D0EB", name: "OKsystem (fiktivní) ",          latitude: 50.052853, longtitude: 14.439492, latitudeText: "50°03'10.3\"", longtitudeText: "14°29'22.2\"" },
-        { devEUI: "0004A30B0019D0EC", name: "Lumírova (fiktivní)", latitude: 50.063224, longtitude: 14.423984, latitudeText: "50°03'47.6\"", longtitudeText: "14°25'26.3\"" },
-        { devEUI: "0004A30B0019D0ED", name: "Třebotovská (fiktivní)",        latitude: 50.039161, longtitude: 14.389049, latitudeText: "50°02'10.3\"", longtitudeText: "14°25'22.2\"" },
+        { position: 4, devEUI: "0004A30B0019D0EB", name: "OKsystem (fiktivní) ",   latitude: 50.052853, longtitude: 14.439492, latitudeText: "50°03'10.3\"", longtitudeText: "14°29'22.2\"" },
+        { position: 2, devEUI: "0004A30B0019D0EC", name: "Lumírova (fiktivní)",    latitude: 50.063224, longtitude: 14.423984, latitudeText: "50°03'47.6\"", longtitudeText: "14°25'26.3\"" },
+        { position: 5, devEUI: "0004A30B0019D0ED", name: "Třebotovská (fiktivní)", latitude: 50.039161, longtitude: 14.389049, latitudeText: "50°02'10.3\"", longtitudeText: "14°25'22.2\"" },
         // { devEUI: "0004A30B0019D0EE", name: "Trhanovské náměstí (fiktivní)", latitude: 50.051616, longtitude: 14.525933, latitudeText: "50°05'10.3\"", longtitudeText: "14°20'22.2\"" },
         // { devEUI: "0004A30B0019D0EF", name: "Světovova (fiktivní)",          latitude: 50.105831, longtitude: 14.474953, latitudeText: "50°03'10.3\"", longtitudeText: "14°23'22.2\"" },
         // real
-        { devEUI: "0004A30B0019D0EA", name: "Náměstí Bratří Synků", latitude: 50.064227, longtitude: 14.441406, latitudeText: "50°03'51.2\"", longtitudeText: "14°26'29.1\"" },
-        { devEUI: "0004A30B0019B046", name: "ČRa Skokanská       ", latitude: 50.079866, longtitude: 14.376207, latitudeText: "50°04'47.5\"", longtitudeText: "14°22'34.4\"" },
-        { devEUI: "0004A30B0019B1CA", name: "Ulice Bělohorská    ", latitude: 50.084542, longtitude: 14.376329, latitudeText: "50°04'54.4\"", longtitudeText: "14°21'15.5\"" },
+        { position: 3, devEUI: "0004A30B0019D0EA", name: "Náměstí Bratří Synků", latitude: 50.064227, longtitude: 14.441406, latitudeText: "50°03'51.2\"", longtitudeText: "14°26'29.1\"" },
+        { position: 1, devEUI: "0004A30B0019B046", name: "ČRa Skokanská       ", latitude: 50.079866, longtitude: 14.376207, latitudeText: "50°04'47.5\"", longtitudeText: "14°22'34.4\"" },
+        { position: 0, devEUI: "0004A30B0019B1CA", name: "Bělohorská          ", latitude: 50.084542, longtitude: 14.376329, latitudeText: "50°04'54.4\"", longtitudeText: "14°21'15.5\"" },
         // { devEUI: "0018B2000000033A", name: "U Roztockého háje   ", latitude: 50.142034, longtitude: 14.391308, latitudeText: "50°04'10.3\"", longtitudeText: "14°22'22.2\"" },
         // { devEUI: "0018B20000000339", name: "K točné             ", latitude: 49.966399, longtitude: 14.442805, latitudeText: "50°08'10.3\"", longtitudeText: "14°21'22.2\"" },
         // { devEUI: "0018B20000000335", name: "Na petynce          ", latitude: 50.089150, longtitude: 14.377480, latitudeText: "50°09'10.3\"", longtitudeText: "14°27'22.2\"" },
@@ -208,13 +208,14 @@ export class SensorsSharedService {
     }
 
     private addLocationAndDate(sensorStatistics: SensorStatistics) {
-        this.location.forEach(location => {
+        this.sensorMetaData.forEach(location => {
             if (location.devEUI === sensorStatistics.devEUI) {
                 sensorStatistics.name = location.name;
                 sensorStatistics.latitude = location.latitude;
                 sensorStatistics.latitudeText = location.latitudeText;
                 sensorStatistics.longtitude = location.longtitude;
                 sensorStatistics.longtitudeText = location.longtitudeText;
+                sensorStatistics.menuPosition = location.position;
             }
         })
 

@@ -27,7 +27,7 @@ export class SenzorMenuComponent {
     this.sensorsSharedService.listenEventData(Events.loadSensor).filter((sensor) => { return sensor != undefined })
       .subscribe((sensorStatistics: SensorStatistics) => {
         ArrayUtils.replaceOrAddObject(this.sensors, sensorStatistics, (sen) => { return sen.devEUI === sensorStatistics.devEUI })
-        // this.selectedSensor = null;
+        this.sortSensorsByPosition();
         this.changeDetectorRef.detectChanges();
       })
 
@@ -37,6 +37,12 @@ export class SenzorMenuComponent {
       this.changeDetectorRef.detectChanges();
     });
 
+  }
+
+  private sortSensorsByPosition() {
+    this.sensors.sort(function (a, b) {
+      return a.menuPosition - b.menuPosition
+    });
   }
 
   private isSensorOnMap(sensor: SensorStatistics): boolean {
@@ -58,6 +64,6 @@ export class SenzorMenuComponent {
     this.sensorsSharedService.publishEvent(Events.showMasterLoading, true);
     this.selectedSensor = sensor;
     this.sensorsSharedService.publishEvent(Events.selectSensor, sensor, "MenuComponent.onClick")
-    this.sensorsSharedService.loadStatisticsData(<DeviceDetailParams>{devEUI: sensor.devEUI});
+    this.sensorsSharedService.loadStatisticsData(<DeviceDetailParams>{ devEUI: sensor.devEUI });
   }
 }

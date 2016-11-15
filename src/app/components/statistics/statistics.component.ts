@@ -25,6 +25,7 @@ import { StatisticsUtils, StatisType, SensorStatistics, Statistics } from '../..
 export class StatisticsComponent {
     //collapse content
     private isHidden: boolean = true;
+    private selSensorName: string = "";
 
     @ViewChild('lgModal')
     private lgModal: ModalDirective;
@@ -42,6 +43,7 @@ export class StatisticsComponent {
         let obsShowLoading = this.sensorsSharedService.listenEventData(Events.showMasterLoading);
 
         Observable.combineLatest(obsSelSensor, obsShowLoading).subscribe((data) => {
+            this.selSensorName = data[0].name;
             if (this.isMobile()) {
                 // zkoncil loading
                 if (data[1] === false) {
