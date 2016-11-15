@@ -176,7 +176,7 @@ export class ChartComponent implements AfterViewInit {
 
         dataset.data.push(data);
         dataset.dataLabels.push(date);
-        labels.push(date.toLocaleDateString());
+        labels.push(DateUtils.toStringZerosDateOnly(date));
 
         if (this.limit) {
             if (data > this.limit) {
