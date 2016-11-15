@@ -72,9 +72,8 @@ export class SensorsSharedService {
     // ------------ TEST DATA ------------
     private location: { devEUI: string, latitude: number, name: string, longtitude: number, latitudeText: string, longtitudeText: string }[] = [
         // MOCK
-
         { devEUI: "0004A30B0019D0EB", name: "OKsystem (fiktivní) ",          latitude: 50.052853, longtitude: 14.439492, latitudeText: "50°03'10.3\"", longtitudeText: "14°29'22.2\"" },
-        { devEUI: "0004A30B0019D0EC", name: "Kongresové centrum (fiktivní)", latitude: 50.062028, longtitude: 14.428990, latitudeText: "50°04'10.3\"", longtitudeText: "14°28'22.2\"" },
+        { devEUI: "0004A30B0019D0EC", name: "Lumírova (fiktivní)", latitude: 50.063224, longtitude: 14.423984, latitudeText: "50°03'47.6\"", longtitudeText: "14°25'26.3\"" },
         { devEUI: "0004A30B0019D0ED", name: "Třebotovská (fiktivní)",        latitude: 50.039161, longtitude: 14.389049, latitudeText: "50°02'10.3\"", longtitudeText: "14°25'22.2\"" },
         // { devEUI: "0004A30B0019D0EE", name: "Trhanovské náměstí (fiktivní)", latitude: 50.051616, longtitude: 14.525933, latitudeText: "50°05'10.3\"", longtitudeText: "14°20'22.2\"" },
         // { devEUI: "0004A30B0019D0EF", name: "Světovova (fiktivní)",          latitude: 50.105831, longtitude: 14.474953, latitudeText: "50°03'10.3\"", longtitudeText: "14°23'22.2\"" },
