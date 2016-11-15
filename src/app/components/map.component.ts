@@ -398,7 +398,7 @@ export class MapComponent implements AfterViewInit {
     let text =
       "<strong>Čidlo:</strong> " + sensor.name + "<br> " +
       "<strong>Datum měření hluku:</strong> " + date.toLocaleDateString() + "<br> " +
-      "<strong>Průměrné hladiny hluku:</strong>" +
+      "<strong><label style=\"padding-top:5px;\">Průměrné hladiny hluku:</label></strong>" +
       " <table class='table table-striped point-statis-table'> " + //class='table table-striped'
       " <thead><tr><th>Období měření</th><th>Hodnota</th></tr></thead>";
     let hour; let day6; let day18; let night; let day24; let week; let month;

@@ -75,7 +75,7 @@ export class ColorUtils {
     [
         { value: -1, color: "#000000", valueText: "dB", valueTextMobile: "db", colorText: "white" },
         { value: 0, color: "#DAFFCE", valueText: "< 35", valueTextMobile: "<35", colorText: "black" },   // color:#d3ffbe
-        { value: 40, color: "#38EF40", valueText: "35-40", valueTextMobile: "40", colorText: "black" },   // color:#79c67a
+        { value: 35, color: "#38EF40", valueText: "35-40", valueTextMobile: "40", colorText: "black" },   // color:#79c67a
         { value: 40, color: "#008056", valueText: "40-45", valueTextMobile: "45", colorText: "white" },   // color:#79c67a
         { value: 45, color: "#F0F809", valueText: "45-50", valueTextMobile: "50", colorText: "black" },   // color:#1f8545 
         { value: 50, color: "#F1B79A", valueText: "50-55", valueTextMobile: "55", colorText: "black" },   // color:#ffffbe
