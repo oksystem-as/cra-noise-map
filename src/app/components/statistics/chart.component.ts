@@ -73,7 +73,7 @@ export class ChartComponent implements AfterViewInit {
                 },
                 scaleLabel: {
                     display: true,
-                    labelString: 'intenzita hluku [dB]' 
+                    labelString: 'intenzita hluku [dB]'
                 },
             }],
 
@@ -244,12 +244,12 @@ export class ChartComponent implements AfterViewInit {
 
 
         sensorsSharedService.listenEventData(Events.statisSlider).subscribe(data => {
-            // if (data.statisType === this.statisType) { // pozadavek na globallni nastaveni
-            this.sliderStartDate = data.startDate;
-            this.sliderStopDate = data.endDate;
-            this.refreshChartData();
-            this.updateChart();
-            // }
+            if (data.statisType === this.statisType) { // pozadavek na globallni nastaveni = > zakomentovat
+                this.sliderStartDate = data.startDate;
+                this.sliderStopDate = data.endDate;
+                this.refreshChartData();
+                this.updateChart();
+            }
         })
 
         sensorsSharedService.listenEventData(Events.statistics).delay(400)

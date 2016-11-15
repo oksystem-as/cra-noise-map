@@ -6,7 +6,7 @@ import { SensorsSharedService, Events } from '../sensors-shared.service';
 import { Sensor } from '../../entity/sensor';
 import { Payload, PayloadType } from '../../payloads/payload';
 import { ObjectUtils, RandomUtils, DateUtils } from '../../utils/utils';
-import { StatisticsUtils, StatisType } from '../../utils/statis-utils';
+import { StatisticsUtils, SensorStatistics, StatisType } from '../../utils/statis-utils';
 
 import { ARF8084BAPayload } from '../../payloads/ARF8084BAPayload';
 import { RHF1S001Payload } from '../../payloads/RHF1S001Payload';
@@ -32,13 +32,14 @@ export class SliderStatisComponent {
     @Input()
     public statisType: StatisType = StatisType.DAY24;
 
+
     constructor(private log: Logger, private sensorsSharedService: SensorsSharedService, elementRef: ElementRef) {
-        
-         sensorsSharedService.listenEventData(Events.statisSlider).subscribe(data => {
-            if (data.statisType !== this.statisType) { // pozadavek na globallni nastaveni
-                this.slider.setValue([data.startDate.getTime(), data.endDate.getTime()]);
-            }
-        })
+
+        // sensorsSharedService.listenEventData(Events.statisSlider).subscribe(data => {
+        //     // if (data.statisType !== this.statisType ) { // pozadavek na globallni nastaveni
+        //     //     this.slider.setValue([data.startDate.getTime(), data.endDate.getTime()]);
+        //     // }
+        // })
 
         sensorsSharedService.listenEventData(Events.refreshStatisSlider).subscribe((statisType: StatisType) => {
             if (this.statisType === statisType || statisType === undefined) {
@@ -49,20 +50,19 @@ export class SliderStatisComponent {
         sensorsSharedService.listenEventData(Events.statistics).delay(200)
             .subscribe(sensorStatistics => {
                 sensorStatistics.statistics.forEach(statis => {
-                    // kazda instance dostane stejny list a berem jen hranice z HOUR statistik  
-                    if (statis.type == StatisType.HOUR) {
-                        let minDate = new Date().getTime();
-                        let maxDate = new Date(1970, 1, 1).getTime();
+                    if (statis.type === this.statisType) {
+                        let minDateInt = new Date().getTime();
+                        let maxDateInt = new Date(1970, 1, 1).getTime();
                         statis.avgValues.forEach(value => {
-                            if (value.date.getTime() < minDate) {
-                                minDate = value.date.getTime()
+                            if (value.date.getTime() < minDateInt) {
+                                minDateInt = value.date.getTime()
                             }
 
-                            if (value.date.getTime() > maxDate) {
-                                maxDate = value.date.getTime()
+                            if (value.date.getTime() > maxDateInt) {
+                                maxDateInt = value.date.getTime()
                             }
                         })
-                        this.initSlider(DateUtils.getDayFlatDate(new Date(minDate)), DateUtils.getMidnight(new Date(maxDate)));
+                        this.initSlider(DateUtils.getDayFlatDate(new Date(minDateInt)), DateUtils.getMidnight(new Date(maxDateInt)));
                         this.refreshSlider();
                     }
                 });
@@ -145,7 +145,7 @@ export class SliderStatisComponent {
                 if (newDate != undefined) {
                     this.sensorsSharedService.publishEvent(
                         Events.statisSlider,
-                        { statisType: this.statisType, startDate: DateUtils.getDayFlatDate(new Date(time1)), endDate: DateUtils.getDayFlatDate(new Date(time2)) },
+                        { statisType: this.statisType, startDate: DateUtils.getDayFlatDate(new Date(time1)), endDate: DateUtils.getMidnight(new Date(time2)) },
                         "SliderStatisComponent.slideStop");
                 }
             });
