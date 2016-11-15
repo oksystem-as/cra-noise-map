@@ -332,7 +332,8 @@ export class MapComponent implements AfterViewInit {
         }
       });
       if (!foundDAY24) {
-        this.createMarker(sensor.latitude, sensor.longtitude, null, null, sensor, false, selected);
+        var infowindowNan = this.createInfoWindowNan(sensor);
+        this.createMarker(sensor.latitude, sensor.longtitude, infowindowNan, null, sensor, false, selected);
       }
     });
   }
@@ -409,6 +410,14 @@ export class MapComponent implements AfterViewInit {
     });
   }
 
+  private createInfoWindowNan(sensor: SensorStatistics): google.maps.InfoWindow {
+    let text = "Pro čidlo \"<strong>" + sensor.name + "</strong>\" nebyla nalezena žádná data.";
+    return new google.maps.InfoWindow({
+      content: "<div class='info-window'>" + text + "</div>",
+      disableAutoPan: true,
+    });
+  }
+
   private createMarker(latitude: number, longtitude: number, infoWin: google.maps.InfoWindow, value: number, sensor: SensorStatistics, showData: boolean, selecteSensor: boolean): google.maps.Marker {
     var marker: any = new google.maps.Marker({
       position: new google.maps.LatLng(latitude, longtitude),
@@ -446,20 +455,20 @@ export class MapComponent implements AfterViewInit {
     marker.addListener('mouseover', () => {
       marker.setIcon(this.decorateAsSelected(marker.getIcon()));
       // setTimeout(() => {
-      if (marker.showData) {
+      // if (marker.showData) {
         infoWin.open(this.map, marker);
-      }
+      // }
       // }, 2000);
 
     });
 
     marker.addListener('mouseout', () => {
       marker.setIcon(this.decorateAsNotSelectedPerm(marker.getIcon(), marker.isPermSelected));
-      if (marker.showData) {
+      // if (marker.showData) {
         // setTimeout(() => {
         infoWin.close();
         // }, 2000);
-      }
+      // }
     });
 
     if (selecteSensor) {
