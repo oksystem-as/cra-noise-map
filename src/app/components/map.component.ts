@@ -440,7 +440,6 @@ export class MapComponent implements AfterViewInit {
       content: "<div class='info-window'>" + 
                 text +
                 "</table>" +
-                "<br>" +
                 "<p style=\"font-size: 10px;\">" +
                   "Tip: Kliknutím na čidlo se zobrazí detailní statistiky." +
                 "</p>" +
