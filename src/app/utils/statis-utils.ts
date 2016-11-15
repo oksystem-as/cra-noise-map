@@ -24,6 +24,7 @@ export class SensorStatistics {
     latitude: number;
     longtitudeText: String;
     longtitude: number;
+    menuPosition: number;
     statistics: Statistics[];
 }
 

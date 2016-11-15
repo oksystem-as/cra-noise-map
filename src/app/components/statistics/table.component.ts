@@ -107,9 +107,9 @@ export class TableStatisComponent {
       case StatisType.DAY24:
         return  DateUtils.toStringZeros(date) + " - " + DateUtils.toStringZerosTimeOnly(DateUtils.getMidnight(date))
       case StatisType.WEEK:
-        return  DateUtils.toStringZeros(date) + " - " + DateUtils.toStringZeros(DateUtils.getWeekEndDate(date))
+        return  DateUtils.toStringZerosDateOnly(date) + " - " + DateUtils.toStringZerosDateOnly(DateUtils.getWeekEndDate(date))
       case StatisType.MONTH:
-        return  DateUtils.toStringZeros(date) + " - " + DateUtils.toStringZeros(DateUtils.getMonthEndDate(date))
+        return  DateUtils.toStringZerosDateOnly(date) + " - " + DateUtils.toStringZerosDateOnly(DateUtils.getMonthEndDate(date))
       default: throw new Error("Nepodporovany typ: " + this.statisType);
     }
   }
