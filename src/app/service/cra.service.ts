@@ -11,6 +11,8 @@ import { BehaviorSubject } from "rxjs/Rx";
 import { Observable } from "rxjs/Observable";
 import { Payload, PayloadType } from '../payloads/payload';
 import { Config } from '../config';
+import { URLUtils } from '../utils/utils';
+
 
 @Injectable()
 export class CRaService {
@@ -23,6 +25,7 @@ export class CRaService {
   constructor(private log: Logger, private http: Http) { }
 
   getDeviceDetailNew(params: DeviceDetailParams): Observable<SensorStatistics> {
+
     return this.http.get(this.getDevicDetailUrlNew(params)).
       map(response => {
         let deviceDetail = response.json() as SensorStatistics
@@ -35,7 +38,7 @@ export class CRaService {
     let url;
    
     if(this.useProxyRestApi){
-         url = window.location.origin + "/" + this.statisUrl.replace("{devEUI}", params.devEUI);
+         url = URLUtils.getWindowLocationOrigin() + "/" + this.statisUrl.replace("{devEUI}", params.devEUI);
     } else {
          url = this.restApi + this.statisUrl.replace("{devEUI}", params.devEUI);
     }

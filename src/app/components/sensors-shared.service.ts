@@ -66,7 +66,7 @@ export class AggregatorEvent<T> {
 export class SensorsSharedService {
     // POZOR mesic je o jedna nizsi
     // http://stackoverflow.com/questions/1453043/zero-based-month-numbering 
-    public static minDateLimit = new Date(2016, MonthList.Rijen, 1);
+    public static minDateLimit = new Date(2016, MonthList.Rijen, 20);
     private eventAggregator: Subject<AggregatorEvent<any>> = new Subject<AggregatorEvent<any>>();
 
     // ------------ TEST DATA ------------

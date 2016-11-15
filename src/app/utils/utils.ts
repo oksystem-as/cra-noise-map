@@ -4,6 +4,21 @@ import { GroupedObservable } from 'rxjs/operator/groupBy';
 import { Payload, PayloadType } from '../payloads/payload';
 import 'rxjs/Rx';
 
+
+export class URLUtils {
+    /**
+     * v IE se window.location.origin nevyskytuje
+     */
+    public static getWindowLocationOrigin() {
+        if (!window.location.origin) {
+           return window.location.protocol + "//"
+                + window.location.hostname
+                + (window.location.port ? ':' + window.location.port : '');
+        }
+        return window.location.origin;
+    }
+}
+
 export class ArrayUtils {
     /**
      * nahrazeni objektu v listu dle zadaneho predikatu
@@ -23,9 +38,9 @@ export class ArrayUtils {
         }
     }
 
-      /**
-     * nahrazeni objektu v listu dle zadaneho predikatu
-     */
+    /**
+   * nahrazeni objektu v listu dle zadaneho predikatu
+   */
     public static replaceOrAddObject<T>(array: T[], obj: T, predicate: (value: T) => boolean) {
         var ind;
         for (var index = 0; index < array.length; index++) {
@@ -177,12 +192,12 @@ export class DateUtils {
         var d: string[] = a[0].split("-");
 
         // 07:55:32 , 0000
-        if(a[1].includes(".")){
-          var time: string[] = a[1].split(".");
-        } else{
-          var time: string[] = a[1].split("+");
+        if (a[1].includes(".")) {
+            var time: string[] = a[1].split(".");
+        } else {
+            var time: string[] = a[1].split("+");
         }
-      
+
 
         // 07, 55, 32 
         var t: string[] = time[0].split(":");
@@ -273,7 +288,7 @@ export class DateUtils {
         return date;
     }
 
-     public static getMidnight(date: Date): Date {
+    public static getMidnight(date: Date): Date {
         date.setHours(23);
         date.setMinutes(59);
         date.setSeconds(59);
