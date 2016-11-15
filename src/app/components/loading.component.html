@@ -1,6 +1,6 @@
 <!--<button type="button" class="btn btn-primary" (click)="showChildModal()">Open child modal</button>-->
 <!--<div bsModal #childModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" [config]="{backdrop: 'static'}">-->
-<div class="modal fade" bsModal #childModal="bs-modal" [config]="{backdrop: 'static'}"  tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+<div class="modal fade" bsModal #childModal="bs-modal" (onHidden)="onHidden()" [config]="{backdrop: 'static'}"  tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
 	<div class="modal-dialog modal-sm modal-dialog-custom">
 		<div class="modal-content">
 			<div class="modal-body ">

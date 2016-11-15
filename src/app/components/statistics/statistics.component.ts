@@ -42,10 +42,14 @@ export class StatisticsComponent {
         let obsSelSensor = this.sensorsSharedService.listenEventData(Events.selectSensor);
         let obsShowLoading = this.sensorsSharedService.listenEventData(Events.showMasterLoading);
 
+        this.sensorsSharedService.listenEventData(Events.onHiddenMasterLoading).subscribe(()=>{
+             this.addModalClassHotFix();
+        });
+
         Observable.combineLatest(obsSelSensor, obsShowLoading).subscribe((data) => {
             this.selSensorName = data[0].name;
             if (this.isMobile()) {
-                // zkoncil loading
+                // skoncil loading
                 if (data[1] === false) {
                     this.lgModal.show();
                 }
@@ -69,6 +73,16 @@ export class StatisticsComponent {
         // });
     }
 
+    /**
+     * hotfix problemu s dvema modalnimi okny (loading a timto oknem) 
+     * po skonceni loading se odebere class modal-open a nejde scrollovat toto okno 
+     */
+    private addModalClassHotFix() {
+        var bodyclass = document.createAttribute("class");
+        bodyclass.value = "modal-open";
+        document.getElementsByTagName("body")[0].setAttributeNode(bodyclass);
+    }
+
     private isMobile() {
         return this.lgModal !== undefined;
     }
@@ -78,5 +92,5 @@ export class StatisticsComponent {
         this.sensorsSharedService.publishEvent(Events.statisticsDialog, "dialogIsOpened", "StatisticsComponent.onOpen")
     }
 
-    
+
 }

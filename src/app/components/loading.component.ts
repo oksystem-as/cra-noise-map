@@ -12,7 +12,7 @@ import { CRaService, DeviceDetailParams, Order } from '../service/cra.service';
 import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from "rxjs/Rx";
 import 'rxjs/Rx';
-// import { ModalDirective } from 'ng2-bootstrap/ng2-bootstrap';
+import { ModalDirective } from 'ng2-bootstrap/ng2-bootstrap';
 
 
 @Component({
@@ -22,7 +22,7 @@ import 'rxjs/Rx';
     // encapsulation: ViewEncapsulation.None
 })
 export class LoadingComponent {//implements AfterViewInit {
-    @ViewChild('childModal') public childModal: any;
+    @ViewChild('childModal') public childModal: ModalDirective;
 
 
     constructor(private log: Logger, private sensorsSharedService: SensorsSharedService) {
@@ -45,6 +45,9 @@ export class LoadingComponent {//implements AfterViewInit {
     //     }, 10000);
     // }
 
+    public onHidden(): void {
+         this.sensorsSharedService.publishEvent(Events.onHiddenMasterLoading, true);
+    }
 
     public showChildModal(): void {
         this.childModal.show();
