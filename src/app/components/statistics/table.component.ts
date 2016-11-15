@@ -36,13 +36,13 @@ export class TableStatisComponent {
     });
 
     sensorsSharedService.listenEventData(Events.statisSlider).subscribe(data => {
-      // if (data.statisType === this.statisType) { // pozadavek na globallni nastaveni
-      this.sliderStartDate = data.startDate;
-      this.sliderStopDate = data.endDate;
-      this.clearShowTableData();
-      this.refreshTableData();
-      this.updateTable();
-      // }
+      if (data.statisType === this.statisType) { // pozadavek na globallni nastaveni = > zakomentovat
+        this.sliderStartDate = data.startDate;
+        this.sliderStopDate = data.endDate;
+        this.clearShowTableData();
+        this.refreshTableData();
+        this.updateTable();
+      }
     })
 
     sensorsSharedService.listenEventData(Events.statistics).delay(300)
