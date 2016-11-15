@@ -60,7 +60,7 @@ export class SliderComponent implements AfterViewInit {
 
             // definice prvniho bodu
             ticks.push(oldDate.getTime());
-            ticks_labels.push(oldDate.toLocaleDateString());
+            ticks_labels.push(DateUtils.toStringZerosDateOnly(oldDate));
 
             let pom;
             for (var index = 1; index < countOfpoint; index++) {
@@ -70,12 +70,12 @@ export class SliderComponent implements AfterViewInit {
                 // let flatDate = DateUtils.getDayFlatDate(new Date(pom.getTime()));
                 // flatDate.setHours(6);
                 ticks.push(flatDate.getTime());
-                ticks_labels.push(flatDate.toLocaleDateString());
+                ticks_labels.push(DateUtils.toStringZerosDateOnly(flatDate));
             }
 
             // definice posledniho bodu
             ticks.push(aktualDate.getTime());
-            ticks_labels.push(aktualDate.toLocaleDateString());
+            ticks_labels.push(DateUtils.toStringZerosDateOnly(aktualDate));
 
             this.slider = new Slider('#' + this.sliderId, {
                 ticks: ticks,
@@ -83,7 +83,7 @@ export class SliderComponent implements AfterViewInit {
                 // ticks_snap_bounds: diff / 36,
                 // definice zobrazeni datoveho modelu uzivateli v tooltipu 
                 formatter: function (value) {
-                    return new Date(value).toLocaleDateString();
+                    return DateUtils.toStringZerosDateOnly(new Date(value));
                     // return DateUtils.getDayFlatDate(new Date(value)).toLocaleDateString();
                 },
                 id: "mainSlider",

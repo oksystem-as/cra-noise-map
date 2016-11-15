@@ -8,6 +8,10 @@ class DataLabels {
   data: { data: number, label: Date }[];
 }
 
+class ShowDataLabels {
+  data: { data: number, label: string }[];
+}
+
 @Component({
   selector: 'table-statis',
   templateUrl: './table.component.html',
@@ -16,7 +20,7 @@ class DataLabels {
 export class TableStatisComponent {
 
   private allDataLabels: DataLabels = <DataLabels>{ data: [] };
-  private showDataLabels: DataLabels = <DataLabels>{ data: [] };
+  private showDataLabels: ShowDataLabels = <ShowDataLabels>{ data: [] };
 
   private sliderStartDate;
   private sliderStopDate;
@@ -25,7 +29,7 @@ export class TableStatisComponent {
   private mainSliderDate: Date;
 
   @Input()
-  public statisType: StatisType = StatisType.DAY24;
+  public statisType: StatisType ;
 
   constructor(private changeDetectorRef: ChangeDetectorRef, private sensorsSharedService: SensorsSharedService) {
     changeDetectorRef.detach();
@@ -86,7 +90,28 @@ export class TableStatisComponent {
   }
 
   addTableData(data: number, date: Date) {
-    this.showDataLabels.data.push({ data: data, label: date });
+      this.showDataLabels.data.push({ data: data, label: this.getDateTextOnType(date) });
+  }
+
+  private getDateTextOnType(date: Date): string {
+    let text;
+    switch (this.statisType) {
+      case StatisType.HOUR:
+        return DateUtils.toStringZeros(date) + " - " + DateUtils.toStringZerosTimeOnly(new Date(date.setMinutes(59)))
+      case StatisType.DAY6_22:
+        return  DateUtils.toStringZeros(date) + " - " +  DateUtils.toStringZerosTimeOnly(new Date(date.setHours(22)))
+      case StatisType.DAY18_22:
+        return  DateUtils.toStringZeros(date) + " - " +  DateUtils.toStringZerosTimeOnly(new Date(date.setHours(22)))
+      case StatisType.NIGHT22_6:
+        return  DateUtils.toStringZeros(date) + " - " +  DateUtils.toStringZerosTimeOnly(new Date(date.setHours(6)))
+      case StatisType.DAY24:
+        return  DateUtils.toStringZeros(date) + " - " + DateUtils.toStringZerosTimeOnly(DateUtils.getMidnight(date))
+      case StatisType.WEEK:
+        return  DateUtils.toStringZeros(date) + " - " + DateUtils.toStringZeros(DateUtils.getWeekEndDate(date))
+      case StatisType.MONTH:
+        return  DateUtils.toStringZeros(date) + " - " + DateUtils.toStringZeros(DateUtils.getMonthEndDate(date))
+      default: throw new Error("Nepodporovany typ: " + this.statisType);
+    }
   }
 
   getDateString(date: Date) {

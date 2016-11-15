@@ -2,7 +2,7 @@
 	<thead>
 		<tr>
 			<th>Období měření</th>
-			<th>Průměrná intenzita hluku [db]</th>
+			<th>Hodnota</th>
 		</tr>
 	</thead>
 	<tbody>
@@ -12,8 +12,9 @@
 		[class.underLimit]="!offLimit(data.data)" 
 		[class.info]="isChoosen(data.label)"
 		(click)="onRowClick(data.label)" >
-			<th>{{getDateString(data.label)}}</th>
-			<td>{{data.data}}</td>
+			<!--<th>{{getDateString(data.label)}}</th>-->
+			<th>{{data.label}}</th>
+			<td>{{data.data}}dB</td>
 		</tr>
 	</tbody>
 </table>

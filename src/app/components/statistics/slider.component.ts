@@ -30,7 +30,7 @@ export class SliderStatisComponent {
     private sliderEvent: BehaviorSubject<any> = new BehaviorSubject(null);
 
     @Input()
-    public statisType: StatisType = StatisType.DAY24;
+    public statisType: StatisType;
 
 
     constructor(private log: Logger, private sensorsSharedService: SensorsSharedService, elementRef: ElementRef) {
@@ -106,7 +106,7 @@ export class SliderStatisComponent {
 
         // definice prvniho bodu
         ticks.push(oldDate.getTime());
-        ticks_labels.push(oldDate.toLocaleDateString());
+        ticks_labels.push(DateUtils.toStringZerosDateOnly(oldDate));
 
         let pom;
         for (var index = 1; index < countOfpoint; index++) {
@@ -114,12 +114,12 @@ export class SliderStatisComponent {
             pom = new Date(time);
             // dalsi body
             ticks.push(pom.getTime());
-            ticks_labels.push(pom.toLocaleDateString());
+            ticks_labels.push(DateUtils.toStringZerosDateOnly(pom));
         }
 
         // definice posledniho bodu
         ticks.push(aktualDate.getTime());
-        ticks_labels.push(aktualDate.toLocaleDateString());
+        ticks_labels.push(DateUtils.toStringZerosDateOnly(aktualDate));
 
         this.slider = new Slider('#' + this.sliderId, {
             ticks: ticks,
@@ -129,7 +129,7 @@ export class SliderStatisComponent {
             // definice zobrazeni datoveho modelu uzivateli v tooltipu 
             formatter: function (value) {
                 // console.log(value)
-                return new Date(value[0]).toLocaleDateString() + " : " + new Date(value[1]).toLocaleDateString();
+                return DateUtils.toStringZerosDateOnly(new Date(value[0])) + " : " + DateUtils.toStringZerosDateOnly(new Date(value[1]));
             },
             id: this.sliderIdInternal,
         });

@@ -400,7 +400,7 @@ export class MapComponent implements AfterViewInit {
       "<strong>Datum měření hluku:</strong> " + date.toLocaleDateString() + "<br> " +
       "<strong>Průměrné hladiny hluku:</strong>" +
       " <table class='table table-striped point-statis-table'> " + //class='table table-striped'
-      " <thead><tr><th>Interval měření</th><th>hodnota</th></tr></thead>";
+      " <thead><tr><th>Interval měření</th><th>Hodnota</th></tr></thead>";
     let hour; let day6; let day18; let night; let day24; let week; let month;
     sensor.statistics.forEach(statistics => {
       switch (statistics.type) {

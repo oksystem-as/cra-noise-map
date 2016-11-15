@@ -170,6 +170,17 @@ export class DateUtils {
         return ("0" + d.getHours()).slice(-2) + ":" + ("0" + d.getMinutes()).slice(-2);
     }
 
+     public static toStringDateOnly(d: Date) {
+        // 16.5.2015 9:50
+        return d.getDate() + "." + (d.getMonth() + 1) + "." + d.getFullYear();
+    }
+
+    public static toStringZerosDateOnly(d: Date) {
+        // 16.05.2015 09:50
+        return ("0" + d.getDate()).slice(-2) + "." + ("0" + (d.getMonth() + 1)).slice(-2) + "." +
+            d.getFullYear();
+    }
+
     public static toString(d: Date) {
         // 16.5.2015 9:50
         return d.getDate() + "." + (d.getMonth() + 1) + "." + d.getFullYear() + " " +
@@ -292,13 +303,14 @@ export class DateUtils {
     }
 
     public static getWeekEndDate(date: Date): Date {
+        let dateInter = new Date(date);
         var startOfWeek = date.getDate() - date.getDay() + 7;
-        date.setDate(startOfWeek);
-        date.setHours(23);
-        date.setMinutes(59);
-        date.setSeconds(59);
-        date.setMilliseconds(999);
-        return date;
+        dateInter.setDate(startOfWeek);
+        dateInter.setHours(23);
+        dateInter.setMinutes(59);
+        dateInter.setSeconds(59);
+        dateInter.setMilliseconds(999);
+        return dateInter;
     }
 
     public static getMonthFlatDate(date: Date): Date {
