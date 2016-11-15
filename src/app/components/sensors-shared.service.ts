@@ -48,6 +48,7 @@ export class Events {
     public static loadSensor: IEvent<SensorStatistics> = { name: "loadSensor" };
     public static mapInstance: IEvent<google.maps.Map> = { name: "mapInstance" };
     public static showMasterLoading: IEvent<boolean> = { name: "showMaterLoading" };
+    public static onHiddenMasterLoading: IEvent<boolean> = { name: "onHiddenMasterLoading" };
     public static statisSlider: IEvent<{ statisType: StatisType, startDate: Date, endDate: Date }> = { name: "statisSlider" };
     public static refreshStatisSlider: IEvent<StatisType> = { name: "refreshStatisSlider" };
     public static chartPointSelected: IEvent<{ statisType: StatisType, pointDate: Date, pointValue: number }> = { name: "chartPointSelected" };
@@ -100,7 +101,7 @@ export class SensorsSharedService {
     constructor(private log: Logger, private craService: CRaService) {
         // zobrazeni informaci z event aggregatoru
         this.eventAggregator.subscribe((data) => {
-            log.debug("[Event published] type: [", data.type, "], publisher: [", data.publisher, "] data: ", data.data);
+            console.debug("[Event published] type: [", data.type, "], publisher: [", data.publisher, "] data: ", data.data);
             // Raven.captureMessage('Event published', {
             //   extra: { data: data },
             //   level: 'info' // one of 'info', 'warning', or 'error'
