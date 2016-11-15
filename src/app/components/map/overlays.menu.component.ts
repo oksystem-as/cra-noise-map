@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, Input, ViewEncapsulation } from '@a
 import { Logger } from "angular2-logger/core";
 import { SensorsSharedService, Overlay, OverlayGroup, Events } from '../sensors-shared.service';
 import { MapComponent } from './../map.component';
+import { ResponsiveState, ResponsiveConfig } from 'ng2-responsive';
 
 @Component({
   selector: 'overlays-menu',
@@ -51,7 +52,25 @@ export class OverlaysMenuComponent {
 
   private count: number = 0;
 
-  constructor(private log: Logger, private sensorsSharedService: SensorsSharedService) {
+  private tablet: string = "tablet";
+  private isTabletInternal: boolean = false;
+
+  private md: string = "md";
+  private isMediumInternal: boolean = false;
+
+  constructor(private log: Logger, private sensorsSharedService: SensorsSharedService, responsiveState: ResponsiveState) {
+    responsiveState.deviceObserver.subscribe(device => {
+      this.isTabletInternal = false;
+      if (device === this.tablet) {
+        this.isTabletInternal = true;
+      }
+    });
+
+    responsiveState.elementoObservar.subscribe(width => {
+      this.isMediumInternal = false;
+      this.isMediumInternal = ( width === this.md);
+    });
+
     // sensorsSharedService.listenEventData(Events.mapInstance).subscribe(map => {
     //   if (map != undefined) {
     //     this.googleMap = map;
@@ -70,6 +89,20 @@ export class OverlaysMenuComponent {
   // onRoadMapClick(): void {
   //   this.googleMap.setMapTypeId(google.maps.MapTypeId.ROADMAP);
   // }
+
+  private isTablet(): boolean {
+    if (this.isTabletInternal == undefined) {
+      throw "isTabletInternal neni definovan";
+    }
+    return this.isTabletInternal;
+  }
+
+  private isMedium(): boolean {
+    if (this.isMediumInternal == undefined) {
+      throw "isMediumInternal neni definovan";
+    }
+    return this.isMediumInternal;
+  }
 
   onChkboxClick(overlay: Overlay) {
     this.log.debug("onChkboxClick: ", overlay);

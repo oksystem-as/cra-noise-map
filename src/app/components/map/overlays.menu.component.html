@@ -5,8 +5,8 @@
         <span class="glyphicon glyphicon-globe" aria-hidden="true"></span>
           Výběr vrstev
 				<span class="caret"></span>
-			</button>
-			<ul id="overlayGroup" dropdownMenu role="menu" aria-labelledby="single-button" class="layer-button">
+			</button>  
+			<ul id="overlayGroup" dropdownMenu role="menu" aria-labelledby="single-button" class="layer-button" [class.leftPosition]="isMedium()">
 				<li class="layersMapHeading"><span>Strategická hluková mapa<br> za rok 2007 (zdroj: 
 				<a href="http://geoportal.gov.cz/php/catalogue/libs/cswclient/cswClientRun.php?template=iso2htmlFull.xsl&metadataURL=http%3A//geoportal.gov.cz/php/micka/csw/index.php%3FService%3DCSW%26request%3DGetRecordById%26version%3D2.0.2%26outputSchema%3Dhttp%3A//www.isotc211.org/2005/gmd%26id%3D541acc18-ba3c-4d3e-98c6-39c8c0a80137" target="_blank">
 				ČÚZK</a>

@@ -7,6 +7,10 @@
   font-size: 11px !important;
 }
 
+.leftPosition {
+  margin-left: -56px;
+}
+
 .layerTextLegend {
   text-align: left;
   position: relative;
