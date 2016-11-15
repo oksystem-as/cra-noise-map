@@ -10,8 +10,8 @@
 		<tr *ngFor="let data of showDataLabels.data.slice().reverse() "
 		[class.offLimit]="offLimit(data.data)" 
 		[class.underLimit]="!offLimit(data.data)" 
-		[class.info]="isChoosen(data.label)"
-		(click)="onRowClick(data.label)" >
+		[class.info]="isChoosen(data.labelDate)"
+		(click)="onRowClick(data.labelDate)" >
 			<!--<th>{{getDateString(data.label)}}</th>-->
 			<th>{{data.label}}</th>
 			<td>{{data.data}} dB</td>

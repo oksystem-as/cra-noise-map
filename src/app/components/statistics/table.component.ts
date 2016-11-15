@@ -9,7 +9,7 @@ class DataLabels {
 }
 
 class ShowDataLabels {
-  data: { data: number, label: string }[];
+  data: { data: number, label: string, labelDate: Date  }[];
 }
 
 @Component({
@@ -55,7 +55,7 @@ export class TableStatisComponent {
         sensorStatistics.statistics.forEach(statis => {
           if (statis.type === this.statisType) {
             statis.avgValues.forEach(value => {
-              this.allDataLabels.data.push({ data: Math.round(value.avgValue), label: value.date });
+              this.allDataLabels.data.push({ data: Math.round(value.avgValue), label: DateUtils.getDayFlatDate(value.date) });
             })
             this.refreshTableData();
             this.updateTable();
@@ -90,7 +90,7 @@ export class TableStatisComponent {
   }
 
   addTableData(data: number, date: Date) {
-      this.showDataLabels.data.push({ data: data, label: this.getDateTextOnType(date) });
+      this.showDataLabels.data.push({ data: data, label: this.getDateTextOnType(date), labelDate: date });
   }
 
   private getDateTextOnType(date: Date): string {
