@@ -11,7 +11,7 @@ export class URLUtils {
      */
     public static getWindowLocationOrigin() {
         if (!window.location.origin) {
-           return window.location.protocol + "//"
+            return window.location.protocol + "//"
                 + window.location.hostname
                 + (window.location.port ? ':' + window.location.port : '');
         }
@@ -159,6 +159,29 @@ export class DateUtils {
     public static HOUR_IN_MILIS = 3600000;
     public static DAY_IN_MILIS = DateUtils.HOUR_IN_MILIS * 24;;
 
+
+    public static toStringTimeOnly(d: Date) {
+        // 9:50
+        return  d.getHours() + ":" + ("0" + d.getMinutes()).slice(-2);
+    }
+
+    public static toStringZerosTimeOnly(d: Date) {
+        // 09:50
+        return ("0" + d.getHours()).slice(-2) + ":" + ("0" + d.getMinutes()).slice(-2);
+    }
+
+    public static toString(d: Date) {
+        // 16.5.2015 9:50
+        return d.getDate() + "." + (d.getMonth() + 1) + "." + d.getFullYear() + " " +
+            d.getHours() + ":" + ("0" + d.getMinutes()).slice(-2);
+    }
+
+    public static toStringZeros(d: Date) {
+        // 16.05.2015 09:50
+        return ("0" + d.getDate()).slice(-2) + "." + ("0" + (d.getMonth() + 1)).slice(-2) + "." +
+            d.getFullYear() + " " + ("0" + d.getHours()).slice(-2) + ":" + ("0" + d.getMinutes()).slice(-2);
+    }
+
     public static isBetween_dayInterval(date: Date, startDate: Date): boolean {
         let createdAt = date.getTime();
         let min = startDate.getTime();
@@ -268,6 +291,16 @@ export class DateUtils {
         return date;
     }
 
+    public static getWeekEndDate(date: Date): Date {
+        var startOfWeek = date.getDate() - date.getDay() + 7;
+        date.setDate(startOfWeek);
+        date.setHours(23);
+        date.setMinutes(59);
+        date.setSeconds(59);
+        date.setMilliseconds(999);
+        return date;
+    }
+
     public static getMonthFlatDate(date: Date): Date {
         date.setDate(1);
         date.setHours(0);
@@ -275,6 +308,15 @@ export class DateUtils {
         date.setSeconds(0);
         date.setMilliseconds(0);
         return date;
+    }
+
+    public static getMonthEndDate(date: Date): Date {
+        var lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0);
+        lastDay.setHours(23);
+        lastDay.setMinutes(59);
+        lastDay.setSeconds(59);
+        lastDay.setMilliseconds(999);
+        return lastDay;
     }
 
 
@@ -294,6 +336,12 @@ export class DateUtils {
         date.setSeconds(59);
         date.setMilliseconds(999);
         return date;
+    }
+
+     public static getDateMinusDays(date: Date, numberOFDays: number): Date {
+        let dateNew = new Date();
+        dateNew.setDate(date.getDate() - numberOFDays);
+        return dateNew;
     }
 }
 
