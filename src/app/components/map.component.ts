@@ -398,7 +398,6 @@ export class MapComponent implements AfterViewInit {
     let text =
       "<strong>Čidlo:</strong> " + sensor.name + "<br> " +
       "<strong>Datum měření hluku:</strong> " + date.toLocaleDateString() + "<br> " +
-      "<strong>Aktuální hodnota hluku (24H):</strong> " + Math.round(dayAvgVal) + "dB<br> <br>" +
       "<strong>Průměrné hladiny hluku:</strong>" +
       " <table class='table table-striped point-statis-table'> " + //class='table table-striped'
       " <thead><tr><th>Interval měření</th><th>hodnota</th></tr></thead>";
@@ -418,13 +417,13 @@ export class MapComponent implements AfterViewInit {
               night = " <tr><th>" + StatisticsUtils.getNameForStatisType(statistics.type) + "</th><td>" + Math.round(statistics.avgValues[0].avgValue) + "dB</td>";
               break;
             case StatisType.DAY24: 
-              day24 = " <tr><th>" + StatisticsUtils.getNameForStatisType(statistics.type) + "</th><td>" + Math.round(statistics.avgValues[0].avgValue) + "dB</td>";
+              day24 = " <tr style=\"background-color:" + ColorUtils.getColor(Math.round(statistics.avgValues[0].avgValue)) + "\"><th>" + StatisticsUtils.getNameForStatisType(statistics.type) + "</th><td>" + Math.round(statistics.avgValues[0].avgValue) + "dB</td>";
               break;
             case StatisType.WEEK: 
-              week = " <tr><th>" + StatisticsUtils.getNameForStatisType(statistics.type) + "</th><td>" + Math.round(statistics.avgValues[0].avgValue) + "dB</td>";
+              week = " <tr><th>" + (DateUtils.getDateMinusDays(this.sliderNewDate, 7)).toLocaleDateString() + " - " + (DateUtils.getDayFlatDate(this.sliderNewDate)).toLocaleDateString() + "</th><td>" + Math.round(statistics.avgValues[0].avgValue) + "dB</td>";
               break;
             case StatisType.MONTH: 
-              month = " <tr><th>" + StatisticsUtils.getNameForStatisType(statistics.type) + "</th><td>" + Math.round(statistics.avgValues[0].avgValue) + "dB</td>";
+              month = " <tr><th>" + (DateUtils.getDateMinusDays(this.sliderNewDate, 30)).toLocaleDateString() + " - " + (DateUtils.getDayFlatDate(this.sliderNewDate)).toLocaleDateString() + "</th><td>" + Math.round(statistics.avgValues[0].avgValue) + "dB</td>";
               break;
         }
     })
