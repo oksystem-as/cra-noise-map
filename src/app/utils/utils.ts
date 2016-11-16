@@ -364,9 +364,39 @@ export class DateUtils {
         return date;
     }
 
-     public static getDateMinusDays(date: Date, numberOFDays: number): Date {
+    public static getDateMinusDays(date: Date, numberOFDays: number): Date {
         let dateNew = new Date();
         dateNew.setDate(date.getDate() - numberOFDays);
+        return dateNew;
+    }
+
+    public static getDateMinusHours(date: Date, numberOFHours: number): Date {
+        let dateNew = new Date();
+        dateNew.setHours(date.getHours() - numberOFHours);
+        return dateNew;
+    }
+
+    public static getDateMinusMinutes(date: Date, numberOFMinutes: number): Date {
+        let dateNew = new Date();
+        dateNew.setMinutes(date.getMinutes() - numberOFMinutes);
+        return dateNew;
+    }
+
+    public static getDatePlusDays(date: Date, numberOFDays: number): Date {
+        let dateNew = new Date(date);
+        dateNew.setDate(date.getDate() + numberOFDays);
+        return dateNew;
+    }
+
+    public static getDatePlusHours(date: Date, numberOFHours: number): Date {
+        let dateNew = new Date(date);
+        dateNew.setHours(date.getHours() + numberOFHours);
+        return dateNew;
+    }
+
+    public static getDatePlusMinutes(date: Date, numberOFMinutes: number): Date {
+        let dateNew = new Date(date);
+        dateNew.setMinutes(date.getMinutes() + numberOFMinutes);
         return dateNew;
     }
 }
