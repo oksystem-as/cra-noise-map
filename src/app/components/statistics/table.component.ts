@@ -55,7 +55,7 @@ export class TableStatisComponent {
         sensorStatistics.statistics.forEach(statis => {
           if (statis.type === this.statisType) {
             statis.avgValues.forEach(value => {
-              this.allDataLabels.data.push({ data: Math.round(value.avgValue), label: DateUtils.getDayFlatDate(value.date) });
+              this.allDataLabels.data.push({ data: Math.round(value.avgValue), label: value.date });
             })
             this.refreshTableData();
             this.updateTable();
