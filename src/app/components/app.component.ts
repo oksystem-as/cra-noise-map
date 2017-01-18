@@ -1,5 +1,6 @@
 import { Component, AfterViewInit, ViewContainerRef } from '@angular/core';
 import { SensorsSharedService } from './sensors-shared.service';
+import * as Raven from 'raven-js';
 
 @Component({
   providers: [
@@ -17,4 +18,11 @@ export class AppComponent {
     // You need this small hack in order to catch application root view container ref
     this.viewContainerRef = viewContainerRef;
   }
+
+  ngAfterViewInit(): void {
+    Raven.captureMessage('Application view is initialized.', {
+      level: 'info' 
+    });
+  }
+
 }

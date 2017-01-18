@@ -43,7 +43,7 @@ import { Version } from './version';
 import * as Raven from 'raven-js';
 
 Raven
-  .config('https://69322a4765c24abfa3ef6245331b4b43@sentry.io/112562', {
+  .config('https://8702cb00f0ba4aec83abfe32373e3a30@sentry.io/130359', {
     tags: { git_commit: Version.version }
   })
   .install();
